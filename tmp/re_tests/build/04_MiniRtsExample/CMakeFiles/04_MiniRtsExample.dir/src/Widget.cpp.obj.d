@@ -1,0 +1,17 @@
+c:/users/new/desktop/projects/re/ingame/my_tools/re_tests/04_minirtsexample/src/Game.h
+c:/users/new/desktop/projects/re/ingame/my_tools/re_tests/04_minirtsexample/src/Abilities.h
+c:/users/new/desktop/projects/re/ingame/my_tools/re_tests/04_minirtsexample/src/Objects.h
+c:/users/new/desktop/projects/re/ingame/my_tools/re_tests/04_minirtsexample/src/Data.h
+c:/users/new/desktop/projects/re/ingame/my_tools/re_tests/04_minirtsexample/src/Base.h
+C:/Users/New/Desktop/projects/RE/ingame/my_tools/vs8/VC/include/stddef.h
+C:/Users/New/Desktop/projects/RE/ingame/my_tools/vs8/VC/include/crtdefs.h
+C:/Users/New/Desktop/projects/RE/ingame/my_tools/vs8/VC/include/sal.h
+C:/Users/New/Desktop/projects/RE/ingame/my_tools/vs8/VC/include/crtassem.h
+C:/Users/New/Desktop/projects/RE/ingame/my_tools/vs8/VC/include/vadefs.h
+C:/Users/New/Desktop/projects/RE/ingame/my_tools/vs8/VC/include/string.h
+C:/Users/New/Desktop/projects/RE/ingame/my_tools/vs8/VC/include/crtdefs.h
+C:/Users/New/Desktop/projects/RE/ingame/my_tools/vs8/VC/include/math.h
+C:/Users/New/Desktop/projects/RE/ingame/my_tools/vs8/VC/include/crtdefs.h
+c:/users/new/desktop/projects/re/ingame/my_tools/re_tests/04_minirtsexample/src/World.h
+c:/users/new/desktop/projects/re/ingame/my_tools/re_tests/04_minirtsexample/src/Engine.h
+c:/users/new/desktop/projects/re/ingame/my_tools/re_tests/04_minirtsexample/src/Base.h

@@ -1,0 +1,14 @@
+C:/Users/New/Desktop/projects/RE/ingame/my_tools/re_tests/build/CMakeFiles/edit_cache.dir
+C:/Users/New/Desktop/projects/RE/ingame/my_tools/re_tests/build/CMakeFiles/rebuild_cache.dir
+C:/Users/New/Desktop/projects/RE/ingame/my_tools/re_tests/build/01_HelloWorldExample/CMakeFiles/01_HelloWorldExample.dir
+C:/Users/New/Desktop/projects/RE/ingame/my_tools/re_tests/build/01_HelloWorldExample/CMakeFiles/edit_cache.dir
+C:/Users/New/Desktop/projects/RE/ingame/my_tools/re_tests/build/01_HelloWorldExample/CMakeFiles/rebuild_cache.dir
+C:/Users/New/Desktop/projects/RE/ingame/my_tools/re_tests/build/02_MoreAdvancedExample/CMakeFiles/02_MoreAdvancedExample.dir
+C:/Users/New/Desktop/projects/RE/ingame/my_tools/re_tests/build/02_MoreAdvancedExample/CMakeFiles/edit_cache.dir
+C:/Users/New/Desktop/projects/RE/ingame/my_tools/re_tests/build/02_MoreAdvancedExample/CMakeFiles/rebuild_cache.dir
+C:/Users/New/Desktop/projects/RE/ingame/my_tools/re_tests/build/03_ClassesAndVirtualsExample/CMakeFiles/03_ClassesAndVirtualsExample.dir
+C:/Users/New/Desktop/projects/RE/ingame/my_tools/re_tests/build/03_ClassesAndVirtualsExample/CMakeFiles/edit_cache.dir
+C:/Users/New/Desktop/projects/RE/ingame/my_tools/re_tests/build/03_ClassesAndVirtualsExample/CMakeFiles/rebuild_cache.dir
+C:/Users/New/Desktop/projects/RE/ingame/my_tools/re_tests/build/04_MiniRtsExample/CMakeFiles/04_MiniRtsExample.dir
+C:/Users/New/Desktop/projects/RE/ingame/my_tools/re_tests/build/04_MiniRtsExample/CMakeFiles/edit_cache.dir
+C:/Users/New/Desktop/projects/RE/ingame/my_tools/re_tests/build/04_MiniRtsExample/CMakeFiles/rebuild_cache.dir
