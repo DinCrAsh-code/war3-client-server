@@ -1,0 +1,16 @@
+{
+  "function_role": "_main serves as the program's main entry point, handling initialization, command-line argument parsing, memory allocation for a resource block (approx. 0x5BBE4 bytes with a custom 'RM' header), execution/processing phases, and cleanup upon exit.",
+  "callsite_summaries": {
+    "0x00417ED0": "Called unconditionally during early initialization after setting up global state, presumably to perform subsystem or engine startup.",
+    "0x004189C0": "Called unconditionally right after sub_417ED0 during the initialization phase.",
+    "0x004012B0": "Called, passing the newly allocated memory buffer (at offset +8) as an argument, conditional on successful allocation; its return value is captured in esi and subsequently stored in a global variable (0x0042AC60).",
+    "0x00401750": "Called after memory allocation and initialization, passing the processed resource pointer and computed arguments (derived from command-line hash state); its boolean return value dictates whether another function (sub_403E50) is called.",
+    "0x00403E50": "Called conditionally based on the boolean result of sub_401750, passing the resource pointer in esi; its return value is stored in ebx and later used to determine the exit code of main.",
+    "0x00403F50": "Called unconditionally during the execution phase, following the conditional execution of sub_403E50.",
+    "0x00401490": "Called during cleanup if the resource pointer (esi) is non-zero, passing esi to perform finalization or resource teardown operations.",
+    "0x00418550": "Called near the end of main during the shutdown phase, prior to restoring the stack frame and returning.",
+    "0x00401000": "Used as a tail jump target in the exception handling/SEH epilog/cleanup path.",
+    "0x004198F2": "Called as @__security_check_cookie@4 in the exception handling/SEH epilog to validate the stack canary before returning."
+  },
+  "fallbacks": []
+}

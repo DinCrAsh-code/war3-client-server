@@ -1,0 +1,41 @@
+{
+  "parsed_ok": true,
+  "suggested_name": "VerifyObjectReference",
+  "prototype": "__cdecl int VerifyObjectReference(void *this_ptr, void *arg1, int arg2, int *out_status)",
+  "short_summary": "Validates a structured object/resource reference from bytecode operands against a global registry table and returns a status flag.",
+  "detailed_summary": "The function inspects an argument structure (passed at esp+arg_4), verifying that its initial byte is 3 and that its secondary pointer field is non-zero. It then extracts an index from the lower 16 bits of the identifier and a validation tag from the upper 16 bits. Using a global manager table located at 0x0042AC60, it bounds-checks the index and retrieves a pointer from an internal array, verifying that the stored tag matches the upper 16 bits. Finally, it traverses the retrieved object pointer to check internal flags (byte at offset +1AHi equals 1, and bit 0 of the byte at +1Ch offset shifted right is set), returning 1 if all checks pass or 0 otherwise. The final result is written as a status output structure to the pointer specified in arg_C.",
+  "parameters": [
+    {
+      "name": "this_ptr",
+      "location": "[esp+0]",
+      "type": "void*",
+      "description": "Object instance pointer (this)"
+    },
+    {
+      "name": "obj_ref",
+      "location": "[esp+4]",
+      "type": "void*",
+      "description": "Pointer to operand structure containing the resource/object reference"
+    },
+    {
+      "name": "arg2",
+      "location": "[esp+8]",
+      "type": "int",
+      "description": "Additional argument (unused or count)"
+    },
+    {
+      "name": "out_status",
+      "location": "[esp+12]",
+      "type": "int*",
+      "description": "Pointer to output status structure receiving result code"
+    }
+  ],
+  "return_value": "Returns 1 in al if validation succeeds, or 0 if it fails",
+  "side_effects": [
+    "Writes a result status structure (type code 4 and boolean flag) to the address provided in out_status"
+  ],
+  "data_structures": [
+    "Global table at 0x0042AC60: contains an array pointer at +51E80h and a count at +51E84h"
+  ],
+  "confidence": "high, clean register analysis and straightforward validation checks"
+}

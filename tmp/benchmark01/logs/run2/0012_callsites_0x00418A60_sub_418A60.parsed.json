@@ -1,0 +1,7 @@
+{
+  "function_role": "Computes a standard CRC32 checksum over a data buffer pointed to by edi with length esi, initializing a lookup table via a helper call if it hasn't been initialized yet.",
+  "callsite_summaries": {
+    "0x004189C0": "Called once at the beginning of the function if the global initialization flag at byte_42285D is zero, to initialize the CRC32 lookup table (dword_422860) before the checksum loop runs."
+  },
+  "fallbacks": []
+}

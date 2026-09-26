@@ -1,0 +1,18 @@
+{
+  "suggested_name": "GetConfigTableEntry",
+  "prototype": "const void* __cdecl GetConfigTableEntry(int index)",
+  "short_summary": "Retrieves a pointer to a configuration structure or entry from a static table in .rdata based on an input index.",
+  "detailed_summary": "The function checks if the input index passed in eax is greater than 0x30 (48 decimal). If the index is out of bounds (> 0x30), it falls back to returning the base pointer of the table located at 0x41B178. If the index is within bounds, it computes an offset into the table by scaling the index (effectively calculating index * 15 * 4, since `ecx = eax * 16 - eax = eax * 15`, and then addressing `0x41B178 + ecx * 4`), and returns the resulting table entry pointer in eax.",
+  "parameters": [
+    {
+      "name": "index",
+      "location": "eax",
+      "type": "int",
+      "description": "Index of the configuration entry to retrieve"
+    }
+  ],
+  "return_value": "Pointer to the selected configuration table entry in eax",
+  "side_effects": [],
+  "data_structures": [],
+  "confidence": "high, straightforward arithmetic lookup table function with bounds checking"
+}

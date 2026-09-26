@@ -1,0 +1,33 @@
+{
+  "parsed_ok": true,
+  "suggested_name": "CEntity::FindBestTargetOrNode",
+  "prototype": "int __stdcall CEntity::FindBestTargetOrNode(void *entity_ptr, int arg0, int arg1)",
+  "short_summary": "Iterates through an entity's internal list of potential pathfinding/target nodes or entries, validates spatial/state constraints, computes distances, and returns the index of the best match or -1 if none qualifies.",
+  "detailed_summary": "The function accesses an array/list of structures stored at offset +0x1B0 of the entity passed in eax. It loops over a count of entries, performing various checks on each element: verifying status flags, index bounds against a global entity/node manager table (`dword_42AC60`), active object states, and distance calculations using square roots (_CIsqrt). If an entry meets all proximity and state criteria, its index is recorded as the best candidate, eventually returning the winning index or -1.",
+  "parameters": [
+    {
+      "name": "entity_ptr",
+      "location": "eax",
+      "type": "void *",
+      "description": "Pointer to the current simulation entity object"
+    },
+    {
+      "name": "arg_0",
+      "location": "stack [ebp+0x8]",
+      "type": "int",
+      "description": "An argument used in distance or coordinate threshold checks"
+    },
+    {
+      "name": "arg_8",
+      "location": "stack [ebp+0xC]",
+      "type": "int",
+      "description": "An argument compared against an entity-internal byte field during iteration"
+    }
+  ],
+  "return_value": "Returns the index of the selected target/node (int in eax), or -1 if no suitable entry is found.",
+  "side_effects": [],
+  "data_structures": [
+    "Entity: +0x1B0 int count, +0x1B4 array of node/target structures (each 0x24 bytes wide)"
+  ],
+  "confidence": "high | clear loop structure, field offsets, and spatial proximity validation routines"
+}

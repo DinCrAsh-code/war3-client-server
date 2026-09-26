@@ -1,0 +1,13 @@
+{
+  "function_role": "Performs spatial or grid coordinate transformations, lookups, and indexed operations (likely involving terrain or simulation grid cells) using floating-point math and table lookups, culminating in a loop that invokes sub_417A70 64 times.",
+  "callsites": [
+    {
+      "callee": "0x0041A160",
+      "callsite_summary": "Called multiple times to convert floating-point coordinate or index calculations into integer values (truncating/rounding via __ftol2_sse) during grid coordinate mapping and clamping logic."
+    },
+    {
+      "callee": "0x00417A70",
+      "callsite_summary": "Called repeatedly inside a loop that runs 64 iterations (edi from 0 to 0x3F), passing calculated integer coordinates, resource/grid block pointers, and computed parameters to perform a sub-operation or render/update step for grid cells."
+    }
+  ]
+}

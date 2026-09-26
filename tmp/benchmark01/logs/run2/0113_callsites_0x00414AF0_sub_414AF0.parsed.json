@@ -1,0 +1,7 @@
+{
+  "function_role": "Performs geometric or spatial calculations involving floating-point math, clamping/comparison logic, and coordinate/index transformations, likely computing a lookup index or distance metric for grid/vector elements.",
+  "callsite_summaries": {
+    "0x0041A160": "Called twice in succession (at 0x00414B63 and 0x00414B74) to convert floating-point values from the x87 FPU stack into 32-bit integer coordinates or indices. The resulting integers are used in pointer arithmetic and index calculations combined with an input base pointer."
+  },
+  "fallbacks": []
+}

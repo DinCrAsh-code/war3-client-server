@@ -1,0 +1,21 @@
+{
+  "function_role": "Performs cleanup, resource teardown, and deallocation for a large resource block (passed as argument) by validating custom 'RM' header blocks, updating global tracking data, freeing memory via standard free or custom pool lists, and invoking component-specific destructors/cleanup helpers.",
+  "callsites": [
+    {
+      "callee": "0x004013F0",
+      "callsite_summary": "Called with the `esi` register initialized to `edi + 0x54740` to perform teardown or cleanup operations on a sub-component within the resource structure."
+    },
+    {
+      "callee": "0x00401690",
+      "callsite_summary": "The function address is pushed as a destructor callback (element destructor) to be used by the vector/array deletion helper `??_M@YGXPAXIHP6EX0@Z@Z` when destroying an array of 7 objects of size 12 bytes located at `edi + 0x51EA4`."
+    },
+    {
+      "callee": "0x0041995F",
+      "callsite_summary": "Invokes the C++ vector deleting destructor helper (`??_M@YGXPAXIHP6EX0@Z@Z`) to destroy an array of 7 items (each 12 bytes in size) starting at `edi + 0x51EA4`, passing the function pointer `sub_401690` as the element destructor callback."
+    },
+    {
+      "callee": "0x004198F2",
+      "callsite_summary": "Standard compiler-generated security cookie check (`@__security_check_cookie@4`) invoked during the function's exception handling / epilogue sequence to verify stack integrity."
+    }
+  ]
+}

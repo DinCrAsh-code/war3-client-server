@@ -1,0 +1,41 @@
+{
+  "suggested_name": "RtsComponentType11_Init",
+  "prototype": "void __fastcall RtsComponentType11_Init(void *pThis, int edx_unused, int arg_ecx, int arg_0)",
+  "short_summary": "Initializes a specific RTS component object (factory case 11) using configuration data from a lookup table and storing various parameters.",
+  "detailed_summary": "The function initializes an object instance located at `eax` (passed implicitly or via register context). It sets up a virtual function table pointer at offset 0 (`off_41D464`, later overwritten by `off_41D638`), clears offset +4, stores `edx` at offset +8, and saves `cl` (truncated `ecx`) at offset +10h. It performs a clamp/mask operation on `ecx` using a comparison against 0x18, multiplies the result by an element size, and computes a pointer into a global configuration table (`byte_41BDC0`), storing it at offset +0Ch. It extracts a bitfield value from the configuration table entry, saves it at offset +12h, stores the argument from `[esp+arg_0]` at offset +11h, clears offset +13h, and finally updates the vtable pointer to `off_41D638` before returning, cleaning up 4 bytes of stack parameters.",
+  "parameters": [
+    {
+      "name": "pThis",
+      "location": "eax",
+      "type": "void*",
+      "description": "Pointer to the allocated object memory being initialized."
+    },
+    {
+      "name": "edx_value",
+      "location": "edx",
+      "type": "int",
+      "description": "Value stored into field at offset +8."
+    },
+    {
+      "name": "arg_ecx",
+      "location": "ecx",
+      "type": "int",
+      "description": "Index or parameter used to index into the lookup table byte_41BDC0."
+    },
+    {
+      "name": "arg_0",
+      "location": "[esp+4]",
+      "type": "unsigned char",
+      "description": "Additional configuration byte stored at offset +11h."
+    }
+  ],
+  "return_value": "none",
+  "side_effects": [
+    "Initializes fields of the object structure pointed to by eax",
+    "References global data tables off_41D464, off_41D638, and byte_41BDC0"
+  ],
+  "data_structures": [
+    "Object layout: +0x0 vtable ptr, +0x4 int (0), +0x8 void* / int, +0xC const void*, +0x10 char/byte, +0x11 char/byte, +0x12 char/byte, +0x13 char/byte"
+  ],
+  "confidence": "high | standard component constructor pattern with table-driven initialization"
+}

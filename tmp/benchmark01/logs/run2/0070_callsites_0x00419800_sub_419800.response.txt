@@ -1,0 +1,9 @@
+{
+  "function_role": "Calculates a new capacity (doubling or minimum sizing) for a dynamic array structure based on a requested capacity in ECX, computes the corresponding byte size, and invokes sub_418670 to reallocate or allocate the underlying buffer before updating the control structure.",
+  "callsites": [
+    {
+            "callee": "0x00418670",
+            "callsite_summary": "Called to allocate or reallocate the underlying storage buffer for the dynamic array. It is passed the requested allocation size in bytes (computed in EDI as capacity multiplied by 48, based on scaling factors like lea edi, [ebx+ebx*2] and shifts) and returns a pointer to the newly allocated or reallocated memory block in EAX."
+        }
+  ]
+}

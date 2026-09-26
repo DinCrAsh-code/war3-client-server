@@ -1,0 +1,9 @@
+{
+  "function_role": "A virtual opcode handler (vtable slot 10) called from the script interpretation engine to process a specific bytecode instruction, operating on runtime value/operand structures and updating global state.",
+  "callsites": [
+    {
+      "callee": "0x0041A160",
+      "callsite_summary": "Called twice within conditional branches (depending on operand type tags) to convert a floating-point value currently on the FPU top-of-stack (st(0)) into an integer, with the resulting integer value then stored into a register for subsequent arithmetic and state updates."
+    }
+  ]
+}

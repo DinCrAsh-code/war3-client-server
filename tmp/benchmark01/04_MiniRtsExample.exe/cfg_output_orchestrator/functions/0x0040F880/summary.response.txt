@@ -1,0 +1,35 @@
+{
+  "suggested_name": "RtsObject_InitializeSubVariant",
+  "prototype": "__thiscall void RtsObject_InitializeSubVariant(void *this, int type_index, int flags)",
+  "short_summary": "Initializes a specialized resource sub-element variant by calling the base initializer and configuring specific floating-point and scalar state fields.",
+  "detailed_summary": "The function begins by calling sub_40B100 [RtsObject_InitializeBase] to perform standard base initialization of the object passed via the `esi` register. It then sets up various fields on the object, including installing a specific virtual table at offset +0x0 (offset off_41D3A0), setting an integer field at +0x29C and +0x2A8 to zero, and clearing a byte at +0x2B4. It extracts a value from a lookup structure retrieved via offset +0x1C of the object and stores it, alongside performing several floating-point load and store operations to initialize internal coefficients or parameters.",
+  "parameters": [
+    {
+      "name": "this",
+      "location": "esi",
+      "type": "void*",
+      "description": "Pointer to the resource sub-element object being initialized."
+    },
+    {
+      "name": "type_index",
+      "location": "stack (passed via caller setup before sub_40B100)",
+      "type": "int",
+      "description": "Type index parameter forwarded to the base initializer."
+    },
+    {
+      "name": "flags",
+      "location": "stack (passed via caller setup before sub_40B100)",
+      "type": "int",
+      "description": "Flags parameter forwarded to the base initializer."
+    }
+  ],
+  "return_value": "none",
+  "side_effects": [
+    "Initializes the object's virtual table pointer at offset +0x0.",
+    "Modifies multiple fields within the object structure, including offsets +0x29C, +0x2A8, and +0x2B4."
+  ],
+  "data_structures": [
+    "RtsObject: +0x0 vtable (offset off_41D3A0), +0x1C pointer to config/lookup struct, +0x29C int field, +0x2A8 int field, +0x2B4 byte field"
+  ],
+  "confidence": "medium | Based on callee context, register usage (esi as this), and field initializations."
+}

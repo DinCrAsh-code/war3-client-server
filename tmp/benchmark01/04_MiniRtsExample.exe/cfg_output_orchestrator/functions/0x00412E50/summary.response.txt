@@ -1,0 +1,40 @@
+{
+  "suggested_name": "FactoryItem13_Constructor",
+  "prototype": "void __fastcall FactoryItem13_Constructor(void *this_ptr, int unused, int arg_ecx, char arg_0)",
+  "short_summary": "Initializes a newly allocated component object (factory case 13) using parameters passed in registers and on the stack, setting up virtual table pointers and internal configuration fields.",
+  "detailed_summary": "The function acts as a constructor/initializer for an object (likely a C++ class instance) pointed to by `eax` (though `eax` is loaded/written, the context implies `eax` holds the `this` pointer or is populated during allocation setup, let's examine standard usage). It sets up a virtual table pointer at offset +0 (`off_41D6A0`, overwriting an earlier setup at `off_41D464`), clears offset +4, stores `edx` at offset +8, and handles bounds/clamping logic on `ecx` relative to the value 0x18 to compute a lookup index into a data array (`byte_41BDC0`). It extracts configuration flags and bytes from the lookup table and the stack argument (`arg_0`), storing them across various offsets of the object structure (+0Ch, +10h, +11h, +12h, +13h). Finally, it cleans up a floating-point register state (`fldz`, `fst`, `fstp`) and returns, cleaning up 4 bytes from the stack.",
+  "parameters": [
+    {
+      "name": "this_ptr",
+      "location": "eax",
+      "type": "void*",
+      "description": "Pointer to the memory block being initialized (object instance)."
+    },
+    {
+      "name": "param_edx",
+      "location": "edx",
+      "type": "int",
+      "description": "A value stored at offset +8 of the object."
+    },
+    {
+      "name": "param_ecx",
+      "location": "ecx",
+      "type": "int",
+      "description": "An index/identifier used for clamping and lookup table offset calculations."
+    },
+    {
+      "name": "arg_0",
+      "location": "[esp+4]",
+      "type": "char",
+      "description": "A byte argument stored at offset +11h of the object."
+    }
+  ],
+  "return_value": "none",
+  "side_effects": [
+    "Initializes fields and virtual method table pointers of the object structure pointed to by eax"
+  ],
+  "data_structures": [
+    "Object struct: +0x0 vtable pointer, +0x4 dword, +0x8 dword (param_edx), +0xC pointer (lookup table entry), +0x10 byte (clamped ecx), +0x11 byte (arg_0), +0x12 byte (extracted flag from table), +0x13 byte (zero)"
+  ],
+  "confidence": "high | standard object constructor pattern with register-based arguments matching caller description"
+}

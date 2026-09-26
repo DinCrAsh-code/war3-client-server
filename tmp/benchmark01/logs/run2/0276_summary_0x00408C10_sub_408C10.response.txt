@@ -1,0 +1,30 @@
+{
+  "suggested_name": "RtsManager::ProcessNetworkStreamBatches",
+  "prototype": "__stdcall int RtsManager::ProcessNetworkStreamBatches(void *rtsManager, int networkStreamId)",
+  "short_summary": "Iterates through serialized packet or command batches from a network stream buffer, deserializes object states, and dispatches command batches to the RTS manager.",
+  "detailed_summary": "The function begins by computing an index or table offset using the provided `networkStreamId` (passed in `ecx`), indexing into a resource/buffer structure passed as `arg_0` (`ebp`). It sets up a local iteration structure containing a bitstream/pointer reference and length field. Inside a loop, it checks bit flags within a bitfield buffer to determine if elements are active or valid. For each valid entry, it calls `DeserializeObjectState` (`sub_408A00`) to unpack state data onto the stack, and if successful, invokes `RtsManager::ProcessCommandOrActionBatch` (`sub_408D70`) to handle the commands. If deserialization fails, an error counter at offset `+0x283C` of the manager structure is incremented. The loop continues until the bit/index count exceeds the total length or a flag condition is met.",
+  "parameters": [
+    {
+      "name": "rtsManager",
+      "location": "arg_0 ([esp+60h+arg_0])",
+      "type": "void *",
+      "description": "Pointer to the main RTS manager or simulation state structure."
+    },
+    {
+      "name": "networkStreamId",
+      "location": "ecx",
+      "type": "int",
+      "description": "Stream identifier or index used to look up sub-buffers and state."
+    }
+  ],
+  "return_value": "int (eax), returning completion status or final iteration count.",
+  "side_effects": [
+    "Deserializes network data from stream buffers",
+    "Dispatches game commands and actions via RtsManager::ProcessCommandOrActionBatch",
+    "Increments error counters in the RTS manager structure on failure"
+  ],
+  "data_structures": [
+    "RtsManager: +0x283C error counter / failed packet count"
+  ],
+  "confidence": "high based on clear control flow, callee signatures, and caller context."
+}

@@ -1,0 +1,42 @@
+{
+  "parsed_ok": true,
+  "suggested_name": "BytecodeOpcodeHandler_Slot7",
+  "prototype": "void __stdcall BytecodeOpcodeHandler_Slot7(void *this_ptr, void *operand, int count, void *status_output)",
+  "short_summary": "Executes a specific virtual bytecode instruction handler that dereferences an operand structure, checks its validity, and populates a status/result output structure with a type code and a secondary value.",
+  "detailed_summary": "The function begins by retrieving the first argument (operand pointer) from the stack, dereferencing it, and checking if the resulting pointer is null. If it is null, it writes a status code of 3 to the first 4 bytes of the status output structure (`status_output`) and 0 to the next 4 bytes, then returns. If the pointer is not null, it fetches a secondary value from offset +4 of the inner structure, writes a status code of 3 to the first 4 bytes of `status_output`, and writes the fetched secondary value to the subsequent 4 bytes of `status_output` before returning.",
+  "parameters": [
+    {
+      "name": "this_ptr",
+      ":": "eax (passed via thiscall/__thiscall convention in ESI, but accessed via stack depending on caller)",
+      "location": "ecx / esi",
+      "type": "void*",
+      "description": "The object instance pointer (this)"
+    },
+    {
+      "name": "operand",
+      "location": "[esp+4] / arg_0",
+      "type": "void**",
+      "description": "Pointer to an operand structure or resource"
+    },
+    {
+      "name": "count",
+      "location": "[esp+8]",
+      "type": "int",
+      "description": "Count or secondary parameter"
+    },
+    {
+      "name": "status_output",
+      "location": "[esp+0xC] / arg_C",
+      "type": "int*",
+      "description": "Pointer to a 2-dword output structure receiving a type tag and a value"
+    }
+  ],
+  "return_value": "none",
+  "side_effects": [
+    "Writes bytecode execution results/status into the output structure provided via argument 4"
+  ],
+  "data_structures": [
+    "StatusOutput: +0x00 int type_or_status (set to 3), +0x04 int value"
+  ],
+  "confidence": "high | standard vtable override pattern handling bytecode VM instruction operand fetching and result formatting"
+}

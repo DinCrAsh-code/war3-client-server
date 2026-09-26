@@ -1,0 +1,24 @@
+{
+  "suggested_name": "CManager::UpdateEntitiesOrUnits",
+  "prototype": "void __fastcall CManager::UpdateEntitiesOrUnits(void *managerStruct, void *edx_unused)",
+  "short_summary": "Iterates through an array of entity/unit structures within a manager object, conditionally performing update ticks and invoking a sequence of combat, AI, ability, and state-processing subroutines based on a stride of 4FCh bytes.",
+  "detailed_summary": "The function loops a number of times specified by a counter at `[esi + 0x5BBBCh]`. In each iteration, it computes a modulated index using `[esi + 0x5BBC0h]` plus an incrementing offset (`ebx`), dividing it by 10 (`0x0A`). If the remainder is zero, it performs a validity check using a global table/pointer (`dword_42AC60`) and bitflags before executing a large suite of per-entity update and processing functions on the array element located at `edi` (`esi + 0x630h + ebp * 0x4FCh`). These invoked subroutines handle entity selection/lists, combat or ability updates, AI or production actions, timed behaviors, unit abilities, behavior states, and command batch/spatial processing.",
+  "parameters": [
+    {
+      "name": "managerStruct",
+      "location": "esi",
+      "name": "managerStruct",
+      "type": "void*",
+      "description": "Pointer to the main manager/resource structure containing counts and an array of entity/unit sub-structures."
+    }
+  ],
+  "return_value": "none",
+  "side_effects": [
+    "Iterates over and updates a collection of entities/units within the manager structure.",
+    "Triggers state machine updates, combat evaluation, ability processing, and spatial/command updates for active units."
+  ],
+  "data_structures": [
+    "Manager struct: +0x5BBBCh int entityCount, +0x5BBC0h int tickOffset, +0x630h array of entity/unit sub-structures (stride 0x4FCh)."
+  ],
+  "confidence": "high | complete disassembly available with well-understood callee signatures and structural offsets."
+}

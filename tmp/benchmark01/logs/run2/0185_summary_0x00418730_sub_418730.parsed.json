@@ -1,0 +1,31 @@
+{
+  "parsed_ok": true,
+  "suggested_name": "AllocateResourceIndexOrNode",
+  "prototype": "int __fastcall sub_418730(void *pContainer, void *pResource)",
+  "short_summary": "Performs a bounds check on an array/pool structure, and if valid, allocates an element by updating indices, copying handles, and incrementing an allocation counter.",
+  "detailed_summary": "The function expects a container pointer in `eax` and an additional parameter `pResource` in `esi`. It checks if the current index `[eax+8]` is less than the upper limit `[eax+4]`. If the index has reached or exceeded the limit, it returns 0 (indicating failure/exhaustion). If valid, it computes an entry address from a base array pointer `[eax]` plus the scaled current index, stores `esi` into the entry, updates the container's current index from a field in the entry (`[ecx+6]`), increments a count at `[eax+0Ch]`, and constructs a return value combining a 16-bit field from `[ecx+4]` shifted left by 16 with the incremented index value, storing it in `[esi+4]` before returning non-zero.",
+  "parameters": [
+    {
+      "name": "pContainer",
+      "location": "eax",
+      "type": "void*",
+      "description": "Pointer to the container or pool structure containing bounds, current index, and array base."
+    },
+    {
+      "name": "pResource",
+      "location": "esi",
+      "type": "void*",
+      "description": "Pointer to a resource or sub-element structure being registered/allocated."
+    }
+  ],
+  "return_value": "Returns a combined 32-bit ID/status value in eax (composed of a 16-bit word shifted left by 16 combined with the current index), or 0 if bounds check fails.",
+  "side_effects": [
+    "Modifies fields within the container structure (current index at +0x8, count at +0xC)",
+    "Modifies fields within the resource structure passed in esi (+0x0, +0x4)"
+  ],
+  "data_structures": [
+    "Container: +0x0 base pointer to array of entries, +0x4 upper limit index, +0x8 current index, +0xC allocation count",
+    "Entry: +0x0 pointer/value storage, +0x4 16-bit value, +0x6 16-bit next/limit index"
+  ],
+  "confidence": "high | clear register-based container manipulation and indexing logic matching pool/allocator patterns"
+}

@@ -1,0 +1,17 @@
+{
+  "function_role": "Performs validation checks on an entity's state, timing, and resource requirements against global configuration limits before executing a state or action transition.",
+  "callsites": [
+    {
+      "callee": "0x00405520",
+      "callsite_summary": "Called to check whether the entity (passed in edi) meets specific capability or prerequisite criteria identified by index esi, using an argument from the caller and a local work variable buffer (ptr at esp+var_8). Aborts if it returns false (al == 0)."
+    },
+    {
+      "callee": "0x004053D0",
+      "callsite_summary": "Called with the entity pointer (edi) and a local work variable reference (var_8) to perform a secondary validation step or resource lookup, returning an object or context pointer in eax which must be non-zero to proceed."
+    },
+    {
+      "callee": "0x004046B0",
+      "callsite_summary": "Called as the main execution step after all checks pass, passing the entity pointer (edi), the result from sub_4053D0, and several constant parameters (0Ah, 4, 0, esi) along with the local variable buffer reference to execute the action or transaction."
+    }
+  ]
+}

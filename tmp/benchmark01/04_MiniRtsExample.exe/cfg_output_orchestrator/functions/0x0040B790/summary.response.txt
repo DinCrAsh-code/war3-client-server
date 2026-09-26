@@ -1,0 +1,24 @@
+{
+  "suggested_name": "ConfigureResourceBlock",
+  "prototype": "void __cdecl ConfigureResourceBlock(void *resourceBlock)",
+  "short_summary": "Initializes, computes dimensions and properties for, and configures a newly created resource block (passed in ebx) using lookup tables, resource property lookups, and virtual method calls.",
+  "detailed_summary": "The function performs an extensive series of floating-point computations, lookups, and virtual function invocations on a resource block structure passed via the register `ebx`. It retrieves a sub-structure at offset `[ebx+1C_h]` (referred to as `esi`) containing various word and byte fields representing configuration attributes, dimensions, and flags. It utilizes helper functions `LookupResourceProperty` (sub_404460) and `EvaluateResourceProperty` (sub_4043B0) to query static configuration tables in `.rdata` against these resource properties. It also iterates through a lookup table (`unk_41CB18`) to match specific types and flags, applies conditional scaling factors, and invokes virtual methods via function pointers stored in the resource block vtable (such as `[ebx]` at offset `+1Ch` and child node traversal via `[ebx+20Ch]`). Finally, it updates status flags in the resource block header and cleans up the floating-point stack before returning.",
+  "parameters": [
+    {
+      "name": "resourceBlock",
+      "location": "ebx",
+      "type": "void *",
+      "description": "Pointer to the resource block being initialized and configured."
+    }
+  ],
+  "return_value": "none",
+  "side_effects": [
+    "Modifies fields within the resource block passed in ebx, including status and configuration flags.",
+    "Invokes virtual methods on the resource block and its linked child structures.",
+    "Accesses global data lookup tables in .rdata."
+  ],
+  "data_structures": [
+    "ResourceBlock: +0x0 vtable pointer, +0x18/1Ch bitflags/word fields, +0x1Bh byte flag, +0x20h data array/buffer, +0x20Ch child resource pointer (+0x1Ch next pointer)"
+  ],
+  "confidence": "high | Based on structural access patterns, calls to resource property evaluators, and integration with the resource factory initialization caller sub_402560."
+}

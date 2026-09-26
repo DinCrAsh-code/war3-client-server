@@ -1,0 +1,7 @@
+{
+  "function_role": "Processes a specific simulation element or object in esi, performing handle/index validation against an internal table (offset +51E84h/51E80h), updating reference/generation counts, and removing the item from a collection at offset +5738Ch before invoking its virtual destructor (vtable offset 0, passing argument 1).",
+  "callsite_summaries": {
+    "0x00417620": "Called at the very beginning of the function with `esi` passed implicitly or via context to obtain a pointer (returned in `eax`) representing the current object or associated data structure whose handle/identifier and lifecycle are being managed."
+  },
+  "fallbacks": []
+}

@@ -1,0 +1,33 @@
+{
+  "function_role": "Interprets and executes a specific command or bytecode instruction from a configuration stream (pointed to by ebx) acting on an entity/object state (pointed to by edi), validating various bounds and state conditions via a switch statement before dispatching sub-operations.",
+  "callsites": [
+    {
+      "callee": "0x00404DF0",
+      "callsite_summary": "Called to query or retrieve a metric/count value associated with an entity and an index (passed in ebx+1 and edi/entity pointer), used to compute bounds for command validation."
+    },
+    {
+      "callee": "0x00405300",
+      "callsite_summary": "Called to update or trigger a state change on the entity/system, passing an index (from ebx+1) and a boolean/flag constant (0 or 1) as arguments."
+    },
+    {
+      "callee": "0x00405520",
+      "callsite_summary": "Called to perform a conditional check or complex operation on the entity, passing the entity pointer, an index from ebx+1, and a pointer to a local stack variable whose value is populated during the call."
+    },
+    {
+      "callee": "0x00417EB0",
+      "callsite_summary": "Called with an index in eax to retrieve an associated sub-object or configuration structure pointer, whose properties are then checked against additional constraints."
+    },
+    {
+      "callee": "0x00404260",
+      "callsite_summary": "Called with the entity pointer in ecx and a byte value retrieved from the sub-structure as an argument to perform a validation check, returning a boolean in al that gates further execution."
+    },
+    {
+      "callee": "0x00405110",
+      "callsite_summary": "Called to execute a specific action or state transition on the entity, passing the entity pointer and an index parameter (from ebx+1)."
+    },
+    {
+      "callee": "0x00405230",
+      "callsite_summary": "Called to perform a final action or state modification for a specific command case, with the index parameter prepared in esi."
+    }
+  ]
+}

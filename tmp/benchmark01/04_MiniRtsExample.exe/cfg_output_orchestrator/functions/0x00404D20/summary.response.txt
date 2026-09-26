@@ -1,0 +1,25 @@
+{
+  "suggested_name": "Entity::ProcessAIOrProductionAction",
+  "prototype": "bool __fastcall Entity::ProcessAIOrProductionAction(void *pEntity, void *edx_unused)",
+  "short_summary": "Evaluates entity-specific production or action progress and criteria, and potentially triggers a command via Entity::TryPerformActionOrCommand.",
+  "detailed_summary": "The function performs a complex set of calculations to determine whether an entity should execute a specific production or behavior action. It first indexes into a configuration structure using entity state data and global tables (such as at 0x0042AC60 and 0x0041B178). It loops over an array of sub-elements at offset 0x144 of the entity structure, counting items matching certain criteria. It then combines these counts and properties with thresholds derived from entity attributes (at offsets 0x244, 0x4E0) and table data. If the calculated resource or progress value meets specific conditions (falling below a threshold and having fewer than 2 matches), it invokes sub_405300 [Entity::TryPerformActionOrCommand] with an action index to attempt execution.",
+  "parameters": [
+    {
+      "name": "pEntity",
+      "location": "eax",
+      "type": "void*",
+      "description": "Pointer to the entity structure being processed."
+    }
+  ],
+  "return_value": "none",
+  "side_effects": [
+    "May trigger an entity action or command via sub_405300 [Entity::TryPerformActionOrCommand]"
+  ],
+  "data_structures": [
+    "Entity: +0x0 int type/id, +0x144 sub-elements array, +0x244 int count/limit, +0x4E0 int progress/attribute"
+  ],
+  "confidence": "high | standard reverse engineering of game entity logic involving tables and thresholds",
+  "side_effects": [
+    "Calls Entity::TryPerformActionOrCommand which may dispatch command packets or update action cooldowns."
+  ]
+}

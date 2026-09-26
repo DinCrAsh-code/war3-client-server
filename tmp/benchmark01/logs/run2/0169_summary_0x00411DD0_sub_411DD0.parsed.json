@@ -1,0 +1,35 @@
+{
+  "parsed_ok": true,
+  "suggested_name": "RtsComponentType6_Init",
+  "prototype": "void __fastcall RtsComponentType6_Init(void *obj, int unused, int arg1)",
+  "short_summary": "Initializes a subtype 6 component object instance using a lookup table (`byte_41BDC0`) and index parameters.",
+  "detailed_summary": "The function initializes a newly allocated component structure passed in `eax`. It sets up a virtual table pointer (`off_41D464`, later overwritten with `off_41D534`), stores context pointers and fields like an ID/index value from `ecx` at offset +0x10 and a byte from stack argument 0 at offset +0x11. It performs a boundary/clamping calculation on the index `ecx` against the threshold 0x18, uses the result to index into a lookup table (`byte_41BDC0`), extracts and transforms a bitflag from the lookup table entry to store at offset +0x12, and zeroes out other fields.",
+  "parameters": [
+    {
+      "name": "obj",
+      "location": "eax",
+      "type": "void *",
+      "description": "Pointer to the newly allocated component memory block being initialized."
+    },
+    {
+      "name": "index",
+      "location": "ecx",
+      "type": "int",
+      "description": "Index or type identifier used to compute lookup table offsets."
+    },
+    {
+      "name": "arg_0",
+      "location": "[esp+4]",
+      "type": "unsigned char",
+      "description": "An additional configuration byte parameter passed from the caller."
+    }
+  ],
+  "return_value": "none",
+  "side_effects": [
+    "Initializes fields of the component structure at `eax`"
+  ],
+  "data_structures": [
+    "ComponentType6: +0x0 vtable ptr, +0x4 dword, +0x8 ptr/data, +0xC lookup ptr, +0x10 byte index, +0x11 byte arg_0, +0x12 byte flags, +0x13 byte"
+  ],
+  "confidence": "high | standard object constructor initialization sequence based on caller context"
+}

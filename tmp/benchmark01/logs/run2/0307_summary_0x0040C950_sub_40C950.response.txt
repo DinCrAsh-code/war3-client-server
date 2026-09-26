@@ -1,0 +1,27 @@
+{
+  "suggested_name": "ValidateEntityCriteriaFilter",
+  "prototype": "bool __fastcall ValidateEntityCriteriaFilter(const void *entity, const void *queryCriteria)",
+  "short_summary": "Evaluates whether a given entity matches a comprehensive set of filtering criteria, flags, type constraints, and spatial or status conditions specified in a query criteria structure.",
+  "detailed_summary": "The function performs a multi-stage validation check on an entity (`entity`, passed as `edi`). First, it checks basic status flags at `[entity+18h]`, immediately rejecting the entity if specific dead/inactive flags are set. Then, it inspects a criteria structure (`queryCriteria`, passed as `ebp`). If flag `0x200` is set in `queryCriteria+8`, it excludes the entity if it matches a specific self-reference pointer (`queryCriteria+0`). Next, it evaluates various bit flags in the criteria bitfield (`ebx`, located at `queryCriteria+8`): bit 0 checks entity type matching via sub_4042B0; bit 1 verifies entity category bits against a bitmask in a global table; bits 4, 5, and 6 inspect sub-status bytes at `[entity+1C]` for specific flag combinations. Further bit checks handle floating-point comparison ranges and condition evaluations. Finally, if bit `0x100` is set, it invokes sub_403320 (`CheckEntityCriteriaMatch`) for advanced criteria evaluation. If all applicable checks pass, it returns true (`al = 1`); otherwise, it aborts early and returns false (`al = 0`).",
+  "parameters": [
+    {
+      "name": "entity",
+      "location": "edi (or stack/arg_0)",
+      "type": "const void *",
+      "description": "Pointer to the entity being evaluated against the filter criteria."
+    },
+    {
+      "name": "queryCriteria",
+      "location": "ebp (or stack/arg_4)",
+      "type": "const void *",
+      "description": "Pointer to a criteria/query parameter structure containing bit flags, offsets, and limits."
+    }
+  ],
+  "return_value": "bool (1 if all criteria match, 0 otherwise), returned in al",
+  "side_effects": [],
+  "data_structures": [
+    "Entity: +0x18 int statusFlags, +0x1B byte entityType, +0x1C void *subStruct",
+    "QueryCriteria: +0x0 void *targetEntity, +0x4 int paramOrMultiplier, +0x8 unsigned int criteriaFlags"
+  ],
+  "confidence": "high, clear control flow structure with well-defined predicate checks and sub-routine calls"
+}

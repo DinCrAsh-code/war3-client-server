@@ -1,0 +1,36 @@
+{
+  "suggested_name": "VM_GetGameVariableFloat",
+  "prototype": "float __cdecl VM_GetGameVariableFloat(void *operand, void *unused, struct OutVariant *outVariant)",
+  "short_summary": "Resolves a bytecode variable operand to a floating-point value from a global game state table, returning 0.0f if the reference is invalid.",
+  "detailed_summary": "The function inspects a bytecode operand structure passed via arguments. It first checks if the operand type byte is 3 and that its associated pointer/identifier (at offset +4) is non-zero. It then extracts an index from the lower 16 bits of the identifier, bounds-checks it against a global array count located at `[dword_42AC60 + 51E84h]`, and uses an array pointer at `[dword_42AC60 + 51E80h]` to access an element of size 8 (`eax*8`). It verifies a 16-bit generation/type tag from the upper 16 bits of the identifier against the element's validation field at offset +4. If all validations succeed, it follows the element's primary pointer, verifies a byte flag at offset +1AHi equals 1, and loads a float value; otherwise, it defaults to 0.0f. The resulting floating-point value and a type tag are written into the output variant structure passed as the third parameter.",
+  "parameters": [
+    {
+      "name": "operand",
+      "location": "[esp+4]",
+      "type": "void*",
+      "description": "Pointer to the bytecode operand structure being evaluated."
+    },
+    {
+      "name": "unused",
+      "location": "[esp+8]",
+      "type": "void*",
+      "description": "Unused or secondary argument slot."
+    },
+    {
+      "name": "outVariant",
+      "location": "[esp+12]",
+      "type": "struct OutVariant*",
+      "description": "Pointer to an output structure receiving the resulting type tag and value."
+    }
+  ],
+  "return_value": "st(0) containing the resolved floating-point value (or 0.0f on failure)",
+  "side_effects": [
+    "Writes a type tag (value 2) and the floating-point/data payload to the output variant pointer."
+  ],
+  "data_structures": [
+    "GlobalManager: +0x51E80 array pointer, +0x51E84 element count",
+    "ElementStruct: +0x0 pointer to variable object, +0x4 16-bit tag/validation",
+    "VariableObject: +0x1A byte flag"
+  ],
+  "confidence": "high | complete x86 control flow and memory access pattern matched for a scripting VM variable lookup handler."
+}

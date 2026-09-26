@@ -1,0 +1,7 @@
+{
+  "function_role": "Initializes a newly allocated resource or object structure (whose pointer is passed in esi), setting its virtual method table and configuring various fields and state flags—part of the resource factory and configuration pipeline.",
+  "callsite_summaries": {
+    "0x0040B100": "Called unconditionally at the very beginning of the function (with `esi` presumed to hold the object pointer) as part of the object's initialization or base setup phase before its member fields and vtable are populated."
+  },
+  "fallbacks": []
+}

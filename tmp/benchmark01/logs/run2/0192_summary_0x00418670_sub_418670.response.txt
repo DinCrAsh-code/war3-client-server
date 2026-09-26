@@ -1,0 +1,31 @@
+{
+  "suggested_name": "ReallocateCustomBlock",
+  "prototype": "void* __fastcall ReallocateCustomBlock(void *old_ptr, size_t new_size)",
+  "short_summary": "Reallocates a custom tracked memory block, growing or shrinking it while preserving existing data, or handles in-place resizing if the current block's pool bucket can accommodate the new size.",
+  "detailed_summary": "The function acts as a custom `realloc` for memory blocks managed by `AllocateCustomBlock` and `FreeResourceBlock`. It accepts the old memory pointer in `esi` and the requested new size in `edi`. If `esi` is null, it simply delegates directly to `AllocateCustomBlock(new_size)`. Otherwise, it inspects the metadata header located right before the user payload (specifically checking `[esi-6]`). If the block type byte `[esi-6]` is not `0xFF` (indicating it belongs to a fixed-size pool class), it looks up the pool bucket's actual capacity using a lookup table at `0x41B150`. If the requested new size `edi` fits within this existing bucket capacity, it performs an in-place adjustment: it updates the stored size field at `[esi-4]`, adjusts global allocation statistics (`dword_42281C`) by the delta, and returns `esi` immediately without reallocation. If the new size exceeds the current pool capacity or if it is a large block (`0xFF`), it allocates a brand new block of size `edi` via `AllocateCustomBlock`. If allocation succeeds, it copies the minimum of the old size and the new size from the old block to the new block using `memcpy`, frees the old block via `FreeResourceBlock`, and returns the pointer to the new memory block.",
+  "parameters": [
+    {
+      "name": "old_ptr",
+      "location": "esi",
+      "type": "void*",
+      "description": "Pointer to the existing custom memory block payload, or NULL for fresh allocation."
+    },
+    {
+      "name": "new_size",
+      "location": "edi",
+      "type": "size_t",
+      "description": "The requested new size in bytes for the memory block."
+    }
+  ],
+  "return_value": "Pointer to the newly allocated or resized memory block payload in eax, or NULL on allocation failure.",
+  "side_effects": [
+    "Allocates memory via AllocateCustomBlock",
+    "Frees the old memory block via FreeResourceBlock if reallocated",
+    "Modifies global tracking statistic dword_42281C during in-place resizing",
+    "Copies payload contents via memcpy"
+  ],
+  "data_structures": [
+    "Custom Block Header: -0x6 block type/flags byte, -0x4 size/length field, 0x0 payload pointer"
+  ],
+  "confidence": "high | complete clarity on register usage, caller expectations, header offsets, and helper function delegation"
+}

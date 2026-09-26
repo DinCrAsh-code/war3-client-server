@@ -1,0 +1,27 @@
+{
+  "parsed_ok": true,
+  "suggested_name": "ResourceObject_Cleanup",
+  "prototype": "void __fastcall ResourceObject_Cleanup(void *resource_block)",
+  "short_summary": "Releases and deallocates a large resource block and its associated internal components, managing custom memory-tracked RM header blocks, calling sub-block cleanup helpers, and destroying array resources.",
+  "detailed_summary": "This function performs comprehensive cleanup and teardown of a primary RM resource block passed in as an argument. It systematically inspects multiple pointer fields within the resource structure (at offsets 0x573B0, 0x573A4, 0x57398, 0x5738Ch, and 0x51E90). For each valid pointer, it validates a custom 'RM' magic header word (0x4D52) located 8 bytes before the pointer. It updates global memory tracking statistics (at 0x42281C) and either returns the block to a custom free-list pool (tracked via an array at 0x422820 based on a size/bucket index byte at offset +2) or frees it directly using standard `free()` if the bucket index is 0xFF. Additionally, it invokes a sub-block cleanup routine (`FreeResourceSubBlock`) on a sub-component at offset 0x54740, and uses `vector_destructor` to destroy an array of 7 objects (each 0xC bytes in size starting at offset 0x51EA4) using `ResourceObject_Destructor`. Structured Exception Handling (SEH) and stack cookies are utilized to ensure safe unwinding during destruction.",
+  "parameters": [
+    {
+      "name": "resource_block",
+      "location": "edi (passed via stack [esp+4])",
+      "type": "void *",
+      "data_type": "void *",
+      "description": "Pointer to the main resource block/structure being destroyed."
+    }
+  ],
+  "return_value": "none",
+  "side_effects": [
+    "frees or recycles multiple internal RM-header tracked memory allocations",
+    "modifies global memory tracking counters at 0x42281C and free-list pools at 0x422820",
+    "invokes sub-component teardown and vector destructor on contained resource objects"
+  ],
+  "data_structures": [
+    "RM Header: -0x8 word magic (0x4D52), -0x6 byte bucket/index, -0x4 dword size",
+    "Resource Structure: fields at +0x51E90, +0x51EA4 (array of 7 x 0xC objects), +0x54740 (sub-block), +0x5738C, +0x57398, +0x573A4, +0x573B0"
+  ],
+  "confidence": "high, clear structure mapping directly to RM resource teardown, custom memory pooling, and vector destruction patterns."
+}

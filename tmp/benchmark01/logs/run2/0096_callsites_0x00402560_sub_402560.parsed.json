@@ -1,0 +1,20 @@
+{
+  "function_role": "Factory and initialization routine that allocates, configures, and registers resource sub-elements (such as graphics or state structures) based on lookup table flags and index criteria.",
+  "callsite_summaries": {
+    "0x004185D0": "Allocates memory chunks of specific sizes (e.g., 0x2C8, 0x27C, 0x2B8, 0x24C) depending on the configuration flags retrieved from the lookup table, returning the newly created object pointer.",
+    "0x00410720": "Invoked with an argument (arg_4) when the primary allocation flag indicates a specific sub-type, performing specialized setup or initialization on the allocated resource.",
+    "0x0040E760": "Invoked with an argument (arg_4) when the secondary allocation flag branch is taken, configuring the newly allocated resource structure.",
+    "0x0040F880": "Invoked with arg_4 and index parameters when the tertiary allocation flag branch is taken, performing specific setup for that sub-element variant.",
+    "0x0040B100": "Called with the allocated object pointer, an index, and another parameter when the default allocation branch is selected, initializing the fallback resource structure.",
+    "0x00418730": "Performs a validation or guard check on a sub-element of the base resource structure (arg_0 + 0x51E80); if it returns non-zero, the initialization is aborted and cleanup/exit occurs.",
+    "0x00414AA0": "Called twice in succession to retrieve coordinate or numerical values used to configure spatial properties when a specific flag is set in the table entry.",
+    "0x00414DC0": "Called with geometry/coordinate parameters and flags to transform or store spatial data into a sub-structure at offset 0x1A20 of the main resource block.",
+    "0x0040B790": "Performs initialization or registration on the newly created resource block (passed via ebx) before it is added to internal arrays.",
+    "0x00404100": "Grows or reallocates an internal tracking array/container located within the resource block when its capacity limit is reached before storing the new resource pointer.",
+    "0x004175E0": "Invoked with an offset into the base resource block (arg_0 + 0x43D7C) as part of post-registration management or synchronization.",
+    "0x004042F0": "Performs final integration or linking of the newly created resource entry into the active processing lists using calculated indices and flags.",
+    "0x00401000": "Tail-jumped to by compiler-generated exception handling stubs to handle cleanup during stack unwinding.",
+    "0x004198F2": "Performs stack security cookie validation upon function exit to detect buffer overflows."
+  },
+  "fallbacks": []
+}

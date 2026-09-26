@@ -1,0 +1,9 @@
+{
+  "function_role": "Validates and transitions a resource/command state (passed in eax, with manager object in ecx), looking up or instantiating a sub-component via a helper when needed, and returns success (1) or failure (0).",
+  "callsites": [
+    {
+      "callee": "0x00411580",
+      "callsite_summary": "Called when an existing matching component is not found in the manager's array (`ebx+210h`), to allocate or initialize a new component object; the resulting pointer is stored into the array and its virtual method at offset +4 is invoked."
+    }
+  ]
+}

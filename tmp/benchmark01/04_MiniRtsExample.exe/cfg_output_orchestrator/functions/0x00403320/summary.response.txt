@@ -1,0 +1,29 @@
+{
+  "suggested_name": "CheckEntityCriteriaMatch",
+  "prototype": "bool __fastcall CheckEntityCriteriaMatch(const void *entityPtr, int param)",
+  "short_summary": "Evaluates a specific filter criterion on an entity by inspecting its status flags, type attributes, and either checking a bitfield or falling back to a grid lookup function.",
+  "detailed_summary": "The function begins by testing bit 6 (0x40) of a byte at offset +0x18 within the entity structure (`edx`). If this bit is set, it checks if a byte at offset +0x1B (`cl`) is <= 5; if out of range, it returns false (0). Otherwise, it multiplies `ebx` (the parameter passed in `eax`) by a global stride or base value stored at `0x42AC60`, computes a bitmask via `1 << cl`, and tests this bit against an array/table located at `[ebx + eax + 0xE8]`, returning true if set. If bit 6 of `[edx+18h]` is clear, it first checks if `ebx < 4`. If so, it performs a similar bitfield check; if that check succeeds, it returns true. If the check fails or `ebx >= 4`, it adds an offset to the base lookup value, points to `edx+8`, and delegates to `EvaluateGridLookup` (`sub_417D70`), returning its result.",
+  "parameters": [
+    {
+      "name": "entityPtr",
+      "location": "edx",
+      "type": "const void *",
+      "description": "Pointer to the entity or component data structure being evaluated."
+    },
+    {
+      "name": "param",
+      "location": "eax",
+      "type": "int",
+      "description": "An integer scalar or index parameter used in stride calculations and bitfield lookups."
+    }
+  ],
+  "return_value": "bool in al (1 for match/success, 0 for rejection)",
+  "side_effects": [],
+  "data_structures": [
+    {
+      "name": "Entity",
+      "layout": "+0x18 byte status flags (bit 6 = 0x40), +0x1B byte type/category attribute, +0x8 spatial/coordinate data used by grid lookup"
+    }
+  ],
+  "confidence": "high based on clear register usage, caller expectations, and straightforward branching logic"
+}

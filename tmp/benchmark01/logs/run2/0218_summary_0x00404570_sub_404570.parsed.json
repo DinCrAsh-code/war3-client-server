@@ -1,0 +1,32 @@
+{
+  "parsed_ok": true,
+  "suggested_name": "InitializeEntityRegistration",
+  "prototype": "void __fastcall InitializeEntityRegistration(void *esi_entity_struct, void *edx_unused, int arg_id)",
+  "short_summary": "Initializes a new entity/resource structure and registers it into a global tracking array or proximity-matching container.",
+  "detailed_summary": "The function begins by zeroing out or initializing various fields within the newly allocated entity structure passed in esi, storing the provided identifier from eax. It initializes state tracking variables, sets invalid or default index/flag values, and copies configuration offsets from global state structures located via dword_42AC60. It then scans a global registration container/array (managed via pointers at edx+51EB0h) to check if the current entity is already registered with the proximity-matching callback (sub_404640). If not found, it ensures the container has sufficient capacity using sub_4198B0 (ResizeContainer) if the current count matches capacity, and appends the new entity-callback pair into the dynamic list, incrementing the entry count.",
+  "parameters": [
+    {
+      "name": "entity_struct",
+      "location": "esi",
+      "type": "void*",
+      "description": "Pointer to the entity structure being initialized and registered."
+    },
+    {
+      "name": "identifier",
+      "location": "eax",
+      "type": "int",
+      "description": "An identifier or index value assigned to the entity."
+    }
+  ],
+  "return_value": "none",
+  "side_effects": [
+    "Initializes fields of the entity structure at esi",
+    "May resize the global tracking container via sub_4198B0",
+    "Registers the entity and callback sub_404640 into the global registration list"
+  ],
+  "data_structures": [
+    "EntityStruct: +0x0 id, +0x4/+0x8/+0xCh/+14h status fields, +0x18 flags (-1), +0x34 config value, +0x38 config value, +0x48 buffer/array fields",
+    "ContainerStruct: +0x0 data pointer, +0x4 current count, +0x8 capacity"
+  ],
+  "confidence": "high, clear structure manipulation patterns, well-typed callee signatures, and standard container management logic."
+}

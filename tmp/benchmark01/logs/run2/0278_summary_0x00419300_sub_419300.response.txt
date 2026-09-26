@@ -1,0 +1,25 @@
+{
+  "suggested_name": "ProcessPriorityQueueTick",
+  "prototype": "void __fastcall ProcessPriorityQueueTick(int *pqStructure)",
+  "short_summary": "Extracts elements from a binary heap / priority queue, invokes a callback function on them under certain conditions, and re-inserts or manages elements in a loop until the queue is empty or iteration limits are reached.",
+  "detailed_summary": "The function implements a processing loop over a priority queue (or event queue) structure passed via `ebx`. In each iteration, it checks if the queue has elements and extracts the root/top element (storing its 24-byte payload into local variables). It then adjusts the heap using `HeapSiftDown` [sub_419690]. Depending on whether a callback pointer is present at offset +0x8 in the queue structure, it invokes the callback passing extracted data. Based on the callback's return values (handled via FPU comparisons), it may dynamically resize the underlying buffer using `AllocateCustomBlock` [sub_4185D0] or `ReallocateCustomBlock` [sub_418670], copy elements using `memcpy`, free memory via `free`, and push new or updated elements back onto the heap using `HeapUp` [sub_419590]. The loop continues up to a maximum of 256 iterations (0x100) or while the queue is non-empty.",
+  "parameters": [
+    {
+      "name": "pqStructure",
+      "location": "ebx",
+      "type": "int*",
+      "description": "Pointer to the priority queue or event structure (+0x0: buffer, +0x4: current item count, +0x8: capacity/callback)."
+    }
+  ],
+  "return_value": "none",
+  "side_effects": [
+    "Modifies the priority queue structure in ebx (item counts, buffer pointers, capacity)",
+    "Allocates, reallocates, and frees memory blocks via custom block allocators and MSVCR80!free",
+    "Invokes user-defined callbacks stored in the queue structure"
+  ],
+  "data_structures": [
+    "PriorityQueue: +0x0 void* buffer, +0x4 int count, +0x8 callback_or_capacity",
+    "QueueElement: 24 bytes (0x18) per entry, containing function pointers, data arguments, and state fields."
+  ],
+  "confidence": "high | complete disassembly mapping with clear interactions with known heap, allocation, and sift-down subroutines"
+}

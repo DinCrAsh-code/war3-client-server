@@ -1,0 +1,53 @@
+{
+  "function_role": "Executes a single step or tick of a simulation/update phase using the resource structure provided in ebp (passed from sub_403E50), periodically updating sub-components, checking step-based intervals (dividing counters by 5 and 10), and handling state or resource blocks.",
+  "callsites": [
+    {
+      "callee": "0x00408C10",
+      "callsite_summary": "Called when a certain step-based check passes (counter % 5 == 0, with edx == 0), passing a pointer to a sub-buffer at [ebp+51F00h] as an argument and using a value from [ebp+5BBC4h]."
+    },
+    {
+      "callee": "0x00419300",
+      "callsite_summary": "Called unconditionally as part of the core per-tick update routine, operating on state near [ebp+51E90h] with floating-point values prepared on the FPU stack."
+    },
+    {
+      "callee": "0x004033A0",
+      "callsite_summary": "Called unconditionally as part of the update sequence, receiving the base resource pointer in edx (ebp)."
+    },
+    {
+      "callee": "0x00403460",
+      "callsite_summary": "Called unconditionally in sequence after sub_4033A0, receiving the resource pointer in esi (ebp)."
+    },
+    {
+      "callee": "0x004034E0",
+      "callsite_summary": "Called unconditionally in sequence after sub_403460, receiving the resource pointer in edi (ebp)."
+    },
+    {
+      "callee": "0x00403520",
+      "callsite_summary": "Called unconditionally as part of the update sequence following sub_4034E0."
+    },
+    {
+      "callee": "0x00408410",
+      "callsite_summary": "Called unconditionally using a structure or buffer located at [ebp+571D4h] with an associated floating-point value loaded onto the FPU stack."
+    },
+    {
+      "callee": "0x004036B0",
+      "callsite_summary": "Called conditionally when the main counter [ebp+5BBC0h] is a multiple of 10 (counter % 10 == 0), receiving the resource pointer in esi (ebp)."
+    },
+    {
+      "callee": "0x00403850",
+      "callsite_summary": "Called unconditionally during the update sequence, receiving the resource pointer in esi (ebp)."
+    },
+    {
+      "callee": "0x00408B60",
+      "callsite_summary": "Called conditionally when [ebp+5BBC0h] % 5 == 4, passing a sub-buffer at [ebp+51F00h] in edi and a value from [ebp+5BBC4h]."
+    },
+    {
+      "callee": "0x00403940",
+      "callsite_summary": "Called conditionally when an incremented sub-counter meets a divisibility condition, passing the resource pointer in eax (ebp) and storing its return value into [ebp+5BBD8h]."
+    },
+    {
+      "callee": "0x004090C0",
+      "callsite_summary": "Called immediately after sub_403940 when the same sub-counter condition is met, passing the sub-buffer pointer [ebp+54740h] in esi, the return value of sub_403940 in ecx, and the counter value on the stack."
+    }
+  ]
+}

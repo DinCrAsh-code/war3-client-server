@@ -1,0 +1,30 @@
+{
+  "parsed_ok": true,
+  "suggested_name": "RtsObject_InitSpecializedComponent_410720",
+  "prototype": "void* __fastcall RtsObject_InitSpecializedComponent_410720(void *esi, int unused, int arg_4)",
+  "short_summary": "Initializes a specialized RTS game object or component structure by setting up its virtual method table, initializing base sub-objects, and configuring several default numeric and pointer fields.",
+  "detailed_summary": "The function begins by calling `sub_40B100 [RtsObject_InitializeBase]` to initialize the base object at `esi` with type index `0x27`. It then performs multiple floating-point load/store operations (presumably resetting or initializing floating-point attributes) and sets up the object's virtual table pointers (`offset off_41D3A0` and later `offset off_41D3CC`). It clears various internal fields of the object structure (offsets `+0x29C`, `+0x2A8`, `+0x2B4`, `+0x2BC`, `+0x2C4`), extracts a word from a sub-structure located at `[esi+1Ch]` at offset `+0x2C`, and assigns a default integer value (`0x30D4`) to offset `+0x2B8`.",
+  "parameters": [
+    {
+      "name": "obj",
+      "location": "esi",
+      "type": "void*",
+      "description": "Pointer to the object or component being initialized."
+    },
+    {
+      "name": "arg_4",
+      "location": "esp+4",
+      "type": "int",
+      "description": "Additional argument passed from caller."
+    }
+  ],
+  "return_value": "none",
+  "side_effects": [
+    "Initializes the memory block pointed to by esi as a specialized game object/component",
+    "Sets virtual table pointers and clears/sets numerous internal fields up to offset 0x2C4"
+  ],
+  "data_structures": [
+    "Object structure: +0x0 vtable pointer, +0x1C pointer to sub-structure (which contains a word at +0x2C), +0x29C int field, +0x2A8 int field, +0x2B4 char/byte field, +0x2B8 int field (set to 0x30D4), +0x2BC int field, +0x2C4 int field"
+  ],
+  "confidence": "high | standard component initialization pattern matching nearby functions"
+}

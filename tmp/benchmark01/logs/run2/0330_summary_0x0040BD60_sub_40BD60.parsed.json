@@ -1,0 +1,39 @@
+{
+  "parsed_ok": true,
+  "suggested_name": "ResourceObject::ActivateOrRegisterReference",
+  "prototype": "void* __fastcall ResourceObject::ActivateOrRegisterReference(void* this, void* edx_unused, int typeId, void* extraData)",
+  "short_summary": "Searches an internal linked list for an existing sub-object matching the given type identifier; if found, updates its state and returns it, otherwise allocates a new one via factory, links it into the list, and initializes it.",
+  "detailed_summary": "The function first checks a flag bit at `[this+18h]` (where `this` is passed in `ebx`). If bit 0 is cleared (tested via `not cl; test cl, 1`), the function aborts and returns `NULL`. Otherwise, it iterates through a linked list starting at `[this+201h]` (offset +20Ch), checking if any node has matching type ID (`[esi+0Ch] == edi`) and a zeroed status byte (`[esi+0Eh] == 0`). If an existing matching inactive node is found, it calls a virtual method via the vtable at `[esi]` offset +14h, updates its field at `+18h` with a value derived from `extraData`, sets a flag bit (`0x400`) in `[this+18h]`, and returns the node pointer. If no existing match is found, it calls the factory function `CreateSubtypeObject(typeId)` (`sub_4145A0`). If allocation succeeds, it populates `[esi+18h]`, prepends the new node to the linked list at `[this+20Ch]`, invokes its virtual initialization function at vtable offset +4h passing `this`, updates the state flags in `this`, and returns the new node pointer.",
+  "parameters": [
+    {
+      "name": "this",
+      "location": "ebx",
+      "type": "void*",
+      "description": "The main object instance containing state flags and the linked list root at +20Ch."
+    },
+    {
+      "name": "typeId",
+      "location": "ecx",
+      "type": "int",
+      "description": "The type identifier used to search for or create a subtype object."
+    },
+    {
+      "name": "extraData",
+      "location": "stack (arg_4)",
+      "type": "void*",
+      "description": "Optional extra data or configuration pointer stored into the subtype object upon activation/creation."
+    }
+  ],
+  "return_value": "Returns a pointer to the activated or newly created subtype object in eax, or NULL if disabled or allocation failed.",
+  "side_effects": [
+    "Allocates memory via CreateSubtypeObject if not found in the list",
+    "Modifies object state flags at [this+18h]",
+    "Prepends newly created subtype objects to the linked list at [this+20Ch]",
+    "Invokes virtual methods on the subtype objects"
+  ],
+  "data_structures": [
+    "Main Object: +0x18h flags/state word, +0x20Ch pointer to linked list of sub-objects",
+    "Sub-object Node: +0x0 vtable, +0x0Ch type ID, +0x0Eh status/flag byte, +0x18h data/context pointer, +0x1Ch next node pointer"
+  ],
+  "confidence": "high, clear traversal pattern, standard factory instantiation, and vtable dispatch logic."
+}

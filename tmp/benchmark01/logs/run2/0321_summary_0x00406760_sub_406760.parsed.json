@@ -1,0 +1,24 @@
+{
+  "parsed_ok": true,
+  "suggested_name": "CUnit::UpdateAIStateOrBehavior",
+  "prototype": "void __fastcall CUnit::UpdateAIStateOrBehavior(void *entity)",
+  "short_summary": "Evaluates and updates an entity's high-level state machine or behavior mode (stored at offset +0x0C) by checking environmental conditions, proximity values, target validity, and executing corresponding command batches.",
+  "detailed_summary": "The function begins by calling CalculateEntityStatsOrAttributes and CalculateEntityCentroidOrAverage on the entity (passed in eax). It then calculates directional vectors and normalizes them using Vec3_NormalizeOrZero. It checks various flags and iterates through internal entity lists (starting at offset +0x3D0 up to +0x3DCh elements) to find maximum values and evaluate target conditions. Depending on the current state stored at `entity+0x0C`, it branches via a jump table (jpt_4068CF) to handle distinct behavior states (e.g., idle, approaching, attacking, fleeing). Within these state handlers, it calls helper functions such as FindNearestValidEntityOrTarget, CEntity::FindBestTargetOrNode, CalculateEntityProximityValue, CalculateDistance, and CUnit::BuildOrSerializeCommandBatch to trigger actions, transition states, or issue commands based on spatial and combat criteria.",
+  "parameters": [
+    {
+      "name": "entity",
+      "location": "eax",
+      "type": "void*",
+      "description": "Pointer to the entity or unit structure being updated."
+    }
+  ],
+  "return_value": "none",
+  "side_effects": [
+    "Modifies unit state fields within the entity structure, notably at offset +0x0C, +0x14, +0x18, and +0x1C",
+    "Invokes command serialization and queuing routines via CUnit::BuildOrSerializeCommandBatch"
+  ],
+  "data_structures": [
+    "Entity: +0x0C state/mode (int), +0x14 counter/stat, +0x18 target/node index, +0x1C boolean flag, +0x2C target/position data, +0x3C count/limit, +0x3CC threshold, +0x3D0 internal list, +0x3DC list count"
+  ],
+  "confidence": "high | based on clear structure layout access patterns, integration with known unit command/targeting functions, and state machine switch-case patterns."
+}

@@ -1,0 +1,20 @@
+{
+  "suggested_name": "GenerateNoiseHeightmap",
+  "prototype": "__fastcall void GenerateNoiseHeightmap(void *targetData)",
+  "short_summary": "Generates a 2D grid/map of procedural noise values by evaluating noise grid functions across a double loop.",
+  "detailed_summary": "The function performs a nested loop running from 0 to 96 (0x61) in both outer and inner dimensions. Within the loops, it manipulates floating-point values using constants from the read-only data section and invokes sub_415180 [EvaluateProceduralNoiseGrid] to compute noise values for grid cells, writing or updating results into an array or buffer structure passed via the register eax (using a __fastcall convention).",
+  "parameters": [
+    {
+      "name": "targetData",
+      "location": "eax",
+      "type": "void *",
+      "description": "Pointer to a resource, state, or buffer structure updated during grid generation."
+    }
+  ],
+  "return_value": "none",
+  "side_effects": [
+    "Modifies memory buffers associated with the pointer passed in eax"
+  ],
+  "data_structures": [],
+  "confidence": "medium, based on the double loop structure up to 0x61 (97 iterations) and calls to EvaluateProceduralNoiseGrid suggestive of heightmap or noise texture generation."
+}

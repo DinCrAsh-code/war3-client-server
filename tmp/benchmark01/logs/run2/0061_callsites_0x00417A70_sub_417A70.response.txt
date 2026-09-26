@@ -1,0 +1,9 @@
+{
+  "function_role": "Performs grid-based cell updates, coordinate clipping, and terrain/resource lookups using floating-point math and boundary checks, invoked as part of a spatial processing loop from sub_417B50.",
+  "callsites": [
+    {
+      "callee": "0x0041A160",
+      "callsite_summary": "Called to convert floating-point coordinates into integer grid indices (X and Y) within a conditional loop that processes map/grid cells."
+    }
+  ]
+}

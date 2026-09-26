@@ -1,0 +1,9 @@
+{
+  "function_role": "A virtual opcode handler (slot 2 of vtable 0x0041D228) invoked from bytecode execution, responsible for converting or evaluating operands (handling floating-point or integer types based on type tags) and performing a mathematical or runtime helper call via sub_4188F0 before writing out the resulting value.",
+  "callsites": [
+    {
+      "callee": "0x004188F0",
+      "callsite_summary": "Called as part of evaluating or performing the operation for this bytecode opcode, operating on floating-point values prepared on the x87 FPU stack and utilizing a global context/runtime structure referenced via 0x0042AC60."
+    }
+  ]
+}

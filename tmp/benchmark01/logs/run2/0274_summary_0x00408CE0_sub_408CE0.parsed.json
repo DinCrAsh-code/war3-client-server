@@ -1,0 +1,12 @@
+{
+  "parsed_ok": true,
+  "suggested_name": "CalculateGridCoordinatesOrMapping",
+  "prototype": "void __cdecl sub_408CE0()",
+  "short_summary": "Calculates coordinate mapping or grid indices using an integer square root approximation loop followed by floating-point arithmetic operations.",
+  "detailed_summary": "The function first determines an integer value 'ecx' such that ecx * ecx is less than or equal to the input value 'esi' (acting as an integer square root / grid dimension finder). It then performs various signed division and modulo operations, loads floating-point constants from the .rdata section, and executes a complex sequence of x87 FPU stack instructions (fild, fmul, fsubrp, fadd, etc.) to compute scaled floating-point coordinates or interpolation weights.",
+  "parameters": [],
+  "return_value": "st(0) (implicit float/double return via x87 register)",
+  "side_effects": [],
+  "data_structures": [],
+  "confidence": "medium, determined to be a mathematical scaling/mapping helper using x87 FPU and integer root approximation, though exact semantic types of parameters passed via registers/stack are partially implicit."
+}

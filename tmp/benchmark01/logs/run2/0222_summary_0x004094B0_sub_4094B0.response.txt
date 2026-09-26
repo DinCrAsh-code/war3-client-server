@@ -1,0 +1,32 @@
+{
+  "suggested_name": "ExecuteBinaryOp",
+  "prototype": "int __fastcall ExecuteBinaryOp(void *operandA, void *operandB, int opCode)",
+  "short_summary": "Performs binary arithmetic operations (add, subtract, multiply, divide, modulo) on two script/bytecode variable operands, handling both integer and floating-point types.",
+  "detailed_summary": "The function evaluates a binary arithmetic operation specified by `opCode` (`EDX`) on two variant-like operand structures, `operandA` (`EAX`) and `operandB` (`ECX`). It first checks the type tags of both operands (`[eax]` and `[ecx]`). If either operand is tagged as a floating-point type (represented by the tag value 2), it promotes both operands to floating-point and uses the x87 FPU to perform the operation (addition, subtraction, multiplication, division, or modulo via `_CIfmod`). Otherwise, it extracts the 32-bit integer values from offset +4 of each operand and executes integer arithmetic (including checks for division by zero). The resulting value and a type tag are returned across registers.",
+  "parameters": [
+    {
+      "name": "operandA",
+      "location": "eax",
+      "type": "void*",
+      "description": "Pointer to the left-hand operand structure (type tag at +0, value at +4)."
+    },
+    {
+      "name": "operandB",
+      "location": "ecx",
+      "type": "void*",
+      "description": "Pointer to the right-hand operand structure (type tag at +0, value at +4)."
+    },
+    {
+      "name": "opCode",
+      "location": "edx",
+      "type": "int",
+      "description": "Operation code determining which arithmetic operation to perform."
+    }
+  ],
+  "return_value": "Returns a combined result structure/value via registers (type tag / status in eax, result value in edx or floating-point stack).",
+  "side_effects": [],
+  "data_structures": [
+    "Variant Operand: +0x0 byte type tag (2 = float, others = integer), +0x4 union/value (int or float depending on tag)"
+  ],
+  "confidence": "high, clear operand tagging pattern, standard operator jump tables, and FPU/integer arithmetic branches."
+}

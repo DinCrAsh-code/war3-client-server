@@ -1,0 +1,9 @@
+{
+  "function_role": "Initializes a sub-structure or registers an object within a resource manager by invoking a lookup/allocation helper and integrating the resulting index into a table and linked state block.",
+  "callsites": [
+    {
+      "callee": "0x00417410",
+      "callsite_summary": "Called once to query or allocate an identifier/index, passing `esi+8` as a parameter (via `edi`). The returned index in `eax` is subsequently used to index into an array pointed to by `ebx`, store state values into `esi`, and update linked list pointers."
+    }
+  ]
+}

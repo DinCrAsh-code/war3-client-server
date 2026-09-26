@@ -1,0 +1,8 @@
+{
+  "function_role": "Performs periodic sub-component simulation or resource block processing within a larger update step, allocating and copying data into an internal buffer structure based on a tick parameter and subsequently clearing working memory.",
+  "callsite_summaries": {
+    "0x00418AA0": "Called unconditionally at the start of the function with two arguments (0 pushed, and `edi + 2824h` passed in eax via ebp) to perform an initialization or setup operation on a sub-structure or stream associated with the resource block.",
+    "0x00408FE0": "Called conditionally when `[edi + 2834h] > 0`, passing three arguments (ebx, the newly populated buffer pointer, and esi) to process or dispatch the newly copied resource/simulation data block."
+  },
+  "fallbacks": []
+}

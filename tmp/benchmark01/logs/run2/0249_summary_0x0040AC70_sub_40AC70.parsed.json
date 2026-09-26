@@ -1,0 +1,42 @@
+{
+  "parsed_ok": true,
+  "suggested_name": "ExecuteScriptMathOrConversionOp",
+  "prototype": "void __cdecl ExecuteScriptMathOrConversionOp(void *thisPtr, void *scriptVarInput, int unused, void *scriptVarOutput)",
+  "short_summary": "Executes a virtual script opcode that performs math, type conversion, or variable creation on input script values, returning a newly allocated script variable result.",
+  "detailed_summary": "The function acts as a virtual opcode handler for script interpretation (slot 20 of a vtable). It inspects the input script variable structure (`scriptVarInput`, passed at `arg_4`), checks type tags (e.g., comparing against `bl = 2`), converts floating-point values to integers using `__ftol2_sse` when necessary, manipulates values using x87 FPU instructions, and calls `CreateScriptVariable` to instantiate a resulting script variable. Finally, it stores the output type and value into the destination script variable structure pointer (`arg_C`).",
+  "parameters": [
+    {
+      "name": "thisPtr",
+      "location": "ecx (or implicit this)",
+      "type": "void*",
+      "description": "Pointer to the script execution context or interpreter object (this)."
+    },
+    {
+      "name": "scriptVarInput",
+      "location": "[ebp+arg_4]",
+      "type": "void*",
+      "description": "Pointer to the input script variable structure."
+    },
+    {
+      "name": "unused",
+      "location": "[ebp+arg_8]",
+      "type": "int",
+      "description": "Additional parameter or count (part of the 4-argument vtable dispatch)."
+    },
+    {
+      "name": "scriptVarOutput",
+      "location": "[ebp+arg_C]",
+      "type": "void*",
+      "description": "Pointer to the output script variable structure where the result is written."
+    }
+  ],
+  "return_value": "none",
+  "side_effects": [
+    "Allocates a new script variable via CreateScriptVariable",
+    "Writes the resulting type and value to the scriptVarOutput structure"
+  ],
+  "data_structures": [
+    "ScriptVariable: +0x0 type tag (byte/word), +0x4 value or data pointer, +0x8 secondary field, +0x10 type/flag field"
+  ],
+  "confidence": "medium, based on the vtable slot usage description, argument structure, and calls to CreateScriptVariable and ftol2_sse."
+}

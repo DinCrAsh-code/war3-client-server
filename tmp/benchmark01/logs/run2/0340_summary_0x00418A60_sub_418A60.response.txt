@@ -1,0 +1,32 @@
+{
+  "suggested_name": "CalculateCrc32",
+  "prototype": "unsigned int __fastcall CalculateCrc32(const void *data, unsigned int size, unsigned int initial_crc)",
+  "short_summary": "Computes the standard CRC32 checksum over a given data buffer, initializing the lookup table on first use.",
+  "detailed_summary": "The function first checks a boolean flag at `byte_42285D` to see if the CRC32 lookup table has been initialized. If not, it calls `InitCrc32Table` to populate it. It then performs standard byte-by-byte CRC32 computation: it takes the initial CRC value passed via `edx` (inverting it initially with `not`), loops through the `esi` bytes starting at memory address `edi`, indexes into the lookup table `dword_422860` using the XOR combination of the current byte and the low byte of the accumulated CRC value, and finally inverts the resulting bit pattern before returning it in `eax`.",
+  "parameters": [
+    {
+      "name": "data",
+      "location": "edi",
+      "type": "const void*",
+      "description": "Pointer to the buffer over which the CRC32 is calculated."
+    },
+    {
+      "name": "size",
+      "location": "esi",
+      "type": "unsigned int",
+      "description": "Size of the data buffer in bytes."
+    },
+    {
+      "name": "initial_crc",
+      "location": "edx",
+      "type": "unsigned int",
+      "description": "Initial CRC value (typically 0 for a fresh checksum, or a continuing value)."
+    }
+  ],
+  "return_value": "The computed 32-bit CRC checksum in eax.",
+  "side_effects": [
+    "Initializes the global CRC32 lookup table at 0x00422860 on its first invocation by calling sub_4189C0."
+  ],
+  "data_structures": [],
+  "confidence": "high | standard CRC32 implementation using a lookup table and polynomial 0xEDB88320"
+}

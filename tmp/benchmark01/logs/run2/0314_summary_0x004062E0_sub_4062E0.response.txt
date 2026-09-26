@@ -1,0 +1,29 @@
+{
+  "suggested_name": "CalculateEntityCentroidOrAverage",
+  "prototype": "void* __stdcall CalculateEntityCentroidOrAverage(void *entity, void *outPoint)",
+  "short_summary": "Calculates the average spatial position or centroid from an entity's internal collections of points and referenced objects, storing the result in an output structure.",
+  "detailed_summary": "The function begins by inspecting a count field at offset +0x3C8 of the entity structure. It iterates through an array of items starting at offset +0x24C, accumulating vector or coordinate data. Next, it examines a second collection starting around offset +0x3D0/+0x3D4 with counts at +0x3DC, checking a flag at offset +0x18 of each referenced object (filtering out items where bit 0 of offset 0x18 is set). If any valid points or items are accumulated, it computes an average/centroid by dividing the accumulated totals by the count, writing the resulting vector/coordinates to the output buffer supplied in arg_4. If the total count is zero, it falls back to copying default coordinates from offsets +0x34 and +0x38 of the entity structure.",
+  "parameters": [
+    {
+      "name": "entity",
+      "location": "[esp+0Ch+arg_0]",
+      "type": "void*",
+      "description": "Pointer to the main entity object containing collections and spatial data."
+    },
+    {
+      "name": "outPoint",
+      "location": "[esp+0Ch+arg_4]",
+      "type": "void*",
+      "description": "Pointer to an output buffer or vector structure where the calculated or fallback point is stored."
+    }
+  ],
+  "return_value": "Returns the output point pointer (arg_4) in eax.",
+  "side_effects": [
+    "Writes calculated spatial coordinates or fallback values into the memory buffer pointed to by arg_4."
+  ],
+  "data_structures": [
+    "Entity: +0x34 fallback coordinate/value X, +0x38 fallback coordinate/value Y, +0x24C array of points/sub-structures, +0x3C8 count of first collection, +0x3D0/+0x3D4 array of item pointers, +0x3DC count of second collection",
+    "Item: +0x18 flags byte (bit 0 used for filtering)"
+  ],
+  "confidence": "high | Unrolled loops processing two distinct entity collections, floating-point accumulation, and fallback coordinate copying based on count checks."
+}

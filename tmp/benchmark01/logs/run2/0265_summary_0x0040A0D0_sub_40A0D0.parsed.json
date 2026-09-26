@@ -1,0 +1,30 @@
+{
+  "parsed_ok": true,
+  "suggested_name": "VM_ExecuteEntityEventScript",
+  "prototype": "bool __fastcall VM_ExecuteEntityEventScript(void *vm_context, void *unused, int event_index)",
+  "short_summary": "Validates and executes a virtual machine bytecode block associated with a specific entity event, managing VM state backup and restoration around the execution.",
+  "detailed_summary": "The function first performs bounds and state validation on the VM context structure passed in esi and the event index passed in ebx. It checks if the VM's active flag (`[esi+8]`) is non-zero and whether the event index is within valid bounds (`0 <= ebx < [esi+0x90]`). If validation fails, it immediately returns false. When valid, it resets or backs up specific VM state variables (such as counts and pointers at offsets 0xA64, 0x998, and 0x99C) into local stack storage. It then loops a number of times determined by a byte at `[esi+ebx*4+0x12]`, pushing argument structures onto a temporary stack area and copying them into the VM's parameter/argument buffers (managed via the count at `[esi+0x998]`, ensuring it does not exceed 0x100). Afterward, it invokes sub_409940 [VM_ExecuteBytecodeBlock] to execute the bytecode script corresponding to the event index. Finally, it restores the previous VM state registers, checks the execution result and status flag (`[esi+0A68h]`), and returns true if execution succeeded without overflow or error.",
+  "parameters": [
+    {
+      "name": "vm_context",
+      "location": "ecx",
+      "type": "void *",
+      "description": "Pointer to the main VM / entity context structure (this pointer for __fastcall)."
+    },
+    {
+      "name": "event_index",
+      "location": "ebx",
+      "type": "int",
+      "description": "The index of the entity event or bytecode script to execute."
+    }
+  ],
+  "return_value": "bool (in al), true on successful execution and false otherwise",
+  "side_effects": [
+    "modifies VM state and argument buffers within the context structure at esi",
+    "invokes sub_409940 [VM_ExecuteBytecodeBlock]"
+  ],
+  "data_structures": [
+    "VM Context structure: +0x8 int active_flag, +0x12 array of event byte limits/codes, +0x90 int max_events, +0x198 parameter/stack buffer array, +0x998 int param_count, +0x99C int param_context_val, +0xA64 int vm_counter/offset, +0xA68 byte overflow/error flag"
+  ],
+  "confidence": "high | complete register, flow, and callee correlation identified"
+}

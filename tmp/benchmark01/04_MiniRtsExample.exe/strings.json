@@ -1,0 +1,438 @@
+[
+  {
+    "address": "0x0041BCF4",
+    "section": ".rdata",
+    "encoding": "ascii",
+    "length": 6,
+    "value": "dPF<2",
+    "referenced_by": [
+      "0x00403C60",
+      "0x004044D0",
+      "0x0040D720"
+    ]
+  },
+  {
+    "address": "0x0041BDF7",
+    "section": ".rdata",
+    "encoding": "ascii",
+    "length": 6,
+    "value": "?fff?",
+    "referenced_by": []
+  },
+  {
+    "address": "0x0041CBA3",
+    "section": ".rdata",
+    "encoding": "ascii",
+    "length": 6,
+    "value": "?333?",
+    "referenced_by": []
+  },
+  {
+    "address": "0x0041CC4B",
+    "section": ".rdata",
+    "encoding": "ascii",
+    "length": 5,
+    "value": "?333?",
+    "referenced_by": []
+  },
+  {
+    "address": "0x0041D168",
+    "section": ".rdata",
+    "encoding": "ascii",
+    "length": 6,
+    "value": "\" 0A\u001b",
+    "referenced_by": []
+  },
+  {
+    "address": "0x0041DFD6",
+    "section": ".rdata",
+    "encoding": "ascii",
+    "length": 10,
+    "value": "_purecall",
+    "referenced_by": []
+  },
+  {
+    "address": "0x0041DFEA",
+    "section": ".rdata",
+    "encoding": "ascii",
+    "length": 7,
+    "value": "malloc",
+    "referenced_by": []
+  },
+  {
+    "address": "0x0041DFF4",
+    "section": ".rdata",
+    "encoding": "ascii",
+    "length": 18,
+    "value": "?terminate@@YAXXZ",
+    "referenced_by": []
+  },
+  {
+    "address": "0x0041E006",
+    "section": ".rdata",
+    "encoding": "ascii",
+    "length": 12,
+    "value": "MSVCR80.dll",
+    "referenced_by": []
+  },
+  {
+    "address": "0x0041E014",
+    "section": ".rdata",
+    "encoding": "ascii",
+    "length": 11,
+    "value": "_amsg_exit",
+    "referenced_by": []
+  },
+  {
+    "address": "0x0041E022",
+    "section": ".rdata",
+    "encoding": "ascii",
+    "length": 14,
+    "value": "__getmainargs",
+    "referenced_by": []
+  },
+  {
+    "address": "0x0041E032",
+    "section": ".rdata",
+    "encoding": "ascii",
+    "length": 7,
+    "value": "_cexit",
+    "referenced_by": []
+  },
+  {
+    "address": "0x0041E03C",
+    "section": ".rdata",
+    "encoding": "ascii",
+    "length": 6,
+    "value": "_exit",
+    "referenced_by": []
+  },
+  {
+    "address": "0x0041E044",
+    "section": ".rdata",
+    "encoding": "ascii",
+    "length": 12,
+    "value": "_XcptFilter",
+    "referenced_by": []
+  },
+  {
+    "address": "0x0041E05A",
+    "section": ".rdata",
+    "encoding": "ascii",
+    "length": 10,
+    "value": "__initenv",
+    "referenced_by": []
+  },
+  {
+    "address": "0x0041E066",
+    "section": ".rdata",
+    "encoding": "ascii",
+    "length": 10,
+    "value": "_initterm",
+    "referenced_by": []
+  },
+  {
+    "address": "0x0041E072",
+    "section": ".rdata",
+    "encoding": "ascii",
+    "length": 12,
+    "value": "_initterm_e",
+    "referenced_by": []
+  },
+  {
+    "address": "0x0041E080",
+    "section": ".rdata",
+    "encoding": "ascii",
+    "length": 20,
+    "value": "_configthreadlocale",
+    "referenced_by": []
+  },
+  {
+    "address": "0x0041E096",
+    "section": ".rdata",
+    "encoding": "ascii",
+    "length": 17,
+    "value": "__setusermatherr",
+    "referenced_by": []
+  },
+  {
+    "address": "0x0041E0AA",
+    "section": ".rdata",
+    "encoding": "ascii",
+    "length": 13,
+    "value": "_adjust_fdiv",
+    "referenced_by": []
+  },
+  {
+    "address": "0x0041E0BA",
+    "section": ".rdata",
+    "encoding": "ascii",
+    "length": 13,
+    "value": "__p__commode",
+    "referenced_by": []
+  },
+  {
+    "address": "0x0041E0CA",
+    "section": ".rdata",
+    "encoding": "ascii",
+    "length": 11,
+    "value": "__p__fmode",
+    "referenced_by": []
+  },
+  {
+    "address": "0x0041E0D8",
+    "section": ".rdata",
+    "encoding": "ascii",
+    "length": 16,
+    "value": "_encode_pointer",
+    "referenced_by": []
+  },
+  {
+    "address": "0x0041E0EA",
+    "section": ".rdata",
+    "encoding": "ascii",
+    "length": 15,
+    "value": "__set_app_type",
+    "referenced_by": []
+  },
+  {
+    "address": "0x0041E0FC",
+    "section": ".rdata",
+    "encoding": "ascii",
+    "length": 19,
+    "value": "_crt_debugger_hook",
+    "referenced_by": []
+  },
+  {
+    "address": "0x0041E112",
+    "section": ".rdata",
+    "encoding": "ascii",
+    "length": 24,
+    "value": "_except_handler4_common",
+    "referenced_by": []
+  },
+  {
+    "address": "0x0041E12C",
+    "section": ".rdata",
+    "encoding": "ascii",
+    "length": 8,
+    "value": "_unlock",
+    "referenced_by": []
+  },
+  {
+    "address": "0x0041E136",
+    "section": ".rdata",
+    "encoding": "ascii",
+    "length": 12,
+    "value": "__dllonexit",
+    "referenced_by": []
+  },
+  {
+    "address": "0x0041E144",
+    "section": ".rdata",
+    "encoding": "ascii",
+    "length": 6,
+    "value": "_lock",
+    "referenced_by": []
+  },
+  {
+    "address": "0x0041E14C",
+    "section": ".rdata",
+    "encoding": "ascii",
+    "length": 8,
+    "value": "_onexit",
+    "referenced_by": []
+  },
+  {
+    "address": "0x0041E156",
+    "section": ".rdata",
+    "encoding": "ascii",
+    "length": 16,
+    "value": "_decode_pointer",
+    "referenced_by": []
+  },
+  {
+    "address": "0x0041E168",
+    "section": ".rdata",
+    "encoding": "ascii",
+    "length": 15,
+    "value": "_invoke_watson",
+    "referenced_by": []
+  },
+  {
+    "address": "0x0041E17A",
+    "section": ".rdata",
+    "encoding": "ascii",
+    "length": 13,
+    "value": "_controlfp_s",
+    "referenced_by": []
+  },
+  {
+    "address": "0x0041E18A",
+    "section": ".rdata",
+    "encoding": "ascii",
+    "length": 20,
+    "value": "InterlockedExchange",
+    "referenced_by": []
+  },
+  {
+    "address": "0x0041E1A0",
+    "section": ".rdata",
+    "encoding": "ascii",
+    "length": 6,
+    "value": "Sleep",
+    "referenced_by": []
+  },
+  {
+    "address": "0x0041E1A8",
+    "section": ".rdata",
+    "encoding": "ascii",
+    "length": 27,
+    "value": "InterlockedCompareExchange",
+    "referenced_by": []
+  },
+  {
+    "address": "0x0041E1C6",
+    "section": ".rdata",
+    "encoding": "ascii",
+    "length": 17,
+    "value": "TerminateProcess",
+    "referenced_by": []
+  },
+  {
+    "address": "0x0041E1DA",
+    "section": ".rdata",
+    "encoding": "ascii",
+    "length": 18,
+    "value": "GetCurrentProcess",
+    "referenced_by": []
+  },
+  {
+    "address": "0x0041E1EE",
+    "section": ".rdata",
+    "encoding": "ascii",
+    "length": 25,
+    "value": "UnhandledExceptionFilter",
+    "referenced_by": []
+  },
+  {
+    "address": "0x0041E20A",
+    "section": ".rdata",
+    "encoding": "ascii",
+    "length": 28,
+    "value": "SetUnhandledExceptionFilter",
+    "referenced_by": []
+  },
+  {
+    "address": "0x0041E228",
+    "section": ".rdata",
+    "encoding": "ascii",
+    "length": 18,
+    "value": "IsDebuggerPresent",
+    "referenced_by": []
+  },
+  {
+    "address": "0x0041E23C",
+    "section": ".rdata",
+    "encoding": "ascii",
+    "length": 24,
+    "value": "QueryPerformanceCounter",
+    "referenced_by": []
+  },
+  {
+    "address": "0x0041E256",
+    "section": ".rdata",
+    "encoding": "ascii",
+    "length": 13,
+    "value": "GetTickCount",
+    "referenced_by": []
+  },
+  {
+    "address": "0x0041E266",
+    "section": ".rdata",
+    "encoding": "ascii",
+    "length": 19,
+    "value": "GetCurrentThreadId",
+    "referenced_by": []
+  },
+  {
+    "address": "0x0041E27C",
+    "section": ".rdata",
+    "encoding": "ascii",
+    "length": 20,
+    "value": "GetCurrentProcessId",
+    "referenced_by": []
+  },
+  {
+    "address": "0x0041E292",
+    "section": ".rdata",
+    "encoding": "ascii",
+    "length": 24,
+    "value": "GetSystemTimeAsFileTime",
+    "referenced_by": []
+  },
+  {
+    "address": "0x0041E2AA",
+    "section": ".rdata",
+    "encoding": "ascii",
+    "length": 13,
+    "value": "KERNEL32.dll",
+    "referenced_by": []
+  },
+  {
+    "address": "0x0041E2BA",
+    "section": ".rdata",
+    "encoding": "ascii",
+    "length": 7,
+    "value": "memset",
+    "referenced_by": []
+  },
+  {
+    "address": "0x0041E2C4",
+    "section": ".rdata",
+    "encoding": "ascii",
+    "length": 7,
+    "value": "_CIsin",
+    "referenced_by": []
+  },
+  {
+    "address": "0x0041E2CE",
+    "section": ".rdata",
+    "encoding": "ascii",
+    "length": 8,
+    "value": "_CIsqrt",
+    "referenced_by": []
+  },
+  {
+    "address": "0x0041E2D8",
+    "section": ".rdata",
+    "encoding": "ascii",
+    "length": 7,
+    "value": "_CIpow",
+    "referenced_by": []
+  },
+  {
+    "address": "0x0041E2E2",
+    "section": ".rdata",
+    "encoding": "ascii",
+    "length": 8,
+    "value": "_CIfmod",
+    "referenced_by": []
+  },
+  {
+    "address": "0x0041E2EC",
+    "section": ".rdata",
+    "encoding": "ascii",
+    "length": 19,
+    "value": "__CxxFrameHandler3",
+    "referenced_by": []
+  },
+  {
+    "address": "0x0041E302",
+    "section": ".rdata",
+    "encoding": "ascii",
+    "length": 7,
+    "value": "memcpy",
+    "referenced_by": []
+  }
+]

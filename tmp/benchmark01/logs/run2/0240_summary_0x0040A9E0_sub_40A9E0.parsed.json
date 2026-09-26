@@ -1,0 +1,45 @@
+{
+  "parsed_ok": true,
+  "suggested_name": "ScriptOp_GetResourceValue",
+  "prototype": "void __cdecl ScriptOp_GetResourceValue(void *pThis, void *pArg1, int arg2, void *pResultStruct)",
+  "short_summary": "Evaluates a resource/object identifier operand from bytecode, bounds-checking it against a global resource manager table, and returns a floating-point or typed property value into a result structure.",
+  "detailed_summary": "The function inspects an operand structure passed via `arg_4`. It first verifies that the operand type byte equals 3 and that its secondary pointer/ID field is non-zero. It then extracts a 16-bit resource index and a 16-bit handle/version tag, checking the index against a global resource manager table located via `0x0042AC60`. If bounds and version tags match, it retrieves the resource pointer, checks an internal type flag at offset `+0x1A`, and loads a value (defaulting to zero if any check fails). Finally, it writes out a typed result structure to the pointer specified by `arg_C` (`[esp+8+arg_C]`).",
+  "parameters": [
+    {
+      "name": "pThis",
+      "location": "ecx / [esp+arg_0]",
+      "type": "void*",
+      "description": "This pointer for the virtual method call (interpreter instance)."
+    },
+    {
+      "name": "pOperand",
+      "location": "[esp+arg_4]",
+      "type": "void*",
+      "description": "Pointer to the bytecode operand structure being evaluated."
+    },
+    {
+      "name": "unk_arg2",
+      "location": "[esp+arg_8]",
+      "type": "int",
+      "description": "Additional argument or count passed to the opcode handler."
+    },
+    {
+      "name": "pResultStruct",
+      "location": "[esp+arg_C]",
+      "type": "void*",
+      "description": "Pointer to the output structure where the evaluated result (type + value) is stored."
+    }
+  ],
+  "return_value": "none (result is written via output pointer; floating point operations use st(0) temporarily)",
+  "side_effects": [
+    "Reads global resource manager state at 0x0042AC60",
+    "Writes a typed value structure to the caller-provided output pointer"
+  ],
+  "data_structures": [
+    "Operand structure: +0x0 byte type, +0x4 dword identifier/packed handle (low word: index, high word: version/tag)",
+    "Global resource manager table at 0x0042AC60: +0x51E80 pointer to resource entries, +0x51E84 integer count",
+    "Resource entry: +0x0 pointer to resource object, +0x4 word version/tag",
+    "Resource object: +0x1A byte flag"
+  ],
+  "confidence": "high, clear operand validation logic, global table lookups, and structured result output pattern typical of game scripting engines."
+}

@@ -1,0 +1,53 @@
+{
+  "suggested_name": "UpdateParticleSystemOrEmitter",
+  "prototype": "void __cdecl UpdateParticleSystemOrEmitter(void *pRng, void *pEmitterState)",
+  "short_summary": "Updates particle generator state and buffers using extensive floating-point calculations, coordinate transformations, and pseudo-random number generation.",
+  "detailed_summary": "The function processes a large object structure (passed in `esi`) representing a particle emitter or effect system. It performs a series of complex arithmetic and trigonometric operations involving vertex buffers or particle vectors starting at offsets 0xE6C0 and 0xE6E4 within the structure. It loops through multiple phases to generate or update particles, utilizing a PRNG struct (passed as arg_0) to introduce randomized offsets and velocities. Floating-point conversions via `__ftol2_sse` are used to discretize continuous values into integer indices or coordinate grids. The routine handles multiple internal particle list counters (such as `+0xE6E0` and `+0xE744`), adding or updating elements conditionally based on loop bounds and thresholds.",
+  "parameters": [
+    {
+      "name": "pRng",
+      "location": "stack [esp+0x44 + arg_0]",
+      "type": "void*",
+      "description": "Pointer to a random number generator state structure used for particle randomization."
+    },
+    {
+      "name": "pEmitterState",
+      "location": "stack [esp+0x44 + arg_4]",
+      "type": "void*",
+      "description": "Pointer to emitter parameters or configuration data."
+    }
+  ],
+  "return_value": "none",
+  "side_effects": [
+    "Modifies particle buffer data and count variables in the object structure pointed to by esi",
+    "Updates the internal PRNG state structure"
+  ],
+  "data_structures": [
+    {
+      "name": "ParticleSystemState",
+      "fields": [
+        {
+          "offset": "0xE6C0",
+          "type": "struct { float x, y; }[]",
+          "description": "Primary particle / vertex coordinate buffer"
+        },
+        {
+          "offset": "0xE6E0",
+          "type": "int",
+          "description": "Current count or index in the primary particle buffer"
+        },
+        {
+          "offset": "0xE6E4",
+          "type": "struct { float x, y; }[]",
+          "description": "Secondary particle attribute or position buffer"
+        },
+        {
+          "offset": "0xE744",
+          "type": "int",
+          "description": "Count or index in the secondary buffer"
+        }
+      ]
+    }
+  ],
+  "confidence": "medium"
+}

@@ -1,0 +1,39 @@
+{
+  "parsed_ok": true,
+  "suggested_name": "GetSystemStateOrValue",
+  "prototype": "void __cdecl sub_40B090(void *this_ptr, int arg4, int arg8, void *out_struct)",
+  "short_summary": "Retrieves a global state value and writes a 64-bit output structure containing a boolean flag and the retrieved value.",
+  "detailed_summary": "The function reads a pointer from global variable `dword_42AC60`, accesses a dword field at offset +0x5BBBCh of that structure, and stores it in the second dword of a destination structure passed via the argument list. It also sets the first dword of the destination structure to 1.",
+  "parameters": [
+    {
+      "name": "this_ptr",
+      "location": "esp+4",
+      "type": "void*",
+      "description": "Object instance pointer (this)"
+    },
+    {
+      "name": "arg4",
+      "location": "esp+8",
+      "type": "int",
+      "description": "First additional argument"
+    },
+    {
+      "name": "arg8",
+      "location": "esp+12",
+      "type": "int",
+      "description": "Second additional argument"
+    },
+    {
+      "name": "out_struct",
+      "location": "esp+16",
+      "type": "int*",
+      "description": "Pointer to an output structure receiving a byte/int flag (set to 1) and a retrieved global dword"
+    }
+  ],
+  "return_value": "none",
+  "side_effects": [
+    "writes a 64-bit structure to the memory location pointed to by out_struct"
+  ],
+  "data_structures": [],
+  "confidence": "high, straightforward assembly reading from a global variable and populating an output buffer."
+}

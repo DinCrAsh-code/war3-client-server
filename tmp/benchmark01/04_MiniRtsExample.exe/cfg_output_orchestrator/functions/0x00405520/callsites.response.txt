@@ -1,0 +1,25 @@
+{
+  "function_role": "Performs complex spatial collision, proximity, or intersection checks for an entity against environment elements or other entities, iterating over collections of candidate structures and returning a boolean success status along with target location coordinates.",
+  "callsites": [
+    {
+      "callee": "0x00402E50",
+      "callsite_summary": "Called once near the beginning of the function (at 0x004055B7) to initialize or retrieve state data using a local parameter block containing pointers and configuration values derived from the entity and global tables."
+    },
+    {
+      "callee": "0x00417FD0",
+      "callsite_summary": "Called after vector subtraction and initialization (at 0x0040577D) to compute a geometric operation or transform on difference vector components before normalization and grid/index mapping."
+    },
+    {
+      "callee": "0x0041A160",
+      "callsite_summary": "Called multiple times (at 0x0040579A and 0x004057D9) to convert floating-point values from the x87 stack into integer values (via __ftol2_sse) used for clamping, index generation, and bounds checking in grid loops."
+    },
+    {
+      "callee": "0x00414CE0",
+      "callsite_summary": "Called inside nested loops over spatial or index grids (at 0x004058C1) to perform a sub-check or intersection test, passing calculated grid coordinates and a pointer from a local data structure. Its boolean return value (in al) controls whether further evaluation occurs."
+    },
+    {
+      "callee": "0x004182F0",
+      "callsite_summary": "Called conditionally within a matching block (at 0x00405920) to compute relative vector or distance data between the entity and a candidate element using entity sub-structures and local coordinate variables."
+    }
+  ]
+}

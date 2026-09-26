@@ -1,0 +1,10 @@
+{
+  "function_role": "Finalizes and flushes a message or packet buffer from the context structure in ecx, computing sizes, checksums or sequence metadata via helper calls, copying the buffered payload out, and resetting the write pointer at offset 0x2000.",
+  "callsite_summaries": {
+    "0x00418FA0": "Called with `edi` and the buffer pointer/size from `[edi+2000h]` to query or compute a size, length, or capacity value, whose return value in `eax` is stored in `ebx` and used to bound or format the packet header/payload.",
+    "0x00418A60": "Called twice (first with edx=0 and an offset/pointer, later with edx=0 and [edi+201Ch]) to compute or update a cryptographic/checksum value (such as a CRC or hash) over the data being flushed, storing the resulting hash/state back into `[edi+201Ch]`.",
+    "0x00408F70": "Called twice during packet flush: first to write the 10-byte constructed header block (from local stack variables `Src`), and second to write the variable-sized payload block (from `ebp` / `Size`) into the underlying output stream or destination.",
+    "0x004198F2": "Standard MSVC security cookie check called prior to function exit to ensure stack integrity."
+  },
+  "fallbacks": []
+}

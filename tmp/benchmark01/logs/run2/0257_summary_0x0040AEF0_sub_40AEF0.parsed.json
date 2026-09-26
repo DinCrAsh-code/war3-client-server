@@ -1,0 +1,39 @@
+{
+  "parsed_ok": true,
+  "suggested_name": "ExecuteVmOpcodeSlot24",
+  "prototype": "void __stdcall ExecuteVmOpcodeSlot24(void *this_ptr, const void *operandPtr, int count, void *outputStruct)",
+  "short_summary": "Executes a virtual machine opcode handler (vtable slot 24) that processes operand types, converts values using floating-point operations or type checks, and stores a formatted result into an output structure.",
+  "detailed_summary": "The function begins by inspecting the variant/operand structure pointed to by the second argument. If its type tag byte equals 2, it loads the floating-point value and converts it to an integer using `__ftol2_sse`; otherwise, it reads a 32-bit integer field from offset +4 of the operand structure. It then performs a bounds check (less than or equal to 5), scaling the value by a global factor stored at `0x0042AC60` if within bounds, or multiplying/loading alternative constant float data if above 5. Finally, it stores the resulting components into the output structure provided via the fourth argument.",
+  "parameters": [
+    {
+      "name": "this_ptr",
+      "location": "ecx",
+      "type": "void*",
+      "description": "The 'this' pointer for the virtual method."
+    },
+    {
+      "name": "operandPtr",
+      "location": "[esp+4]",
+      "type": "const void*",
+      "description": "Pointer to an operand structure or variant input."
+    },
+    {
+      "name": "count",
+      "location": "[esp+8]",
+      "type": "int",
+      "description": "Count or secondary parameter."
+    },
+    {
+      "name": "outputStruct",
+      "location": "[esp+12]",
+      "type": "void*",
+      "description": "Pointer to an output structure where the processed result is written."
+    }
+  ],
+  "return_value": "none",
+  "side_effects": [
+    "Writes computed values to the output structure pointed to by the fourth parameter."
+  ],
+  "data_structures": [],
+  "confidence": "medium, based on standard VM interpreter operand processing and calling conventions for virtual methods."
+}

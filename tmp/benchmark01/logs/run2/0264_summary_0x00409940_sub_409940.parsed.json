@@ -1,0 +1,37 @@
+{
+  "parsed_ok": true,
+  "suggested_name": "VM_ExecuteBytecodeBlock",
+  "prototype": "int __fastcall VM_ExecuteBytecodeBlock(void *vm_context, void *unused, int bytecode_index, int base_offset)",
+  "short_summary": "Executes a block of virtual machine bytecode instructions within a given context, managing operand stacks, local variables, flow control, and dispatching built-in opcode handlers.",
+  "detailed_summary": "The function processes bytecode sequences from a virtual machine state structure (in ESI). It validates the starting bytecode index and recursion/execution limits before entering a main processing loop. Inside the loop, it fetches opcode bytes, uses a lookup table (indexed via byte_40A060 and a jump table) to route execution to specific handling routines or inline logic. These operations include pushing/popping operands (`VM_PushValue`, `VM_PopOperand`), performing binary math (`ExecuteBinaryOp`), comparing values (`CompareVariantValues`), checking operand truth states, and dispatching to a large vtable of specialized opcode handlers (slots 0 through 29). It also supports recursive calls to itself for nested execution blocks, maintains tracking counters, and handles error states by setting failure flags in the VM context.",
+  "parameters": [
+    {
+      "name": "vm_context",
+      "location": "ecx",
+      "type": "void *",
+      "description": "Pointer to the virtual machine state/context structure (this pointer via __fastcall)."
+    },
+    {
+      "name": "bytecode_index",
+      "location": "[esp+124h+arg_0]",
+      "type": "int",
+      "description": "Index of the bytecode block/resource to execute."
+    },
+    {
+      "name": "base_offset",
+      "location": "[esp+124h+arg_4]",
+      "type": "int",
+      "description": "Base offset or frame parameter used for indexing local variables and stack allocations."
+    }
+  ],
+  "return_value": "Returns 0 or positive on success, or -1 (0xFFFFFFFF) on error/failure in EAX.",
+  "side_effects": [
+    "Modifies the virtual machine's stack and state tracking structures (at offsets +998h, +99Ch, +0A64h, +0A68h, etc.).",
+    "Pushes and pops values on the VM operand stack.",
+    "Invokes various opcode handlers and recursively calls itself."
+  ],
+  "data_structures": [
+    "VMContext: +0x8 bytecode buffer pointer, +0xC bytecode size limit, +0x90 max index limit, +0x998 stack count, +0x99C recursion/block depth, +0xA64 instruction counter, +0xA68 error flag."
+  ],
+  "confidence": "high | complete identification of VM interpreter loop, opcode dispatch table, and stack operations."
+}

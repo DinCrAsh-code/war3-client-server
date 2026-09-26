@@ -1,0 +1,46 @@
+{
+  "suggested_name": "UpdateResourceGridFlags",
+  "prototype": "void __fastcall UpdateResourceGridFlags(void *resourceBlock, int unused_edx, int param_ecx, int param_eax, int param_esi, char flag_bl)",
+  "short_summary": "Iterates over a 2D coordinate range (grid/map sub-structure) to set or clear specific flag bits within a data table.",
+  "detailed_summary": "The function takes coordinate and range parameters via registers (eax, ecx, esi) and a pointer via stack (arg_0), along with a boolean flag in bl. It centers/adjusts the coordinate spans, computes a base pointer offset into a large grid/array structure at `arg_0 + 0xB704`, and loops over a 2D region bounded by the calculated dimensions. For each grid cell within bounds (0 to 0x60), it checks bounds and either sets bits (`0x13`) or clears bits (`0xEC`) depending on `bl`. Finally, it increments a counter at `arg_0 + 0xE748` before returning.",
+  "parameters": [
+    {
+      "name": "resourceBlock",
+      "location": "arg_0 [esp+0Ch]",
+      "type": "void*",
+      "description": "Main resource/grid block pointer containing data arrays and counters."
+    },
+    {
+      "name": "param_eax",
+      "location": "eax",
+      "type": "int",
+      "description": "Width or X coordinate parameter used for centering and span calculation."
+    },
+    {
+      "name": "param_ecx",
+      "location": "ecx",
+      "type": "int",
+      "description": "Height or Y coordinate parameter used for centering and row iteration."
+    },
+    {
+      "name": "param_esi",
+      "location": "esi (arg_4)",
+      "type": "int",
+      "description": "Additional coordinate or size parameter."
+    },
+    {
+      "name": "flag_bl",
+      "location": "bl",
+      "type": "char",
+      "description": "Boolean flag determining whether to set or clear bits in the grid table."
+    }
+  ],
+  "return_value": "none",
+  "side_effects": [
+    "Modifies bytes in a grid table located at resourceBlock + 0xB704 based on coordinate ranges and bl flag",
+    "Increments a 32-bit counter at resourceBlock + 0xE748"
+  ],
+  "data_structures": [
+  ],
+  "confidence": "high, clear register-based 2D iteration and bit-manipulation loop with well-defined structural offsets."
+}

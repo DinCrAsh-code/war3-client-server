@@ -1,0 +1,7 @@
+{
+  "function_role": "A virtual opcode handler (slot 24 of a bytecode interpreter vtable) that extracts and converts a numeric or indexed operand value based on a type tag into a destination structure.",
+  "callsite_summaries": {
+    "0x0041A160": "Called to convert a floating-point value (loaded via fld when the operand type tag equals 2) into an integer representation."
+  },
+  "fallbacks": []
+}

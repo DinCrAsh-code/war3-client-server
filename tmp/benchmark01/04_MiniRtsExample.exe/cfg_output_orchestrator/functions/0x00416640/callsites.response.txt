@@ -1,0 +1,41 @@
+{
+  "function_role": "Performs batch or iterative processing on resource/state data structures using floating-point calculations, coordinate transformations, random number updates, and lookup/validation checks.",
+  "callsites": [
+    {
+      "callee": "0x00415220",
+      "callsite_summary": "Called once at the beginning of the function (with `esi` as `eax`) to initialize or reset a sub-component or state associated with the main resource structure."
+    },
+    {
+      "callee": "0x004152B0",
+      "callsite_summary": "Called multiple times in different loops (using `ebx = esi` and various `eax` buffer or field pointers, e.g., from `arg_4` or offset `0xE6C0`) to process or update individual elements or vector entries."
+    },
+    {
+      "callee": "0x004153F0",
+      "callsite_summary": "Called inside a loop over element counts (`ebp`), passing index/buffer pointers in `ecx` and data pointers in `eax`, to compute or transform pair-wise elements."
+    },
+    {
+      "callee": "0x00415D40",
+      "callsite_summary": "Called after processing item loops, passing `ebp` in `eax`, `arg_0` and `arg_4` as arguments, to perform a batch operation or finalize a processed set of items."
+    },
+    {
+      "callee": "0x004156B0",
+      "callsite_summary": "Called with `esi` as `eax` after processing arrays/buffers to perform a synchronization, commit, or state transition step."
+    },
+    {
+      "callee": "0x00415770",
+      "callsite_summary": "Called immediately after sub_4156B0 with `esi` in `edi` to clean up or reset auxiliary structures."
+    },
+    {
+      "callee": "0x004159E0",
+      "callsite_summary": "Called in a loop/processing block, passing `esi` in `ebx`, `arg_0`, a local stack buffer (`var_40`), and a count in `ecx`, to feed back or register processed local items into the main structure."
+    },
+    {
+      "callee": "0x0041A160",
+      "callsite_summary": "Called twice to convert floating-point values computed on the x87 FPU stack into integer indices (returned in `eax`), which are then bounds-checked and clamped."
+    },
+    {
+      "callee": "0x00414E40",
+      "callsite_summary": "Called inside an iterative loop over resource parameters, passing `esi`, clamped integer coordinate arguments, and a constant (0Ah) to validate or query grid/table data, using the boolean return value (`al`) to conditionally update values in a structure (`ebx`)."
+    }
+  ]
+}

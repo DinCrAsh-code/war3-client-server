@@ -1,0 +1,13 @@
+{
+  "function_role": "Performs bounds checking on an index (loaded from [eax+238h] against [ecx+1B0h]) and verifies a flag at [ecx + index*36 + 0Bh], then either exits or conditionally invokes a sub-handler via sub_4029F0 or tail-jumps to sub_4080A0 with an element pointer (esi) and another context (edi).",
+  "callsites": [
+    {
+      "callee": "0x004029F0",
+      "callsite_summary": "Called conditionally when the indexed element's flag at [ecx+edx*4+0Bh] is non-zero. It receives a context pointer from [esi+20h] (where esi is the computed base of the indexed record) in ecx, and its boolean return value in eax determines whether the function continues to a tail call or exits early."
+    },
+    {
+      "callee": "0x004080A0",
+      "callsite_summary": "Jumped to via a tail call (jmp) when either the flag check at [ecx+edx*4+0Bh] is zero or the preceding call to sub_4029F0 returns a non-zero value. It receives the record pointer esi in eax and the context pointer edi in ecx to perform downstream processing."
+    }
+  ]
+}

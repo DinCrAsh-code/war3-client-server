@@ -1,0 +1,9 @@
+{
+  "function_role": "A virtual method (slot 29) of a script/bytecode interpreter object that processes a runtime argument, converting a floating-point value to an integer if necessary and storing the result into a global state structure along with a flag.",
+  "callsites": [
+    {
+      "callee": "0x0041A160",
+      "callsite_summary": "Called after loading a floating-point value onto the x87 FPU stack (via fld) when the inspected operand type is 2, converting the top-of-stack floating-point number into a 32-bit integer returned in EAX."
+    }
+  ]
+}

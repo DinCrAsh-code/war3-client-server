@@ -1,0 +1,32 @@
+{
+  "parsed_ok": true,
+  "suggested_name": "UnlinkListItem",
+  "prototype": "void __fastcall UnlinkListItem(void *item, void *listBase)",
+  "short_summary": "Unlinks a node from a doubly-linked list structure or index array by updating adjacent node pointers and clearing its fields.",
+  "detailed_summary": "The function checks if the item's list index/state at offset +248h is non-negative. If it is negative, it immediately returns. Otherwise, it checks the previous pointer at offset +244h. If the previous pointer is non-zero, it updates that previous node's next pointer (+240h) to point to the current item's next pointer; otherwise, it updates an array base pointed to by edi using the index stored at +248h. Next, if the item's next pointer (+240h) is non-zero, it updates that next node's previous pointer (+244h) to point to the current item's previous pointer. Finally, it resets the item's next (+240h), previous (+244h), and index (+248h) fields to zero and negative one respectively.",
+  "parameters": [
+    {
+      "name": "item",
+      "location": "eax",
+      "type": "void*",
+      "data_type": "struct ListItem*",
+      "description": "Pointer to the list item/node being unlinked."
+    },
+    {
+      "name": "listBase",
+      "location": "edi",
+      "type": "void*",
+      "data_type": "void*",
+      "description": "Base pointer used when unlinking head elements referenced via index."
+    }
+  ],
+  "return_value": "none",
+  "side_effects": [
+    "modifies adjacent nodes in a doubly-linked list",
+    "clears internal pointers and index fields within the provided item structure at offsets +240h, +244h, and +248h"
+  ],
+  "data_structures": [
+    "ListItem: +0x240h next pointer, +0x244h prev pointer, +0x248h index or list state"
+  ],
+  "confidence": "high | standard doubly-linked list node removal routine with array/head integration"
+}

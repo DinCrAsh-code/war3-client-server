@@ -1,0 +1,41 @@
+{
+  "parsed_ok": true,
+  "suggested_name": "ExecuteOpcode19",
+  "prototype": "__thiscall void ExecuteOpcode19(void *this, int *arg1, int arg2, int *outStatus)",
+  "short_summary": "Implements a bytecode virtual machine instruction handler (vtable slot 19) that checks type and value flags against a global constraint table.",
+  "detailed_summary": "The function receives a pointer to a value/operand structure (arg1). It checks if its type byte is 2; if so, it loads a floating-point value from the structure and converts it to an integer using __ftol2_sse; otherwise, it fetches an integer value from offset +4 of the structure. It then performs a bounds and bitfield check against a global data table (dword_42AC60) scaled by the integer value, using a bitmask of 4. Finally, it stores a result flag derived from this check into the output status pointer (arg_C).",
+  "parameters": [
+    {
+      "name": "this",
+      "location": "ecx",
+      "type": "void*",
+      "description": "The VM / interpreter instance pointer (__thiscall convention)"
+    },
+    {
+      "name": "operand",
+      "location": "[esp+4]",
+      "type": "int*",
+      "description": "Pointer to an operand structure containing a type byte and value"
+    },
+    {
+      "name": "count",
+      "location": "[esp+8]",
+      "type": "int",
+      "description": "Unused or auxiliary count argument"
+    },
+    {
+      "name": "outStatus",
+      "location": "[esp+12]",
+      "type": "int*",
+      "description": "Pointer to output buffer receiving status values (writes 4 to [ecx] and a boolean flag to [ecx+4])"
+    }
+  ],
+  "return_value": "none",
+  "side_effects": [
+    "Writes computed status values into the output structure pointed to by arg_C"
+  ],
+  "data_structures": [
+    "Operand structure: +0x0 type byte, +0x4 integer value (or float at +0x0)"
+  ],
+  "confidence": "high | standard vtable override pattern with clear operand parsing and table lookup"
+}

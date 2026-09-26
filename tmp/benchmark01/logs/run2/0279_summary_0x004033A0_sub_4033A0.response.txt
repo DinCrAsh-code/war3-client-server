@@ -1,0 +1,23 @@
+{
+  "suggested_name": "CheckSimulationBoundsOrState",
+  "prototype": "void __fastcall CheckSimulationBoundsOrState(void *resourcePtr)",
+  "short_summary": "Evaluates floating-point conditions and bounds, and conditionally sets flags on an array of sub-objects stored within a large resource structure.",
+  "detailed_summary": "The function performs a series of x87 floating-point comparisons and arithmetic operations against constants located in the .rdata section. It evaluates comparative states (similar to checking ranges or wrapping conditions) and sets a boolean condition in cl based on CPU status flags derived from fnstsw/test instructions. It then compares another set of floating-point values to determine an integer result in eax. If the boolean condition in cl does not match eax, and an integer count at offset +0x57390 of the resource structure provided in edx is greater than zero, it enters a loop. This loop iterates from 0 up to that count, fetches pointers from an array at offset +0x5738Ch, and sets a specific flag bit (0x400) at offset +0x18 of each targeted sub-object.",
+  "parameters": [
+    {
+      "name": "resourcePtr",
+      "location": "edx",
+      "type": "void *",
+      "description": "Base pointer to the resource structure containing state data and a sub-object array."
+    }
+  ],
+  "return_value": "none",
+  "side_effects": [
+    "Modifies flags (sets bit 0x400 at offset +0x18) on objects within an array inside the resource structure if specific floating-point conditions are met."
+  ],
+  "data_structures": [
+    "Resource structure: +0x5738C pointer to an array of sub-object pointers, +0x57390 integer count of sub-objects.",
+    "Sub-object structure: +0x18 flags or status word where bit 0x400 is set."
+  ],
+  "confidence": "high, based on clear x87 floating-point instruction blocks, branch analysis, and array-loop structure over known offsets in edx."
+}

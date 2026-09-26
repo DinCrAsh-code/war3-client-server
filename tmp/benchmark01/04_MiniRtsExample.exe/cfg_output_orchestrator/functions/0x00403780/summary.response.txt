@@ -1,0 +1,26 @@
+{
+  "suggested_name": "RemoveAndFreeResourceObject",
+  "prototype": "void __fastcall RemoveAndFreeResourceObject(void *simStruct)",
+  "short_summary": "Unlinks an item from a primary simulation collection (at offset +43D7Ch), handles internal resource pool/handle state updates, removes it from a secondary tracked array (at offset +5738Ch), and invokes its virtual destructor/free method.",
+  "detailed_summary": "The function receives a simulation structure pointer in ecx and first unlinks an element using sub_417620 [UnlinkListItem] with the list base at `[esi+43D7Ch]`. The returned item pointer (in eax) contains handle or index information in its second dword (+4): the lower 16 bits specify a slot index which, if valid and within bounds of the resource pool table (`[esi+51E84h]` / `[esi+51E80h]`), is validated against a sequence/generation tag in the upper 16 bits. If it matches, the pool entry is reset, its generation counter is incremented, and free-list tracking pointers (`[esi+51E88h]`, `[esi+51E8Ch]`) are updated. Next, the function searches for the item pointer within a secondary array at `[esi+5738Ch]` of size `[esi+57390h]`. If found, it removes the item from this array by shifting subsequent elements down and decrementing the count. Finally, it invokes the virtual cleanup/destructor method via the object's virtual table (`[[eax]](1)`), passing 1 to indicate complete deletion/freeing.",
+  "parameters": [
+    {
+      "name": "simStruct",
+      "location": "ecx",
+      "type": "void*",
+      "description": "Pointer to the main simulation/state structure"
+    }
+  ],
+  "return_value": "none",
+  "side_effects": [
+    "Unlinks an item from the primary list at simStruct + 43D7Ch",
+    "Updates resource pool allocation state and free list indices at simStruct + 51E80h",
+    "Removes an item entry from the secondary array at simStruct + 5738Ch",
+    "Invokes the virtual destructor/free method on the target object (eax)"
+  ],
+  "data_structures": [
+    "Simulation Structure: +43D7Ch primary list base, +51E80h resource pool table, +51E84h pool size, +51E88h free list head/index, +51E8Ch free count, +5738Ch secondary item array, +57390h secondary array count",
+    "Resource/Object node: +0x0 function/data pointer, +0x4 packed handle/index (lower 16 bits = slot index, upper 16 bits = generation tag)"
+  ],
+  "confidence": "high, clear control flow, standard resource tracking pool management, and virtual destructor invocation pattern."
+}

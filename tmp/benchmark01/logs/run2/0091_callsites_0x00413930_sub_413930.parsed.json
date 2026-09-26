@@ -1,0 +1,7 @@
+{
+  "function_role": "Finalizes or cleans up an entity referenced via `esi`, checking certain flags/type fields (`[esi+1Ch]` and `[esi+24h]`), conditionally invoking a helper sub-object lookup function (`sub_4029F0`), decrementing a counter/index at offset `+2C4h` of the returned object if its internal flags permit, and finally clearing a state byte at `[esi+1Ch]` before returning.",
+  "callsite_summaries": {
+    "0x004029F0": "Called after verifying that the main entity `esi` has a valid non-zero pointer at offset `+24h` and its type byte at `+1Ch` is none of {0, 4, 5}. The return value (an object pointer in `eax`) is checked for null, and if valid, its internal fields at `+1Ch` and `+2C4h` are inspected to potentially decrement the integer counter at `+2C4h`."
+  },
+  "fallbacks": []
+}

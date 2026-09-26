@@ -1,0 +1,19 @@
+{
+  "parsed_ok": true,
+  "suggested_name": "ComputeDistanceFieldOrGridCollision",
+  "prototype": "float __stdcall ComputeDistanceFieldOrGridCollision(void *grid_data)",
+  "short_summary": "Iterates through a multi-dimensional grid structure (up to 9417 elements in nested loops) performing geometric distance calculations and collision/intersection checks using x87 floating-point math and square roots.",
+  "detailed_summary": "The function performs a nested loop traversal over a large grid or spatial structure. The outer loop runs up to 24C1h (9413) in steps of 61h (97), and the inner loop runs 61h (97) times, yielding a total of ~9417 iterations. Inside the loops, it manages coordinate indexing, calls `CalculateGridPointerOrMetric` to retrieve grid/metric values based on position, compares values against floating-point thresholds stored in `.rdata`, performs vector/geometric computations (dot products, coordinate differences), and computes square roots using `_CIsqrt` to find minimum distances, ray intersections, or grid collision penalties.",
+  "parameters": [
+    {
+      "name": "grid_data",
+      "location": "eax",
+      "type": "void *",
+      "description": "Pointer to resource/state data structure or grid buffer passed in eax"
+    }
+  ],
+  "return_value": "st(0) (floating-point result or metric)",
+  "side_effects": [],
+  "data_structures": [],
+  "confidence": "medium, based on loop structure sizing (97 * 97 nested iterations) and heavy usage of x87 floating-point geometry/distance calculations"
+}

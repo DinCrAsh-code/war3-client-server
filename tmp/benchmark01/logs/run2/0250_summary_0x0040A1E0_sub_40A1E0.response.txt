@@ -1,0 +1,28 @@
+{
+  "suggested_name": "DispatchEntityEvent",
+  "prototype": "void __cdecl DispatchEntityEvent(void *context, int index)",
+  "short_summary": "Checks if an index is within bounds and an element flag is active, then extracts a byte identifier from the element and dispatches it to sub_40A0D0.",
+  "detailed_summary": "The function takes a context pointer and an integer index. It first verifies whether the index is strictly less than the capacity limit stored at offset +0xA60 of the context structure. If out of bounds, it returns immediately. If valid, it calculates a table offset using scaled index arithmetic (`index * 12`), checks a flag byte located at context + index*12 + 0x9A2, and returns if this flag is zero. Otherwise, it extracts a byte value from offset +1 of the record (context + index*12 + 0x9A0 + 1), preserves `ebx`, and invokes `sub_40A0D0` passing the extracted byte.",
+  "parameters": [
+    {
+      "name": "context",
+      "location": "[esp+arg_0]",
+      "type": "void*",
+      "description": "Pointer to the main execution context or manager structure."
+    },
+    {
+      "name": "index",
+      "location": "[esp+arg_4]",
+      "type": "int",
+      "description": "Index of the entry/element to process."
+    }
+  ],
+  "return_value": "none",
+  "side_effects": [
+    "Calls sub_40A0D0 conditionally based on element flags and index bounds."
+  ],
+  "data_structures": [
+    "Context/Manager: +0xA60 int capacity, +0x9A0 start of element records (each record is 12 bytes: +0x0/2 flags/data, +1 byte value passed to sub_40A0D0)."
+  ],
+  "confidence": "high, clean assembly logic with clear bounds checking, indexing, and callback dispatch."
+}

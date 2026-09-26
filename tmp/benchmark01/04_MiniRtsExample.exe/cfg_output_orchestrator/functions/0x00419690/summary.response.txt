@@ -1,0 +1,23 @@
+{
+  "suggested_name": "HeapSiftDown",
+  "prototype": "void __cdecl HeapSiftDown(void *heapStructure)",
+  "short_summary": "Performs a binary heap sift-down (or heapify-down) operation on a collection passed in edi, restoring the heap property by moving elements down.",
+  "detailed_summary": "The function implements standard binary heap sift-down logic (often associated with priority queues or binary heaps). It takes a heap structure container passed via the edi register (where `[edi]` points to the underlying array of elements and `[edi+4]` represents the current count/size of the heap). It iteratively compares a parent node with its left and right children, determines the appropriate child based on comparison metrics (utilizing floating-point comparisons and secondary integer ID/priority ties at offset +0x14), swaps the parent with the selected child element (each element being 24 bytes, or 0x18 bytes wide, indexed via `lea` with scaling), and continues downward until the heap property is satisfied.",
+  "parameters": [
+    {
+      "name": "heapStructure",
+      "location": "edi",
+      "type": "struct Heap *",
+      "description": "Pointer to the heap container object, containing the data array pointer at offset +0 and size at offset +4."
+    }
+  ],
+  "return_value": "none",
+  "side_effects": [
+    "Modifies the element array within the heap structure in-place by reordering elements to restore the heap property."
+  ],
+  "data_structures": [
+    "Heap: +0x0 void* dataArray, +0x4 int count",
+    "HeapElement: 24 bytes (0x18) in size, with key/value data and a secondary tie-breaker or priority field at offset +0x14."
+  ],
+  "confidence": "high | Binary heap sift-down pattern, index calculations ($2i+1$, $2i+2$), and in-place element swapping of fixed-size records are textbook characteristics of a heap adjustment routine."
+}

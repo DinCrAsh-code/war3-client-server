@@ -1,0 +1,20 @@
+{
+  "suggested_name": "__security_check_cookie",
+  "prototype": "void __fastcall __security_check_cookie(uintptr_t stack_cookie)",
+  "short_summary": "Validates that the stack canary value passed in ecx matches the global security cookie, jumping to the GS failure handler if a mismatch is detected.",
+  "detailed_summary": "The function compares the 32-bit value in ecx against the global security cookie located at 0x0041F000. If the values are equal, the function immediately returns, allowing normal execution to proceed. If the values differ (indicating a stack buffer overflow or corruption), it performs a tail call to ___report_gsfailure to terminate the process.",
+  "parameters": [
+    {
+      "name": "stack_cookie",
+      "location": "ecx",
+      "type": "uintptr_t",
+      "description": "The local stack cookie value retrieved from the stack frame before function epilog."
+    }
+  ],
+  "return_value": "none",
+  "side_effects": [
+    "terminates the process via ___report_gsfailure if stack corruption is detected"
+  ],
+  "data_structures": [],
+  "confidence": "high | standard MSVC implementation of __security_check_cookie with a fastcall convention"
+}

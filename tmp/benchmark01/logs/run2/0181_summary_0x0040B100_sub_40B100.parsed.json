@@ -1,0 +1,36 @@
+{
+  "parsed_ok": true,
+  "suggested_name": "RtsObject_InitializeBase",
+  "prototype": "void* __stdcall RtsObject_InitializeBase(void *obj, int type_index, int flags)",
+  "short_summary": "Initializes a newly allocated resource or sub-element structure by setting up its virtual table, clearing its state fields, and iterating through a lookup table to create and register associated component sub-objects via the component factory.",
+  "detailed_summary": "The function begins by setting up a structured exception handling (SEH) frame and initializing the target object pointer passed in `ebx`. It sets the object's virtual table pointer to `off_41D348`, clears various fields and flags (such as zeroes and default states), and stores input parameters (`type_index` and `flags`) into specific structure offsets. It then checks if `type_index` exceeds 0x30, using a lookup table (`0x0041B178`) to retrieve property words and configuration data. Next, it enters a loop running up to 4 iterations (`ebp` from 0 to 3) that reads configuration bytes from the selected lookup table entry; if a valid component type is specified (not `0xFF`) and the internal count is below 5, it calls `RtsComponentFactory_Create` to instantiate a sub-component, stores the resulting pointer in an array field (`+0x210` onwards), increments the count, and invokes the sub-component's virtual initialize method (`[edx+4]`). Finally, it restores the previous stack frame and exception handler, returning the initialized object pointer.",
+  "parameters": [
+    {
+      "name": "obj",
+      "location": "[esp+28h+arg_0] (passed in ebx)",
+      "type": "void*",
+      "description": "Pointer to the newly allocated object structure being initialized."
+    },
+    {
+      "name": "type_index",
+      "location": "[esp+28h+arg_4]",
+      "type": "int",
+      "description": "Index or identifier used to look up configuration and sub-component requirements."
+    },
+    {
+      "name": "flags",
+      "location": "[esp+28h+arg_8] (loaded into al)",
+      "type": "int",
+      "description": "Configuration flags or attributes stored into the object structure."
+    }
+  ],
+  "return_value": "The initialized object pointer (in eax, equal to `obj`).",
+  "side_effects": [
+    "Modifies the memory block pointed to by `obj`, populating its virtual table pointer, clearing fields, and setting configuration bytes.",
+    "Allocates and initializes up to 4 sub-component objects by calling `RtsComponentFactory_Create`."
+  ],
+  "data_structures": [
+    "Object structure: +0x0 vtable (`off_41D348`), +0x8 / +0xC data fields, +0x18 / +0x1A / +0x1B state flags and bytes, +0x1C lookup table pointer, +0x5C type index byte, +0x5E component count, +0x210 array of sub-component pointers (up to 4 entries)."
+  ],
+  "confidence": "high | complete disassembly and caller context provide precise structural understanding."
+}

@@ -1,0 +1,20 @@
+{
+  "suggested_name": "LookupResourceProperty",
+  "prototype": "float __stdcall LookupResourceProperty(int arg_0)",
+  "short_summary": "Searches a static configuration table in read-only data against properties of a given resource structure to compute or retrieve a floating-point resource parameter.",
+  "detailed_summary": "The function inspects bytes at offsets +2 and +3Bh of a structure pointer passed via register esi (implicitly or through context). It loops through a static table located in .rdata starting at 0x0041CB18 (with entries spaced by 16 bytes up to 0x0041CB98), comparing table entries against the extracted byte values to find a matching configuration record. If a match is found and additional conditions on offset +3Bh are met, it indexes into a secondary table based on an input argument, extracts a value, converts it to floating-point, performs arithmetic operations on the x87 floating-point stack (fild, fadd st, st, fld), and returns a floating-point result via st(0). Otherwise, it falls back to a default zero-initialized floating-point calculation path.",
+  "parameters": [
+    {
+      "name": "arg_0",
+      "location": "[esp+4]",
+      "type": "int",
+      "description": "An index or configuration value used to access secondary lookup tables when a match is found."
+    }
+  ],
+  "return_value": "st(0) (floating-point value)",
+  "side_effects": [],
+  "data_structures": [
+    "ResourceBlock: +0x2 byte flag/type, +0x3Bh byte status/type"
+  ],
+  "confidence": "medium | Based on structural table-walking and x87 floating-point conversion/arithmetic typical of configuration sizing helpers."
+}

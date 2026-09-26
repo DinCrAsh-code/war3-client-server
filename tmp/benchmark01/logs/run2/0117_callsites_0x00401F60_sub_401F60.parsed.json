@@ -1,0 +1,7 @@
+{
+  "function_role": "Iterates over a collection of entries in a large resource/state block based on a count at offset 0x5BBBC, performing floating-point calculations and invoking a subsystem function multiple times to initialize records or configure specific parameters.",
+  "callsite_summaries": {
+    "0x00404150": "Called multiple times during initialization: once inside a loop over the resource block entries (using a counter-dependent configuration with floating-point math, pushing an address, a loop index, and a bitfield derived from arg_4), and twice afterward with specific constant parameters (e.g., pushing integers like 2, 4, 5 and local/data pointers while setting up configuration types in registers `dl` and `ebx`)."
+  },
+  "fallbacks": []
+}

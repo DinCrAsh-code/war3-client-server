@@ -1,0 +1,26 @@
+{
+  "suggested_name": "FindNearestValidEntityInRange",
+  "prototype": "void* __stdcall FindNearestValidEntityInRange(float x, float y, float max_distance)",
+  "short_summary": "Iterates through a global list of entities/objects, filtering out inactive, dead, or invalid items and finding one that satisfies specific state flags and lies within a given distance threshold.",
+  "detailed_summary": "The function accesses a global manager/array structure located via `dword_42AC60`, reading a pointer list and count (`+0x573A4` and `+0x573A8`). It unrolls an inner loop processing entities 4 at a time, followed by a cleanup loop for any remaining items. For each entity pointer encountered, it checks status flags at offset `+0x18` (verifying bit 0 is cleared/active, bit 1 is not set) and ensures a state/pointer at offset `+0x20` is zero. It computes a distance squared metric using floating-point operations against input coordinates, comparing it to a threshold limit, and returns the pointer to the first matching entity or `NULL` if none qualify.",
+  "parameters": [
+    {
+      "name": "x",
+      "location": "st(0) / stack (arg_0)",
+      "type": "float",
+      "description": "X coordinate for distance checking"
+    },
+    {
+      "name": "y",
+      "location": "stack (arg_4)",
+      "type": "float",
+      "description": "Y coordinate for distance checking"
+    }
+  ],
+  "return_value": "Pointer to the matching entity object (in eax), or NULL (0) if none found.",
+  "side_effects": [],
+  "data_structures": [
+    "Entity object: +0x18 flags byte (bit 0: active/enabled, bit 1: filtered/dead), +0x20 target/state pointer"
+  ],
+  "confidence": "high, clear iteration pattern over entity lists with coordinate distance checks and bitwise flag filtering."
+}

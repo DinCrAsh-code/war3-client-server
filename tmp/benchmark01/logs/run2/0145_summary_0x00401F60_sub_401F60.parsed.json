@@ -1,0 +1,29 @@
+{
+  "parsed_ok": true,
+  "suggested_name": "InitializeSubsystemRecords",
+  "prototype": "void __stdcall InitializeSubsystemRecords(void *resourceBlock, unsigned int stateFlags)",
+  "short_summary": "Initializes an array of structured configuration records within a large resource block using a loop, followed by setting up two additional specific subsystem records.",
+  "detailed_summary": "The function checks a count field at offset +0x5BBBC in the provided resource block. If greater than zero, it enters a loop that iterates that many times. On each iteration, it performs floating-point arithmetic combining constants and bit-extracted flags from the second argument, stores temporary values locally, sets header fields (such as writing 0x1F4h at offset -4 and 0x96h at offset 0 relative to the record base), and calls sub_404150 [InitializeRecord]. After the loop completes, it performs two additional calls to sub_404150 [InitializeRecord] with specific fixed parameters and computed floating-point configurations.",
+  "parameters": [
+    {
+      "name": "resourceBlock",
+      "location": "[esp+1Ch+arg_0]",
+      "type": "void *",
+      "description": "Pointer to the large resource/state block structure being initialized."
+    },
+    {
+      "name": "stateFlags",
+      "location": "[esp+1Ch+arg_4]",
+      "type": "unsigned int",
+      "description": "State flags or configuration bitmask used inside the loop to compute per-record parameters."
+    }
+  ],
+  "return_value": "none",
+  "side_effects": [
+    "Modifies fields within the resourceBlock structure including array elements and configuration records at offsets +0x420 and +0x528."
+  ],
+  "data_structures": [
+    "ResourceBlock: +0x5BBBC int recordCount, array of records starting after an offset, +0x420 secondary record, +0x528 tertiary record"
+  ],
+  "confidence": "high, clear control flow patterns, consistent use of known callee sub_404150, and well-understood x86 math/loop structures."
+}

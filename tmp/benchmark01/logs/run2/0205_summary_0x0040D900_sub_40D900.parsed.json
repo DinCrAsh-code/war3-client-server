@@ -1,0 +1,35 @@
+{
+  "parsed_ok": true,
+  "suggested_name": "ResolveEntityInteractionType",
+  "prototype": "void* __fastcall ResolveEntityInteractionType(void *entityA, void *edi_buffer, void *entityB)",
+  "short_summary": "Determines the interaction type code between two entities and populates a result buffer starting with the computed code.",
+  "detailed_summary": "The function copies a 16-byte header from the primary entity (passed in eax) into the destination buffer (edi), then attempts to resolve a secondary entity reference using global manager tables if certain flags are set. Depending on the resolved secondary entity's attributes (type codes, state flags, faction/team bytes) and the caller-provided entity (ebx/arg_0), it evaluates various rule sets—including calling ValidateEntityPairCompatibility—to classify the interaction, writing an integer interaction/status code (e.g., 3, 4, 8, 9, or a dynamically computed code) into the first byte of the destination buffer before returning it in eax.",
+  "parameters": [
+    {
+      "name": "entityA",
+      "location": "eax",
+      "type": "void*",
+      "description": "Primary entity pointer whose attributes are initially copied."
+    },
+    {
+      "name": "buffer",
+      "location": "edi",
+      "type": "void*",
+      "description": "Destination buffer where the output state/interaction structure is written."
+    },
+    {
+      "name": "entityB",
+      "location": "stack arg_0 ([esp+8])",
+      "type": "void*",
+      "description": "Secondary entity pointer evaluated during compatibility and rule checks."
+    }
+  ],
+  "return_value": "Returns the destination buffer pointer (edi) in eax.",
+  "side_effects": [
+    "Writes up to 16 bytes (or more based on interaction type) to the destination buffer pointed to by edi."
+  ],
+  "data_structures": [
+    "Entity: +0x00 dword ID/data, +0x04 dword flags/type, +0x08 dword, +0x0C dword, +0x1B byte faction/type, +0x1C dword flags/pointer"
+  ],
+  "confidence": "high, clear control flow paths mapping out entity relationship rules and interaction state classification."
+}

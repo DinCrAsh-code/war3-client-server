@@ -1,0 +1,12 @@
+{
+  "function_role": "Executes a processing/execution phase on the resource block passed in from _main, checking status flags, processing internal sub-buffers or resource components, and computing a validation or checksum value based on block fields.",
+  "callsite_summaries": {
+    "0x00403D30": "Called inside a loop while a status flag ([ebx+5BBD0h]) is zero and a counter ([ebx+5BBC0h]) is less than 0x8CA0, passing the resource block pointer in ebx to process or update resource units.",
+    "0x00403C60": "Called conditionally if the status flag ([ebx+5BBD0h]) remains zero after the primary processing loop, passing the resource block pointer in ebx for finalization or cleanup.",
+    "0x00409170": "Called with a pointer to a sub-structure within the resource block (ebx + 0x54740) passed in ecx to initialize or service that sub-component.",
+    "0x00418A60": "Called with values extracted from the resource block's sub-structure in esi and edi to perform a core operation or calculation, returning a result in eax.",
+    "0x00409280": "Called with the resource block pointer in ebx and the return value of sub_418A60 passed in esi, performing a subsequent operation on the resource block and returning a byte status in al.",
+    "0x00403940": "Called with the base resource block pointer in eax (copied from edi) to perform an auxiliary routine on the resource data."
+  },
+  "fallbacks": []
+}

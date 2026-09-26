@@ -1,0 +1,23 @@
+{
+  "parsed_ok": true,
+  "suggested_name": "__SEH_prolog4",
+  "prototype": "void __cdecl __SEH_prolog4(void)",
+  "short_summary": "Sets up a standard Microsoft Visual C++ Structured Exception Handling (SEH) stack frame with security cookie checks and variable local frame allocation.",
+  "detailed_summary": "The function begins by pushing the address of `__except_handler4` and chaining the new SEH record onto the thread's exception handler list via `fs:0`. It then adjusts `ebp` and allocates space on the stack based on a size argument passed by the caller. It incorporates security cookie protection by XORing the frame with `___security_cookie`, establishes the exception registration record fields, and saves the non-volatile registers `ebx`, `esi`, and `edi` before returning to the caller.",
+  "parameters": [
+    {
+      "name": "frame_size",
+      "location": "[esp+8]",
+      "type": "unsigned int",
+      "description": "Size of the local stack frame to allocate"
+    }
+  ],
+  "return_value": "none",
+  "side_effects": [
+    "updates the thread's exception handler chain at fs:0",
+    "modifies esp and ebp",
+    "pushes ebx, esi, and edi onto the stack"
+  ],
+  "data_structures": [],
+  "confidence": "high, standard MSVC runtime library function (__SEH_prolog4)"
+}

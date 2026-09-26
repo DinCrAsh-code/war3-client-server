@@ -1,0 +1,15 @@
+{
+  "parsed_ok": true,
+  "suggested_name": "InitializeSubsystem",
+  "prototype": "void __cdecl InitializeSubsystem()",
+  "short_summary": "Initializes the custom allocation subsystem and its associated global tracking structures once upon the first allocation request.",
+  "detailed_summary": "The function first checks a global initialization flag (byte_42285C). If the flag is non-zero, it immediately returns. If the flag is zero, it zeroes out a contiguous series of global dword variables and pointers spanning from 0x0042281C to 0x00422858, and then sets the global initialization flag (byte_42285C) to 1 to ensure this setup routine only executes once.",
+  "parameters": [],
+  "return_value": "none",
+  "side_effects": [
+    "modifies global initialization flag byte_42285C",
+    "zeroes out multiple global variables and tracking pointers from 0x0042281C through 0x00422858"
+  ],
+  "data_structures": [],
+  "confidence": "high, straightforward initialization guard checking a flag and zeroing out a block of global state variables"
+}

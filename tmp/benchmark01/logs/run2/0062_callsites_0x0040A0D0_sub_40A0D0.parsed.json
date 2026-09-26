@@ -1,0 +1,7 @@
+{
+  "function_role": "Validates, indexes, and appends a batch of items or sub-buffers from the main state/resource structure (ESI) based on an index parameter (EBX), updating internal tracking counters and invoking a recursive/subsystem routine (sub_409940) to process them.",
+  "callsite_summaries": {
+    "0x00409940": "Called after gathering and staging items from the resource state structure (ESI) into internal buffers. It receives the current index (EBX) and a saved count value (on the stack), with 'this' pointer in ESI via __thiscall convention. Its return value in EAX (and internal flag checks) determines whether this function reports success (al = 1) or failure (al = 0)."
+  },
+  "fallbacks": []
+}

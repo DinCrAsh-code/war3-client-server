@@ -1,0 +1,8 @@
+{
+  "function_role": "Performs a simulation tick or update check on a collection or sub-component array stored in `esi`, validating condition flags against global thresholds and iterating through a list of elements to trigger update/processing routines if state has changed.",
+  "callsite_summaries": {
+    "0x00407FE0": "Called within a loop iterating from 0 up to `[esi+1B0h]` (where each element is stepped by 0x24 bytes) when `[edi+0Bh]` is zero, passing `eax` as the structure pointer (`edi`) and a boolean flag `ebp` (derived from global/state checks) on the stack. This is used to propagate a state update or flag to individual sub-elements when the main activation state changes.",
+    "0x004082D0": "Called in a secondary loop iterating from 0 up to `[esi+1B0h]` (stepping by 0x24 bytes via `edi`), passing a floating-point value via FPU stack / stack manipulation and `esi` as an argument. This is used to perform a secondary per-element update or calculation phase across the collection using a float parameter."
+  },
+  "fallbacks": []
+}

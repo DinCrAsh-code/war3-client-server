@@ -1,0 +1,21 @@
+{
+  "parsed_ok": true,
+  "suggested_name": "UpdateParticleBatchState",
+  "prototype": "void __fastcall UpdateParticleBatchState(void *pStateObject)",
+  "short_summary": "Performs an inner loop batch update over a multi-dimensional array of particle or entity state elements, applying floating-point math, bounds clamping, and integer conversions to populate lookup flags and byte codes.",
+  "detailed_summary": "The function processes a nested grid/array structure passed via `eax`. It executes an outer loop running 96 iterations (0x60) and an inner loop running 96 iterations per outer step (totaling 9,216 items). Within the inner loop, it loads constant floating-point values from .rdata, performs a series of arithmetic operations (`fadd`, `fmul`), and converts the result to an integer using `__ftol2_sse`. This integer value is then clamped to the inclusive range [0, 3]. Simultaneously, floating-point comparisons (`fcomp`, `fnstsw`) evaluate conditional flags (checking status word bits) to assign status bytes and control flags into destination arrays located at fixed offsets relative to the base pointers `ebx` and `edi` derived from `eax`.",
+  "parameters": [
+    {
+      "name": "pStateObject",
+      "location": "eax",
+      "type": "void *",
+      "description": "Pointer to the root state or particle system structure being updated"
+    }
+  ],
+  "return_value": "none",
+  "side_effects": [
+    "Modifies byte arrays within the structure pointed to by eax at offsets derived from ebx and edi"
+  ],
+  "data_structures": [],
+  "confidence": "high, clear loop structure with 96x96 bounds (0x60) and standard x87 math/conversion patterns"
+}

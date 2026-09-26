@@ -1,0 +1,18 @@
+{
+  "suggested_name": "ShutdownResourceBlock",
+  "prototype": "void __cdecl ShutdownResourceBlock(void)",
+  "short_summary": "Cleans up and frees the global resource block along with its linked list of allocations, then resets all related global state variables to zero.",
+  "detailed_summary": "The function checks the global pointer 'Block' (located at 0x00422858). If non-zero, it traverses a singly-linked list where each node's first dword (+0x0) points to the next node. In a loop, it passes each node pointer to the C runtime 'free' function. After freeing all nodes in the list, it sets the global 'Block' pointer and a block of fourteen subsequent global dwords (from 0x00422820 to 0x00422850) and a byte at 0x0042285C to zero.",
+  "parameters": [],
+  "return_value": "none",
+  "side_effects": [
+    "frees memory blocks via MSVCR80!free",
+    "zeroes out global pointer 'Block' (0x00422858)",
+    "zeroes out fourteen contiguous global dwords from 0x00422820 to 0x00422850",
+    "zeroes out byte at 0x0042285C"
+  ],
+  "data_structures": [
+    "ResourceBlockNode: +0x0 pointer to next ResourceBlockNode (or NULL)"
+  ],
+  "confidence": "high | standard cleanup function pattern with a linked list traversal and sequential global state reset"
+}

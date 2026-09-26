@@ -1,0 +1,7 @@
+{
+  "function_role": "Initializes a manager or sub-component structure within the resource block (at offset esi), setting configuration fields, zeroing states, and populating an array/table of 0x1000 entries (each 8 bytes wide) with default values via a loop.",
+  "callsite_summaries": {
+    "0x004185D0": "Called as part of the sub-component or manager initialization sequence right after setting initial size/capacity configuration fields (setting `eax` to 0x8000 and `dword ptr [esi+4]` to 0x1000). The return value in `eax` (0x8000) is subsequently stored into `[esi]` to serve as a base pointer or handle for the table allocation initialized in the following loop."
+  },
+  "fallbacks": []
+}

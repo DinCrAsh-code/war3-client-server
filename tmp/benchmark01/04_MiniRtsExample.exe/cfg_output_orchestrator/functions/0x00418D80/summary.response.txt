@@ -1,0 +1,24 @@
+{
+  "suggested_name": "BitStream_ReadVariableLengthValue",
+  "prototype": "unsigned int __fastcall BitStream_ReadVariableLengthValue(BitStream *stream)",
+  "short_summary": "Reads a variable-length bit-packed integer value from a bit-stream state structure passed in ebx.",
+  "detailed_summary": "The function acts as a bit-stream reader, extracting variable-length encoded integer values from a buffer pointed to by the stream structure in ebx. It manages a bit-cursor (`ebx+8`) and a bit-limit (`ebx+4`), reading bits sequentially across byte boundaries using bitwise shifts and masks. It contains a loop (running twice when `var_10` is 2) that extracts 4-bit nibbles or chunks, combining them into an accumulated value. If the most significant bit of a chunk is set, it loops to read additional bytes, shifting the accumulated result until the continuation bit clears or an overflow condition is reached (setting an error flag at `ebx+0Ch`).",
+  "parameters": [
+    {
+      "name": "stream",
+      "location": "ebx",
+      "name_hint": "BitStream*",
+      "type": "BitStream*",
+      "description": "Pointer to a bit stream state structure containing buffer pointer, bit count/limit, current bit offset, and error status."
+    }
+  ],
+  "return_value": "The decoded integer value in eax.",
+  "side_effects": [
+    "Advances the bit offset in the bit stream structure ([ebx+8]).",
+    "May set an error/overflow flag at [ebx+0Ch] if the read exceeds the bit limit."
+  ],
+  "data_structures": [
+    "BitStream: +0x0 void* buffer, +0x4 int bit_limit, +0x8 int bit_offset, +0xCh char error_flag"
+  ],
+  "confidence": "high | The bit-manipulation patterns (shr/and/shl by 3 and 7 for byte/bit indexing) and loop structure clearly implement a variable-length bit-stream reader."
+}

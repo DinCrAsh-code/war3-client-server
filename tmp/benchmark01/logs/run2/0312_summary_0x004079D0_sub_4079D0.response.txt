@@ -1,0 +1,24 @@
+{
+  "suggested_name": "CUnit::EvaluateAbilitiesAndDispatchCommands",
+  "prototype": "void __fastcall CUnit::EvaluateAbilitiesAndDispatchCommands(void *entity, void *edx_unused)",
+  "short_summary": "Iterates over a collection of sub-components or queued capabilities within an entity, validating timer thresholds, target/combat conditions, and rate limits to serialize and dispatch command packets.",
+  "detailed_summary": "The function begins by checking a count stored at [edi+3DCh]. If greater than zero, it enters a loop iterating over elements starting at offset 0x138 (`edi+138h` + index * 4). For each element, it retrieves a pointer `esi` from offset +0x298. If a flag byte at `[esi+18h]` has bit 0 set (via `not cl; test cl, 1`), it bypasses the timer check and directly calls `Entity_CheckAndSerializeCommand`, `CUnit::EvaluateCombatActionOrAcquireTarget`, and conditionally `EvaluateEntityAbilityCriteriaAndCast`. Otherwise, it enforces a cooldown/rate-limit check by comparing the global tick counter at `[0x42AC60+5BBC0h]` against a timestamp stored in the element. If enough time has passed (>= 30 ticks) and additional coordinate/state thresholds are met, it scans an internal array from `edi+3E0h` of length `[edi+4E0h]` for specific unit criteria before using `DispatchCommandPacket` to send a command and updating the last-action timestamp.",
+  "parameters": [
+    {
+      "name": "entity",
+      "location": "edi",
+      "type": "void *",
+      "description": "Pointer to the main entity / unit instance."
+    }
+  ],
+  "return_value": "none",
+  "side_effects": [
+    "Serializes and dispatches network command packets via DispatchCommandPacket or Entity_CheckAndSerializeCommand",
+    "Updates internal cooldown timestamps within entity/component arrays",
+    "Triggers ability evaluation and target acquisition routines"
+  ],
+  "data_structures": [
+    "Entity: +0x138 array of component/ability pointers, +0x3DC count of items, +0x3E0 secondary item array, +0x4E0 secondary item count, +0x5BBC0 global tick counter reference via data"
+  ],
+  "confidence": "high, clear control flow with consistent caller context and well-identified callee semantics"
+}

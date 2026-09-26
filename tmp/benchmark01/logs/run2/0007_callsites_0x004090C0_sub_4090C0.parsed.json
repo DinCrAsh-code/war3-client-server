@@ -1,0 +1,9 @@
+{
+  "function_role": "Serializes or packs incoming event/command data into a fixed-size buffer or queue in `esi` (offset 0x2000 acting as a write pointer/index) while verifying space availability and calling a helper to append or process the packet.",
+  "callsite_summaries": {
+    "0x00409170": "Called with the structure pointer in `esi` when the current write offset at `[esi+0x2000]` plus 7 exceeds 0x2000, likely to flush, resize, or reset the buffer before writing new data.",
+    "0x00408F70": "Called after copying the 7-byte constructed packet into the buffer, passing a pointer to the local source bytes, the size 7, and a destination pointer at `esi+0x2010`, likely to copy, queue, or log the data chunk to a secondary location.",
+    "0x004198F2": "Called with the stack canary value to perform standard security cookie verification before function exit."
+  },
+  "fallbacks": []
+}

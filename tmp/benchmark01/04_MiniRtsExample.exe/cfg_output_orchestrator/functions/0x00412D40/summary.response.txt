@@ -1,0 +1,35 @@
+{
+  "suggested_name": "RtsSubComponent12_Constructor",
+  "prototype": "void __fastcall RtsSubComponent12_Constructor(void *obj, void *edx_unused, int arg_ecx, int arg_stack0)",
+  "short_summary": "Initializes an object instance (case 12 sub-component) by setting up virtual method tables, storing configuration parameters, and calculating lookup properties from a static table.",
+  "detailed_summary": "The function initializes a newly allocated object structure passed in eax. It stores various parameters into member fields: the edx register is written to offset +8, the cl byte (from ecx) to offset +10h, and an argument from the stack (`[esp+4]`) to offset +11h. It sets up the virtual method table pointer at offset 0 (initially pointing to `off_41D464`, then overwritten with `off_41D66C`), clears offset +4, and initializes a floating-point zero at offset +8/12 context. It performs range clamping/masking on `ecx` using bitwise operations (`cmp ecx, 18h`, `setnl`, `sub`, `and`), multiplies it to index into a static data table (`byte_41BDC0`), extracts a bitflag from that table entry via shifting and masking, and stores the resulting byte flag at offset +12h, while setting offset +13h to zero.",
+  "parameters": [
+    {
+      "name": "obj",
+      "location": "eax",
+      "type": "void*",
+      "description": "Pointer to the newly allocated object block being initialized."
+    },
+    {
+      "name": "param_ecx",
+      "location": "ecx",
+      "type": "int",
+      "description": "Identifier or size index value used for lookup configuration."
+    },
+    {
+      "name": "param_stack",
+      "location": "[esp+4]",
+      "type": "unsigned char",
+      "description": "An additional byte parameter stored at offset +11h of the object."
+    }
+  ],
+  "return_value": "none",
+  "side_effects": [
+    "Initializes fields of the object structure pointed to by eax",
+    "References static data tables off_41D464, off_41D66C, and byte_41BDC0"
+  ],
+  "data_structures": [
+    "SubComponent12 object: +0x0 vtable pointer, +0x4 dword (0), +0x8 pointer/value (edx), +0x0C table pointer, +0x10 byte (cl), +0x11 byte (stack arg), +0x12 byte (flag from table), +0x13 byte (0)"
+  ],
+  "confidence": "high | matches the factory pattern and register usage described by callers"
+}

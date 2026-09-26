@@ -1,0 +1,28 @@
+{
+  "parsed_ok": true,
+  "suggested_name": "EvaluateEntityAbilityCriteriaAndCast",
+  "prototype": "bool __stdcall EvaluateEntityAbilityCriteriaAndCast(void *entity, void *component)",
+  "short_summary": "Evaluates spatial queries and targeting criteria for an entity's sub-components, checking conditions such as counts of nearby filtered entities or raycast line-of-sight to trigger and dispatch command packets.",
+  "detailed_summary": "The function performs comprehensive targeting and ability logic for an entity sub-component. First, it executes a spatial grid query using SpatialGridQueryEntities and ValidateEntityCriteriaFilter to populate a local array of nearby entities within range. It then iterates over potential states/conditions stored in the component structure (up to 3 iterations), indexing into criteria sub-tables. Depending on the specific condition type (handled via a switch/jump table), it evaluates various spatial relationships, such as counting entities within range, checking geometric distances via CalculateDistance, verifying visibility/collision using CheckRaySegmentCollisionOrDistance, or checking flags on entity filters. When conditions are met, it constructs and dispatches network command packets using DispatchCommandPacket to execute the ability or interaction.",
+  "parameters": [
+    {
+      "name": "entity",
+      "location": "[esp+13Ch+arg_0]",
+      "type": "void *",
+      "description": "Pointer to the primary entity being processed."
+    },
+    {
+      "name": "component",
+      "location": "[esp+13Ch+arg_4]",
+      "type": "void *",
+      "description": "Pointer to the sub-component structure associated with the entity."
+    }
+  ],
+  "return_value": "bool (in al/eax, though typically called as a subroutine returning via retn 8)",
+  "side_effects": [
+    "Queries the spatial grid and filters entities.",
+    "Sends outgoing network command packets via DispatchCommandPacket."
+  ],
+  "data_structures": [],
+  "confidence": "high | Based on clear interaction with spatial queries, filtering callbacks, distance calculations, and packet dispatching routines."
+}

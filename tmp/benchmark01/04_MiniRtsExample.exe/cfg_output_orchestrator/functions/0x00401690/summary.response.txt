@@ -1,0 +1,24 @@
+{
+  "suggested_name": "ResourceObject_Destructor",
+  "prototype": "void __thiscall ResourceObject_Destructor(void *this)",
+  "short_summary": "Destroys or unlinks an individual RM-header resource object, updating global tracking counters and either freeing its memory or returning it to a custom free-list pool.",
+  "detailed_summary": "The function expects a pointer via `ecx` pointing to a field containing a pointer to an internal resource block. If the pointer is null, it immediately returns. It navigates backwards by 8 bytes from the resource pointer to check a custom header, validating that the 16-bit word at offset +0 contains the magic value 'RM' (0x4D52). If the magic bytes do not match, it aborts cleanup and returns. Otherwise, it reads a size or count value at offset +4 and subtracts it from a global tracking variable (`dword_42281C`). It then checks a byte flag at offset +2; if this flag is 0xFF, it calls `free()` on the memory block (located at the header start). If the flag is not 0xFF, it treats the byte as an index, prepending the block onto a custom free-list array stored at `dword_422820` indexed by that byte.",
+  "parameters": [
+    {
+      "name": "this",
+      "location": "ecx",
+      "type": "void*",
+      "description": "Pointer to an object containing a pointer to the resource block."
+    }
+  ],
+  "return_value": "none",
+  "side_effects": [
+    "frees memory via free() if the sub-pool flag is 0xFF",
+    "modifies global tracking variable dword_42281C",
+    "modifies custom free-list head pointers stored in dword_422820"
+  ],
+  "data_structures": [
+    "RM Header Block: -0x8 from inner pointer, +0x0 word signature (0x4D52 'RM'), +0x2 byte sub-pool index/flag, +0x4 dword size/count value, +0x8 start of data payload"
+  ],
+  "confidence": "high, clean structure, explicit validation of the 'RM' magic word, and standard memory free-list logic matched by caller context."
+}

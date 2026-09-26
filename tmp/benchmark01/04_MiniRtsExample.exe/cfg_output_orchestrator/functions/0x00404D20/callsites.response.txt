@@ -1,0 +1,9 @@
+{
+  "function_role": "Performs status, threshold, and inventory checks on a specific game entity structure passed in eax, potentially triggering a subsystem event or action via sub_405300 if certain criteria are met.",
+  "callsites": [
+    {
+      "callee": "0x00405300",
+      "callsite_summary": "Invoked as part of a conditional trigger when the entity's computed metric falls below a maximum threshold and count criteria are met (esi < 2). It is called with a constant 0 pushed on the stack, while esi is set to the computed classification value (ebx) previously saved during entity evaluation."
+    }
+  ]
+}

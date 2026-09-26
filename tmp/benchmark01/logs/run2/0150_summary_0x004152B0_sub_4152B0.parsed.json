@@ -1,0 +1,19 @@
+{
+  "parsed_ok": true,
+  "suggested_name": "ProcessSpatialGridOrCollisionData",
+  "prototype": "void __cdecl ProcessSpatialGridOrCollisionData(void *arg_0)",
+  "short_summary": "Performs intensive nested-loop floating-point calculations, coordinate distance/intersection evaluations, and square root operations over a large grid or multi-element structured buffer (9732 iterations total across two loops).",
+  "detailed_summary": "The function executes a nested loop structure processing geometric, spatial, or collision-related data. The outer loop runs up to 0x24C1 (9409) with a step of 0x61 (97), while the inner loop runs 0x61 (97) times per outer iteration, yielding a total of 9409 * 97 = 912,673 potential evaluation points (or rather, the outer loop advances by 97 up to 9409, and the inner loop counts up to 97, suggesting a 2D grid or indexing structure of size ~97x97 or chunks thereof). Within the loops, it loads various constants from .rdata, performs floating-point arithmetic (multiplication, subtraction, addition, division), computes square roots using _CIsqrt, and performs conditional branching based on FPU status flags (e.g., via fnstsw / test ah) to determine whether to perform further geometric corrections or distance-based calculations.",
+  "parameters": [
+    {
+      "name": "arg_0",
+      "location": "[esp+34h]",
+      "type": "void *",
+      "description": "Pointer to a data structure or buffer processed by the nested loops."
+    }
+  ],
+  "return_value": "none",
+  "side_effects": [],
+  "data_structures": [],
+  "confidence": "medium, heavy floating-point and x87 FPU usage makes exact variable semantics obscure, but loop bounds (97 x 97 grid-like indices) and math/sqrt point strongly toward spatial/collision calculations."
+}

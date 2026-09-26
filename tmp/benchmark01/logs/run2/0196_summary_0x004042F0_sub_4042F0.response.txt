@@ -1,0 +1,37 @@
+{
+  "suggested_name": "RegisterResourceEntry",
+  "prototype": "void __thiscall RegisterResourceEntry(void *this, int arg0_flag, void *base_ptr)",
+  "short_summary": "Increments usage counters and updates statistical or positional fields for a resource sub-element based on lookup criteria and flags.",
+  "detailed_summary": "The function operates using a __thiscall convention where `ecx` points to a main context or object structure. It reads a byte at offset 0x5Ch and a pointer/dword at offset 0x1Ch from `ecx`. It checks a boolean flag passed on the stack (`arg0_flag` at `[esp+4]`) to branch between two update paths. Depending on the branch, it calculates an address using `eax` (supplied via register) combined with the byte from `ecx+5Ch` scaled by 2, adding to a word counter. If the flag is non-zero, it further inspects a byte at `[edx+2Eh]` (where `edx` comes from `ecx+1Ch`), sign-extends it, and conditionally adds or subtracts it from an offset (`+0x0Ch` or `+0x10h`) relative to `eax`. Finally, if the low bit of a flags byte at `[edx]` is set (test bit 1), it increments a 32-bit counter at `[eax+0F4h]` before returning.",
+  "parameters": [
+    {
+      "name": "this",
+      "location": "ecx",
+      "type": "void*",
+      "description": "Pointer to the parent context or resource object."
+    },
+    {
+      "name": "arg0",
+      "location": "[esp+4]",
+      "type": "int",
+      "description": "Flag determining which increment path to take."
+    },
+    {
+      "name": "base_ptr",
+      "location": "eax",
+      "type": "void*",
+      "description": "Base pointer to the target resource entry structure being updated."
+    }
+  ],
+  "return_value": "none",
+  "side_effects": [
+    "Increments a 16-bit word counter at a calculated offset from base_ptr",
+    "Conditionally adds/subtracts a signed value from fields at base_ptr+0x0C or base_ptr+0x10",
+    "Conditionally increments a 32-bit counter at base_ptr+0xF4"
+  ],
+  "data_structures": [
+    "Context: +0x1C void*, +0x5C unsigned char",
+    "ResourceEntry: +0x0C int, +0x10 int, +0xF4 int"
+  ],
+  "confidence": "medium | Based on register usage patterns, custom calling conventions, and clear memory access offsets, though exact struct types are inferred from usage context."
+}

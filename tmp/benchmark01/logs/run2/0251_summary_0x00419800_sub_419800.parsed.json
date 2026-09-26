@@ -1,0 +1,30 @@
+{
+  "parsed_ok": true,
+  "suggested_name": "ResizeStateCapacity",
+  "prototype": "void* __fastcall ResizeStateCapacity(void *context_struct, size_t requested_capacity)",
+  "short_summary": "Grows the capacity and reallocates the underlying data buffer of a state/allocation context object to accommodate a new required size.",
+  "detailed_summary": "The function calculates a new buffer capacity based on the current capacity stored in the context structure (at offset +8) and the requested minimum capacity passed in ECX. If the current capacity is zero, it initializes a base capacity of 0x10. Otherwise, it doubles the capacity repeatedly in a loop until it meets or exceeds the requested capacity in ECX. It then computes the new byte size by multiplying the new capacity by 48 (via a series of lea and add instructions: `edi = ebx * 48`), and calls ReallocateCustomBlock to resize the memory block pointed to by the buffer pointer at offset +0 of the context. Finally, it updates the context structure with the new buffer pointer (`[ebp+0] = eax`) and the new capacity (`[ebp+8] = ebx`), returning the new buffer pointer.",
+  "parameters": [
+    {
+      "name": "context_struct",
+      "location": "stack [esp+8+arg_0]",
+      "type": "void*",
+      "description": "Pointer to the state/allocation context structure holding the buffer pointer and capacity limits."
+    },
+    {
+      "name": "requested_capacity",
+      "location": "ecx",
+      "type": "size_t",
+      "description": "The minimum capacity required (current capacity + 1)."
+    }
+  ],
+  "return_value": "void* in eax, pointing to the newly allocated or reallocated memory block.",
+  "side_effects": [
+    "Reallocates memory via ReallocateCustomBlock, potentially freeing the old buffer and invalidating previous pointers.",
+    "Updates capacity and buffer pointer fields in the passed context structure."
+  ],
+  "data_structures": [
+    "ContextStruct: +0x0 void* buffer_ptr, +0x4 int count, +0x8 int capacity"
+  ],
+  "confidence": "high, clear logic mirroring standard vector/dynamic array growth routines with explicit stride multiplication (48 bytes per entry)."
+}

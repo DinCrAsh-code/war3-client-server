@@ -1,0 +1,39 @@
+{
+  "suggested_name": "ExecuteRandomRangeOp",
+  "prototype": "__thiscall void ExecuteRandomRangeOp(void *this, int *pOperandStruct, int count, int *pOutputStatus)",
+  "short_summary": "Virtual opcode handler that evaluates operands (possibly as integer bounds or floating-point values), queries a pseudo-random number generator, and writes out a computed result.",
+  "detailed_summary": "The function acts as a virtual opcode handler (vtable slot 2) in a scripting/bytecode interpreter. It receives a pointer to an operand structure, checks type tags within that structure to load either integer or floating-point values via x87 instructions (`fild`/`fld`), sets up state parameters involving a global RNG structure accessed via `dword_42AC60`, invokes `UpdateRngAndCompute` to obtain a random/computed floating-point value, and writes the output back to the provided output status or result pointer.",
+  "parameters": [
+    {
+      "name": "this",
+      "location": "ecx",
+      "type": "void*",
+      "description": "Object instance pointer"
+    },
+    {
+      "name": "pOperandStruct",
+      "location": "[esp+4]",
+      "type": "int*",
+      "description": "Pointer to operand structure or descriptor"
+    },
+    {
+      "name": "count",
+      "location": "[esp+8]",
+      "type": "int",
+      "description": "Count or secondary argument"
+    },
+    {
+      "name": "pOutputStatus",
+      "location": "[esp+0xC]",
+      "type": "int*",
+      "description": "Pointer to output location for result/status"
+    }
+  ],
+  "return_value": "none",
+  "side_effects": [
+    "Updates RNG state via sub_4188F0",
+    "Writes computed results to the memory location pointed to by pOutputStatus"
+  ],
+  "data_structures": [],
+  "confidence": "medium, based on vtable dispatch role and x87/RNG invocation patterns"
+}

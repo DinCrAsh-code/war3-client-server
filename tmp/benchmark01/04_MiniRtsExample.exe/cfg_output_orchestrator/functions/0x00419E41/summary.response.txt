@@ -1,0 +1,39 @@
+{
+  "suggested_name": "__except_handler4",
+  "prototype": "int __cdecl __except_handler4(struct _EXCEPTION_RECORD *ExceptionRecord, void *EstablisherFrame, struct _CONTEXT *ContextRecord, void *DispatcherContext)",
+  "short_summary": "Standard MSVC SEH exception handler shim that forwards exception records to _except_handler4_common along with the security cookie and checker function.",
+  "detailed_summary": "This function acts as a wrapper for MSVC's Structured Exception Handling (SEH). It takes the four standard SEH callback parameters (ExceptionRecord, EstablisherFrame, ContextRecord, and DispatcherContext), pushes them onto the stack along with the global security cookie (`___security_cookie`) and the security cookie check function (`@__security_check_cookie@4`), and calls `_except_handler4_common`. After the common handler returns, it cleans up the 24 bytes (0x18) of arguments from the stack and returns the result.",
+  "parameters": [
+    {
+      "name": "ExceptionRecord",
+      "location": "[esp+4]",
+      "type": "struct _EXCEPTION_RECORD*",
+      "description": "Pointer to an EXCEPTION_RECORD structure describing the exception."
+    },
+    {
+      "name": "EstablisherFrame",
+      "location": "[esp+8]",
+      "type": "void*",
+      "description": "Pointer to the allocation or frame pointer of the establisher."
+    },
+    {
+      "name": "ContextRecord",
+      "location": "[esp+0xC]",
+      "type": "struct _CONTEXT*",
+      "description": "Pointer to a CONTEXT structure containing the processor context at the time of the exception."
+    },
+    {
+      "name": "DispatcherContext",
+      "location": "[esp+0x10]",
+      "type": "void*",
+      "description": "Pointer to the dispatcher context."
+    }
+  ],
+  "return_value": "int (ExceptionDisposition or EXCEPTION_DISPOSITION, returned in eax from _except_handler4_common)",
+  "side_effects": [
+    "invokes _except_handler4_common to process SEH unwinding and filtering",
+    "validates or propagates security cookie checks during exception handling"
+  ],
+  "data_structures": [],
+  "confidence": "high | standard Microsoft compiler runtime helper implementation matching known runtime disassembly"
+}

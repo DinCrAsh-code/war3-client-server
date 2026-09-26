@@ -1,0 +1,26 @@
+{
+  "parsed_ok": true,
+  "suggested_name": "RtsManager::RunSimulationLoopAndFinalize",
+  "prototype": "unsigned int __stdcall RtsManager::RunSimulationLoopAndFinalize(void *resourceBlock)",
+  "short_summary": "Runs the RTS simulation ticks until a completion condition is met, flushes and compresses the network/resource buffer, performs checksum and verification passes, and combines the results into a final calculated return value.",
+  "detailed_summary": "The function checks a flag at resourceBlock + 0x5BBD0. If clear, it enters a loop that repeatedly calls RtsManager::UpdateSimulationTick (sub_403D30) until the tick counter at resourceBlock + 0x5BBC0 reaches or exceeds 0x8CA0, or until the flag at 0x5BBD0 becomes set. Once the loop exits, if the flag is still clear, it invokes FinalizeResourceBlock (sub_403C60). Next, it shifts the pointer forward by 0x54740 bytes and calls FlushAndCompressBuffer (sub_409170). It then computes a CRC32 checksum via CalculateCrc32 (sub_418A60), verifies the resource blocks using VerifyResourceBlocks (sub_409280), and computes a resource checksum using ComputeResourceChecksum (sub_403940). Finally, it performs a series of arithmetic operations, multiplications (imul), rotations (rol), and bitwise manipulations combining the checksums, counters, and internal state fields from the resource block to produce a final combined integer value returned in eax.",
+  "parameters": [
+    {
+      "name": "resourceBlock",
+      "location": "[ebp+8]",
+      "type": "void *",
+      "data_type": "void *",
+      "description": "Pointer to the main RTS resource and simulation block (approx 0x5BBE4 bytes)"
+    }
+  ],
+  "return_value": "Calculated final integer validation/status value returned in eax",
+  "side_effects": [
+    "Advances simulation ticks for the RTS manager",
+    "Flushes, compresses, and packetizes staging buffers",
+    "Modifies resource blocks and updates internal state and checksum fields"
+  ],
+  "data_structures": [
+    "ResourceBlock: +0x5BBC0 int tick_counter, +0x5BBD0 byte status_flag, +0x5BBD4 int counter_or_state, +0x571CC int field_571CC"
+  ],
+  "confidence": "high | well-supported by all callee summaries and disassembly sequence"
+}

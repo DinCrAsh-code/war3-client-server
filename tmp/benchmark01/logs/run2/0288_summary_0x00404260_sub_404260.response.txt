@@ -1,0 +1,26 @@
+{
+  "suggested_name": "ValidateCapacityOrLimit",
+  "prototype": "bool __fastcall ValidateCapacityOrLimit(void *entity, int arg_0)",
+  "short_summary": "Validates whether a calculated value based on an entity's fields and an argument is within a capped limit (0x64), returning a boolean gating further execution.",
+  "detailed_summary": "The function reads a 32-bit integer from offset +0x10 of the entity structure passed in ecx, comparing it against the constant 0x64 (100). If the value is greater than or equal to 0x64, it is capped at 0x64. It then retrieves another integer from offset +0xc of the entity, adds the function argument (passed via stack at [esp+4]), and compares this sum against the capped limit. It returns true (1) if the sum is less than or equal to the limit, and false (0) otherwise.",
+  "parameters": [
+    {
+      "name": "this",
+      "location": "ecx",
+      "type": "void*",
+      "description": "Pointer to the entity or object state structure."
+    },
+    {
+      "name": "arg_0",
+      "location": "[esp+4]",
+      "type": "int",
+      "description": "An integer value (often derived from a command, bytecode, or table entry) added to the entity's base value for comparison."
+    }
+  ],
+  "return_value": "bool in al, true (1) if the sum does not exceed the clamped limit of 100, false (0) otherwise.",
+  "side_effects": [],
+  "data_structures": [
+    "Entity: +0x0C int base_value, +0x10 int limit_value"
+  ],
+  "confidence": "high, clean and straightforward arithmetic and comparison logic with clear semantics."
+}

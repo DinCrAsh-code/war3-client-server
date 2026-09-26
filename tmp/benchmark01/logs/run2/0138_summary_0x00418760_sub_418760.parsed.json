@@ -1,0 +1,29 @@
+{
+  "parsed_ok": true,
+  "suggested_name": "InitializePrngState",
+  "prototype": "void __fastcall InitializePrngState(unsigned int seed, void *state_struct)",
+  "short_summary": "Initializes a state structure with a pseudo-random number generator (PRNG) state based on a seed, employing hash mixing constants and repeated mixing rounds.",
+  "detailed_summary": "The function takes an input seed in `eax` and a destination structure pointer in `ecx`. It initializes a two-dword state buffer at `[ecx]` and `[ecx+4]` using XOR mixing with constants like `0x5DEECE66` and `0x2545F491`. If the second dword evaluates to zero, it defaults to the golden ratio/phi-derived constant `0x9E3779B9`. It then executes a series of mixing rounds combining multiplication (`imul eax` with an incrementing constant `0x3C6EF35F`) and a sequence of shift-XOR operations (specifically, xorshift mixing steps with shifts of 13, 11, and 5) to thoroughly diffuse the bits into the final state stored back into `[ecx]` and `[ecx+4]`.",
+  "parameters": [
+    {
+      "name": "seed",
+      "location": "eax",
+      "type": "unsigned int",
+      "description": "Initial seed value used to derive the PRNG state."
+    },
+    {
+      "name": "state_struct",
+      "location": "ecx",
+      "type": "unsigned int*",
+      "description": "Pointer to a 2-dword (8-byte) state buffer to be initialized."
+    }
+  ],
+  "return_value": "none",
+  "side_effects": [
+    "Writes 8 bytes of initialized PRNG state to the memory buffer pointed to by ecx."
+  ],
+  "data_structures": [
+    "PRNG State Buffer: +0x00 unsigned int state0, +0x04 unsigned int state1"
+  ],
+  "confidence": "high | Recognized xorshift/PRNG initialization pattern with standard mixing constants."
+}

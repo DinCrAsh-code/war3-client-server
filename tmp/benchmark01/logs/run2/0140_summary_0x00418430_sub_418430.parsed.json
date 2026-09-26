@@ -1,0 +1,21 @@
+{
+  "parsed_ok": true,
+  "suggested_name": "FindAllocationBinIndex",
+  "prototype": "int __fastcall FindAllocationBinIndex(int size)",
+  "short_summary": "Performs a binary search over a predefined table of size thresholds (`word_41B150`) to find the appropriate pool or bin index for a given allocation size.",
+  "detailed_summary": "The function implements a binary search algorithm. It takes a size value in `esi` (or via fastcall convention) and checks if it exceeds 0x800 (2048); if so, it returns -1 to indicate an out-of-range size. Otherwise, it searches an array of 16-bit words located at `0x0041B150` (`word_41B150`) using a standard lower-bound/binary search approach between indices `eax` (initialized to 0) and `edx` (initialized to 12). It compares the threshold found in the lookup table against the target size `esi`, adjusting the search range until the optimal bin index is isolated and returned in `eax`.",
+  "parameters": [
+    {
+      "name": "size",
+      "location": "esi",
+      "type": "int",
+      "description": "The requested allocation size or metric to look up."
+    }
+  ],
+  "return_value": "Returns the matching bin or pool index (0-12) in eax, or -1 (0xFFFFFFFF) if the size exceeds the maximum supported threshold (0x800).",
+  "side_effects": [],
+  "data_structures": [
+    "word_41B150: An array of 16-bit size thresholds in .rdata used by the memory pool allocator."
+  ],
+  "confidence": "high | standard binary search pattern mapping a size against a static .rdata lookup table"
+}

@@ -1,0 +1,31 @@
+{
+  "parsed_ok": true,
+  "suggested_name": "ClampFloat",
+  "prototype": "float __cdecl ClampFloat(float value, float min_val, float max_val)",
+  "short_summary": "Performs a clamp operation on a floating-point value between a lower and upper bound using x87 FPU instructions.",
+  "detailed_summary": "The function implements a standard clamping operation on the x87 floating-point stack. It takes a value and two boundary limits, comparing them using fcom and testing status flags via fnstsw to restrict the input value to the specified [min, max] range before returning the result in st(0).",
+  "parameters": [
+    {
+      "name": "value",
+      "location": "st(0) on entry",
+      "type": "float",
+      "description": "The input floating-point value to be clamped."
+    },
+    {
+      "name": "min_val",
+      "location": "st(1) on entry (pushed)",
+      "type": "float",
+      "description": "The lower bound limit."
+    },
+    {
+      "name": "max_val",
+      "location": "st(2) on entry (pushed)",
+      "type": "float",
+      "description": "The upper bound limit."
+    }
+  ],
+  "return_value": "st(0) containing the clamped floating-point value",
+  "side_effects": [],
+  "data_structures": [],
+  "confidence": "medium | standard x87 floating-point clamp/min-max routine pattern based on register comparisons and conditional jumps"
+}

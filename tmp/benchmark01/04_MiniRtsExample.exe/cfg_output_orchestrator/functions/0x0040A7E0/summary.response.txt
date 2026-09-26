@@ -1,0 +1,28 @@
+{
+  "suggested_name": "ExecuteBytecodeOp_10",
+  "prototype": "void __fastcall ExecuteBytecodeOp_10(void *this, void *edx, void *arg1)",
+  "short_summary": "Executes virtual opcode slot 10, performing type checks/conversions on operands (using __ftol2_sse) and updating state variables stored in a global data structure.",
+  "detailed_summary": "The function inspects an operand structure passed via arg1. It checks the type tag at [edi]. If the tag is 2, it loads a floating-point value from the x87 stack and converts it to an integer using __ftol2_sse; otherwise, it reads an integer value from [edi+4]. It then performs a bounds check (ensuring the value is <= 5). Next, it checks a second operand at [edi+8]; if its tag is 2, it converts a floating-point value via __ftol2_sse, otherwise it reads an integer from [edi+0Ch]. It multiplies the first operand by a global multiplier stored at dword_42AC60, adds the second operand's value to an element within a global array/structure, and updates the reference.",
+  "parameters": [
+    {
+      "name": "this",
+      "location": "ecx",
+      "type": "void*",
+      "description": "Virtual method 'this' pointer (bytecode interpreter context)"
+    },
+    {
+      "name": "arg1",
+      "location": "[esp+0x8]",
+      "type": "void*",
+      "description": "Pointer to operand structure/arguments for the opcode"
+    }
+  ],
+  "return_value": "none",
+  "side_effects": [
+    "modifies global array/structure elements based on calculated indices and operands"
+  ],
+  "data_structures": [
+    "Operand structure: +0x0 type tag, +0x4 value or pointer, +0x8 second type tag, +0xC second value"
+  ],
+  "confidence": "high | disassembly is straightforward and aligns with the caller's vtable dispatch context"
+}

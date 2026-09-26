@@ -1,0 +1,13 @@
+{
+  "function_role": "Iterates over a 4-element array in an object record (passed in eax, with context pointer in ecx/esi), performing various validity, flag, and index checks on referenced sub-elements before conditionally invoking validation and processing helpers on them.",
+  "callsites": [
+    {
+      "callee": "0x0040CAF0",
+      "callsite_summary": "Called inside the main loop iteration for a validated handle/object (ebx) when `esi` is non-zero and `[ebx+1F4h]` is zero. Its boolean return value in `al` is checked; if non-zero, it proceeds to invoke `sub_40DAC0`."
+    },
+    {
+      "callee": "0x0040DAC0",
+      "callsite_summary": "Called as the primary action step within the loop when all prior validity checks and `sub_40CAF0` succeed. It is invoked with the object pointer (`ebx`) passed in `ecx`, a pointer to a constructed local parameters/descriptor struct on the stack in `eax`, and `0` pushed on the stack."
+    }
+  ]
+}

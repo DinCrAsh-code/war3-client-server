@@ -1,0 +1,8 @@
+{
+  "function_role": "Iterates through a global list of entities/objects to find a matching target or entity based on filtering conditions, spatial/distance checks, and filter sub-calls, returning a boolean indicating success and populating an output structure.",
+  "callsite_summaries": {
+    "0x00417E10": "Called inside a loop over global entities at address 0x004065EE. Passes a pointer to a global data offset in edx as an argument. The returned boolean in al determines whether the entity passes an initial filter check, allowing the function to proceed to evaluate a distance or geometry check with sub_417F80.",
+    "0x00417F80": "Called inside the entity iteration loop at address 0x004065FF when an entity passes initial filtering. Passes an entity/substructure pointer in ecx and an offset from arg_0 in eax, returning a floating-point value (in st(0)) used to evaluate a distance or proximity threshold."
+  },
+  "fallbacks": []
+}

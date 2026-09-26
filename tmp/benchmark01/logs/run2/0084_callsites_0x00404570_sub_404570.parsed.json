@@ -1,0 +1,8 @@
+{
+  "function_role": "Initializes and registers a structure or control block (pointed to by esi) within a global subsystem or manager table, managing a callback/vtable entry and potentially growing an underlying array if full.",
+  "callsite_summaries": {
+    "0x00404640": "The address of sub_404640 is referenced as a function pointer or callback identifier (vtable-like slot) and stored alongside the current structure pointer (esi) into a global tracking array, and is also used in a search loop to check if the structure is already registered.",
+    "0x004198B0": "Called with a pointer to the table control structure (`edi`) and a capacity/size hint (`ecx+1`) when the current tracking array has reached its maximum capacity (`[edi+8]`), presumably to resize, reallocate, or expand the underlying collection before a new element is added."
+  },
+  "fallbacks": []
+}

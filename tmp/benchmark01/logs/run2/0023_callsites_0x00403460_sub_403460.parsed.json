@@ -1,0 +1,13 @@
+{
+  "function_role": "Iterates over a collection of simulation or resource entities (up to a count at [esi+5BBBCh], stepping by 4FCh bytes from offset 0x630), performing modulo-10 and flag-based checks on each element before invoking a batch of update/processing routines.",
+  "callsite_summaries": {
+    "0x00404940": "Called inside the loop for the current entity (with `eax` pointing to `edi`, the entity structure at `esi+630h + ebp*4FCh`) when interval and flag conditions are met.",
+    "0x00404AD0": "Called immediately after sub_404940 within the same conditional entity update block.",
+    "0x00404D20": "Called with `eax` set to `edi` (the current entity structure) as part of the sequence of update routines for the filtered entity.",
+    "0x00405040": "Called with `edi` (the current entity structure) pushed on the stack as an argument, within the conditional entity update sequence.",
+    "0x004079D0": "Called as part of the sequence of sub-routine updates for the current entity when interval and flag checks pass.",
+    "0x00406760": "Called with `eax` set to `edi` (the current entity structure) during the periodic update block for the entity.",
+    "0x00406C90": "Called with `edi` pushed as an argument at the end of the update subroutine chain for the current entity."
+  },
+  "fallbacks": []
+}

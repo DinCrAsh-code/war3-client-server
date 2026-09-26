@@ -1,0 +1,41 @@
+{
+  "parsed_ok": true,
+  "suggested_name": "RtsSubComponent15_Constructor",
+  "prototype": "void __stdcall RtsSubComponent15_Constructor(void *this_obj, int param_ecx, int param_arg0)",
+  "short_summary": "Initializes a specific sub-component object (case 15 factory instance) by setting up virtual tables, member fields, and bounds-checked lookup references.",
+  "detailed_summary": "The function acts as a constructor/initializer for an object instance passed in `eax`. It initializes multiple fields of the object: setting a virtual method table at offset +0 (initially `off_41D464`, later overwritten by `off_41D708`), setting a zeroed field at +0x4, storing `edx` at offset +8, storing `cl` (derived from the lower byte of `arg_0` or `ecx`) at offsets +0x10 and +0x11, and performing conditional arithmetic and masking using a lookup table at `byte_41BDC0`. It computes a clamped/masked index based on `ecx` (comparing against 24 / 0x18), indexes into `byte_41BDC0`, extracts a bit flag shifted from that table entry, stores it at offset +0x12, and zeroes offset +0x13. Floating point stack operations (`fldz`, `fst`, `fstp`) are performed, likely as a compiler artifact or for initializing an internal float/double field.",
+  "parameters": [
+    {
+      "name": "this_obj",
+      "location": "eax",
+      "type": "void*",
+      "description": "Pointer to the newly allocated object instance being initialized."
+    },
+    {
+      "name": "param_edx",
+      "location": "edx",
+      "type": "int",
+      "description": "Value stored into the object at offset +8."
+    },
+    {
+      "name": "param_ecx",
+      "location": "ecx",
+      "type": "int",
+      "description": "Index or parameter used for bounds checking and lookup calculation."
+    },
+    {
+      "name": "arg_0",
+      "location": "[esp+4]",
+      "type": "int",
+      "description": "Additional parameter byte stored into the object at offset +0x11."
+    }
+  ],
+  "return_value": "none",
+  "side_effects": [
+    "Initializes fields and virtual function table pointers of the object passed in eax."
+  ],
+  "data_structures": [
+    "SubComponent15 Object: +0x0 vtable*, +0x4 int (0), +0x8 int (edx value), +0x0C void* (lookup pointer), +0x10 char (cl), +0x11 char (arg_0 byte), +0x12 char (bit flag from table), +0x13 char (0)"
+  ],
+  "confidence": "high | based on clear structure initialization patterns, register usage matching the caller description, and table indexing logic."
+}

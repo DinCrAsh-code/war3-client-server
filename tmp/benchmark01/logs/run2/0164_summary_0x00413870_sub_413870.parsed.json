@@ -1,0 +1,36 @@
+{
+  "parsed_ok": true,
+  "suggested_name": "RtsSubComponentA_Init",
+  "prototype": "void* __stdcall RtsSubComponentA_Init(void *obj, int arg0, int arg1)",
+  "short_summary": "Initializes a specific sub-component object instance (case A of the factory dispatcher) using configuration parameters and a lookup table.",
+  "detailed_summary": "The function initializes an object instance passed in `eax`. It populates various fields of the object structure, setting up virtual method table pointers (vftable at `off_41D464` overwritten later by `off_41D770`), storing incoming parameters into byte/word fields, performing a clamped calculation or array index lookup into `byte_41BDC0` based on `arg_0`, zeroing out multiple subsequent fields, and setting up internal state flags based on the lookup table and arguments.",
+  "parameters": [
+    {
+      "name": "obj",
+      "location": "eax",
+      "type": "void*",
+      "description": "Pointer to the newly allocated object memory block being initialized."
+    },
+    {
+      "name": "arg_0",
+      "location": "esp+4",
+      "type": "int",
+      "description": "Primary configuration integer / type index."
+    },
+    {
+      "name": "arg_1",
+      "location": "esp+8",
+      "type": "int",
+      "description": "Secondary configuration parameter (lower byte copied to offset 0x11)."
+    }
+  ],
+  "return_value": "none",
+  "side_effects": [
+    "Initializes the fields of the object pointed to by eax",
+    "References global configuration/lookup tables byte_41BDC0 and virtual tables off_41D464 / off_41D770"
+  ],
+  "data_structures": [
+    "Object struct: +0x0 vftable, +0x4 pointer/data, +0x8 stored edx, +0x0C lookup pointer, +0x10 byte arg0, +0x11 byte arg1, +0x12 byte flag, +0x13-0x1F zeroed fields, +0x20 dword zero, +0x24 dword zero"
+  ],
+  "confidence": "high | standard object constructor pattern with register and stack parameter unpacking"
+}

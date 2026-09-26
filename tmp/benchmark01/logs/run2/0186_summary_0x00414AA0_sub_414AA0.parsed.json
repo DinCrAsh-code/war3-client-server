@@ -1,0 +1,19 @@
+{
+  "parsed_ok": true,
+  "suggested_name": "ConvertAndClampCoordinate",
+  "prototype": "int __cdecl ConvertAndClampCoordinate(double val)",
+  "short_summary": "Scales a floating-point coordinate value, converts it to an integer, and clamps the result to the range [0, 95].",
+  "detailed_summary": "The function loads a floating-point value (presumably passed on the x87 FPU stack), multiplies it by a constant factor stored in .rdata (0x0041D960), and converts the result to a 32-bit signed integer via __ftol2_sse. It then performs a floor/rounding check by comparing the integer back to the floating-point value and adjusting downward if necessary. Finally, it clamps the resulting integer to the inclusive range [0, 95] (0x5F) and returns it in EAX.",
+  "parameters": [
+    {
+      "name": "val",
+      "location": "st(0)",
+      "type": "double",
+      "description": "Floating-point coordinate or dimension value to scale and clamp."
+    }
+  ],
+  "return_value": "eax, integer clamped to [0, 95]",
+  "side_effects": [],
+  "data_structures": [],
+  "confidence": "high | standard mathematical conversion and clamping routine using x87 FPU and standard bounds check"
+}

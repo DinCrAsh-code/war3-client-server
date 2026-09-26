@@ -1,0 +1,7 @@
+{
+  "function_role": "Standard MSVC compiler runtime SEH exception handler stub (__except_handler4) that forwards exception management parameters along with security cookie references to _except_handler4_common.",
+  "callsite_summaries": {
+    "0x004198F2": "The address of the security check function @__security_check_cookie@4 is passed as a callback or reference pointer to _except_handler4_common (along with the security cookie global variable at 0x0041F000 and the standard four SEH arguments) to ensure stack integrity is validated during exception handling and stack unwinding."
+  },
+  "fallbacks": []
+}

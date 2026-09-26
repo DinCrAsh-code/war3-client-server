@@ -1,0 +1,21 @@
+{
+  "parsed_ok": true,
+  "suggested_name": "CheckOperandTruthState",
+  "prototype": "bool __cdecl CheckOperandTruthState(const void *operand)",
+  "short_summary": "Evaluates an operand structure's truth state or validity flag, returning true or false based on its type and value.",
+  "detailed_summary": "The function examines an operand pointer passed in EAX. It first checks the byte at offset 0 (`[eax]`). If this type tag equals 2, it performs a floating-point comparison with zero (`fldz`, `fcomp`, `fnstsw`, and testing status flags via `test ah, 0x44` and `jnp`), returning true if the floating-point value satisfies the condition (non-zero/ordered) and false otherwise. If the type tag is not 2, it checks a secondary field at offset 4 (`[eax+4]`), returning true if that integer/pointer field is non-zero, and false otherwise.",
+  "parameters": [
+    {
+      "name": "operand",
+      "location": "eax",
+      "type": "const void*",
+      "description": "Pointer to an operand or value structure inspected by the script engine."
+    }
+  ],
+  "return_value": "Boolean flag in al (1 for true, 0 for false)",
+  "side_effects": [],
+  "data_structures": [
+    "Operand structure: +0x0 byte type/tag, +0x4 dword value or secondary field"
+  ],
+  "confidence": "high, straightforward disassembly with clear type-dispatch and comparison logic matching caller expectations."
+}

@@ -1,0 +1,8 @@
+{
+  "function_role": "Implements the MSVC array unwind helper function `__ArrayUnwind`, which iterates backwards through an array of objects during exception handling, invoking the element destructor on each remaining item.",
+  "callsite_summaries": {
+    "0x00419DE8": "Initializes standard Structured Exception Handling (SEH) prolog at the start of the function, setting up the exception frame using local stack variables and a scope table descriptor.",
+    "0x00419E2D": "Tears down the Structured Exception Handling (SEH) frame and restores the stack pointer just before the function returns successfully."
+  },
+  "fallbacks": []
+}

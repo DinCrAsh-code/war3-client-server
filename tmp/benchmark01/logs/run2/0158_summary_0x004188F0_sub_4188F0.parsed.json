@@ -1,0 +1,22 @@
+{
+  "parsed_ok": true,
+  "suggested_name": "UpdateRngAndCompute",
+  "prototype": "double __cident __fastcall UpdateRngAndCompute(void *pRngState)",
+  "short_summary": "Updates a 64-bit pseudo-random number generator state (or hash/state structure) passed via `esi`, performs bitwise mixing and arithmetic operations, and executes a complex sequence of x87 FPU calculations returning a floating-point value.",
+  "detailed_summary": "The function begins by reading a 64-bit value from the structure pointed to by `esi` (`[esi]` and `[esi+4]`). It performs a series of bitwise operations, multiplications, and XOR shifts combined with the constant `0x3C6EF35F` to update the state, writing the updated state back to `esi`. It then converts the resulting value into an FPU register via `fild` and applies conditional adjustments based on sign, division, and a sequence of arithmetic operations on the FPU stack (involving subtractions, multiplications, and additions) to produce a final floating-point result loaded into `st(0)`.",
+  "parameters": [
+    {
+      "name": "pRngState",
+      "location": "esi",
+      "description": "Pointer to a 64-bit state structure (e.g., PRNG state or similar)."
+    }
+  ],
+  "return_value": "st(0) - floating-point result calculated from the updated state.",
+  "side_effects": [
+    "Modifies the 64-bit state structure pointed to by esi."
+  ],
+  "data_structures": [
+    "State structure: +0x00 uint32_t low, +0x04 uint32_t high"
+  ],
+  "confidence": "high, clear PRNG state-update bit-mixing pattern combined with x87 FPU math."
+}

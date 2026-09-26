@@ -1,0 +1,12 @@
+{
+  "parsed_ok": true,
+  "suggested_name": "CalculateSpatialOrPathMetric",
+  "prototype": "double __cdecl CalculateSpatialOrPathMetric()",
+  "short_summary": "Performs complex floating-point geometry, clamping, and polynomial evaluation calculations using values on the x87 FPU stack.",
+  "detailed_summary": "The function operates entirely on the x87 floating-point stack, performing a series of conditional comparisons (using fcom and fnstsw / test ah, 5/41h), absolute values, clamping operations, and polynomial arithmetic involving constant values loaded from .rdata. It manages the FPU stack depth through multiple pushes, pops, and interchanges (fxch), ultimately leaving the final computed result in st(0) upon return.",
+  "parameters": [],
+  "return_value": "st(0) (double-precision floating-point result)",
+  "side_effects": [],
+  "data_structures": [],
+  "confidence": "medium, because it is a pure math/geometry utility operating entirely on FPU registers without explicit memory parameters, making exact algebraic identification difficult without full context."
+}

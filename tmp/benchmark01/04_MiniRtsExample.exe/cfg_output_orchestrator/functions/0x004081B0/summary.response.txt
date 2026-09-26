@@ -1,0 +1,24 @@
+{
+  "suggested_name": "ResetOrClearEntityReferences",
+  "prototype": "void __fastcall ResetOrClearEntityReferences(void *entityStruct)",
+  "short_summary": "Clears base entity state flags and iterates through up to 4 stored reference slots, validating each target entity and conditionally invoking interaction or command handling and floating-point updates on them.",
+  "detailed_summary": "The function receives a pointer to an entity/waypoint structure in eax. It initializes fields at offset +0x0B and +0x20 to zero, then loops up to 4 times over an array of packed entity references starting at offset +0x0C. For each non-zero reference, it unpacks a low index and high generation/validation word, checks bounds against a global array at 0x0042AC60, retrieves the target entity pointer, verifies its state flags (offset +0x1A == 1 and bit 0 of offset +0x18 not set), and invokes ProcessEntityInteractionOrCommand (sub_40DAC0) with a local parameter structure. Following the call, it performs several floating-point computations (loading, multiplying, adding, and comparing values from the target entity) before advancing to the next reference slot.",
+  "parameters": [
+    {
+      "name": "entityStruct",
+      "location": "eax",
+      "type": "void*",
+      "description": "Pointer to the primary entity or waypoint structure being processed."
+    }
+  ],
+  "return_value": "none",
+  "side_effects": [
+    "Modifies fields at +0x0B and +0x20 of the passed entity structure",
+    "Calls ProcessEntityInteractionOrCommand on referenced sub-entities",
+    "Performs various floating-point operations and state evaluations on valid referenced entities"
+  ],
+  "data_structures": [
+    "EntityStruct: +0x0B byte flag, +0x20 dword status, +0x0C dword references[4]"
+  ],
+  "confidence": "high | complete disassembly available, matches caller expectations and standard handle-table lookup patterns."
+}

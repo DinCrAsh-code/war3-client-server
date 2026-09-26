@@ -1,0 +1,50 @@
+[
+  {
+    "name": ".text",
+    "address": "0x00401000",
+    "rva": "0x00001000",
+    "virtual_size": 106496,
+    "raw_size": 106496,
+    "characteristics": {
+      "read": true,
+      "write": false,
+      "execute": true
+    }
+  },
+  {
+    "name": ".idata",
+    "address": "0x0041B000",
+    "rva": "0x0001B000",
+    "virtual_size": 204,
+    "raw_size": 204,
+    "characteristics": {
+      "read": true,
+      "write": false,
+      "execute": false
+    }
+  },
+  {
+    "name": ".rdata",
+    "address": "0x0041B0CC",
+    "rva": "0x0001B0CC",
+    "virtual_size": 16180,
+    "raw_size": 16180,
+    "characteristics": {
+      "read": true,
+      "write": false,
+      "execute": false
+    }
+  },
+  {
+    "name": ".data",
+    "address": "0x0041F000",
+    "rva": "0x0001F000",
+    "virtual_size": 94208,
+    "raw_size": 94208,
+    "characteristics": {
+      "read": true,
+      "write": true,
+      "execute": false
+    }
+  }
+]

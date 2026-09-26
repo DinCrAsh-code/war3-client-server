@@ -1,0 +1,35 @@
+{
+  "parsed_ok": true,
+  "suggested_name": "SubComponentType9_Constructor",
+  "prototype": "void* __stdcall SubComponentType9_Constructor(void *objectInstance, int index, char arg_0)",
+  "short_summary": "Initializes an object instance (allocated at `eax`) for factory case 9, setting up its virtual method table, boundary-checked configuration values, and reference data fetched from a lookup table (`byte_41BDC0`).",
+  "detailed_summary": "The function acts as a specialized constructor for a specific sub-component type created by the factory dispatcher. It receives a pointer to the newly allocated object block in `eax`, an index value in `ecx`, and a parameter on the stack (`arg_0`). It initializes fields of the object structure at `eax`: stores an initial pointer/context in `[eax+8]`, sets an initial vtable pointer (`off_41D464`, which is later overwritten by `off_41D5D0`), zeros out fields at `[eax+4]` and `[eax+24h]`, stores the byte-clamped index into `[eax+10h]` (clamping `ecx` based on whether it is less than 0x18), calculates an offset into a global lookup table `byte_41BDC0` using scaled multiplication, extracts specific bitfields from the lookup table entry to populate configuration flags at `[eax+12h]`, stores `arg_0` at `[eax+11h]`, and zeroes out a trailing byte at `[eax+13h]`. It also performs an unused floating-point zero load (`fldz`) and clear operation via `fst`/`fstp`.",
+  "parameters": [
+    {
+      "name": "objectInstance",
+      "location": "eax",
+      "type": "void*",
+      "description": "Pointer to the newly allocated object memory block being initialized."
+    },
+    {
+      "name": "index",
+      "location": "ecx",
+      "type": "int",
+      "description": "Type or index identifier used for lookup table indexing and configuration."
+    },
+    {
+      "name": "arg_0",
+      "location": "[esp+4]",
+      "type": "char",
+      "description": "An additional initialization byte parameter."
+    }
+  ],
+  "return_value": "none",
+  "side_effects": [
+    "Initializes memory pointed to by eax, setting vtables, configuration fields, and lookup table references."
+  ],
+  "data_structures": [
+    "SubComponentType9 Object: +0x0 vtable/pointer, +0x4 dword (zeroed), +0x8 dword (edx context), +0x0C lookup table pointer, +0x10 clamped index byte, +0x11 arg_0 byte, +0x12 extracted flag byte, +0x13 byte (zeroed), +0x24 dword (zeroed)"
+  ],
+  "confidence": "high | Based on clear field initializations, vtable assignments, and caller context indicating a factory constructor."
+}

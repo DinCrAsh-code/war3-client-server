@@ -1,0 +1,24 @@
+{
+  "parsed_ok": true,
+  "suggested_name": "CalculateEntityStatsOrAttributes",
+  "prototype": "float __fastcall CalculateEntityStatsOrAttributes(void *entity)",
+  "short_summary": "Performs aggregate mathematical computations on collections of attributes or modifier pointers stored within an entity structure, iterating over arrays in chunks of 4.",
+  "detailed_summary": "The function evaluates multiple property/attribute arrays from the entity structure passed in `ebx`. It uses unrolled loops processing elements in blocks of 4 using pointer arithmetic, checking validity flags (`[edx+18h]` and `[eax+0Ch]`) on associated sub-objects before performing floating-point calculations (additions, multiplications, and divisions). Finally, it combines the results into an accumulated floating-point value returned via the x87 floating-point stack (`st(0)`).",
+  "parameters": [
+    {
+      "name": "entity",
+      "location": "ebx",
+      "type": "void*",
+      "description": "Pointer to the entity structure containing attribute lists and counts."
+    }
+  ],
+  "return_value": "Calculated floating-point statistic or attribute value in st(0).",
+  "side_effects": [],
+  "data_structures": [
+    {
+      "name": "Entity",
+      "layout": "+0x24C array/pointers to attributes/modifiers, +0x3C8 count of first attribute list, +0x3D4 array/pointers, +0x3DC count of second attribute list"
+    }
+  ],
+  "confidence": "medium | Based on register usage (ebx for entity pointer) and extensive floating-point arithmetic across array chunks, matching entity property evaluation routines."
+}

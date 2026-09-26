@@ -1,0 +1,9 @@
+{
+  "function_role": "Resizes a dynamic collection or tracking array when its capacity is reached, doubling or growing its current capacity (stored at [ebp+8]) to satisfy a requested minimum size requirement (passed via ecx), reallocating its backing buffer via a memory allocation routine.",
+  "callsites": [
+    {
+      "callee": "0x00418670",
+      "callsite_summary": "Called to allocate or reallocate the underlying memory buffer for the growing collection, passing the requested byte size in edi (calculated as the new capacity multiplied by an element stride/size) and storing the resulting new buffer pointer returned in eax back into the collection structure."
+    }
+  ]
+}

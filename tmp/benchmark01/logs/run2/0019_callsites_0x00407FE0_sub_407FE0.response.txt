@@ -1,0 +1,9 @@
+{
+  "function_role": "Iterates through an array of up to 4 references stored in the object (offset +0Ch onwards), validates each reference against a global handle/resource table and internal state flags, and conditionally either invokes a target setup routine via sub_40BD60 (when argument 0 is non-zero) or traverses a linked substructure at offset +20Ch to modify a flag byte.",
+  "callsites": [
+    {
+      "callee": "0x0040BD60",
+      "callsite_summary": "Called conditionally when `arg_0` is non-zero and the current object reference passes all prior handle, index, and state validations (with `eax` set to `1` and `ecx` set to `0Ch`, along with pushed arguments). It acts as an activation, registration, or creation subroutine triggered by the validated entity reference."
+    }
+  ]
+}

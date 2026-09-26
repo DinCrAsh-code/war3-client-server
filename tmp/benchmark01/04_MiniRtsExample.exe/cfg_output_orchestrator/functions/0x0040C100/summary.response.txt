@@ -1,0 +1,22 @@
+{
+  "suggested_name": "ResetEntityStateFields",
+  "prototype": "void __fastcall ResetEntityStateFields(void *entity)",
+  "short_summary": "Resets several internal state and property fields within an entity structure to zero.",
+  "detailed_summary": "The function zeroes out multiple specific member fields of an entity object passed via the eax register. It uses a single zeroed register (ecx) to clear a byte at offset +0x1F0, a 32-bit dword at offset +0x1C4, another 32-bit dword at offset +0x1C8, a byte at offset +0x1D4, and another 32-bit dword at offset +0x1EC. There are no branches or loops, and the function returns void.",
+  "parameters": [
+    {
+      "name": "entity",
+      "location": "eax",
+      "type": "void*",
+      "description": "Pointer to the entity structure whose fields are being reset."
+    }
+  ],
+  "return_value": "none",
+  "side_effects": [
+    "Modifies fields at offsets +0x1C4, +0x1C8, +0x1D4, +0x1EC, and +0x1F0 of the entity structure pointed to by eax by setting them to zero."
+  ],
+  "data_structures": [
+    "Entity object: +0x1C4 dword field, +0x1C8 dword field, +0x1D4 byte field, +0x1EC dword field, +0x1F0 byte field"
+  ],
+  "confidence": "high, straightforward sequence of field zeroing instructions with a clear pointer parameter in eax."
+}

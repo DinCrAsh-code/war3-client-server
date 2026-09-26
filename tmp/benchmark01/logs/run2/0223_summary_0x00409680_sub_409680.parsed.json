@@ -1,0 +1,36 @@
+{
+  "parsed_ok": true,
+  "suggested_name": "CompareVariantValues",
+  "prototype": "bool __fastcall CompareVariantValues(const Variant *left, const Variant *right, int opCode)",
+  "short_summary": "Compares two variant/operand buffers (left in ECX, right in EAX) using a relational operator specified by EDX, supporting both integer and floating-point comparisons and returning a boolean result in AL.",
+  "detailed_summary": "The function evaluates a comparison between two typed variant structures. Each variant appears to store a type tag byte at offset 0 and a value at offset 4 (or accessed via FPU load operations). First, it checks if either variant is of a floating-point type (indicated by a type tag of 2). If so, it loads both values onto the x87 FPU stack (converting integer types via fild if necessary) and dispatches to floating-point comparison handlers based on the operator code. Otherwise, it extracts the 32-bit values from offset +4 of each variant structure and performs integer comparisons (less-than, less-or-equal, greater, greater-or-equal, equal, not-equal) using standard setcc instructions. The resulting condition flag is returned in AL.",
+  "parameters": [
+    {
+      "name": "left",
+      "location": "ecx",
+      "type": "const Variant*",
+      "description": "Pointer to the left-hand side variant/operand structure."
+    },
+    {
+      "name": "right",
+      "location": "eax",
+      "type": "const Variant*",
+      "description": "Pointer to the right-hand side variant/operand structure."
+    },
+    {
+      "name": "opCode",
+      "location": "edx",
+      "type": "int",
+      "description": "The comparison operator code indicating less-than, equal, greater-than, etc."
+    }
+  ],
+  "return_value": "Boolean comparison result (0 or 1) returned in al.",
+  "side_effects": [],
+  "data_structures": [
+    {
+      "name": "Variant",
+      "layout": "+0x0 BYTE typeTag, +0x4 DWORD value"
+    }
+  ],
+  "confidence": "high, clear operand parsing, type tagging checks, FPU comparisons, and integer condition code dispatches match a standard script VM comparison routine."
+}

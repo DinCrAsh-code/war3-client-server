@@ -1,0 +1,9 @@
+{
+  "function_role": "Searches or creates an entry in a linked substructure (at offset +202Ch of the object in ebx) matching a specific identifier (in edi), utilizing a factory/allocation routine (sub_4145A0) if not found, and updates state flags and pointers upon success.",
+  "callsites": [
+    {
+      "callee": "0x004145A0",
+      "callsite_summary": "Called when an existing matching node is not found in the linked list at offset +20Ch of the object (ebx), acting as an allocation or creation routine to instantiate a new node or resource. The returned pointer (in eax, later moved to esi) is checked for success and subsequently integrated into the linked substructure if non-zero."
+    }
+  ]
+}

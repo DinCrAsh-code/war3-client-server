@@ -1,0 +1,36 @@
+{
+  "parsed_ok": true,
+  "suggested_name": "RtsComponentType8_Constructor",
+  "prototype": "void __fastcall RtsComponentType8_Constructor(void *this_ptr, void *edx_unused, int index, char arg0)",
+  "short_summary": "Initializes a newly allocated component object of type 8, setting up its virtual method table, configuration index, and lookup-derived flags.",
+  "detailed_summary": "The function acts as a constructor for a specific object type (component index 8). It receives the object pointer in `eax`, an integer index in `ecx`, and an argument on the stack at `arg_0`. It populates various fields of the object structure, including setting the virtual method table pointer twice (initially to `off_41D464` and then finalized as `off_41D59C`), storing the `edx` register value into offset `+8`, and storing byte-sized configurations derived from `ecx` and `arg_0`. It clamps or masks the index parameter `ecx` against a limit of 18h (24), computes an offset into a lookup table (`byte_41BDC0`), extracts a bitflag from that table entry (`[edx+1]` shifted and masked), and stores it into the object structure.",
+  "parameters": [
+    {
+      "name": "this_ptr",
+      "location": "eax",
+      "type": "void*",
+      "description": "Pointer to the newly allocated component memory block."
+    },
+    {
+      "name": "index",
+      "location": "ecx",
+      "type": "int",
+      "description": "Index or type identifier passed in ecx."
+    },
+    {
+      "name": "arg_0",
+      "location": "esp+4",
+      "type": "char",
+      "description": "Additional constructor byte argument passed on the stack."
+    }
+  ],
+  "return_value": "none",
+  "side_effects": [
+    "Initializes fields of the object pointed to by eax",
+    "Sets virtual method table pointers"
+  ],
+  "data_structures": [
+    "ComponentObject: +0x0 vtable ptr, +0x4 int field, +0x8 pointer/data, +0xC lookup table entry ptr, +0x10 byte index, +0x11 byte arg, +0x12 extracted flag byte, +0x13 byte zero"
+  ],
+  "confidence": "high | well-structured constructor matching caller description and standard object initialization patterns."
+}

@@ -1,0 +1,73 @@
+{
+  "function_role": "Acts as a factory dispatcher, taking a type/index identifier in `esi`, validating it against a range and lookup table (`ds:byte_41BDC0`), allocating a memory block of a specific size via `sub_4185D0`, and then invoking a corresponding constructor/initialization function for a specific sub-component type.",
+  "callsites": [
+    {
+      "callee": "0x004185D0",
+      "callsite_summary": "Called before instantiating any sub-component to allocate a block of memory (passing size 0x28, 0x20, or 0x1C in eax depending on the target case). The resulting pointer is checked for null before proceeding with constructor initialization."
+    },
+    {
+      "callee": "0x00413870",
+      "callsite_summary": "Called as the constructor/initializer for the first factory case (type index mapped via switch), receiving the newly allocated memory block in `edx`, `esi` (or `edi` via push), and setting up the object."
+    },
+    {
+      "callee": "0x00414150",
+      "callsite_summary": "Called as the constructor/initializer for factory case 2, receiving the newly allocated memory in `edx`, the index `esi` in `ecx`, and additional context (`edi`) pushed on the stack."
+    },
+    {
+      "callee": "0x004117B0",
+      "callsite_summary": "Called as the constructor/initializer for factory case 3, receiving the newly allocated memory in `edx`, index `esi` in `ecx`, and `edi` pushed on the stack."
+    },
+    {
+      "callee": "0x004119C0",
+      "callsite_summary": "Called as the constructor/initializer for factory case 4, receiving the newly allocated memory in `edx`, index `esi` in `ecx`, and `edi` pushed on the stack."
+    },
+    {
+      "callee": "0x00411CB0",
+      "callsite_summary": "Called as the constructor/initializer for factory case 5, receiving the newly allocated memory in `edx`, index `esi` in `ecx`, and `edi` pushed on the stack."
+    },
+    {
+      "callee": "0x00411DD0",
+      "callsite_summary": "Called as the constructor/initializer for factory case 6, receiving the newly allocated memory in `edx`, index `esi` in `ecx`, and `edi` pushed on the stack."
+    },
+    {
+      "callee": "0x004121B0",
+      "callsite_summary": "Called as the constructor/initializer for factory case 7, receiving the newly allocated memory in `edx`, index `esi` in `ecx`, and `edi` pushed on the stack."
+    },
+    {
+      "callee": "0x00412330",
+      "callsite_summary": "Called as the constructor/initializer for factory case 8, receiving the newly allocated memory in `edx`, index `esi` in `ecx`, and `edi` pushed on the stack."
+    },
+    {
+      "callee": "0x004124B0",
+      "callsite_summary": "Called as the constructor/initializer for factory case 9, receiving the newly allocated memory in `edx`, index `esi` in `ecx`, and `edi` pushed on the stack."
+    },
+    {
+      "callee": "0x00412950",
+      "callsite_summary": "Called as the constructor/initializer for factory case 10, receiving the newly allocated memory in `edx`, index `esi` in `ecx`, and `edi` pushed on the stack."
+    },
+    {
+      "callee": "0x00412C80",
+      "callsite_summary": "Called as the constructor/initializer for factory case 11, receiving the newly allocated memory in `edx`, index `esi` in `ecx`, and `edi` pushed on the stack."
+    },
+    {
+      "callee": "0x00412D40",
+      "callsite_summary": "Called as the constructor/initializer for factory case 12, receiving the newly allocated memory in `edx`, index `esi` in `ecx`, and `edi` pushed on the stack."
+    },
+    {
+      "callee": "0x00412E50",
+      "callsite_summary": "Called as the constructor/initializer for factory case 13, receiving the newly allocated memory in `edx`, index `esi` in `ecx`, and `edi` pushed on the stack."
+    },
+    {
+      "callee": "0x00413050",
+      "callsite_summary": "Called as the constructor/initializer for factory case 14, receiving the newly allocated memory in `edx`, index `esi` in `ecx`, and `edi` pushed on the stack."
+    },
+    {
+      "callee": "0x00413390",
+      "callsite_summary": "Called as the constructor/initializer for factory case 15, receiving the newly allocated memory in `edx`, index `esi` in `ecx`, and `edi` pushed on the stack."
+    },
+    {
+      "callee": "0x004137C0",
+      "callsite_summary": "Called as the constructor/initializer for the final factory case, receiving the newly allocated memory in `edx`, index `esi` in `ecx`, and `edi` pushed on the stack."
+    }
+  ]
+}

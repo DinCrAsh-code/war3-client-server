@@ -1,0 +1,18 @@
+{
+  "suggested_name": "LookupBytecodeTable",
+  "prototype": "int __fastcall LookupBytecodeTable(int unused, int struct_ptr)",
+  "short_summary": "Iterates through a hardcoded table in the data section, conditionally accumulating 16-bit field values from a provided structure based on bit flags.",
+  "detailed_summary": "The function performs a loop over a table of 39 entries (progressing through 39 iterations from byte_41B178 up to the string 'dPF<2' at 0x0041BCF4 with a stride of 0x3C bytes). In each iteration, it checks a bit flag located at the current table pointer. If the low bit is set, it extracts two 16-bit values from offsets [edx] and [edx+0x62] of the input structure pointer passed in edx (which is pre-adjusted by adding 0x14), adds them together along with an accumulating sum, and updates the sum in eax. The input structure pointer (edx) is incremented by 2 on each iteration.",
+  "parameters": [
+    {
+      "name": "edx_struct_ptr",
+      "location": "edx",
+      "type": "void*",
+      "description": "Pointer to a data structure (accessed with offsets like +0x14, +0x16, +0x76, etc. due to the loop increments)."
+    }
+  ],
+  "return_value": "Accumulated integer result in eax",
+  "side_effects": [],
+  "data_structures": [],
+  "confidence": "high | clean loop structure inspecting a static table in .rdata and accumulating values from a structure pointer"
+}

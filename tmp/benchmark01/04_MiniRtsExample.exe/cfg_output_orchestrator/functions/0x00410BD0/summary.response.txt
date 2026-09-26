@@ -1,0 +1,40 @@
+{
+  "suggested_name": "ScriptVariable_Initialize",
+  "prototype": "void* __fastcall ScriptVariable_Initialize(void *varObj, int unused, char typeCode)",
+  "short_summary": "Initializes a script variable or runtime property object with default values, a vtable pointer, and a type-specific property computed from a passed-in identifier or type flag.",
+  "detailed_summary": "The function takes an allocated object pointer in `eax` and a byte/char value in `cl` (via `__fastcall`-like convention or caller setup), along with two dword arguments on the stack (`[esp+4]` and `[esp+8]`). It sets up the object's virtual table pointer at offset 0 to `off_41D3FC`, initializes various internal fields (such as setting offsets +4, +8, +0Ch, +18h, +20h), and populates floating-point fields using `fld1`, `fldz`, and a constant from `.rdata`. It performs a conditional operation on the type parameter `cl` (checking if `cl >= 0Eh`), computes an index via arithmetic and a lookup table (`byte_41C9E2`), and stores the resulting byte at offset +1Dh, while saving `cl` at offset +1Ch.",
+  "parameters": [
+    {
+      "name": "varObj",
+      "location": "eax",
+      "type": "void*",
+      "description": "Pointer to the newly allocated script variable or runtime object to initialize."
+    },
+    {
+      "name": "typeCode",
+      "location": "ecx",
+      "type": "char",
+      "description": "Type code or specifier passed to configure the variable/property."
+    },
+    {
+      "name": "arg1",
+      "location": "esp+4",
+      "type": "int",
+      "description": "Auxiliary argument stored into the object at offset +8."
+    },
+    {
+      "name": "arg2",
+      "location": "esp+8",
+      "type": "int",
+      "description": "Auxiliary argument stored into the object at offset +0Ch."
+    }
+  ],
+  "return_value": "Returns the initialized object pointer in eax.",
+  "side_effects": [
+    "Initializes the memory block pointed to by eax as a script variable/object structure."
+  ],
+  "data_structures": [
+    "ScriptVariable: +0x0 vtable*, +0x4 dword, +0x8 int/ptr, +0x0Ch int/ptr, +0x18h word, +0x1Ah byte, +0x1Bh byte, +0x1Ch byte (typeCode), +0x1Dh byte (lookup result), +0x20h dword"
+  ],
+  "confidence": "high based on clear initialization patterns, field offsets, and caller context."
+}

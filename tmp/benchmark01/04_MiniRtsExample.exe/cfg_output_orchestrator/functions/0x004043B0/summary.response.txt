@@ -1,0 +1,23 @@
+{
+  "suggested_name": "EvaluateResourceProperty",
+  "prototype": "float __cdecl EvaluateResourceProperty(void *resourceBlock)",
+  "short_summary": "Evaluates a resource block's configuration data and lookup tables to compute a scaling factor or dimension, returning the resulting floating-point value.",
+  "detailed_summary": "The function inspects a structure passed as an argument, checking flags at offset +2 and +0x3Bh, and iterates through a lookup table in read-only memory spanning from 0x0041CB18 to 0x0041CB98 with 16-byte strides. It matches condition codes based on table entries and index values, accumulating indices into `esi` or `eax`. It then combines these index values with a byte field at `[ebp+0Dh]`, performs multiplication, converts the integer result via `fild`, multiplies it by a floating-point constant from `.rdata` (0x0041D958), and returns the resulting float via `st(0)`.",
+  "parameters": [
+    {
+      "name": "resourceBlock",
+      "location": "[esp+4]",
+      "type": "void *",
+      "description": "Pointer to the resource block or configuration structure being evaluated."
+    }
+  ],
+  "return_value": "st(0) (floating-point value)",
+  "side_effects": [],
+  "data_structures": [
+    {
+      "name": "ResourceBlock",
+      "layout": "+0x2 byte flag_type, +0x0D byte scaling_factor_or_count, +0x3B byte sub_flag"
+    }
+  ],
+  "confidence": "medium | control flow is clear, but exact data structure layout and table semantics are inferred from index loops and constant addresses"
+}

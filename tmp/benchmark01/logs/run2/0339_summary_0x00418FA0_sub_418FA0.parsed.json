@@ -1,0 +1,28 @@
+{
+  "parsed_ok": true,
+  "suggested_name": "CompressLZ77",
+  "prototype": "int __cdecl CompressLZ77(const char *input_data, int input_size)",
+  "short_summary": "Performs LZ77 compression on an input buffer, writing compressed bytes to a global output buffer and returning the total compressed size.",
+  "detailed_summary": "The function initializes two hash tables (at `0x422C60` and `0x426C60`) with `-1` and processes the input data stream via LZ77 compression. It iterates through the input buffer, calling `FindMatchLZ77` (sub_418EC0) to find repeating substrings. If a match is found, it encodes the match distance and length into the output stream (`byte_41F3D8`) and updates the hash tables for the skipped bytes. If no match is found, it processes literals grouped in chunks of up to 8, utilizing a bitmask flag byte to indicate which bytes are literals versus matches. It includes safety checks ensuring output limits (`0x2440` bytes max) are not exceeded.",
+  "parameters": [
+    {
+      "name": "input_data",
+      "location": "[esp+28h+arg_0]",
+      "type": "const char *",
+      "description": "Pointer to the raw input data buffer to be compressed."
+    },
+    {
+      "name": "input_size",
+      "location": "[esp+30h+arg_4]",
+      "type": "int",
+      "description": "Size of the input data buffer in bytes."
+    }
+  ],
+  "return_value": "Returns the total size of the compressed output data in bytes via eax, or 0 if output buffer bounds are exceeded.",
+  "side_effects": [
+    "Modifies global LZ77 hash tables at 0x00422C60 and 0x00426C60",
+    "Writes compressed output bytes to global buffer byte_41F3D8"
+  ],
+  "data_structures": [],
+  "confidence": "high | matched LZ77 compression structure and hashing logic interacting with FindMatchLZ77"
+}

@@ -1,0 +1,29 @@
+{
+  "suggested_name": "CUnit::BuildOrSerializeCommandBatch",
+  "prototype": "void __stdcall CUnit::BuildOrSerializeCommandBatch(int arg_0, int arg_4)",
+  "short_summary": "Gathers selected entities or unit references from an entity's internal lists, builds a local command/target array, and serializes them using a helper routine.",
+  "detailed_summary": "The function inspects an entity instance (passed in ebx) to build a batch of unit pointers or command targets. First, if `[ebx+0x3C8]` is greater than 0, it copies a primary pointer/value located at `[ebx+0x248]` into a local stack buffer (`var_194`). Next, it iterates through a list of up to `[ebx+0x3DCh]` elements starting at `[ebx+0x3D0]`, checking a flag (`not cl & 1`) on each element's internal structure; if valid, it appends the pointer to the local stack buffer. If any items were gathered, it calls `SerializeCommandBatch` (`sub_404760`) passing the local buffer, the count, and parameters from the caller (`arg_0`, `arg_4`). Finally, it loads a floating-point value from a global location (`0x0042AC60`), manipulates the FPU stack, and returns.",
+  "parameters": [
+    {
+      "name": "arg_0",
+      "location": "[esp+0x1A4+arg_0]",
+      "type": "int",
+      "description": "Passed as an argument to the serialization routine sub_404760."
+    },
+    {
+      "name": "arg_4",
+      "location": "[esp+0x1A4+arg_4]",
+      "type": "int",
+      "description": "Passed as an argument to the serialization routine sub_404760."
+    }
+  ],
+  "return_value": "none",
+  "side_effects": [
+    "Calls sub_404760 to serialize a constructed command batch",
+    "Performs FPU operations using global 0x0042AC60"
+  ],
+  "data_structures": [
+    "CUnit entity layout: +0x248 target/pointer field, +0x3C8 count/flag, +0x3D0 array of pointers, +0x3DC array size"
+  ],
+  "confidence": "medium | Based on struct member offsets, stack buffer assembly, and a call to the known serialization routine sub_404760."
+}

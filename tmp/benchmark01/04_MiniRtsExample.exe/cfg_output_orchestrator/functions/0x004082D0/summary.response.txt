@@ -1,0 +1,28 @@
+{
+  "suggested_name": "UpdateEntitySlotProximityOrReferences",
+  "prototype": "void __stdcall UpdateEntitySlotProximityOrReferences(void *entityStruct, float distanceParam)",
+  "short_summary": "Validates entity status flags and iterates through an array of up to 4 indexed entity references to check distance thresholds, conditionally clearing or activating references based on proximity and entity state.",
+  "detailed_summary": "The function first checks two boolean flags at offsets +0x0A and +0x0B in the passed `entityStruct` (passed via `edi`). If either is zero, it exits early. Otherwise, it loops 4 times over an array of 32-bit handles/references starting at offset +0x0C. For each valid handle, it decodes an index and a generation/sequence counter, looks up the corresponding entity pointer from a global entity manager table (`dword_42AC60`), and verifies that the target entity is active and valid (checks internal flags at +0x1A and +0x18). It then computes the Euclidean distance between the entities, takes the square root via `_CIsqrt`, and compares it against a threshold from .rdata. If the distance condition is met and the target entity has a non-zero sub-pointer at +0x1F4, a local flag (`var_11`) is set. After checking all 4 slots, if the accumulated conditions fail or `var_11` is set/unset under specific checks, it either invokes `ResetOrClearEntityReferences` (`sub_4081B0`) or `CheckOrActivateReferences` (`sub_407FE0`) depending on a configuration byte at `[ecx+1B4h]` of the parent structure.",
+  "parameters": [
+    {
+      "name": "entityStruct",
+      "location": "edi",
+      "type": "void*",
+      "description": "Pointer to the primary entity/slot structure being processed."
+    },
+    {
+      "name": "distanceParam",
+      "location": "esp+0x20 / FPU stack",
+      "type": "float",
+      "description": "Floating-point parameter passed from the caller for proximity checks."
+    }
+  ],
+  "return_value": "none",
+  "side_effects": [
+    "Modifies reference states or clears references via sub_4081B0 / sub_407FE0 based on proximity checks."
+  ],
+  "data_structures": [
+    "EntityStruct: +0x0A bool flag1, +0x0B bool flag2, +0x0C array of 4 packed 32-bit entity handles/references, +0x1B4 config byte."
+  ],
+  "confidence": "high, clear control flow matching standard entity reference proximity validation patterns seen in earlier functions like sub_4081B0."
+}

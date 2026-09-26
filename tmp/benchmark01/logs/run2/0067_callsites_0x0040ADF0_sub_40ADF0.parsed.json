@@ -1,0 +1,7 @@
+{
+  "function_role": "Executes a virtual opcode handler (slot 22 in a script engine vtable) that processes a bytecode/script instruction parameter, checks bounds against an object property array/limit, and appends a new entry to an internal tracking structure if valid.",
+  "callsite_summaries": {
+    "0x0041A160": "Called to convert a floating-point operand value to an integer when the operand type indicator is 2. The resulting integer from st(0) is used as an array index or identifier in subsequent validation checks."
+  },
+  "fallbacks": []
+}

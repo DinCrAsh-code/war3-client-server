@@ -1,0 +1,30 @@
+{
+  "suggested_name": "WriteBitStreamVarInt",
+  "prototype": "void __fastcall WriteBitStreamVarInt(BitStreamContext *ctx, unsigned int value)",
+  "short_summary": "Serializes an integer value as a variable-length bit-packed integer (varint-style encoding using 7-bit chunks with continuation bits) into a bitstream buffer.",
+  "detailed_summary": "The function takes a context pointer in `eax` and an integer value in `ecx`. It loops, extracting 7-bit chunks from the value and setting an 8th continuation/more bit if more chunks remain. The context structure holds a pointer to the byte buffer (`+0`), the maximum capacity in bits (`+4`), the current bit write offset (`+8`), and an error/overflow flag (`+0Ch`). For each 7-bit chunk, it checks if sufficient space remains in the buffer, sets the error flag if an overflow occurs, and otherwise writes the bits into the byte-level buffer starting at the current bit index using a sequence of repeated bit-setting blocks for up to 8 bits per chunk. It repeats this process in a loop until the entire value has been shifted out and written.",
+  "parameters": [
+    {
+      "name": "ctx",
+      "location": "eax",
+      "type": "BitStreamContext *",
+      "description": "Pointer to the serialization context/buffer state structure."
+    },
+    {
+      "name": "value",
+      "location": "ecx",
+      "type": "unsigned int",
+      "description": "The integer value to be packed and written to the bitstream."
+    }
+  ],
+  "return_value": "none",
+  "side_effects": [
+    "Modifies the bitstream buffer memory pointed to by ctx->buffer",
+    "Updates the bit write offset at ctx->+8",
+    "May set the error/overflow flag at ctx->+0Ch if buffer bounds are exceeded"
+  ],
+  "data_structures": [
+    "BitStreamContext: +0x0 void* buffer, +0x4 unsigned int max_bits, +0x8 unsigned int current_bit_offset, +0xC char overflow_flag"
+  ],
+  "confidence": "high | The bitwise chunking logic (7 bits data + 1 continuation bit) combined with stream offset tracking and bounds checking precisely matches variable-length bitfield serialization routines."
+}

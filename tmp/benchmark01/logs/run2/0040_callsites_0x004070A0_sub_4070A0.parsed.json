@@ -1,0 +1,8 @@
+{
+  "function_role": "Evaluates unit/entity state, timers, and specific component/sub-item conditions (such as checking slot arrays and thresholds) to trigger actions or interact with other game entities via helper routines.",
+  "callsite_summaries": {
+    "0x004046B0": "Invoked to perform a primary unit action, command, or event dispatch (called with parameters including esi as the entity/source, ebp as an argument, constants like 0, 8, 0E_h, 0F_h, and pointers derived from components or slots).",
+    "0x004030C0": "Called with a pointer derived from esi ([esi+8]) to retrieve a related entity, component, or target pointer, whose validity and type properties are then checked before initiating further action."
+  },
+  "fallbacks": []
+}

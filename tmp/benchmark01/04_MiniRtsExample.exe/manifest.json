@@ -1,0 +1,32 @@
+{
+  "binary": "04_MiniRtsExample.exe",
+  "backend": "ida",
+  "tool_versions": {
+    "ida": "9.0"
+  },
+  "hashes": {
+    "md5": "5d7f50c8c4f2c2d66b3edadd84fb9873",
+    "sha1": "d1de9d37853db0896edb1dec9ca6c9608060afb7",
+    "sha256": "94f70f0bb1c060ce3952762dbb2fda101726739a475264d2a8ecbb5b2d1f6c2e"
+  },
+  "counts": {
+    "sections": 4,
+    "imports": 49,
+    "exports": 1,
+    "functions": 478,
+    "strings": 54,
+    "vtables": 36
+  },
+  "warnings": [],
+  "files": [
+    "metadata.json",
+    "sections.json",
+    "imports.json",
+    "exports.json",
+    "functions.json",
+    "strings.json",
+    "vtables.json",
+    "listing.asm",
+    "report.md"
+  ]
+}

@@ -1,0 +1,33 @@
+{
+  "function_role": "Performs geometric, spatial, or resource item computations for an individual resource entry in a loop, querying and interacting with subsystem tables and coordinate/index bounds using floating-point math.",
+  "callsites": [
+    {
+      "callee": "0x00417FD0",
+      "callsite_summary": "Called early in the function to initialize or perform setup calculations using floating-point values."
+    },
+    {
+      "callee": "0x00418050",
+      "callsite_summary": "Called at multiple points (e.g., around 0x004020FB and 0x0040247D) to perform floating-point utility calculations or math transformations during resource processing."
+    },
+    {
+      "callee": "0x00418140",
+      "callsite_summary": "Called near the beginning of the processing sequence after sub_418050 to perform a sub-step in the configuration or coordinate computation."
+    },
+    {
+      "callee": "0x00402560",
+      "callsite_summary": "Called at multiple places (0x0040211B, 0x004022ED, 0x00402537) with varying arguments and stack/register configurations to retrieve, store, or update data elements associated with the resource block (ebp)."
+    },
+    {
+      "callee": "0x0041A160",
+      "callsite_summary": "Invoked via the standard __ftol2_sse helper to convert floating-point values in st(0) into integers for grid/index clamping and boundary checks."
+    },
+    {
+      "callee": "0x00414CE0",
+      "callsite_summary": "Called inside a loop (clamping index up to 2 iterations) passing a computed index and a pointer to offset 0x1A20 of the resource block to query or validate grid/spatial status."
+    },
+    {
+      "callee": "0x00414E40",
+      "callsite_summary": "Called inside an outer nested loop over 5 iterations to check or update spatial resource status, passing pointer structures (including var_68 and var_60) and offset 0x1A20 of the resource block."
+    }
+  ]
+}

@@ -1,0 +1,48 @@
+
+LoadLibrary(C:\Program Files\IDA Professional 9.0\plugins\fusion.dll) error: Не найдена указанная процедура.
+C:\Program Files\IDA Professional 9.0\plugins\fusion.dll: can't load file
+
+LoadLibrary(C:\Program Files\IDA Professional 9.0\plugins\fusion64.dll) error: Не найден указанный модуль.
+C:\Program Files\IDA Professional 9.0\plugins\fusion64.dll: can't load file
+C:/Program Files/IDA Professional 9.0/plugins/retsync_ida/SyncPlugin.py:927: SyntaxWarning: invalid escape sequence '\('
+  pattern = re.compile('preprocess_action\(self, name\) -> int')
+Database C:\Users\New\Desktop\projects\RE\ingame\my_tools\re_tests\build\04_MiniRtsExample\04_MiniRtsExample.exe.i64 already exists.
+Do you want to overwrite it? -> ~L~oad existing
+
+  bytes   pages size description
+--------- ----- ---- --------------------------------------------
+   524288    64 8192 allocating memory for b-tree...
+   524288    64 8192 allocating memory for virtual array...
+   262144    32 8192 allocating memory for name pointers...
+-----------------------------------------------------------------
+  1310720            total memory allocated
+
+Loading processor module C:\Program Files\IDA Professional 9.0\procs\pc.dll for metapc...Initializing processor module metapc...OK
+Loading type libraries...
+Autoanalysis subsystem has been initialized.
+
+LoadLibrary(C:\Program Files\IDA Professional 9.0\plugins\fusion.dll) error: Не найдена указанная процедура.
+C:\Program Files\IDA Professional 9.0\plugins\fusion.dll: can't load file
+
+LoadLibrary(C:\Program Files\IDA Professional 9.0\plugins\fusion64.dll) error: Не найден указанный модуль.
+C:\Program Files\IDA Professional 9.0\plugins\fusion64.dll: can't load file
+C:/Program Files/IDA Professional 9.0/plugins/retsync_ida/SyncPlugin.py:927: SyntaxWarning: invalid escape sequence '\('
+  pattern = re.compile('preprocess_action\(self, name\) -> int')
+Database for file '04_MiniRtsExample.exe' has been loaded.
+Hex-Rays Decompiler plugin has been loaded (v9.0.0.241217)
+  The hotkeys are F5: decompile, Ctrl-F5: decompile all.
+
+  Please check the Edit/Plugins menu for more information.
+[FuncStrPlugin] term() called.
+
+LoadLibrary(C:\Program Files\IDA Professional 9.0\plugins\fusion.dll) error: Не найдена указанная процедура.
+C:\Program Files\IDA Professional 9.0\plugins\fusion.dll: can't load file
+
+LoadLibrary(C:\Program Files\IDA Professional 9.0\plugins\fusion64.dll) error: Не найден указанный модуль.
+C:\Program Files\IDA Professional 9.0\plugins\fusion64.dll: can't load file
+Hex-rays version 9.0.0.241217 has been detected, gooMBA plugin ready to use
+Flushing buffers, please wait...ok
+FAILED TO DETACH MENU ITEM View/Graphs//Find paths to the current function from...
+FAILED TO DETACH MENU ITEM View/Graphs//Find paths from the current function to...
+FAILED TO DETACH MENU ITEM View/Graphs//Find paths in the current function to the current code block
+Unloading IDP module C:\Program Files\IDA Professional 9.0\procs\pc.dll...

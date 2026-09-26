@@ -1,0 +1,30 @@
+{
+  "parsed_ok": true,
+  "suggested_name": "HandleOpcodeType2",
+  "prototype": "void __cdecl HandleOpcodeType2(void *this_ptr, const void *operand_struct)",
+  "short_summary": "Handles a specific bytecode/script operand or instruction by checking its type tag and storing either a converted floating-point or direct integer value into a global state structure.",
+  "detailed_summary": "The function checks the type tag byte at the start of the operand structure passed via `[esp+4]`. If the type byte equals 2, it loads the floating-point value from the structure, converts it to a 32-bit integer using `__ftol2_sse`, and stores the integer into a global buffer at an offset (`dword_42AC60 + 0x5BBD4`), while setting a status flag at `dword_42AC60 + 0x5BBD0` to 1. If the type tag is not 2, it reads an integer value directly from offset +4 of the operand structure and performs the same store and flag update operations.",
+  "parameters": [
+    {
+      "name": "this_ptr",
+      "location": "ecx / implicit",
+      "type": "void*",
+      "description": "The 'this' pointer for the current interpreter/script object (passed via ESI from caller, though not explicitly referenced except via global state)."
+    },
+    {
+      "name": "operand_struct",
+      "location": "[esp+4]",
+      "type": "void*",
+      "description": "Pointer to an operand structure containing a type tag byte at offset 0 and a value (float or int) at offset 4."
+    }
+  ],
+  "return_value": "none",
+  "side_effects": [
+    "modifies a global state structure at dword_42AC60 (+0x5BBD0 and +0x5BBD4)"
+  ],
+  "data_structures": [
+    "Operand structure: +0x0 byte type tag, +0x4 value (float or int)",
+    "Global state object at dword_42AC60: +0x5BBD0 status byte, +0x5BBD4 integer value storage"
+  ],
+  "confidence": "high | complete disassembly mapped accurately to structure fields and global offsets"
+}

@@ -1,0 +1,9 @@
+{
+  "function_role": "Iterates through a collection of active simulation or resource items within the main RM block (passed in esi), checking their status flags, validity constraints, and bitmask configurations before invoking a management/processing function on matching elements.",
+  "callsites": [
+    {
+      "callee": "0x00417B50",
+      "callsite_summary": "Called inside the inner item-processing loop for elements that pass status, flag, and bitmask checks. It receives stack arguments derived from the current element's properties and offset references from the main resource block (esi), executing a subsystem operation for the validated resource/simulation item."
+    }
+  ]
+}

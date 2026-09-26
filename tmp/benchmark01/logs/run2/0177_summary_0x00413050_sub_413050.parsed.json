@@ -1,0 +1,42 @@
+{
+  "parsed_ok": true,
+  "suggested_name": "InitializeComponentType14",
+  "prototype": "void __fastcall InitializeComponentType14(void *this_obj, int edx_unused, int arg_ecx, int arg_stack)",
+  "short_summary": "Initializes a newly allocated component object (factory case 14) by setting up its virtual method table, initializing fields based on the provided index and argument, and performing lookup operations on a global configuration table.",
+  "detailed_summary": "The function initializes a structure pointed to by `eax` (which appears to be `this`). It sets the virtual table pointer twice (initially to `off_41D464`, later finalized to `off_41D6D4`), stores `edx` at `+0x8`, clears `+0x4` to zero, and stores `cl` (derived from an argument) into `+0x10`. It performs range clamping or masking on `ecx` (using bit manipulation with `cmp ecx, 18h` and `setnl`), multiplies or uses it as an index to compute an offset into the global table `byte_41BDC0`, stores the resulting pointer at `+0xc`, extracts specific bit flags from the table entry (shifting and masking), and stores a derived boolean flag at `+0x12`, zeroing out `+0x13`. Floating-point operations (`fldz`, `fst`, `fstp`) are executed, possibly to initialize internal floating-point members or due to compiler optimization remnants.",
+  "parameters": [
+    {
+      "name": "this_obj",
+      "location": "eax",
+      "type": "void*",
+      "description": "Pointer to the newly allocated component structure being initialized."
+    },
+    {
+      "name": "val_edx",
+      "location": "edx",
+      "type": "int",
+      "description": "A value stored into the object at offset +0x8."
+    },
+    {
+      "name": "index_ecx",
+      "location": "ecx",
+      "type": "int",
+      "description": "An index or type identifier used for configuration and table lookups."
+    },
+    {
+      "name": "arg_0",
+      "location": "[esp+4]",
+      "type": "unsigned char",
+      "description": "An additional byte argument stored into the object at offset +0x11."
+    }
+  ],
+  "return_value": "none",
+  "side_effects": [
+    "Initializes memory fields and virtual table pointers of the object passed in eax",
+    "Accesses global configuration tables byte_41BDC0 and virtual tables off_41D464/off_41D6D4"
+  ],
+  "data_structures": [
+    "ComponentType14: +0x0 vtable*, +0x4 unknown/zero, +0x8 pointer/int, +0xc table_ptr, +0x10 byte_val, +0x11 byte_val2, +0x12 flag_byte, +0x13 byte_zero"
+  ],
+  "confidence": "high | well-aligned with the caller's description as a factory constructor for case 14"
+}

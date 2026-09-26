@@ -1,0 +1,40 @@
+{
+  "parsed_ok": true,
+  "suggested_name": "vector_destructor",
+  "prototype": "void __stdcall vector_destructor(void *ptr, int element_size, int count, void (__cdecl *dtor)(void *))",
+  "short_summary": "Destroys an array of objects by invoking a provided element destructor function on each element in forward order, with SEH protection that delegates to __ArrayUnwind if an exception occurs mid-destruction.",
+  "detailed_summary": "This function implements the standard MSVC C++ vector destructor helper (mangled as `??_M@YGXPAXIHP6EX0@Z@Z`). It sets up a Structured Exception Handling (SEH) frame and computes the pointer to the end (or rather, shifts the base pointer to point just past the last element by adding element_size * count). It then enters a loop where it decrements the count, moves backward/forward across the array elements, and calls the element destructor `dtor` on each. If an exception interrupts this forward destruction loop before completion (indicated by a completion flag `var_1C` remaining zero), the SEH cleanup filter invokes `__ArrayUnwind` to safely unwind and destroy the successfully constructed preceding elements.",
+  "parameters": [
+    {
+      "name": "ptr",
+      "location": "[ebp+arg_0]",
+      "type": "void *",
+      "description": "Pointer to the beginning of the array to be destroyed."
+    },
+    {
+      "name": "element_size",
+      "location": "[ebp+arg_4]",
+      "type": "int",
+      "description": "Size of a single array element in bytes."
+    },
+    {
+      "name": "count",
+      "location": "[ebp+arg_8]",
+      "type": "int",
+      "description": "Number of elements in the array."
+    },
+    {
+      "name": "dtor",
+      "location": "[ebp+arg_C]",
+      "type": "void (__cdecl *)(void *)",
+      "description": "Pointer to the element destructor function."
+    }
+  ],
+  "return_value": "none",
+  "side_effects": [
+    "invokes the provided destructor function on elements of the array",
+    "unwinds partially-destroyed arrays via __ArrayUnwind if an exception occurs"
+  ],
+  "data_structures": [],
+  "confidence": "high | standard Microsoft compiler helper function signature and implementation match completely"
+}

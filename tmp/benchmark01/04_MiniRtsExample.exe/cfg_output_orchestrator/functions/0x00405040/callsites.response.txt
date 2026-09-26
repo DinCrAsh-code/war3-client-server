@@ -1,0 +1,9 @@
+{
+  "function_role": "Evaluates or processes an entity/object state during simulation updates, iterating through configuration data structures or lookup tables based on object properties and calling sub_404EA0 in a loop to test or apply conditions.",
+  "callsites": [
+    {
+      "callee": "0x00404EA0",
+      "callsite_summary": "Invoked in a loop over entity configuration items (up to an index limit determined by local flags and count structures) with the entity pointer in `eax` and a calculated parameter pushed on the stack. The return value in `al` dictates whether the loop continues to the next iteration or terminates early."
+    }
+  ]
+}

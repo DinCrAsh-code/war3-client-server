@@ -1,0 +1,7 @@
+{
+  "function_role": "Performs mathematical operations on floating-point values—involving scaling, rounding via truncation/ftol, and clamping—to compute a composite integer index or table lookup coordinate based on bounds constraints (limiting values between 0 and 23).",
+  "callsite_summaries": {
+    "0x0041A160": "Called twice within the function to convert intermediate floating-point calculation results in the x87 FPU stack into integer values (via __ftol2_sse) so they can be clamped and combined into a final coordinate/index returned in eax."
+  },
+  "fallbacks": []
+}

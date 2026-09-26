@@ -1,0 +1,44 @@
+{
+  "parsed_ok": true,
+  "suggested_name": "ExecuteSpawnEntityScriptOpcode",
+  "prototype": "void __stdcall ExecuteSpawnEntityScriptOpcode(void *this_ptr, void *script_args, int unused, void *out_status)",
+  "short_summary": "Executes a bytecode script instruction that spawns and registers a game entity based on coordinates, type, and variant parameters extracted from the script operand block.",
+  "detailed_summary": "The function processes a script operand structure (passed in ESI), evaluating up to four initial numeric operands (handling both floating-point and integer representations via type tags) to determine entity type and variant identifiers. It validates these identifiers against boundary limits and configuration tables. Next, it extracts and converts coordinate parameters, calls `ConvertAndClampCoordinate` to clamp them to the valid grid range, and uses `CheckGridAreaOrFindNearby` to locate an accessible placement position on the game map grid. If a valid position is found, it computes final coordinates and invokes `CreateAndRegisterResourceEntity` to instantiate the entity and register it into the game's spatial tracking and resource management systems. Finally, it populates the status output structure (`out_status`) with the resulting entity identifier or zero on failure.",
+  "parameters": [
+    {
+      "name": "this_ptr",
+      "location": "[ebp+8] (passed via EDI/ESI dispatch mechanism)",
+      "type": "void*",
+      "description": "Virtual dispatch 'this' pointer (bytecode interpreter context)."
+    },
+    {
+      "name": "script_args",
+      "location": "[ebp+12]",
+      "type": "void*",
+      "description": "Pointer to the bytecode operand block containing type, variant, and coordinate values."
+    },
+    {
+      "name": "unused",
+      "location": "[ebp+16]",
+      "type": "int",
+      "description": "Unused parameter slot."
+    },
+    {
+      "name": "out_status",
+      "location": "[ebp+20]",
+      "type": "void*",
+      "description": "Pointer to output status structure where operation result (type and entity ID) is written."
+    }
+  ],
+  "return_value": "none",
+  "side_effects": [
+    "Allocates and registers a new game entity via CreateAndRegisterResourceEntity",
+    "Modifies spatial grid and resource tracking structures",
+    "Writes result status and entity ID into the caller-provided out_status structure"
+  ],
+  "data_structures": [
+    "Script operand block: +0x0 type tag / integer, +0x4/0xC numeric values, +0x10/0x18 coordinate parameters",
+    "Output status structure: +0x0 status code/type (set to 3), +0x4 created entity ID pointer"
+  ],
+  "confidence": "high | complete bottom-up context mapping and direct library/helper matches"
+}

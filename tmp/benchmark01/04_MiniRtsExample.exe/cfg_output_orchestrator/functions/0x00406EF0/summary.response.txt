@@ -1,0 +1,85 @@
+{
+  "suggested_name": "Entity_CheckAndSerializeCommand",
+  "prototype": "__thiscall void Entity_CheckAndSerializeCommand(void *entity, int arg1, int arg2)",
+  "short_summary": "Validates entity state/timers and serializes a network command packet into a bitstream if rate limits and conditions are satisfied.",
+  "detailed_summary": "The function first checks if the entity pointer's field at offset +0x258 is positive. It then verifies if enough time/ticks have elapsed since the last command for this index (using a global tick tracker at 0x42AC60 and an array offset at entity+arg_4*4+0x12C). Next, it performs validation checks on entity byte fields (offsets +0x260 to +0x262) and lookup tables to ensure the entity is in a valid state for command transmission. If checks pass, it constructs a command packet structure on the stack (including entity coordinates from offsets +4, +8, +0xC and other parameters) and either updates counter statistics or calls sub_418AA0 (BitStream_WriteBits) and sub_4087D0 (SerializeCommandPacket) to serialize the command into a network bitstream, updating the timestamp array for the given index.",
+  "parameters": [
+    {
+      "name": "entity",
+      "location": "eax (implied thiscall / register convention)",
+      "type": "void*",
+      "description": "Pointer to the entity object being checked."
+    },
+    {
+      "name": "arg_0",
+      "location": "[esp+0x54]",
+      "type": "void*",
+      "description": "Pointer to a context or packet destination structure."
+    },
+    {
+      "name": "arg_4",
+      "location": "[esp+0x58]",
+      "type": "int",
+      "description": "Index or identifier used for timing and array lookups."
+    }
+  ],
+  "return_value": "none",
+  "side_effects": [
+    "Writes to global timer/packet statistics",
+    "Serializes data into a bitstream via sub_4087D0 and sub_418AA0",
+    "Updates entity-related timestamp/state arrays"
+  ],
+  "data_structures": [
+    {
+      "name": "Entity",
+      "fields": [
+        {
+          "offset": "+0x4",
+          "type": "float",
+          "description": "X coordinate"
+        },
+        {
+          "offset": "+0x8",
+          "type": "float",
+          "description": "Y coordinate"
+        },
+        {
+          "offset": "+0xC",
+          "type": "float",
+          "description": "Z coordinate"
+        },
+        {
+          "offset": "+0x5C",
+          "type": "byte",
+          "description": "Entity type / flag byte"
+        },
+        {
+          "offset": "+0x12C",
+          "type": "int[]",
+          "description": "Array of last command timestamps/ticks indexed by arg_4"
+        },
+        {
+          "offset": "+0x24C",
+          "type": "int",
+          "description": "State flag or counter"
+        },
+        {
+          "offset": "+0x250",
+          "type": "int",
+          "description": "Threshold or limit value"
+        },
+        {
+          "offset": "+0x258",
+          "type": "int",
+          "description": "Active check value / timer limit"
+        },
+        {
+          "offset": "+0x260-0x262",
+          "type": "bytes",
+          "description": "Sub-state bytes"
+        }
+      ]
+    }
+  ],
+  "confidence": "high, clear register usage, standard network serialization pattern matching known engine routines"
+}

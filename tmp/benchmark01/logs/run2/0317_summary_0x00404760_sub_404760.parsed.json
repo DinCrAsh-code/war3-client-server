@@ -1,0 +1,52 @@
+{
+  "parsed_ok": true,
+  "suggested_name": "SerializeCommandBatch",
+  "prototype": "void __stdcall SerializeCommandBatch(const void *arg_0, void *arg_4, int count, char arg_C, int arg_10, const void *arg_14)",
+  "short_summary": "Iterates over a collection of items, populates a local command packet structure with pointers and metadata, and serializes it using the packet serialization routine.",
+  "detailed_summary": "The function initializes a local buffer/structure on the stack representing a command packet. It iterates up to 'count' times, extracting pointers from an input array (arg_4) and copying metadata bytes from arg_0, storing them into the local packet structure. It checks network/buffer state limits using a global tracking structure at dword_42AC60, updating packet counts and error flags if capacity is exceeded. Finally, it invokes sub_4087D0 [SerializeCommandPacket] to serialize the constructed packet structure into a bitstream.",
+  "parameters": [
+    {
+      "name": "arg_0",
+      "location": "[esp+50h+arg_0]",
+      "type": "const void*",
+      "description": "Source pointer providing header/type bytes for the command packet."
+    },
+    {
+      "name": "arg_4",
+      "location": "[esp+50h+arg_4]",
+      "type": "void**",
+      "description": "Array of item pointers to be processed and packed into the command."
+    },
+    {
+      "name": "count",
+      "location": "[esp+50h+arg_8]",
+      "type": "int",
+      "description": "Number of items in the collection / iteration limit."
+    },
+    {
+      "name": "arg_C",
+      "location": "[esp+50h+arg_C]",
+      "type": "char",
+      "description": "Configuration flag incorporated into the command packet header."
+    },
+    {
+      "name": "arg_10",
+      "location": "[esp+50h+arg_10]",
+      "type": "int",
+      "description": "Integer parameter/ID included in the packet structure."
+    },
+    {
+      "name": "arg_14",
+      "location": "[esp+50h+arg_14]",
+      "type": "const void*",
+      "description": "Additional pointer source providing secondary payload/address fields for the packet."
+    }
+  ],
+  "return_value": "none",
+  "side_effects": [
+    "Serializes command packets into a global bitstream/buffer via sub_4087D0",
+    "Modifies global statistics and state counters within the structure at dword_42AC60"
+  ],
+  "data_structures": [],
+  "confidence": "high | standard stack-based arguments and control flow matching caller expectations and packet serialization logic"
+}

@@ -1,0 +1,8 @@
+{
+  "function_role": "Iterates through a bitmask-managed collection or sparse structure provided via arguments, inspecting bits and conditionally executing element-processing routines on items that match specific criteria.",
+  "callsite_summaries": {
+    "0x00408A00": "Called inside a loop over elements of a bitmask-checked collection to retrieve or inspect data into a local buffer (passed via an address to a local structure, &var_58). The byte return value in al is tested to determine whether to proceed with processing the current item.",
+    "0x00408D70": "Called inside the element-processing loop when the preceding check on sub_408A00 succeeds. It takes the base resource pointer (ebp) and a pointer to a local buffer/state variable (esi / &var_48), likely operating on or updating the current active element."
+  },
+  "fallbacks": []
+}

@@ -1,0 +1,41 @@
+{
+  "suggested_name": "RtsComponentType3_Constructor",
+  "prototype": "void* __fastcall RtsComponentType3_Constructor(void *this, void *edx, int arg_ecx, char arg_0)",
+  "short_summary": "Initializes a newly allocated component object (factory case 3) by setting up its virtual table, storing configuration parameters, clamping and scaling an index to reference a lookup table entry, and extracting flags.",
+  "detailed_summary": "The function acts as a constructor or initializer for a specific object instance (likely representing a game component or entity in the RTS engine). It receives the object pointer in `eax`, a parameter in `edx`, an integer index/ID in `ecx`, and an argument on the stack (`arg_0`). It sets up an initial virtual table pointer at offset 0 (`off_41D464`), clears offset +4, and stores `edx` at offset +8. It performs a conditional check on `ecx` (`cmp ecx, 18h`), clamping or wrapping the index value if it is greater than or equal to 24. It then multiplies this clamped index by an element size to compute an offset into a global configuration lookup table (`byte_41BDC0`), storing a pointer to the resulting table entry at offset +12. Additional configuration flags and bytes are extracted from the lookup table entry and the input parameters, stored at offsets +16 through +19, and finally the virtual table pointer is updated to its final value (`off_41D498`).",
+  "parameters": [
+    {
+      "name": "this",
+      "location": "eax",
+      "type": "void*",
+      "description": "Pointer to the newly allocated component memory block being initialized."
+    },
+    {
+      "name": "param_edx",
+      "location": "edx",
+      "type": "void*",
+      "description": "A pointer or reference value stored into offset +8 of the object."
+    },
+    {
+      "name": "param_ecx",
+      "location": "ecx",
+      "type": "int",
+      "description": "An index or type identifier used to index into the lookup table byte_41BDC0."
+    },
+    {
+      "name": "arg_0",
+      "location": "[esp+4]",
+      "type": "char",
+      "description": "An additional byte parameter stored at offset +17 of the object."
+    }
+  ],
+  "return_value": "none",
+  "side_effects": [
+    "Initializes fields of the object pointed to by eax",
+    "References global read-only data structures off_41D464, off_41D498, and byte_41BDC0"
+  ],
+  "data_structures": [
+    "Component Object: +0x0 vtable pointer, +0x4 dword (0), +0x8 pointer, +0xC table entry pointer, +0x10 byte (clamped index/param), +0x11 byte (arg_0), +0x12 byte (extracted flag from table), +0x13 byte (0)"
+  ],
+  "confidence": "high, clear assembly mapping to a C++ object constructor pattern with field initializations and vtable assignment."
+}

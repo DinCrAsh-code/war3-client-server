@@ -1,0 +1,8 @@
+{
+  "function_role": "Acts as a sophisticated validation and filtering predicate for game entities/components, checking entity status flags, type attributes, bitmasks, and spatial or numerical criteria against a query criteria structure before deciding if the entity matches.",
+  "callsite_summaries": {
+    "0x004042B0": "Called conditionally when the first criteria flag (`bl & 1`) is set, passing a derived/indexed entity property in `eax` (from `esi`) and an entity type byte in `ecx` (from `edi+1Bh`), and aborts/rejects the entity if the returned boolean `al` is zero.",
+    "0x00403320": "Called conditionally when bit 8 (`0x100`) of the criteria flags (`ebx`) is set, passing the entity pointer in `edx` (`edi`) and a scalar/parameter in `eax` (`ebp+4`), using the boolean return value in `al` to determine whether to accept or reject the entity."
+  },
+  "fallbacks": []
+}

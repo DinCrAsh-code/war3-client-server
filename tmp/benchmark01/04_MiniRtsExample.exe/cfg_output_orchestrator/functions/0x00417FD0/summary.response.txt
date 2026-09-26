@@ -1,0 +1,30 @@
+{
+  "suggested_name": "Vec3_NormalizeOrZero",
+  "prototype": "float __cdecl Vec3_NormalizeOrZero(float x, float y, float z)",
+  "short_summary": "Computes the Euclidean length of a 3D vector and normalizes it, returning 1/length or 0 if the length is zero or near-zero.",
+  "detailed_summary": "The function receives 3 floating-point coordinates (likely on the x87 FPU stack or passed as arguments). It computes the sum of squares ($x^2 + y^2 + z^2$), takes the square root using _CIsqrt to find the magnitude, and compares it against zero. If the magnitude is valid (non-zero), it computes the reciprocal ($1 / \\text{length}$) and scales each component of the vector by this reciprocal before returning. If the vector length is zero or near-zero, it avoids division by zero and returns appropriate zero/one defaults.",
+  "parameters": [
+    {
+      "name": "x",
+      "location": "st(2) / stack",
+      "type": "float",
+      "description": "X component of the vector"
+    },
+    {
+      "name": "y",
+      "location": "st(1) / stack",
+      "type": "float",
+      "description": "Y component of the vector"
+    },
+    {
+      "name": "z",
+      "location": "st(0) / stack",
+      "type": "float",
+      "description": "Z component of the vector"
+    }
+  ],
+  "return_value": "float in st(0), or vector components modified in-place/returned via FPU stack",
+  "side_effects": [],
+  "data_structures": [],
+  "confidence": "high, standard vector normalization and safe-inverse-sqrt pattern in x87 assembly"
+}

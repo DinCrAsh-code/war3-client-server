@@ -1,0 +1,29 @@
+{
+  "parsed_ok": true,
+  "suggested_name": "VM_OpcodeHandler_Slot11",
+  "prototype": "void __fastcall VM_OpcodeHandler_Slot11(void *pThis, void *edx_unused, void *arg_struct)",
+  "short_summary": "Executes a virtual machine bytecode instruction handler that processes typed operands (converting floating-point to integer if necessary) and updates a global state array based on an opcode index.",
+  "detailed_summary": "The function begins by checking the type tag at the start of an argument structure (pointed to by arg_4). If the tag is 2, it loads a floating-point value from the x87 stack and converts it to an integer using __ftol2_sse; otherwise, it reads a 32-bit integer directly from offset +4 of the argument structure. This value is used as an index (ESI) bounded between 0 and 5 inclusive. It then fetches a second operand: if the type tag at offset +8 is 2, it converts another floating-point value from the x87 stack; otherwise, it reads a 32-bit integer from offset +0Ch. The index is multiplied by a value from a global base array located at 0x0042AC60, and the resulting offset is updated by adding the second operand value.",
+  "parameters": [
+    {
+      "name": "pThis",
+      "location": "ecx",
+      "type": "void*",
+      "description": "The 'this' pointer for the virtual table object (implicit fastcall)"
+    },
+    {
+      "name": "arg_struct",
+      "location": "[esp+8]",
+      "type": "void*",
+      "description": "Pointer to an argument/operand structure containing type tags and values"
+    }
+  ],
+  "return_value": "none",
+  "side_effects": [
+    "modifies values in the global data structure rooted at 0x0042AC60"
+  ],
+  "data_structures": [
+    "Argument struct: +0x0 byte type tag, +0x4 int/float value, +0x8 byte type tag, +0x0C int/float value"
+  ],
+  "confidence": "high | standard VM opcode handler pattern with type coercion and bounds checking"
+}

@@ -1,0 +1,30 @@
+{
+  "suggested_name": "CalculateEntityProximityValue",
+  "prototype": "float __stdcall CalculateEntityProximityValue(void *entity, void *grid_data)",
+  "short_summary": "Queries nearby entities using a spatial grid and a criteria filter, then loops over the results to accumulate a proximity or distance-based value returned in st(0).",
+  "detailed_summary": "The function allocates local storage for up to 48 (30h) entities and calls SpatialGridQueryEntities to retrieve entities surrounding the input entity (whose pointer is passed as arg_0). It passes the ValidateEntityCriteriaFilter function pointer as the filtering callback. It then iterates through the returned array of entity pointers in chunks of 4 (unrolled loop) and remainder elements, checking entity flags (+0x18, +0x1C) and performing floating-point calculations to accumulate a value based on spatial proximity or relative metrics. Finally, it cleans up the stack and returns the accumulated float value in st(0).",
+  "parameters": [
+    {
+      "name": "entity",
+      "location": "[esp+0ECh + arg_0]",
+      "type": "void *",
+      "description": "Pointer to the reference entity around which the spatial query and proximity calculations are performed."
+    },
+    {
+      "name": "grid_data",
+      "location": "passed via global/EDX setup",
+      "type": "void *",
+      "description": "Spatial grid data structure used for querying nearby entities."
+    }
+  ],
+  "return_value": "Accumulated floating-point proximity/distance value returned in st(0).",
+  "side_effects": [],
+  "data_structures": [
+    "Entity: +0x18 byte flags, +0x1C sub-structure pointer containing +0xC byte status."
+  ],
+  "confidence": "high | matched spatial grid query pattern and entity filter callback signature",
+  "data_structures": [
+    "Entity: +0x18 byte flags, +0x1C pointer to sub-struct with byte at +0xC"
+  ],
+  "confidence": "high based on clear API usage of SpatialGridQueryEntities and ValidateEntityCriteriaFilter"
+}

@@ -1,0 +1,19 @@
+{
+  "parsed_ok": true,
+  "suggested_name": "GetFloatOperand",
+  "prototype": "double __cdecl GetFloatOperand(const void *operand)",
+  "short_summary": "Extracts and converts a floating-point operand value based on its type tag, returning it as a double in st(0).",
+  "detailed_summary": "The function checks a type tag byte at the address passed in EAX. If the type byte equals 2, it loads a floating-point value from the operand structure, normalizes/reloads it via temporary floating-point stack operations, and leaves the final float in st(0). Otherwise (if the type is not 2, typically representing an integer type), it loads the value as an integer using fild, converts it, and leaves the resulting float in st(0).",
+  "parameters": [
+    {
+      "name": "operand",
+      "location": "eax",
+      "type": "const void *",
+      "description": "Pointer to an operand structure containing a type tag byte at offset 0 followed by the value data."
+    }
+  ],
+  "return_value": "st(0) (floating-point value)",
+  "side_effects": [],
+  "data_structures": [],
+  "confidence": "high | The function directly matches the caller description for extracting/converting a float operand based on a type tag in [eax]."
+}

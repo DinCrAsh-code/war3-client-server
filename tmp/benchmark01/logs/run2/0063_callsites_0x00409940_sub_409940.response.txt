@@ -1,0 +1,153 @@
+{
+  "function_role": "Interprets and executes bytecode/script stream instructions from a resource structure (ESI), dispatching based on opcode bytes using a large switch/dispatch table and invoking specialized helper routines or recursive sub-executions.",
+  "callsites": [
+    {
+      "callee": "0x004098B0",
+      "callsite_summary": "Called throughout opcode handling to push or store a computed value, result, or variable back into the VM/state buffer or register set, passing the 'this' pointer in EAX and a pointer to the value structure in EDX."
+    },
+    {
+      "callee": "0x004098F0",
+      "callsite_summary": "Called across various instruction handlers to fetch, read, or evaluate a variable or operand from the state/VM structure (in EAX), storing the retrieved value into a local buffer pointer passed in ECX."
+    },
+    {
+      "callee": "0x004094B0",
+      "callsite_summary": "Called to perform a binary or arithmetic operation on two fetched variable/operand buffers (passed via ECX and EAX) with an operation code in EDX, returning a combined result."
+    },
+    {
+      "callee": "0x00409680",
+      "callsite_summary": "Called to perform a comparison or relational operation between two operand buffers (passed via ECX and EAX) with an operator code (4) in EDX, returning a condition flag in AL."
+    },
+    {
+      "callee": "0x00409480",
+      "callsite_summary": "Called to check or test the validity/truth state of an operand buffer (passed in EAX), returning a boolean flag in AL."
+    },
+    {
+      "callee": "0x0040A2A0",
+      "callsite_summary": "Retrieved from slot 0 of vtable 0x0041D228 and called via a dynamic dispatch table with four arguments (this pointer in ESI, fetched operand pointers, count, and status output) to execute a specific virtual opcode handler."
+    },
+    {
+      "callee": "0x0040A2D0",
+      "callsite_summary": "Retrieved from slot 1 of vtable 0x0041D228 and called via a dynamic dispatch table with four arguments (this pointer in ESI, fetched operand pointers, count, and status output) to execute a specific virtual opcode handler."
+    },
+    {
+      "callee": "0x0040A380",
+      "callsite_summary": "Retrieved from slot 2 of vtable 0x0041D228 and called via a dynamic dispatch table with four arguments (this pointer in ESI, fetched operand pointers, count, and status output) to execute a specific virtual opcode handler."
+    },
+    {
+      "callee": "0x0040A3F0",
+      "callsite_summary": "Retrieved from slot 3 of vtable 0x0041D228 and called via a dynamic dispatch table with four arguments (this pointer in ESI, fetched operand pointers, count, and status output) to execute a specific virtual opcode handler."
+    },
+    {
+      "callee": "0x0040A540",
+      "callsite_summary": "Retrieved from slot 4 of vtable 0x0041D228 and called via a dynamic dispatch table with four arguments (this pointer in ESI, fetched operand pointers, count, and status output) to execute a specific virtual opcode handler."
+    },
+    {
+      "callee": "0x0040A5A0",
+      "callsite_summary": "Retrieved from slot 5 of vtable 0x0041D228 and called via a dynamic dispatch table with four arguments (this pointer in ESI, fetched operand pointers, count, and status output) to execute a specific virtual opcode handler."
+    },
+    {
+      "callee": "0x0040A620",
+      "callsite_summary": "Retrieved from slot 6 of vtable 0x0041D228 and called via a dynamic dispatch table with four arguments (this pointer in ESI, fetched operand pointers, count, and status output) to execute a specific virtual opcode handler."
+    },
+    {
+      "callee": "0x0040A6E0",
+      "callsite_summary": "Retrieved from slot 7 of vtable 0x0041D228 and called via a dynamic dispatch table with four arguments (this pointer in ESI, fetched operand pointers, count, and status output) to execute a specific virtual opcode handler."
+    },
+    {
+      "callee": "0x0040A720",
+      "callsite_summary": "Retrieved from slot 8 of vtable 0x0041D228 and called via a dynamic dispatch table with four arguments (this pointer in ESI, fetched operand pointers, count, and status output) to execute a specific virtual opcode handler."
+    },
+    {
+      "callee": "0x0040A760",
+      "callsite_summary": "Retrieved from slot 9 of vtable 0x0041D228 and called via a dynamic dispatch table with four arguments (this pointer in ESI, fetched operand pointers, count, and status output) to execute a specific virtual opcode handler."
+    },
+    {
+      "callee": "0x0040A7E0",
+      "callsite_summary": "Retrieved from slot 10 of vtable 0x0041D228 and called via a dynamic dispatch table with four arguments (this pointer in ESI, fetched operand pointers, count, and status output) to execute a specific virtual opcode handler."
+    },
+    {
+      "callee": "0x0040A830",
+      "callsite_summary": "Retrieved from slot 11 of vtable 0x0041D228 and called via a dynamic dispatch table with four arguments (this pointer in ESI, fetched operand pointers, count, and status output) to execute a specific virtual opcode handler."
+    },
+    {
+      "callee": "0x0040A880",
+      "callsite_summary": "Retrieved from slot 12 of vtable 0x0041D228 and called via a dynamic dispatch table with four arguments (this pointer in ESI, fetched operand pointers, count, and status output) to execute a specific virtual opcode handler."
+    },
+    {
+      "callee": "0x0040A8E0",
+      "callsite_summary": "Retrieved from slot 13 of vtable 0x0041D228 and called via a dynamic dispatch table with four arguments (this pointer in ESI, fetched operand pointers, count, and status output) to execute a specific virtual opcode handler."
+    },
+    {
+      "callee": "0x0040A960",
+      "callsite_summary": "Retrieved from slot 14 of vtable 0x0041D228 and called via a dynamic dispatch table with four arguments (this pointer in ESI, fetched operand pointers, count, and status output) to execute a specific virtual opcode handler."
+    },
+    {
+      "callee": "0x0040A9E0",
+      "callsite_summary": "Retrieved from slot 15 of vtable 0x0041D228 and called via a dynamic dispatch table with four arguments (this pointer in ESI, fetched operand pointers, count, and status output) to execute a specific virtual opcode handler."
+    },
+    {
+      "callee": "0x0040AA60",
+      "callsite_summary": "Retrieved from slot 16 of vtable 0x0041D228 and called via a dynamic dispatch table with four arguments (this pointer in ESI, fetched operand pointers, count, and status output) to execute a specific virtual opcode handler."
+    },
+    {
+      "callee": "0x0040AB80",
+      "callsite_summary": "Retrieved from slot 17 of vtable 0x0041D228 and called via a dynamic dispatch table with four arguments (this pointer in ESI, fetched operand pointers, count, and status output) to execute a specific virtual opcode handler."
+    },
+    {
+      "callee": "0x0040ABE0",
+      "callsite_summary": "Retrieved from slot 18 of vtable 0x0041D228 and called via a dynamic dispatch table with four arguments (this pointer in ESI, fetched operand pointers, count, and status output) to execute a specific virtual opcode handler."
+    },
+    {
+      "callee": "0x0040AC10",
+      "callsite_summary": "Retrieved from slot 19 of vtable 0x0041D228 and called via a dynamic dispatch table with four arguments (this pointer in ESI, fetched operand pointers, count, and status output) to execute a specific virtual opcode handler."
+    },
+    {
+      "callee": "0x0040AC70",
+      "callsite_summary": "Retrieved from slot 20 of vtable 0x0041D228 and called via a dynamic dispatch table with four arguments (this pointer in ESI, fetched operand pointers, count, and status output) to execute a specific virtual opcode handler."
+    },
+    {
+      "callee": "0x0040AD00",
+      "callsite_summary": "Retrieved from slot 21 of vtable 0x0041D228 and called via a dynamic dispatch table with four arguments (this pointer in ESI, fetched operand pointers, count, and status output) to execute a specific virtual opcode handler."
+    },
+    {
+      "callee": "0x0040ADF0",
+      "callsite_summary": "Retrieved from slot 22 of vtable 0x0041D228 and called via a dynamic dispatch table with four arguments (this pointer in ESI, fetched operand pointers, count, and status output) to execute a specific virtual opcode handler."
+    },
+    {
+      "callee": "0x0040AE80",
+      "callsite_summary": "Retrieved from slot 23 of vtable 0x0041D228 and called via a dynamic dispatch table with four arguments (this pointer in ESI, fetched operand pointers, count, and status output) to execute a specific virtual opcode handler."
+    },
+    {
+      "callee": "0x0040AEF0",
+      "callsite_summary": "Retrieved from slot 24 of vtable 0x0041D228 and called via a dynamic dispatch table with four arguments (this pointer in ESI, fetched operand pointers, count, and status output) to execute a specific virtual opcode handler."
+    },
+    {
+      "callee": "0x0040AF60",
+      "callsite_summary": "Retrieved from slot 25 of vtable 0x0041D228 and called via a dynamic dispatch table with four arguments (this pointer in ESI, fetched operand pointers, count, and status output) to execute a specific virtual opcode handler."
+    },
+    {
+      "callee": "0x0040AFE0",
+      "callsite_summary": "Retrieved from slot 26 of vtable 0x0041D228 and called via a dynamic dispatch table with four arguments (this pointer in ESI, fetched operand pointers, count, and status output) to execute a specific virtual opcode handler."
+    },
+    {
+      "callee": "0x0040B060",
+      "callsite_summary": "Retrieved from slot 27 of vtable 0x0041D228 and called via a dynamic dispatch table with four arguments (this pointer in ESI, fetched operand pointers, count, and status output) to execute a specific virtual opcode handler."
+    },
+    {
+      "callee": "0x0040B090",
+      "callsite_summary": "Retrieved from slot 28 of vtable 0x0041D228 and called via a dynamic dispatch table with four arguments (this pointer in ESI, fetched operand pointers, count, and status output) to execute a specific virtual opcode handler."
+    },
+    {
+      "callee": "0x0040B0C0",
+      "callsite_summary": "Retrieved from slot 29 of vtable 0x0041D228 and called via a dynamic dispatch table with four arguments (this pointer in ESI, fetched operand pointers, count, and status output) to execute a specific virtual opcode handler."
+    },
+    {
+      "callee": "0x00409460",
+      "callsite_summary": "Called to convert or extract a floating-point value from an operand buffer (passed in EAX with type indicator 2 in byte_100), returning the float in st(0)."
+    },
+    {
+      "callee": "0x0041A160",
+      "callsite_summary": "Called to convert a floating-point value in st(0) to an integer (using SSE/ftol2), returning the integer result in EAX."
+    }
+  ]
+}

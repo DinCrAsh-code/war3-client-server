@@ -1,0 +1,61 @@
+{
+  "function_role": "Factory and initialization routine that allocates, configures, and registers resource sub-elements (such as graphics or state structures) based on lookup table flags and index criteria.",
+  "callsites": [
+    {
+      "callee": "0x004185D0",
+      "callsite_summary": "Allocates memory chunks of specific sizes (e.g., 0x2C8, 0x27C, 0x2B8, 0x24C) depending on the configuration flags retrieved from the lookup table, returning the newly created object pointer."
+    },
+    {
+      "callee": "0x00410720",
+      "callsite_summary": "Invoked with an argument (arg_4) when the primary allocation flag indicates a specific sub-type, performing specialized setup or initialization on the allocated resource."
+    },
+    {
+      "callee": "0x0040E760",
+      "callsite_summary": "Invoked with an argument (arg_4) when the secondary allocation flag branch is taken, configuring the newly allocated resource structure."
+    },
+    {
+      "callee": "0x0040F880",
+      "callsite_summary": "Invoked with arg_4 and index parameters when the tertiary allocation flag branch is taken, performing specific setup for that sub-element variant."
+    },
+    {
+      "callee": "0x0040B100",
+      "callsite_summary": "Called with the allocated object pointer, an index, and another parameter when the default allocation branch is selected, initializing the fallback resource structure."
+    },
+    {
+      "callee": "0x00418730",
+      "callsite_summary": "Performs a validation or guard check on a sub-element of the base resource structure (arg_0 + 0x51E80); if it returns non-zero, the initialization is aborted and cleanup/exit occurs."
+    },
+    {
+      "callee": "0x00414AA0",
+      "callsite_summary": "Called twice in succession to retrieve coordinate or numerical values used to configure spatial properties when a specific flag is set in the table entry."
+    },
+    {
+      "callee": "0x00414DC0",
+      "callsite_summary": "Called with geometry/coordinate parameters and flags to transform or store spatial data into a sub-structure at offset 0x1A20 of the main resource block."
+    },
+    {
+      "callee": "0x0040B790",
+      "callsite_summary": "Performs initialization or registration on the newly created resource block (passed via ebx) before it is added to internal arrays."
+    },
+    {
+      "callee": "0x00404100",
+      "callsite_summary": "Grows or reallocates an internal tracking array/container located within the resource block when its capacity limit is reached before storing the new resource pointer."
+    },
+    {
+      "callee": "0x004175E0",
+      "callsite_summary": "Invoked with an offset into the base resource block (arg_0 + 0x43D7C) as part of post-registration management or synchronization."
+    },
+    {
+      "callee": "0x004042F0",
+      "callsite_summary": "Performs final integration or linking of the newly created resource entry into the active processing lists using calculated indices and flags."
+    },
+    {
+      "callee": "0x00401000",
+      "callsite_summary": "Tail-jumped to by compiler-generated exception handling stubs to handle cleanup during stack unwinding."
+    },
+    {
+      "callee": "0x004198F2",
+      "callsite_summary": "Performs stack security cookie validation upon function exit to detect buffer overflows."
+    }
+  ]
+}

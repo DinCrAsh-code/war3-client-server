@@ -1,0 +1,8 @@
+{
+  "function_role": "Reallocates or resizes a managed memory block or dynamic buffer (passed in esi to a new size in edi), copying existing contents if necessary, updating tracking structures, and freeing the old block via sub_401000.",
+  "callsite_summaries": {
+    "0x004185D0": "Called to allocate a new memory block of size edi when the existing buffer is either null (via tail jump) or lacks sufficient capacity. Returns the newly allocated buffer pointer in eax.",
+    "0x00401000": "Called at the end of a successful reallocation with the old buffer pointer (esi) passed in eax, acting as a deallocation or cleanup routine for the old backing storage block after its contents have been copied to the new block."
+  },
+  "fallbacks": []
+}

@@ -1,0 +1,35 @@
+{
+  "parsed_ok": true,
+  "suggested_name": "ComponentTypeInfo_Initialize",
+  "prototype": "void __fastcall ComponentTypeInfo_Initialize(void *this_obj, int edx_unused, int type_index, char arg0)",
+  "short_summary": "Initializes a component descriptor/configuration object (`this` in `eax`) using a lookup table (`byte_41BDC0`) indexed by a validated `type_index` (`ecx`), and sets up virtual method table pointers.",
+  "detailed_summary": "The function initializes a newly allocated structure pointed to by `eax` (acting as the `this` pointer). It stores `edx` at `[eax+8]`, clears an FPU register via `fldz` / `fst` / `fstp`, and validates/clamps the type index passed in `ecx` against the limit 0x18 (24). It calculates a lookup offset into a global table (`byte_41BDC0`) based on this index, stores the resulting pointer at `[eax+0Ch]`, extracts a specific bit flag from the lookup table entry to store at `[eax+12h]`, and saves parameters `cl` (`arg0`) and `ecx` (`type_index`) into respective fields. During initialization, it temporarily sets the virtual table pointer at `[eax]` to `off_41D464` and finally overwrites it with `off_41D73C` before returning, cleaning up 4 bytes of stack parameters.",
+  "parameters": [
+    {
+      "name": "this",
+      "location": "eax",
+      "type": "void*",
+      "description": "Pointer to the allocated object being initialized."
+    },
+    {
+      "name": "type_index",
+      "location": "ecx",
+      "type": "int",
+      "description": "Index or type identifier used to look up metadata in byte_41BDC0."
+    },
+    {
+      "name": "arg0",
+      "location": "[esp+4]",
+      "type": "char",
+      "description": "Additional configuration byte stored into the object."
+    }
+  ],
+  "return_value": "none",
+  "side_effects": [
+    "Initializes fields of the object at `eax`, including vtable pointers `off_41D464` and `off_41D73C`."
+  ],
+  "data_structures": [
+    "Object struct layout: +0x0 vtable (off_41D73C), +0x4 dword (0), +0x8 edx value, +0x0C ptr to byte_41BDC0 entry, +0x10h type_index (cl), +0x11h arg0 (cl), +0x12h extracted table flag byte."
+  ],
+  "confidence": "high | standard component initialization pattern with vtable setup and lookup table indexing"
+}

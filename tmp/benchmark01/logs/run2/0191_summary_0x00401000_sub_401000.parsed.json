@@ -1,0 +1,25 @@
+{
+  "parsed_ok": true,
+  "suggested_name": "FreeResourceBlock",
+  "prototype": "void __cdecl FreeResourceBlock(void *ptr)",
+  "short_summary": "Frees a custom memory block with an 'RM' header, updating global tracking statistics and either returning it to an internal free list or releasing it via free().",
+  "detailed_summary": "The function first checks if the input pointer in eax is null; if so, it returns immediately. It then adjusts the pointer backward by 8 bytes to access a custom header (`eax - 8`). It verifies the magic bytes at the header start (`'RM'`, value 0x4D52); if the magic does not match, it returns without freeing. It reads a size value from `[eax+4]` and subtracts it from a global tracking counter (`dword_42281C`). It then checks a byte at `[eax+2]`. If this byte is 0xFF, it clears the header word and calls `free()` on the adjusted pointer block. Otherwise, it uses this byte as an index into a global array of free lists (`dword_422820`), unlinks or links the block into that freelist as a cached resource chunk rather than returning it directly to the system heap.",
+  "parameters": [
+    {
+      "name": "ptr",
+      "location": "eax",
+      "type": "void *",
+      "description": "Pointer to the resource data payload (located 8 bytes after the custom block header)."
+    }
+  ],
+  "return_value": "none",
+  "side_effects": [
+    "frees or caches the memory block pointed to by eax",
+    "decrements global tracking counter at 0x0042281C",
+    "modifies global free list pointers at 0x00422820"
+  ],
+  "data_structures": [
+    "ResourceHeader: +0x0 word magic ('RM'), +0x2 byte flags/index, +0x4 dword size/tracking value, +0x8 start of data payload"
+  ],
+  "confidence": "high | Disassembly clearly implements a custom resource deallocation and free-list caching mechanism with explicit magic number checking and MSVCR80!free integration."
+}

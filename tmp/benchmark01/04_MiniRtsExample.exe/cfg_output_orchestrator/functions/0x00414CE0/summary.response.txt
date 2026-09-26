@@ -1,0 +1,38 @@
+{
+  "suggested_name": "CheckGridAreaPassesCriteria",
+  "prototype": "bool __fastcall CheckGridAction(void *pDataStruct, int edx_val, int ecx_val, int arg0)",
+  "short_summary": "Tests whether a 2D rectangular grid region within a structured data array meets specific validity and value criteria, returning true if all checked elements satisfy the conditions.",
+  "detailed_summary": "The function performs a bounds-checked spatial region query over a grid of size 96x96 (0x60). It receives a base pointer via stack (arg_0), and coordinates/dimensions through registers eax, edx, and ecx. First, it extracts a reference value from a specific grid cell [edi + edi*2] * 32 + esi offset from the base structure at offset 0x9304. Then, it iterates through a 2D rectangular sub-region (defined by coordinate ranges), applying bounds checks [0, 0x60) for every accessed cell. For each cell within the loop, it validates flags or status bytes at offset 0x2400 from the row base against a bitmask (0x5B), and compares the cell's byte value against the initial reference value. If any check fails or mismatches, it immediately returns false (al = 0); otherwise, if all checked elements pass, it completes the loops and returns true (al = 1).",
+  "parameters": [
+    {
+      "name": "pDataStruct",
+      "location": "stack arg_0 (at [esp+0Ch+arg_0])",
+      "type": "void*",
+      "description": "Pointer to the large data structure or resource block containing the grid arrays at offset 0x9304."
+    },
+    {
+      "name": "param_edx",
+      "location": "edx",
+      "type": "int",
+      "description": "Coordinate or dimension parameter used for grid traversal."
+    },
+    {
+      "name": "param_ecx",
+      "location": "ecx",
+      "type": "int",
+      "description": "Coordinate or dimension parameter used for grid traversal."
+    },
+    {
+      "name": "param_eax",
+      "location": "eax",
+      "type": "int",
+      "description": "Coordinate or dimension parameter used for grid traversal."
+    }
+  ],
+  "return_value": "bool in al (1 on success/match, 0 on failure/mismatch)",
+  "side_effects": [],
+  "data_structures": [
+    "Grid array: 2D grid structure of size 96x96 (0x60) located at offset +0x9304 in the main data structure, with sub-tables or attribute bytes at +0x2400 relative to row pointers."
+  ],
+  "confidence": "high, clear bounds-checked 2D grid scanning algorithm with standard 0x60 (96) dimension limits and nested loop structures."
+}

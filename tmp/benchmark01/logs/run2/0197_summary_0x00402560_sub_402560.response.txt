@@ -1,0 +1,43 @@
+{
+  "suggested_name": "CreateAndRegisterResourceEntity",
+  "prototype": "void* __fastcall CreateAndRegisterResourceEntity(void *resourceBlock, int unused_edx, int type_index, int sub_variant_flag, int flags)",
+  "short_summary": "Allocates, initializes, and configures a new resource or RTS object entity based on type lookup tables, coordinates, and flags, registering it into spatial grid and resource tracking containers.",
+  "detailed_summary": "The function begins by bounds-checking the requested entity type index and variant flag against static lookup tables in .rdata (offset 0x41B178). Based on bitflags found in the lookup entry, it allocates a custom memory block of varying sizes using `AllocateCustomBlock` and initializes it via one of several specialized object initialization functions (`RtsObject_InitSpecializedComponent_410720`, `RtsObject_InitializeDerivedType`, `RtsObject_InitializeSubVariant`, or `RtsObject_InitializeBase`). Structured exception handling (SEH) is set up to clean up the allocated block via `FreeResourceBlock` if any subsequent initialization step fails. Once instantiated, the function calls `AllocateResourceIndexOrNode` to assign a resource index. It then copies coordinate bounds from the input buffer, updates grid flags via `UpdateResourceGridFlags` if coordinate scaling/clamping is needed, configures the block using `ConfigureResourceBlock`, appends the new entity pointer to the global resource container (growing its capacity via `GrowContainerCapacity` if necessary), inserts it into the spatial hash grid via `InsertIntoSpatialGrid`, and finally registers the entry with `RegisterResourceEntry` before returning the newly created entity pointer.",
+  "parameters": [
+    {
+      "name": "resourceBlock",
+      "location": "ecx",
+      "type": "void*",
+      "description": "Pointer to the main resource block or manager structure."
+    },
+    {
+      "name": "type_index",
+      "location": "edx",
+      "type": "int",
+      "description": "Index representing the entity or component type."
+    },
+    {
+      "name": "sub_variant_flag",
+      "location": "[esp+24h+arg_4]",
+      "type": "int",
+      "description": "Sub-variant or category flag (must be <= 5)."
+    },
+    {
+      "name": "flags",
+      "location": "[esp+24h+arg_C]",
+      "type": "int",
+      "description": "Additional configuration flags influencing initialization and grid placement."
+    }
+  ],
+  "return_value": "Pointer to the newly created and registered resource entity in eax, or NULL on failure.",
+  "side_effects": [
+    "Allocates memory blocks via AllocateCustomBlock",
+    "Modifies resource container arrays and spatial hash grids",
+    "Updates global resource statistics and registry tables"
+  ],
+  "data_structures": [
+    "Resource block / Manager: +0x1A20 grid/flag data, +0x43D7Ch spatial grid, +0x51E80 resource index container, +0x5738C resource entry container",
+    "Resource entity: +0x8/0xC coordinate bounds, +0x18 flags, +0x204/0x230 position fields"
+  ],
+  "confidence": "high | complete disassembly and clear interaction with known resource subsystems and container managers"
+}

@@ -1,0 +1,25 @@
+{
+  "suggested_name": "FreeResourceSubBlock",
+  "prototype": "void __fastcall FreeResourceSubBlock(void *self)",
+  "short_summary": "Cleans up and deallocates or recycles two custom 'RM' header-tracked memory blocks referenced from offsets within a sub-component structure.",
+  "detailed_summary": "The function inspects two distinct pointers located at `[esi + 0x2010]` and `[esi + 0x2004]` within the structure passed via `esi`. For each pointer, if non-null, it checks 8 bytes prior for a custom 'RM' magic header (`0x4D52`). If valid, it decrements a global tracking counter (`dword_42281C`) by the size stored at `header + 4`. It then reads a sub-pool index byte at `header + 2`. If this index is `0xFF`, the memory block is completely freed via `free()`. Otherwise, the block is pushed onto a custom free-list array stored at `dword_422820[index * 4]` for memory pooling/recycling.",
+  "parameters": [
+    {
+      "name": "self",
+      "location": "esi",
+      "type": "void*",
+      "description": "Pointer to the sub-component structure containing resource pointers at offsets 0x2004 and 0x2010."
+    }
+  ],
+  "return_value": "none",
+  "side_effects": [
+    "frees memory or pushes blocks onto a custom freelist pool array at dword_422820",
+    "modifies global tracking counter dword_42281C",
+    "zeroes out the 'RM' header magic word to invalidate freed/recycled blocks"
+  ],
+  "data_structures": [
+    "RM Header: +0x0 word magic (0x4D52), +0x2 byte sub-pool index, +0x4 dword size/length",
+    "Sub-component struct: +0x2004 void* resourcePtr1, +0x2010 void* resourcePtr2"
+  ],
+  "confidence": "high | disassembly is straightforward and cleanly handles two identical block-release sequences with standard MSVC memory pooling patterns."
+}

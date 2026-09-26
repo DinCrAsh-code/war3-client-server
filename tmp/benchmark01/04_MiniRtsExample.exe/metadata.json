@@ -1,0 +1,8 @@
+{
+  "architecture": "x86",
+  "pointer_size": 4,
+  "image_base": "0x00400000",
+  "entry_point": "0x00419CD1",
+  "input_file": "C:\\Users\\New\\Desktop\\projects\\RE\\ingame\\my_tools\\re_tests\\build\\04_MiniRtsExample\\04_MiniRtsExample.exe",
+  "processor": "metapc"
+}

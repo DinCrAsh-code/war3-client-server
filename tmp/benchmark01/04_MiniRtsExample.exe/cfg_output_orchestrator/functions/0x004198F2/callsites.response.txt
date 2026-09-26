@@ -1,0 +1,9 @@
+{
+  "function_role": "Standard MSVC compiler-generated security cookie check (`@__security_check_cookie@4`) that verifies the stack canary in `ecx` against the global security cookie `___security_cookie` and triggers a failure handler if corruption is detected.",
+  "callsites": [
+    {
+      "callee": "0x00419CDB",
+      "callsite_summary": "Invoked via a tail-call (`jmp`) when a stack security cookie mismatch is detected (`jnz loc_4198FC`), serving as the terminal handler for buffer overflow / stack corruption detection (GS failure reporting)."
+    }
+  ]
+}

@@ -1,0 +1,39 @@
+{
+  "suggested_name": "ProcessGridRegionAction",
+  "prototype": "void __cdecl ProcessGridRegionAction(void *gridBlock, int param1, float param2, float param3)",
+  "short_summary": "Performs coordinate scaling, clamped grid indexing, and a loop-driven region update on a 2D grid/terrain structure using floating-point math and trigonometric lookup tables.",
+  "detailed_summary": "The function begins by taking input coordinates and scaling them using constants from .rdata, converting them via __ftol2_sse into integer grid indices (clamped between 0 and 95, or 0x5F). It accesses a byte element within a grid structure (offset 0x9304) and sets flag bits (or 3) at a calculated offset within the grid block. It then enters a loop running 64 times (0 to 63), performing trigonometric or geometric transformations using tables at `0x421818` and `0x42181C`, converting float values to integer indices via `__ftol2_sse`, and finally invoking `UpdateGridCellRegion` with the computed bounds, grid pointer, and loop parameters.",
+  "parameters": [
+    {
+      "name": "gridBlock",
+      "location": "[esp+24h+arg_0]",
+      "type": "void*",
+      "description": "Pointer to the main resource / grid block structure."
+    },
+    {
+      "name": "param1",
+      "location": "[esp+24h+arg_4]",
+      "type": "int",
+      "description": "An integer identifier or configuration index used in grid offset calculations."
+    },
+    {
+      "name": "param2",
+      "location": "float on stack / FPU",
+      "type": "float",
+      "description": "Floating-point coordinate or scale input."
+    },
+    {
+      "name": "param3",
+      "location": "float on stack / FPU",
+      "type": "float",
+      "description": "Floating-point coordinate or scale input."
+    }
+  ],
+  "return_value": "none",
+  "side_effects": [
+    "Modifies bitflags within the grid block data structures at calculated offsets (+4).",
+    "Calls UpdateGridCellRegion to modify and look up elements in a 96x96 grid/terrain region."
+  ],
+  "data_structures": [],
+  "confidence": "high | clear x87 floating point usage, SSE conversion via __ftol2_sse, clamping logic, and loop over 64 iterations calling UpdateGridCellRegion"
+}

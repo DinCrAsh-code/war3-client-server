@@ -1,0 +1,9 @@
+{
+  "function_role": "Iterates a given number of times in a loop, performing heavy floating-point arithmetic on elements accessed via a structure pointer passed in ecx and a count in eax, utilizing a helper function each iteration to compute per-element values.",
+  "callsites": [
+    {
+      "callee": "0x00414FA0",
+      "callsite_summary": "Called once per iteration inside a loop running 'edi' times (where 'edi' is passed in eax), taking part in the floating-point calculations using data derived from the structure pointer in esi."
+    }
+  ]
+}

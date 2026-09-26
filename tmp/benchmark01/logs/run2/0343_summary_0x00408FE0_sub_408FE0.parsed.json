@@ -1,0 +1,43 @@
+{
+  "parsed_ok": true,
+  "suggested_name": "WriteBufferPacket",
+  "prototype": "void __stdcall WriteBufferPacket(void *buffer_ctx, const void *src, size_t size)",
+  "short_summary": "Writes a data packet with a 5-byte header into a streaming buffer context, flushing and compressing when capacity is exceeded and appending copies to a dynamic backup buffer.",
+  "detailed_summary": "The function packs data into a buffer structure rooted at `esi`. It constructs a 5-byte header on the local stack (`var_C`), consisting of a 1-byte type/flag identifier (from `arg_0`) and a 4-byte length/size descriptor (from `Size`), formatted using little-endian byte representation. It checks if adding the 5-byte header would exceed the 2000-byte threshold (`[esi+2000h]`), and if so, invokes `FlushAndCompressBuffer` (`sub_409170`). It then copies the 5-byte header into the buffer and appends it via `AppendToDynamicBuffer` (`sub_408F70`), incrementing the buffer offset by 5. Next, it checks if adding the payload data (`Size`) would exceed the 2000-byte threshold, flushing again if necessary. If `Size` is less than or equal to 2000, it copies the source data (`Src`) into the buffer via `memcpy`, advances the buffer offset by `Size`, and also appends a copy of the payload via `AppendToDynamicBuffer`. Finally, it increments a packet or operation counter at `[esi+2024h]` by 1.",
+  "parameters": [
+    {
+      "name": "buffer_ctx",
+      "location": "esi",
+      "type": "void*",
+      "description": "Buffer context pointer containing staging offsets and dynamic storage."
+    },
+    {
+      "name": "arg_0",
+      "location": "[esp+10h]",
+      "type": "uint32_t",
+      "description": "Packet type or header identifier flags."
+    },
+    {
+      "name": "Src",
+      "location": "[esp+14h]",
+      "type": "const void*",
+      "description": "Pointer to the payload data to be written."
+    },
+    {
+      "name": "Size",
+      "location": "[esp+18h]",
+      "type": "size_t",
+      "description": "Size of the payload data in bytes."
+    }
+  ],
+  "return_value": "none",
+  "side_effects": [
+    "Modifies buffer context state at [esi+2000h] and increments counter at [esi+2024h]",
+    "Flushes and compresses staging buffer when capacity limits (2000 bytes) are reached",
+    "Appends header and payload blocks to a dynamic growable buffer via sub_408F70"
+  ],
+  "data_structures": [
+    "BufferContext: +0x2000 current staging buffer offset/size, +0x2010 dynamic buffer storage, +0x2024 packet/operation count"
+  ],
+  "confidence": "high | Clear function structure, well-defined callee interactions and buffer management logic."
+}

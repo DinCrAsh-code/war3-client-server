@@ -1,0 +1,19 @@
+{
+  "parsed_ok": true,
+  "suggested_name": "EvaluateGridLookup",
+  "prototype": "int __cdecl EvaluateGridLookup(const void *dataPtr)",
+  "short_summary": "Performs a 2D grid or lookup-table index calculation using floating-point coordinates and bounds clamping, then checks a bit within a data structure.",
+  "detailed_summary": "The function takes a pointer argument and uses floating-point calculations involving scaling factors to compute indices. It converts floating-point values to integers using __ftol2_sse, clamps the resulting integer values to the range [0, 95] (0x5F), and uses them to compute a nested array/grid offset (`eax = (((ebx*3) << 5) + ecx) * 96 + esi`). Finally, it retrieves a byte from the computed address offset plus four, masks it with 1, and returns the result as an integer boolean.",
+  "parameters": [
+    {
+      "name": "dataPtr",
+      "location": "[esp+8]",
+      "type": "const void *",
+      "description": "Base data pointer passed from the caller, used as the base for the grid/lookup array."
+    }
+  ],
+  "return_value": "int in eax (0 or 1, representing the extracted bit flag)",
+  "side_effects": [],
+  "data_structures": [],
+  "confidence": "medium, floating-point index calculation and clamping logic are clear, but exact struct definitions for the underlying table layout are inferred from index math."
+}

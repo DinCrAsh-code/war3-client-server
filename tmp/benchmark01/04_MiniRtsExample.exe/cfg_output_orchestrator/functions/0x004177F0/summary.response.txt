@@ -1,0 +1,64 @@
+{
+  "suggested_name": "SpatialGridQueryEntities",
+  "prototype": "int __stdcall SpatialGridQueryEntities(void *grid_data, float center_x, float center_y, float radius, void *callback_filter, void *user_data, void **out_entity_array, int max_entities)",
+  "short_summary": "Queries a spatial grid structure for entities within a bounding box or radius, filters them using distance checks and an optional callback, and populates an output array.",
+  "detailed_summary": "The function begins by calling CalculateGridBounds using input floating-point coordinates/ranges to determine the grid cell range indices (min/max x and y). It then iterates over the 2D grid cells within these bounds. For each grid cell, it traverses a linked list of entities starting at the cell's head pointer (offset 0x0). For each entity, it invokes a virtual method at offset +0x18 to retrieve position data, performs floating-point distance calculations against the query center and radius, and checks if the entity meets the distance criteria. If a callback function pointer is provided, it invokes the callback with the entity and user data; if the callback returns true, the entity pointer is stored into the output array. Iteration continues until the maximum entity count is reached or all candidate grid cells and entities have been processed.",
+  "parameters": [
+    {
+      "name": "grid_data",
+      "location": "[esp+30h]",
+      "type": "void*",
+      "description": "Pointer to the spatial grid data structure or manager."
+    },
+    {
+      "name": "center_x",
+      "location": "st(0) / stack",
+      "type": "float",
+      "description": "X coordinate of the query center."
+    },
+    {
+      "name": "center_y",
+      "location": "stack",
+      "type": "float",
+      "description": "Y coordinate of the query center."
+    },
+    {
+      "name": "radius",
+      "location": "stack",
+      "type": "float",
+      "description": "Search radius or distance limit."
+    },
+    {
+      "name": "callback_filter",
+      "location": "stack",
+      "type": "int (__cdecl*)(void*, void*)",
+      "description": "Optional filter callback function returning non-zero to accept an entity."
+    },
+    {
+      "name": "user_data",
+      "location": "stack",
+      "type": "void*",
+      "description": "User-defined context passed to the callback."
+    },
+    {
+      "name": "out_entity_array",
+      "location": "stack",
+      "type": "void**",
+      "description": "Output buffer to store matching entity pointers."
+    },
+    {
+      "name": "max_entities",
+      "location": "stack",
+      "type": "int",
+      "description": "Maximum number of entities the output array can hold."
+    }
+  ],
+  "return_value": "Number of matching entities found and stored (in eax).",
+  "side_effects": [
+    "Writes matching entity pointers into the provided output array."
+  ],
+  "data_structures": [
+    "Entity: +0x18 virtual method for position/transform retrieval, +0x240 next pointer in linked list"
+  ],
+  "confidence": "high, clear structure mapping directly to spatial grid iteration, distance checks, callback filtering, and buffer population."
+}

@@ -1,0 +1,49 @@
+{
+  "parsed_ok": true,
+  "suggested_name": "EnqueueStateEntry",
+  "prototype": "int __stdcall EnqueueStateEntry(void *state_container, int arg1, int arg2, int arg3, int arg4)",
+  "short_summary": "Allocates or inserts a new element into a state/priority queue container, resizes the container if capacity is exceeded, populates the new entry with provided data and flags, and restores heap order using a sift-up routine.",
+  "detailed_summary": "The function operates on a state container structure passed via `esi`. It first increments a counter at `[esi+0Ch]`. It then compares the current count (`[esi+4]`) with the capacity limit (`[esi+8]`). If capacity is reached or exceeded, it calls `ResizeStateCapacity` (`sub_419800`) to grow the buffer. Afterward, it computes the memory address for the new entry using a stride calculation (`[esi+4] * 24` or similar structure size), populates the slot with arguments retrieved from the stack (`var_18`, `var_14`, a function pointer to `DispatchEntityEvent`, etc.), and increments the element count `[esi+4]`. Finally, it calls `HeapUp` (`sub_419590`) passing the updated index to restore binary heap ordering.",
+  "parameters": [
+    {
+      "name": "state_container",
+      "location": "esi",
+      "type": "void*",
+      "description": "Pointer to the state and priority queue container structure."
+    },
+    {
+      "name": "data1",
+      "location": "stack (esp+20h + var_18)",
+      "type": "int",
+      "description": "First field value to populate in the new entry."
+    },
+    {
+      "name": "data2",
+      "location": "stack (esp+20h + var_14)",
+      "type": "int",
+      "description": "Second field value to populate in the new entry."
+    },
+    {
+      "name": "data3",
+      "location": "stack (esp+20h + arg_8)",
+      "type": "int",
+      "description": "Fourth field value to populate in the new entry."
+    },
+    {
+      "name": "data4",
+      "location": "stack (esp+20h + arg_C)",
+      "type": "int",
+      "description": "Fifth field value to populate in the new entry."
+    }
+  ],
+  "return_value": "Returns the old value of `[esi+0Ch]` in eax.",
+  "side_effects": [
+    "Modifies the state container pointed to by esi (increments counts, writes to element buffer)",
+    "May reallocate the container's internal buffer via ResizeStateCapacity",
+    "Calls HeapUp to adjust the priority queue structure"
+  ],
+  "data_structures": [
+    "StateContainer: +0x0 pointer/data, +0x4 current element count, +0x8 capacity limit, +0x0Ch counter/index"
+  ],
+  "confidence": "high | based on clear structural patterns matching container growth, heap insertion, and field initialization."
+}

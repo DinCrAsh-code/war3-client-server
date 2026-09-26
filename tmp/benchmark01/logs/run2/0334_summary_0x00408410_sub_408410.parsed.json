@@ -1,0 +1,24 @@
+{
+  "parsed_ok": true,
+  "suggested_name": "UpdateEntityReferencesAndProximity",
+  "prototype": "void __stdcall UpdateEntityReferencesAndProximity(float distanceParam)",
+  "short_summary": "Evaluates global conditions against threshold values to determine an activation state, updates an internal flag at offset 0x1B4, and loops through a collection of sub-entities to trigger reference checks and proximity updates.",
+  "detailed_summary": "The function begins by performing two floating-point comparisons against global constants in .rdata, using the resulting FPU status flags to compute a boolean state (stored in `al`). It then compares this computed state with a byte stored at `[esi+1B4h]`. If they differ, `[esi+1B4h]` is updated, and a loop runs from 0 up to `[esi+1B0h]` (representing an entity count). In each iteration of the first loop, if a flag at `[edi+0Bh]` is zero, it invokes `CheckOrActivateReferences` (`sub_407FE0`) passing the computed boolean flag. Following this, a second loop iterates up to `[esi+1B0h]`, loading a floating-point parameter from the caller (passed on the stack via `retn 4`) and invoking `UpdateEntitySlotProximityOrReferences` (`sub_4082D0`) on each entity slot spaced by 0x24 bytes.",
+  "parameters": [
+    {
+      "name": "distanceParam",
+      "location": "[esp+4]",
+      "type": "float",
+      "description": "Floating-point distance or threshold parameter forwarded to sub_4082D0."
+    }
+  ],
+  "return_value": "none",
+  "side_effects": [
+    "Modifies the state byte at [esi+1B4h]",
+    "Iterates through up to 4 entity slots, calling CheckOrActivateReferences and UpdateEntitySlotProximityOrReferences"
+  ],
+  "data_structures": [
+    "EntityContainer: +0x1B0 int count, +0x1B4 byte stateFlag, slots starting at offset 0 with stride 0x24"
+  ],
+  "confidence": "high, based on clean structure iteration, standard __stdcall parameter cleanup (retn 4), and clear calls to known helpers sub_407FE0 and sub_4082D0."
+}

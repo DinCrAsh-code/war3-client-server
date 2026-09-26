@@ -1,0 +1,12 @@
+{
+  "function_role": "Evaluates candidate targets or points within range/sight for an entity component's action/spell/ability (such as selecting targets based on criteria, line of sight, and positional filters) and dispatches action execution via sub_4046B0 if a valid target is found.",
+  "callsite_summaries": {
+    "0x0040C950": "Passed as a callback function pointer in spatial query/filtering calls (along with entity and search parameters) to test or filter candidate entities.",
+    "0x004177F0": "Called to perform spatial queries or find entities within a range or area around a center point, populating a list/array of candidate objects for targeting evaluation.",
+    "0x00417F80": "Called in loops iterating over candidate entities to compute distance, position, or metric values relative to a reference position or target.",
+    "0x004046B0": "Called to execute or trigger the ability/action/spell targeting the selected entity and parameters (passing entity pointers, target data, and action type 0Dh).",
+    "0x00417FD0": "Called during candidate validation or filtering to compute geometric or spatial relationships (such as vector differences or projections) for targeting criteria.",
+    "0x004183C0": "Called in a loop to perform line-of-sight, collision, or accessibility checks between a source position/entity and multiple candidate targets."
+  },
+  "fallbacks": []
+}

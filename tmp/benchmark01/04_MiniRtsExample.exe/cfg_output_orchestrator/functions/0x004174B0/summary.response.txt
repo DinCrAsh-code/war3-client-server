@@ -1,0 +1,38 @@
+{
+  "suggested_name": "CalculateGridBounds",
+  "prototype": "void __stdcall CalculateGridBounds(float min_val, float max_val, float *out_min_idx, float *out_max_idx)",
+  "short_summary": "Calculates and clamps spatial grid or bounding box indices from floating-point coordinate ranges, storing the resulting integer indices into output pointers.",
+  "detailed_summary": "The function processes spatial coordinate bounds using x87 floating-point arithmetic. It normalizes and converts floating-point ranges into integer grid indices clamped between 0 and 23 (0x17), repeating this clamping and conversion logic four consecutive times for different components/axes. Each iteration converts a float value to an integer using __ftol2_sse, applies rounding adjustment logic via FPU comparisons, clamps the resulting integer to the range [0, 23], and writes the resulting coordinate index into corresponding output pointer parameters.",
+  "parameters": [
+    {
+      "name": "min_val",
+      "location": "st(0) / stack",
+      "type": "float",
+      "description": "Minimum spatial boundary value"
+    },
+    {
+      "name": "max_val",
+      "location": "stack",
+      "type": "float",
+      "description": "Maximum spatial boundary value"
+    },
+    {
+      "name": "out_min_idx",
+      "location": "stack",
+      "type": "int *",
+      "description": "Pointer to receive the lower clamped grid index"
+    },
+    {
+      "name": "out_max_idx",
+      "location": "stack",
+      "type": "int *",
+      "description": "Pointer to receive the upper clamped grid index"
+    }
+  ],
+  "return_value": "none",
+  "side_effects": [
+    "Writes clamped integer indices to memory addresses provided via output pointers."
+  ],
+  "data_structures": [],
+  "confidence": "high, clear repetitive pattern of floating-point range clamping to a fixed grid size of 24 (0x17) bins/cells."
+}

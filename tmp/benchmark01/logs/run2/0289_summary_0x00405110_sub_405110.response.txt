@@ -1,0 +1,29 @@
+{
+  "suggested_name": "CheckAndExecuteUnitAbility",
+  "prototype": "bool __stdcall CheckAndExecuteUnitAbility(void *entity, int abilityIndex)",
+  "short_summary": "Validates resource cooldowns, unit requirements, and target constraints for a specific ability/action on an entity, and dispatches a command packet if all checks pass.",
+  "detailed_summary": "The function first checks if a global time counter (stored at offset 0x5BBC0 from a global base pointer) has advanced sufficiently past the last-used timestamp for the given ability index (passed via `arg_4`, indexed into an array at `entity + 0x48`). If the cooldown has not expired, it returns false (0). Otherwise, it looks up a configuration structure from `.rdata` (base `0x41B178`) based on the ability index, verifying unit prerequisites, resource/cost limits (via `ValidateCapacityOrLimit`), and querying a collection of sub-objects/units in the entity's inventory/roster (from `entity + 0x3E0`) to find a valid target matching specific flags and state criteria. If a valid target is found, it dispatches an outgoing command packet using `DispatchCommandPacket` with command type 0x0B and updates the ability's last-used timestamp.",
+  "parameters": [
+    {
+      "name": "entity",
+      "location": "[esp+4]",
+      "type": "void *",
+      "descriptive": "Pointer to the main entity/object state."
+    },
+    {
+      "name": "abilityIndex",
+      "location": "[esp+8]",
+      "type": "int",
+      "descriptive": "Index of the ability or command action being checked/executed."
+    }
+  ],
+  "return_value": "Returns true (1) in al if the ability checks passed and the command was dispatched; otherwise false (0).",
+  "side_effects": [
+    "Updates the cooldown timestamp array within the entity structure at `[entity + abilityIndex * 4 + 0x48]`.",
+    "Sends a network command packet via `DispatchCommandPacket` if preconditions are met."
+  ],
+  "data_structures": [
+    "Entity: +0x48 cooldown timestamp array, +0x3E0 array of sub-object pointers, +0x4E0 sub-object count, +0x4E0 capacity/limit fields"
+  ],
+  "confidence": "high | Function performs clear cooldown, prerequisite, target-selection, and dispatch steps based on well-defined table data."
+}

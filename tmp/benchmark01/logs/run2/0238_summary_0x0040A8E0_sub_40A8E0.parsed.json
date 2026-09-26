@@ -1,0 +1,44 @@
+{
+  "parsed_ok": true,
+  "suggested_name": "ExecuteBytecodeOpcode13",
+  "prototype": "void __cdecl ExecuteBytecodeOpcode13(void *pThis, int a2, void *pArgs, int *pStatus)",
+  "short_summary": "Executes a specific bytecode instruction handler (vtable slot 13) that validates a resource ID and type, writing status and resulting data values back to the output structure.",
+  "detailed_summary": "The function inspects an argument structure passed via pointer (`arg_4`). It first verifies that the byte at offset 0 equals 3 and that a pointer at offset +4 is non-zero. It then extracts an index from the lower 16 bits of this pointer and a version/handle check value from the upper 16 bits. Using a global data structure registry at `0x0042AC60`, it validates that the index is within bounds and that the stored version/handle matches the upper 16 bits of the identifier. It further checks that the referenced object is active (`byte ptr [eax+1Ah] == 1`). If all validation checks pass, it retrieves a byte from offset +5C of the object, sets a success/active status flag (1) in the output pointer (`pStatus`), and writes the retrieved byte value. If any validation check fails, it writes a failure/default status (1, with the secondary value set to -1 / 0xFFFFFFFF).",
+  "parameters": [
+    {
+      "name": "pThis",
+      "location": "[esp+4]",
+      "type": "void*",
+      "description": "The object instance pointer (this pointer) for the bytecode execution context."
+    },
+    {
+      "name": "arg_4",
+      "location": "[esp+8]",
+      "type": "void*",
+      "description": "Pointer to the input operand structure containing bytecode parameter data."
+    },
+    {
+      "name": "pArgs",
+      "location": "[esp+0xC]",
+      "type": "void*",
+      "description": "Additional argument or context pointer."
+    },
+    {
+      "name": "pStatus",
+      "location": "[esp+0x10]",
+      "type": "int*",
+      "description": "Output structure pointer where status flags and resulting values are written (status at +0, value at +4)."
+    }
+  ],
+  "return_value": "none",
+  "side_effects": [
+    "reads from global data registry at 0x0042AC60",
+    "writes status and result data to the output pointer supplied in arguments"
+  ],
+  "data_structures": [
+    "Global registry at 0x0042AC60: +0x51E80 pointer to resource array, +0x51E84 integer count",
+    "Resource descriptor entry: +0x0 pointer to target object, +0x2 unsigned short version/check value",
+    "Target object: +0x1A byte state flag, +0x5C byte property value"
+  ],
+  "confidence": "high, clear validation logic, direct indexing into global registry tables, and straightforward output population."
+}

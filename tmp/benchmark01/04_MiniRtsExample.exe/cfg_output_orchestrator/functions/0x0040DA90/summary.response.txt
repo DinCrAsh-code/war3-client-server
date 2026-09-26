@@ -1,0 +1,18 @@
+{
+  "suggested_name": "IsValidEntityType",
+  "prototype": "bool __fastcall IsValidEntityType(unsigned int entityType)",
+  "short_summary": "Validates whether a given entity type code falls within an accepted set using a switch/jump table mechanism.",
+  "detailed_summary": "The function takes an entity type code (passed via eax) and adjusts it by subtracting 3 (`add eax, 0FFFFFFFDh`), effectively mapping type code 3 to index 0. It then compares the adjusted value against 0Bh (11) using an unsigned comparison (`ja`), routing out-of-range values to a default handler block. Values within range are used as an index into a lookup table (`byte_40DAB4`) to obtain an offset or secondary selector, which in turn indexes a jump table (`jpt_40DA9F`). Ultimately, the control flow resolves to either returning true (`al = 1`) for valid entity types or false (`al = 0`) for invalid ones.",
+  "parameters": [
+    {
+      "name": "entityType",
+      "location": "eax",
+      "type": "unsigned char",
+      "significance": "The entity type code to validate."
+    }
+  ],
+  "return_value": "Returns a boolean value in al (non-zero/1 for valid, 0 for invalid).",
+  "side_effects": [],
+  "data_structures": [],
+  "confidence": "high, clean switch/jump-table implementation with straightforward range checking and boolean return paths"
+}

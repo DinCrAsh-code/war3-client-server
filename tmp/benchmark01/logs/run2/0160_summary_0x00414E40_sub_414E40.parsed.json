@@ -1,0 +1,39 @@
+{
+  "parsed_ok": true,
+  "suggested_name": "CheckGridAreaOrFindNearby",
+  "prototype": "bool __stdcall CheckGridAreaOrFindNearby(void *gridBase, int *coord1, int *coord2, int maxRadius)",
+  "short_summary": "Validates a 2D grid cell or searches outward in concentric square rings up to a given radius for a valid/accessible grid position, returning the first matching coordinate via output pointers.",
+  "detailed_summary": "The function begins by checking if the initial coordinates (passed via pointers `arg_4` and `arg_8`) fall within valid 0-to-96 grid bounds (0x60). If valid, it indexes into a grid state array at `gridBase + 0xB704` using the formula `index = (row * 3 + col) * 32 + col` (or similar stride calculation) and tests a bit flag. If `maxRadius` (arg_C) is less than 1, it simply returns whether that initial cell satisfies the condition. Otherwise, it loops outward in square shells ('rings') of increasing radius up to `maxRadius`. For each shell, it checks a series of offset positions. If a position passes the grid validation check (bit test on the grid byte), the function writes the matched coordinates back to the input pointers `arg_4` and `arg_8` and returns true (1). If no matching position is found across all rings, it returns false (0).",
+  "parameters": [
+    {
+      "name": "gridBase",
+      "location": "[esp+34h+arg_0]",
+      "type": "void*",
+      "description": "Base pointer to the grid state structure containing the lookup table at offset +0xB704."
+    },
+    {
+      "name": "coordX",
+      "location": "[esp+34h+arg_4]",
+      "type": "int*",
+      "description": "Pointer to the X coordinate (column), updated with the found position on success."
+    },
+    {
+      "name": "coordY",
+      "location": "[esp+34h+arg_8]",
+      "type": "int*",
+      "description": "Pointer to the Y coordinate (row), updated with the found position on success."
+    },
+    {
+      "name": "maxRadius",
+      "location": "[esp+34h+arg_C]",
+      "type": "int",
+      "description": "Maximum search radius (number of rings to check outward)."
+    }
+  ],
+  "return_value": "bool (1 for success/valid, 0 for failure/not found) in al",
+  "side_effects": [
+    "Modifies the values pointed to by coordX and coordY if a nearby valid cell is found during ring expansion."
+  ],
+  "data_structures": [],
+  "confidence": "high"
+}

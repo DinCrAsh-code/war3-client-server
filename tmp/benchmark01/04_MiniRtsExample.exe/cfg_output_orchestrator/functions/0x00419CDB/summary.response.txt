@@ -1,0 +1,22 @@
+{
+  "suggested_name": "___report_gsfailure",
+  "prototype": "void __cdecl ___report_gsfailure(uintptr_t stack_cookie)",
+  "short_summary": "Standard MSVC buffer security check (GS) failure handler that saves processor and stack context, notifies the CRT debugger, invokes unhandled exception filtering, and forcefully terminates the process with STATUS_STACK_BUFFER_OVERRUN.",
+  "detailed_summary": "When a stack cookie mismatch is detected, this function captures the current execution context by saving general-purpose registers (EAX, ECX, EDX, EBX, ESI, EDI), segment registers (SS, CS, DS, ES, FS, GS), and EFLAGS into a global storage area. It records the faulting return address and frame pointer, sets up an exception record with the status code 0xC0000409 (STATUS_STACK_BUFFER_OVERRUN), checks for an active debugger via IsDebuggerPresent, and invokes the CRT debugger hook (_crt_debugger_hook). It then unregisters any custom unhandled exception filters by calling SetUnhandledExceptionFilter(NULL) and passes the exception info structure to UnhandledExceptionFilter. If a debugger is not present, it calls the CRT debugger hook a second time before obtaining the current process handle via GetCurrentProcess and terminating the process via TerminateProcess with exit code 0xC0000409.",
+  "parameters": [
+    {
+      "name": "stack_cookie",
+      "location": "[ebp+8] (pushed by caller or passed via register depending on compiler version, though here accessed via frame)",
+      "type": "uintptr_t",
+      "description": "The corrupted or mismatched stack security cookie value."
+    }
+  ],
+  "return_value": "none",
+  "side_effects": [
+    "saves full CPU register and state context to global variables",
+    "calls CRT debugger hooks and Windows exception handling APIs",
+    "terminates the current process immediately with status 0xC0000409 (STATUS_STACK_BUFFER_OVERRUN)"
+  ],
+  "data_structures": [],
+  "confidence": "high, standard MSVC runtime library function for buffer security failure reporting"
+}

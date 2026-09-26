@@ -1,0 +1,9 @@
+{
+  "function_role": "Grows or reallocates the underlying dynamic storage buffer of a container/manager structure when its capacity is reached, doubling or calculating a new capacity and invoking a memory allocation routine.",
+  "callsites": [
+    {
+      "callee": "0x00418670",
+      "callsite_summary": "Called to allocate a new, larger memory buffer when a container's capacity limit is reached. It passes the required allocation size in bytes (calculated as the new capacity multiplied by 4, derived from doubling the previous capacity or defaulting to 16) as an argument, and receives a pointer to the newly allocated block in eax, which is then stored into the container structure."
+    }
+  ]
+}

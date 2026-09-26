@@ -1,0 +1,13 @@
+{
+  "function_role": "Performs capability, cooldown, or state checks on an entity component (using tick/time data and table lookups), and if conditions are met, initializes and dispatches a resource or command structure via global managers.",
+  "callsites": [
+    {
+      "callee": "0x00418AA0",
+      "callsite_summary": "Called with two integer/flag arguments (both pushed as 1) and a base pointer derived from global data (edi+54724h) to allocate, retrieve, or initialize a global resource or buffer manager object when the system time/counter threshold is met."
+    },
+    {
+      "callee": "0x004087D0",
+      "callsite_summary": "Called after sub_418AA0, passing a pointer to a locally constructed parameter/command block on the stack (starting at var_48) initialized with entity attributes and state flags, to submit or process the action request."
+    }
+  ]
+}

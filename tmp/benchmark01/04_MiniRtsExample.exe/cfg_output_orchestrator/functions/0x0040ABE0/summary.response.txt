@@ -1,0 +1,28 @@
+{
+  "suggested_name": "HandleBytecodeStatusOrEvent",
+  "prototype": "void __cdecl HandleBytecodeStatusOrEvent(int a1, const void *operand)",
+  "short_summary": "Extracts an integer value or type code from a bytecode operand structure and uses it as an index to trigger event handlers if it falls within a valid range (0-5).",
+  "detailed_summary": "The function inspects an operand structure passed via stack argument. It checks the byte at offset 0 of the operand: if it equals 2, it loads a floating-point value from the structure, converts it to a 32-bit integer using __ftol2_sse; otherwise, it reads a 32-bit integer from offset 4 of the operand structure. Next, it checks if this extracted integer value is less than or equal to 5 (unsigned comparison). If within this range [0, 5], it preserves EBX, moves the integer into EBX, and calls sub_403BF0 [TriggerHandlersByIndex] with the index in EBX to trigger related game/script handlers.",
+  "parameters": [
+    {
+      "name": "this_pointer",
+      "location": "esp+0",
+      "type": "void*",
+      "description": "Unused or 'this' context passed via vtable dispatch (ESI)"
+    },
+    {
+      "name": "operand",
+      "location": "esp+4",
+      "type": "const void*",
+      "description": "Pointer to a bytecode operand structure"
+    }
+  ],
+  "return_value": "none",
+  "side_effects": [
+    "triggers global event handlers by index via sub_403BF0"
+  ],
+  "data_structures": [
+    "Bytecode operand structure: +0x0 type byte, +0x4 integer/float value"
+  ],
+  "confidence": "high, clear control flow and register usage mapped cleanly to known callers and callees"
+}

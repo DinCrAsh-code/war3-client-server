@@ -1,0 +1,40 @@
+{
+  "suggested_name": "ExecuteScriptOpcode_Slot23",
+  "prototype": "void __cdecl ExecuteScriptOpcode_Slot23(void *pThis, const void *pOperand1, int count, void *pOutput)",
+  "short_summary": "Executes a virtual opcode handler (vtable slot 23) in the bytecode interpreter, fetching and converting operand data based on type flags to perform a math or conversion operation returning a floating-point/variant value.",
+  "detailed_summary": "The function inspects an operand structure passed via arguments. It checks the type flag at offset 0 of the first operand pointer. If the type is 2, it converts an x87 floating-point value to a 32-bit integer via __ftol2_sse; otherwise, it reads a 32-bit integer from offset 4. It then compares this integer against a maximum limit (5); if within bounds, it scales the value using a global factor from `dword_42AC60`. If out of bounds, it loads a constant float and multiplies it. Finally, it formats the resulting value and copies it into the output structure buffer provided via arguments.",
+  "parameters": [
+    {
+      "name": "pThis",
+      "location": "ecx / implicit this or first arg depending on call convention",
+      "type": "void*",
+      "description": "The 'this' pointer for the interpreter object."
+    },
+    {
+      "name": "pOperand1",
+      "location": "[esp+4]",
+      "type": "const void*",
+      "description": "Pointer to the input operand structure/variant."
+    },
+    {
+      "name": "count",
+      "location": "[esp+8]",
+      "type": "int",
+      "description": "Count or secondary argument for the operation."
+    },
+    {
+      "name": "pOutput",
+      "location": "[esp+0xC]",
+      "type": "void*",
+      "description": "Pointer to the output destination buffer where the resulting variant is written."
+    }
+  ],
+  "return_value": "none",
+  "side_effects": [
+    "Writes computed result/variant data to the output pointer specified by the caller."
+  ],
+  "data_structures": [
+    "Operand/Variant: +0x0 byte/int type tag, +0x4 integer or float payload value."
+  ],
+  "confidence": "medium, based on assembly control flow and virtual method context in bytecode execution."
+}

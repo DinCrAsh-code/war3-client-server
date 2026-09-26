@@ -1,0 +1,9 @@
+{
+  "function_role": "Processes and validates simulation state or entity collision items in a loop, calculating geometry/distance metrics and updating structured records associated with the resource header.",
+  "callsite_summaries": {
+    "0x00418050": "Called once per iteration inside the main processing loop to perform a calculation or state update on the newly populated record entry (using data derived from the current item index and coordinate tables).",
+    "0x0041A160": "Called multiple times to convert floating-point values from the x87 FPU stack into integer indices (truncated via __ftol2_sse) for table lookup and discretization.",
+    "0x00402560": "Called within an inner sub-loop (passing context pointers and index constants on the stack) to query, allocate, or update resource sub-elements based on the processed geometric/numeric parameters."
+  },
+  "fallbacks": []
+}

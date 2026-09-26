@@ -1,0 +1,25 @@
+{
+  "parsed_ok": true,
+  "suggested_name": "CleanupAndExpireSimulationObjects",
+  "prototype": "void __fastcall CleanupAndExpireSimulationObjects(void *simStruct)",
+  "short_summary": "Iterates through two tracked simulation arrays/lists in a state structure, checking a flag (`0x80`) on each object, removing and freeing items matching the criteria via helper calls or direct virtual destruction.",
+  "detailed_summary": "The function performs two separate cleanup/expiration scans over collections inside the simulation structure passed in `esi`. \n\n1. First Loop: Iterates backwards through an array of objects located at `[esi+5738Ch]` with a count at `[esi+57390h]`. For each item, it checks if `byte ptr [eax+18h] & 0x80` is non-zero. If so, it invokes `RemoveAndFreeResourceObject` (`sub_403780`) with `ecx = esi`.\n\n2. Second Loop: Iterates backwards through a second array located at `[esi+573A4h]` with a count at `[esi+573A8h]`. For each item, if `byte ptr [ecx+18h] & 0x80` is set, it performs additional slot/handle validation: it extracts a 16-bit index and 16-bit sequence/generation counter from `[ecx+4]`, validates it against resource pool bounds at `[esi+51E84h]` and `[esi+51E80h]`, resets the resource slot entry, updates free-list linkage (`[esi+51E88h]`, `[esi+51E8Ch]`), compacts the tracked array by shifting elements down, and finally invokes the object's virtual destructor method (`call dword ptr [eax]` with a flag `1` indicating scalar deleting destructor).",
+  "parameters": [
+    {
+      "name": "simStruct",
+      "location": "ecx / esi",
+      "type": "void *",
+      "description": "Pointer to the main simulation/resource structure"
+    }
+  ],
+  "return_value": "none",
+  "side_effects": [
+    "frees and unlinks simulation objects whose high bit at offset +0x18 is set",
+    "modifies resource pool tracking tables and counts at offsets +0x51E80 through +0x573A8"
+  ],
+  "data_structures": [
+    "Simulation Structure: +0x51E80 resource table array, +0x51E84 resource count, +0x51E88 resource free list head, +0x51E8C resource free count, +0x5738C primary tracked array, +0x57390 primary count, +0x573A4 secondary tracked array, +0x573A8 secondary count",
+    "Tracked Object: +0x4 handle/ID, +0x18 flags byte (0x80 denotes expired/pending removal)"
+  ],
+  "confidence": "high based on clear traversal loops, bitflag checks, and cleanup patterns matching resource/simulation lifecycle management"
+}

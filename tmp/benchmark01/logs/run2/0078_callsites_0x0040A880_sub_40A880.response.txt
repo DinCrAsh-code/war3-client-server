@@ -1,0 +1,9 @@
+{
+  "function_role": "A virtual opcode handler (slot 12 in the script interpreter vtable) that extracts or converts a value from a script/bytecode argument structure based on its type code, performing a table-based lookup or default handling.",
+  "callsites": [
+    {
+      "callee": "0x0041A160",
+      "callsite_summary": "Called to convert a floating-point number (loaded onto the FPU stack when the argument byte at `[eax]` equals 2) into an integer value via SSE, returning the integer result."
+    }
+  ]
+}

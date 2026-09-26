@@ -1,0 +1,29 @@
+{
+  "suggested_name": "GrowContainerCapacity",
+  "prototype": "void __stdcall GrowContainerCapacity(Container *container)",
+  "short_summary": "Grows the capacity and reallocates the underlying data buffer of a container structure when it reaches capacity.",
+  "detailed_summary": "The function calculates a new capacity for a dynamic array or container structure passed via its argument. It first checks if the current capacity (stored at offset +8) is zero; if so, it defaults to an initial capacity of 0x10. If non-zero, it doubles the current capacity (`ebx = eax * 2`). It then enters a loop that repeatedly doubles `ebx` until it is greater than or equal to a minimum threshold specified in `ecx`. Once the target capacity is determined, it multiplies the capacity by 4 (assuming 4-byte elements) to get the byte size and calls ReallocateCustomBlock to resize the underlying data buffer located at offset +0. Finally, it updates the container structure with the new buffer pointer and the new capacity, and returns.",
+  "parameters": [
+    {
+      "name": "container",
+      "location": "[esp+4]",
+      "type": "Container*",
+      "description": "Pointer to the container structure whose capacity is being grown."
+    },
+    {
+      "name": "min_capacity",
+      "location": "ecx",
+      "type": "size_t",
+      "description": "Minimum required capacity threshold passed via ecx."
+    }
+  ],
+  "return_value": "none",
+  "side_effects": [
+    "Reallocates the container's internal data buffer, potentially moving memory and freeing the old block.",
+    "Updates the container's buffer pointer and capacity fields."
+  ],
+  "data_structures": [
+    "Container: +0x0 void* buffer, +0x8 size_t capacity"
+  ],
+  "confidence": "high, clear logic, simple register-based conventions, and standard dynamic array growth pattern."
+}

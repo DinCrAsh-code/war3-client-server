@@ -1,0 +1,23 @@
+{
+  "parsed_ok": true,
+  "suggested_name": "CreateSubtypeObject",
+  "prototype": "void* __fastcall CreateSubtypeObject(int typeId)",
+  "short_summary": "Factory function that allocates, initializes, and returns a specific 32-byte subtype object instance based on a given type identifier.",
+  "detailed_summary": "The function takes a type identifier in edi (and an unused or context pointer in eax which is saved to esi). It normalizes or bounds-checks the type ID using a lookup table (byte_41C600) to obtain a case index, then uses a switch/jump table (jpt_4145C3) to dispatch to one of seven handlers (or a default path returning null). Each valid case allocates a 32-byte memory block using AllocateCustomBlock, initializes the object via InitializeSubtypeObject, overwrites the virtual function table pointer at offset 0 with a specific vtable from .rdata, and returns the pointer in eax.",
+  "parameters": [
+    {
+      "name": "typeId",
+      "location": "edi",
+      "type": "int",
+      "description": "Identifier specifying which subtype object variant to instantiate."
+    }
+  ],
+  "return_value": "Pointer to the newly allocated and initialized object instance in eax, or NULL on failure.",
+  "side_effects": [
+    "Allocates memory dynamically via custom block allocation"
+  ],
+  "data_structures": [
+    "Subtype object: +0x0 vtable pointer, 32 bytes total size"
+  ],
+  "confidence": "high | standard factory switch-case dispatch allocating and initializing objects with specific vtables"
+}

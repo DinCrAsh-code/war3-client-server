@@ -1,0 +1,10 @@
+{
+  "function_role": "Manages a dynamic priority queue, heap, or custom task scheduler/resource structure (passed in ebx), iteratively processing or reordering entries, invoking callbacks, and allocating or reallocating memory blocks via helper routines when capacities change.",
+  "callsite_summaries": {
+    "0x004185D0": "Allocates a new memory buffer or data block of size specified in eax (computed from capacity/element size), called when growing or initializing storage for elements in the structure pointed to by ebx.",
+    "0x00419690": "Performs adjustment, heap-down, or reordering operations on the elements in the collection after an item is removed or modified, passing the base structure in edi.",
+    "0x00418670": "Reallocates or resizes the backing storage buffer for the structure, taking the new capacity/size in edi and old pointer in esi, and returning the new buffer pointer in eax.",
+    "0x00419590": "Performs heap-up or maintenance operations on a specific element index (passed in eax) within the collection structure (passed on the stack via ebx) after a new item is inserted."
+  },
+  "fallbacks": []
+}

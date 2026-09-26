@@ -1,0 +1,26 @@
+{
+  "parsed_ok": true,
+  "suggested_name": "AllocateCustomBlock",
+  "prototype": "void* __fastcall AllocateCustomBlock(int size)",
+  "short_summary": "Allocates a custom memory block of the requested size, utilizing a fixed-size memory pool allocator for small/medium allocations or falling back to malloc for large ones, and returns an inner payload pointer with a tracked header.",
+  "detailed_summary": "The function checks if the global allocation subsystem has been initialized (`byte_42285C`), calling `sub_4184E0 [InitializeSubsystem]` if not. If the requested size in `eax` is 0, it defaults to 1 byte. It then queries a bin/pool index via `sub_418430 [FindAllocationBinIndex]`. If no matching pool bin is found (returned index < 0), it falls back to standard heap allocation via `malloc` requesting `size + 8` bytes, marks the allocation header with `0xFF`, and sets up an internal block header with signature 'RM' (`0x4D52`), the block size, and zeroes the payload via `memset`. If a pool bin index is found, it checks if a memory block chunk exists for that bin; if not, it calls `AllocateMemoryPoolBlock` to populate the pool. It then unlinks a free block from the bin's free list, stores the bin index (`bl`) at `[eax+2]`, updates global allocation statistics (`dword_42281C`), writes the 'RM' signature, size, and clears the user payload via `memset`. Finally, it returns a pointer to the user payload starting 8 bytes into the allocated block.",
+  "parameters": [
+    {
+      "name": "size",
+      "location": "eax",
+      "type": "int",
+      "description": "Requested size of the memory block in bytes"
+    }
+  ],
+  "return_value": "Pointer to the allocated payload memory block (pointing to the user data area, offset +8 from the raw allocation block) in eax, or NULL on failure.",
+  "side_effects": [
+    "Initializes global allocation subsystem structures on first use",
+    "Allocates memory via malloc or internal pre-allocated pools",
+    "Modifies global tracking data at 0x0042281C and 0x00422820",
+    "Clears the user payload portion of the newly allocated block via memset"
+  ],
+  "data_structures": [
+    "Allocation Header: +0x0 WORD signature ('RM' / 0x4D52), +0x2 BYTE bin_index (0xFF for malloc'd blocks), +0x3 BYTE flags/padding, +0x4 DWORD size, +0x8 void* user_payload"
+  ],
+  "confidence": "high | complete disassembly context and clear interaction with custom pool and malloc allocators"
+}

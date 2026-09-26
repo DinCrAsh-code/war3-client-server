@@ -1,0 +1,37 @@
+{
+  "parsed_ok": true,
+  "suggested_name": "WriteBufferHeaderOrPacket",
+  "prototype": "void __fastcall WriteBufferHeaderOrPacket(void *buffer_ctx, uint32_t arg_0, uint32_t count_val)",
+  "short_summary": "Constructs and writes a 7-byte packet header (comprising values from registers and stack) into a staging buffer context, flushing the buffer first if capacity is exceeded and appending the header bytes to a secondary dynamic buffer.",
+  "detailed_summary": "The function begins by establishing a local stack-based byte array (Src) and packing integer and register values into it. Specifically, it extracts bytes from arg_0 (passed on the stack) and ecx, assembling a 7-byte control or packet header. It then checks the buffer offset at offset +0x2000 in the context structure pointed to by esi; if adding 7 bytes exceeds the capacity limit (implied by 2000h), it calls FlushAndCompressBuffer to flush the current buffer. Afterward, it writes the 7 bytes directly into the staging buffer at the current offset, advances the buffer write index by 7, and calls AppendToDynamicBuffer to also append the 7-byte header payload to a dynamic buffer located at offset +0x2010 of the context structure.",
+  "parameters": [
+    {
+      "name": "buffer_ctx",
+      "location": "esi",
+      "type": "void*",
+      "description": "Pointer to the buffer and packet context structure."
+    },
+    {
+      "name": "ecx_val",
+      "location": "ecx",
+      "type": "uint32_t",
+      "description": "Additional data value incorporated into the 7-byte header."
+    },
+    {
+      "name": "arg_0",
+      "location": "stack [esp+0Ch+arg_0]",
+      "type": "uint32_t",
+      "description": "Parameter value whose bytes form the first portion of the 7-byte header."
+    }
+  ],
+  "return_value": "none",
+  "side_effects": [
+    "Modifies the buffer context state at offset +0x2000 (buffer cursor/size).",
+    "Flushes and compresses the buffer via FlushAndCompressBuffer if space runs out.",
+    "Appends 7 bytes of data to the dynamic buffer at offset +0x2010 via AppendToDynamicBuffer."
+  ],
+  "data_structures": [
+    "BufferContext: +0x2000 uint32_t current_offset, +0x2010 dynamic_buffer_struct"
+  ],
+  "confidence": "high | structural pattern matches network packet header formatting and dynamic buffer append operations seen in preceding functions"
+}

@@ -1,0 +1,14 @@
+{
+  "parsed_ok": true,
+  "suggested_name": "__ftol2_sse",
+  "prototype": "int __cdecl __ftol2_sse(void)",
+  "short_summary": "Converts the top-of-stack x87 floating-point value to a 32-bit signed integer using SSE or fallback FPU routines, returning the integer result in EAX.",
+  "detailed_summary": "The function implements the Microsoft Visual C++ runtime helper `__ftol2_sse`. It checks a global configuration flag at 0x00435CC8 to determine if SSE2 instructions are supported and enabled. If so, it uses an aligned stack frame, loads/converts the floating-point value from the x87 stack via `cvttsd2si` (or falls back to traditional FPU control word inspection and rounding logic if SSE2 is unavailable or FPU control word rounding modes differ). Depending on the sign, fractional parts, and QNaN/zero checks, it handles truncation and clamping to return a 32-bit signed integer in EAX.",
+  "parameters": [],
+  "return_value": "eax (32-bit signed integer converted from st(0))",
+  "side_effects": [
+    "pops the top value from the x87 FPU stack"
+  ],
+  "data_structures": [],
+  "confidence": "high; standard MSVC runtime helper function __ftol2_sse with well-known behavior and symbol."
+}

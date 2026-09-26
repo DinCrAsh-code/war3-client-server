@@ -1,0 +1,31 @@
+{
+  "parsed_ok": true,
+  "suggested_name": "ProcessEntityInteractionContext",
+  "prototype": "void __fastcall ProcessEntityInteractionContext(void *record, void *context)",
+  "short_summary": "Iterates through a list of entity references in a context structure, validates each entity against compatibility and state rules, and triggers an entity interaction or command using helper functions.",
+  "detailed_summary": "The function sets up a loop that runs 4 times, checking an array of entity references stored at offset +0x0C within the context/parameter structure passed in `eax`. For each iteration, it extracts a handle/ID from `edi`, looks up the corresponding entity pointer from a global entity table managed via `dword_42AC60`, and performs a series of validation checks: verifies entity flags, checks a linked list state (traversing via offset +0x1C and setting a flag at +0x0E), ensures the entity has no active blocking/flag at +1F4h, and calls `ValidateEntityPairCompatibility` between the entity (`ebx`) and the record (`esi`). If all checks pass, it populates a temporary structure on the stack with coordinate/state data from `esi` and invokes `ProcessEntityInteractionOrCommand` on the entity.",
+  "parameters": [
+    {
+      "name": "record",
+      "location": "eax",
+      "type": "void*",
+      "description": "Record or source entity pointer holding flags at +0Bh, +20h, etc."
+    },
+    {
+      "name": "context",
+      "location": "ecx",
+      "type": "void*",
+      "description": "Context pointer containing entity references at offset +0Ch and other data fields."
+    }
+  ],
+  "return_value": "none",
+  "side_effects": [
+    "Modifies fields within the record structure passed in eax (such as +0Bh and +20h)",
+    "Updates state flags within matched entities and processes interactions via sub_40DAC0"
+  ],
+  "data_structures": [
+    "Global entity table referenced via dword_42AC60 holding entity pools and counts",
+    "Context/Parameter structure with an array of entity handles starting at +0Ch"
+  ],
+  "confidence": "high | well-structured loop iterating over 4 entity handles with clear calls to validation and command processing functions"
+}

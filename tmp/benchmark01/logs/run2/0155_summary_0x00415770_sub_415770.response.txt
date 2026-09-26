@@ -1,0 +1,22 @@
+{
+  "suggested_name": "UpdateGridCellStates",
+  "prototype": "void __cdecl UpdateGridCellStates(void *gridData)",
+  "short_summary": "Iterates over a 2D grid of elements (from index 2 to 93/0x5E), performing neighbor comparisons, distance/geometric checks, and updating cell state flags.",
+  "detailed_summary": "The function performs a nested loop over a 2D coordinate space ranging from 2 up to 96 (0x60, exclusive bound 0x5E for inner processing). For each cell, it loads structural data offset by `edi` and evaluates neighboring cells in four cardinal directions (plus/minus offsets in X and Y). It uses floating-point calculations loaded from .rdata constants to evaluate spatial thresholds or distances, tests condition flags via FPU status words (fnstsw), and sets bit flags (such as OR-ing bits 2, 3, or 0x23) directly into status bytes located within the grid structure at offsets 0x9300–0xB704.",
+  "parameters": [
+    {
+      "name": "gridData",
+      "location": "edi",
+      "type": "void *",
+      "description": "Pointer to a large grid or state structure containing bytes and coordinate fields processed in batches."
+    }
+  ],
+  "return_value": "none",
+  "side_effects": [
+    "Modifies bytes within the grid data structure at offsets around +0x9300 to +0xB704, specifically setting flag bits."
+  ],
+  "data_structures": [
+    "Grid structure: 2D array or grid spanning at least 0x60 x 0x60 elements, with neighbor/state byte tables starting around offset +0x9303 and flag bytes around +0xB704."
+  ],
+  "confidence": "high | standard grid iteration pattern with nested loops, constant floating-point loads, and neighbor bitmask updates."
+}

@@ -1,0 +1,13 @@
+{
+  "function_role": "Performs rigorous relationship, state, and component-level validation checks between an entity reference in ebx and a context object in esi (with further attributes fetched from [ebx+1Ch]), returning a boolean result indicating whether the pair satisfies compatibility rules.",
+  "callsites": [
+    {
+        "callee": "0x0040BD40",
+        "callsite_summary": "Called when esi has a type/attribute sub-state of 1 ([esi+1Ah] == 1), passing the object pointer in eax (esi) to perform a preliminary sub-component validity check. Its boolean return value in al is tested, causing the parent function to fail validation if zero."
+    },
+    {
+        "callee": "0x0040BCD0",
+        "callsite_summary": "Called after sub_40BD40 succeeds and additional bitflag checks on esi pass, passing esi in eax and ebx in edx to perform a secondary interaction or relationship validation between the two entities. Its boolean return value in al is tested to determine whether validation continues to final bitmask extraction."
+    }
+  ]
+}

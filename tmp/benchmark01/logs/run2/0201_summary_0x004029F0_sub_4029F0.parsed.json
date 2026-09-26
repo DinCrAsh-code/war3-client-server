@@ -1,0 +1,22 @@
+{
+  "parsed_ok": true,
+  "suggested_name": "LookupResourceOrHandle",
+  "prototype": "void* __fastcall LookupResourceOrHandle(unsigned int handle)",
+  "short_summary": "Resolves a 32-bit handle (comprising an index and a validation tag) into a managed object pointer, verifying bounds, a tag match, and an internal status byte.",
+  "detailed_summary": "The function takes a 32-bit handle in `ecx`. It first checks if the handle is non-zero, returning 0 if null. It extracts the lower 16 bits as an index (minus 1) and compares it against a global maximum count stored at `[data_42AC60 + 0x51E84]`. If out of bounds, it returns 0. Otherwise, it retrieves a table base pointer from `[data_42AC60 + 0x51E80]` and indexes into an array of 8-byte entries (`base + index * 8`). It then extracts the upper 16 bits of the original handle (`ecx >> 16`) and compares it with a 16-bit validation tag stored at `[entry + 4]`. If the tags do not match, it returns 0. Finally, it dereferences a pointer at `[entry + 0]`, checks if it is non-zero, and verifies that the byte at offset `+0x1A` of the resolved object equals 1. If all conditions are met, it returns the object pointer in `eax`; otherwise, it returns 0.",
+  "parameters": [
+    {
+      "name": "handle",
+      "location": "ecx",
+      "type": "unsigned int",
+      "pid": "...",
+      "description": "A 32-bit identifier where the lower 16 bits represent a 1-based index and the upper 16 bits represent a generation or validation tag."
+    }
+  ],
+  "return_value": "Returns a pointer to the resolved object in `eax`, or `0` on failure.",
+  "side_effects": [],
+  "data_structures": [
+    "Table Entry: +0x0 void* object_ptr, +0x4 unsigned short tag"
+  ],
+  "confidence": "high, clean register-based handle translation logic matching typical resource manager patterns."
+}

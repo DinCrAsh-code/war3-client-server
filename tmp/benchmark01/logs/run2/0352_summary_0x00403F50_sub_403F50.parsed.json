@@ -1,0 +1,90 @@
+{
+  "parsed_ok": true,
+  "suggested_name": "CleanupResourceLists",
+  "prototype": "void __cdecl CleanupResourceLists(void *esi)",
+  "short_summary": "Cleans up and releases four distinct arrays of resource/object pointers via virtual destructor calls, updates resource state tables, and frees or recycles a tracked resource memory block marked with the 'RM' signature.",
+  "detailed_summary": "The function executes several sequential cleanup phases using the state structure passed in `esi`. First, it iterates through an array of objects at offset `+0x57398` (with count at `+0x5739Ch`), invoking a virtual destructor (via function pointer table lookup at `[ecx]`, passing argument `1`) on each non-null entry, then zeroes the count. Second, it processes another list at `+0x5738Ch` (count at `+0x57390h`), updating tracking tables (matching against handle slots at `+0x51E80h`) before similarly calling the virtual destructors and clearing the count. Third and fourth, it iterates through two additional arrays at `+0x573A4h`/`+0x573A8h` and `+0x573B0h`/`+0x573B4h`, destroying any valid objects and resetting their counts to zero. Finally, it inspects a resource allocation located just before the pointer at `+0x51E80h`, validating a 'RM' (0x4D52) magic header and subtracting its size from a global tracking variable (`dword_42281C`). Depending on a control byte at offset `+2`, it either frees the block entirely using `free` or inserts it into a free-list cache (`dword_422820`), resetting the resource pointers in `esi` to null.",
+  "parameters": [
+    {
+      "name": "resourceManager",
+      "location": "esi",
+      "type": "void*",
+      "description": "Pointer to the main resource/context structure being cleaned up."
+    }
+  ],
+  "return_value": "none",
+  "side_effects": [
+    "Invokes virtual destructors on multiple object arrays stored within the resource manager structure.",
+    "Frees or recycles a memory block marked with 'RM' signature via MSVCR80!free or a custom free-list.",
+    "Modifies global variables dword_42281C and dword_422820.",
+    "Zeros out counts and pointers within the resource manager structure."
+  ],
+  "data_structures": [
+    {
+      "struct_name": "ResourceManager",
+      "fields": [
+        {
+          "offset": "+0x51E80",
+          "type": "void*",
+          "description": "Pointer to resource/slot allocation block"
+        },
+        {
+          "offset": "+0x51E84",
+          "type": "int",
+          "description": "Resource slot count limit"
+        },
+        {
+          "offset": "+0x51E88",
+          "type": "short",
+          "description": "Resource index head/free-head"
+        },
+        {
+          "offset": "+0x51E8C",
+          "type": "int",
+          "description": "Active resource count"
+        },
+        {
+          "offset": "+0x5738C",
+          "type": "void**",
+          "description": "Array of object pointers (Phase 2)"
+        },
+        {
+          "offset": "+0x57390",
+          "type": "int",
+          "description": "Count for array at +0x5738C"
+        },
+        {
+          "offset": "+0x57398",
+          "type": "void**",
+          "description": "Array of object pointers (Phase 1)"
+        },
+        {
+          "offset": "+0x5739C",
+          "type": "int",
+          "description": "Count for array at +0x57398"
+        },
+        {
+          "offset": "+0x573A4",
+          "type": "void**",
+          "description": "Array of object pointers (Phase 3)"
+        },
+        {
+          "offset": "+0x573A8",
+          "type": "int",
+          "description": "Count for array at +0x573A4"
+        },
+        {
+          "offset": "+0x573B0",
+          "type": "void**",
+          "description": "Array of object pointers (Phase 4)"
+        },
+        {
+          "offset": "+0x573B4",
+          "type": "int",
+          "description": "Count for array at +0x573B0"
+        }
+      ]
+    }
+  ],
+  "confidence": "high | complete control flow and data structure access patterns mapped clearly to standard C++ container cleanup and custom memory tracking."
+}

@@ -1,0 +1,29 @@
+{
+  "parsed_ok": true,
+  "suggested_name": "ResourceEntry_Initialize",
+  "prototype": "void* __fastcall ResourceEntry_Initialize(void *this, void *edx, int Src)",
+  "short_summary": "Initializes a newly allocated resource or sub-system entry object passed in `ecx` using an identifier/lookup value (`Src`) passed in `eax`.",
+  "detailed_summary": "The function takes a pointer to an object/structure in `ecx` (acting as a `this` pointer) and a source identifier value in `eax`. It stores a virtual table pointer at offset +0, clears or initializes various status fields and flags within the structure (such as writing specific bytes/words at offsets +4, +8, +0xC, +0x18, +0x1A, +0x1B, +0x1C, +0x1E, +0x20), and performs arithmetic/floating-point operations using constants from `.rdata`. Notably, it computes a division/scaling calculation using a reciprocal multiplication constant (`0x2AAAAAABh`, effectively dividing a value by 3 or mapping coordinates/indices), stores intermediate values, and returns the pointer `ecx` in `eax`.",
+  "parameters": [
+    {
+      "name": "this",
+      "location": "ecx",
+      "type": "void*",
+      "description": "Pointer to the resource entry structure being initialized."
+    },
+    {
+      "name": "Src",
+      "location": "eax",
+      "type": "int",
+      "description": "Lookup value or identifier used to compute indices/fields within the structure."
+    }
+  ],
+  "return_value": "Returns the initialized structure pointer in eax.",
+  "side_effects": [
+    "Initializes fields of the object pointed to by ecx"
+  ],
+  "data_structures": [
+    "ResourceEntry: +0x0 vtable/type ptr, +0x4 int/flags, +0x8 int/offset, +0xC int/value, +0x18 word flags, +0x1A byte field, +0x1B byte field, +0x1C word/short id, +0x1E word field, +0x20 byte field"
+  ],
+  "confidence": "high, based on clean structure initialization pattern, standard MSVC optimization idioms, and caller context."
+}

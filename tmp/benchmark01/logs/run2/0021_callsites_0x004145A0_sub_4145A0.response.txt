@@ -1,0 +1,13 @@
+{
+  "function_role": "Acts as a polymorphic factory function that dispatches on an identifier (in edi) to allocate a specific subtype object (of size 32 bytes via sub_4185D0), initialize it (via sub_4144A0), and set up its virtual method table or type-specific data reference.",
+  "callsites": [
+    {
+      "callee": "0x004185D0",
+      "callsite_summary": "Called with size 0x20 (32 bytes) in EAX to allocate raw memory for a new node or object instance across all switch cases. The returned pointer in EAX is checked for validity (non-zero) before proceeding with construction."
+    },
+    {
+      "callee": "0x004144A0",
+      "callsite_summary": "Called immediately after successful memory allocation and temporary storage preparation to initialize the newly allocated object instance (with the raw pointer in EAX and identifier/parameter passed via ECX), prior to writing the type-specific vtable/metadata pointer into the object header."
+    }
+  ]
+}

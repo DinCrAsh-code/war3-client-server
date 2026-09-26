@@ -1,0 +1,40 @@
+{
+  "suggested_name": "OpcodeHandler_LoadConstantOrVariable",
+  "prototype": "void __cdecl sub_40A2A0(void *this_ptr, void *unknown1, void *unknown2, int *out_result)",
+  "short_summary": "Executes a virtual machine instruction handler that retrieves a value (possibly a constant or variable) and writes an 8-byte typed value structure to the output destination.",
+  "detailed_summary": "The function allocates 8 bytes on the stack, accesses a global data pointer at 0x0042AC60, loads/stores floating-point values via the x87 FPU stack, and writes a typed output structure to the pointer provided in the last argument. Specifically, it writes an integer tag or type identifier of 2 into the first 4 bytes of the destination structure and a local variable or register value into the next 4 bytes.",
+  "parameters": [
+    {
+      "name": "this_ptr",
+      "location": "esi (via caller context)",
+      "type": "void*",
+      "description": "The VM / interpreter context pointer (this pointer)."
+    },
+    {
+      "name": "arg_4",
+      "location": "[esp+4]",
+      "type": "void*",
+      "description": "First operand or parameter pointer."
+    },
+    {
+      "name": "arg_8",
+      "location": "[esp+8]",
+      "type": "void*",
+      "description": "Second operand or parameter pointer."
+    },
+    {
+      "name": "out_result",
+      "location": "[esp+12]",
+      "type": "int*",
+      "description": "Pointer to an 8-byte output structure where the resulting typed value is written."
+    }
+  ],
+  "return_value": "none",
+  "side_effects": [
+    "Writes an 8-byte typed value structure (type tag 2 and a data value) to the memory address pointed to by out_result."
+  ],
+  "data_structures": [
+    "Result structure: +0x0 int type_tag (set to 2), +0x4 int value_or_data"
+  ],
+  "confidence": "medium | Based on caller context and stack layout, though floating point instructions are partially abbreviated in the disassembly view."
+}

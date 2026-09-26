@@ -1,0 +1,28 @@
+{
+  "suggested_name": "HeapUp",
+  "prototype": "void __fastcall HeapUp(int element_index, void *collection_structure)",
+  "short_summary": "Performs a 'heap-up' (sift-up / percolate-up) operation on a binary heap or priority queue, bubbling an element up toward the root as long as its priority/key is greater than its parent's.",
+  "detailed_summary": "The function implements standard binary heap up-heap maintenance. It takes an index (passed in eax) and a structure pointer (passed via stack argument `arg_0`). It enters a loop where it calculates the parent index (`edi = (index - 1) / 2`), scales both child and parent indices to match the 24-byte (0x18) element stride (using multiplications and shift/lea sequences), and compares their keys (stored at offset +0x14 of each element). Floating-point comparisons are also performed depending on the code path (handling potential float priorities or secondary comparisons). If the child node is greater than or equal to its parent, the loop terminates; otherwise, it swaps the elements between the child and parent slots, updates the index to the parent index, and repeats the process upward until reaching the root (when `edi <= 0`).",
+  "parameters": [
+    {
+      "name": "element_index",
+      "location": "eax",
+      "type": "int",
+      - "description": "The index of the newly added or modified element to bubble up."
+    },
+    {
+      "name": "collection_structure",
+      "location": "[esp+4]",
+      "type": "void*",
+      "description": "Pointer to the priority queue / heap container structure."
+    }
+  ],
+  "return_value": "none",
+  "side_effects": [
+    "reorders elements in the heap array stored within the collection structure"
+  ],
+  "data_structures": [
+    "Heap element: 24 bytes (0x18) in size, with key/priority stored at offset +0x14."
+  ],
+  "confidence": "high | standard binary heap up-heap / sift-up algorithm operating on an array with 24-byte elements and a key at offset +0x14."
+}

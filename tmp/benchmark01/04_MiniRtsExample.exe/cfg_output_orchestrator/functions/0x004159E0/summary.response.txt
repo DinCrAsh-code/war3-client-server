@@ -1,0 +1,40 @@
+{
+  "suggested_name": "ProcessSpatialGridBatchOrParticleUpdate",
+  "prototype": "void __stdcall ProcessSpatialGridBatchOrParticleUpdate(void *pRngState, float arg_4, int arg_8)",
+  "short_summary": "Iterates through a nested 2D grid/cell structure to perform geometric metric calculations, evaluate procedural noise, check thresholds, and update state records.",
+  "detailed_summary": "The function begins by performing a mix-and-multiply pseudo-random number generator step using the state structure passed via arg_0 (esi). It then enters a nested loop structure iterating through grid coordinates (up to 93x93 dimensions), checking flags within a structure based at ebx + 0xB824. For valid cells, it performs iterative calculations involving square roots (_CIsqrt), spatial metrics (CalculateSpatialOrPathMetric), and parameter clamping (ClampFloat). It queries procedural noise using EvaluateProceduralNoiseGrid and combines results with conditional floating-point logic, thresholds, and pseudo-random state updates via UpdateRngAndCompute. If conditions are met and a counter (ebx + 0xE6BCh) is below 5DC16 (1500), it records cell indices into an output array table within the structure at ebx.",
+  "parameters": [
+    {
+      "name": "pRngState",
+      "location": "arg_0 ([ebp+0x8])",
+      "type": "void*",
+      "description": "Pointer to a 64-bit random number generator or hash state structure."
+    },
+    {
+      "name": "arg_4",
+      "location": "arg_4 ([ebp+0xC])",
+      "type": "float",
+      "description": "Floating-point parameter used in geometric distance and spatial calculations."
+    },
+    {
+      "name": "arg_8",
+      "location": "arg_8 ([ebp+0x10])",
+      "type": "int",
+      "description": "Count or limit parameter for inner iteration loops."
+    }
+  ],
+  "return_value": "none",
+  "side_effects": [
+    "Modifies the RNG/hash state pointed to by arg_0",
+    "Updates grid state flags and index tables located via ebx"
+  ],
+  "data_structures": [
+    {
+      "name": "RngState",
+      "offset": "+0x0",
+      "type": "uint32_t[2]",
+      "description": "Pseudo-random number generator / hash state fields updated at the start"
+    }
+  ],
+  "confidence": "high, based on clear loop bounds matching grid sizes (93x93 = 5Dh x 5Dh), identifiable math imports like _CIsqrt, and robust helper function calls."
+}

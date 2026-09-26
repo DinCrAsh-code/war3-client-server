@@ -1,0 +1,42 @@
+{
+  "parsed_ok": true,
+  "suggested_name": "ExecuteBytecodeTypeOp",
+  "prototype": "void __fastcall sub_40A880(void *this_ptr, int dummy, const void *operand_ptr, int count, int *output_struct)",
+  "short_summary": "Executes a virtual machine bytecode opcode handler that checks a type-tagged operand, extracts or converts its value, performs a lookup in a global table, and writes a status/result pair to an output structure.",
+  "detailed_summary": "The function receives an operand pointer and an output structure pointer. It inspects the type tag at the first byte of the operand structure: if the tag is 2, it loads a floating-point value from the operand and converts it to a 32-bit signed integer via __ftol2_sse; otherwise, it reads an integer value from offset +4 of the operand. It then bounds-checks this integer value (must be <= 5). If within bounds, it uses it as an index to fetch an entry from a table located via the global pointer at 0x0042AC60 (using a multi-byte element scaling via imul). If the index is out of bounds (> 5), the resulting value defaults to 0. Finally, it writes a success status byte (value 1) to the first 4 bytes (or word/byte) of the output structure and the resulting value to the subsequent 4 bytes.",
+  "parameters": [
+    {
+      "name": "this_ptr",
+      "location": "ecx",
+      "type": "void*",
+      "description": "The VM / interpreter 'this' pointer (passed via __fastcall conventions in the vtable chain)."
+    },
+    {
+      "name": "operand_ptr",
+      "location": "[esp+4]",
+      "type": "const void*",
+      "description": "Pointer to an input operand or value structure, where the first byte is a type tag."
+    },
+    {
+      "name": "count",
+      "location": "[esp+8]",
+      "type": "int",
+      "description": "Count or secondary argument passed through the vtable dispatcher."
+    },
+    {
+      "name": "output_struct",
+      "location": "[esp+12]",
+      "type": "int*",
+      "description": "Pointer to an output structure where a status flag (1) is written at offset +0 and a computed/looked-up result is written at offset +4."
+    }
+  ],
+  "return_value": "none",
+  "side_effects": [
+    "writes a status flag (1) and a computed result integer into the caller-provided output structure pointer"
+  ],
+  "data_structures": [
+    "Operand structure: +0x0 byte type tag, +0x4 int value (or float at +0x4 if type == 2)",
+    "Output structure: +0x0 int status flag, +0x4 int result value"
+  ],
+  "confidence": "high, clear logic mapping operand tags, table lookups, and output population consistent with a bytecode VM instruction handler"
+}

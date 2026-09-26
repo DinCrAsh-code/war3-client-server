@@ -1,0 +1,9 @@
+{
+  "function_role": "Serializes or packs a message header and variable-length payload into an internal ring buffer or staging block within the structure pointed to by esi, flushing or expanding the buffer via sub_409170 when capacity is exceeded.",
+  "callsite_summaries": {
+    "0x00409170": "Called with ecx set to the context/buffer object (esi) when appending a header (5 bytes) or payload (edi bytes) would overflow the current buffer capacity (exceeding 2000h bytes), likely to flush, send, or reset the underlying buffer storage.",
+    "0x00408F70": "Called twice to log, checksum, or process data blocks being written: first with a 5-byte stack-allocated buffer containing the packed header/control bytes, and second with the actual payload pointer (ebp) and length (edi).",
+    "0x004198F2": "Standard compiler-inserted security cookie validation check called right before function epilogue to ensure the stack hasn't been corrupted."
+  },
+  "fallbacks": []
+}

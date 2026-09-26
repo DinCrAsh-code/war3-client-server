@@ -1,0 +1,38 @@
+{
+  "parsed_ok": true,
+  "suggested_name": "UpdateResourceStateBlockOrSimulationStep",
+  "prototype": "__stdcall void UpdateResourceStateBlockOrSimulationStep(void *resourceBlock, void *dataBuffer, int count)",
+  "short_summary": "Performs a comprehensive simulation, procedural generation, spatial grid update, and entity/particle batch processing step using a large state structure.",
+  "detailed_summary": "The function begins by updating an internal state marker and mixing seed/resource state values at the start of the resource block. It then calls sub_415220 [GenerateNoiseHeightmap] to generate procedural noise data, followed by multiple invocations of sub_4152B0 [ProcessSpatialGridOrCollisionData] and sub_4153F0 [ComputeDistanceFieldOrGridCollision] using constant rdata floating-point factors. It proceeds to update particle systems or emitters via sub_415D40 [UpdateParticleSystemOrEmitter], updates particle batches and grid cell states using sub_4156B0 and sub_415770, packs local stack coordinate arrays, and executes sub_4159E0 [ProcessSpatialGridBatchOrParticleUpdate]. Finally, it loops through a collection of items, converting floating-point coordinates via __ftol2_sse, validating spatial positions using sub_414E40 [CheckGridAreaOrFindNearby], and updating coordinate entries within the resource block.",
+  "parameters": [
+    {
+      "name": "resourceBlock",
+      "location": "[esp+arg_0] (accessed via register context in caller as edi)",
+      "type": "void *",
+      "housed in esi": "Pointer to the large resource/state block structure being updated.",
+      "description": "Pointer to the large resource/state block structure being updated."
+    },
+    {
+      "name": "dataBuffer",
+      "location": "[esp+arg_4]",
+      "type": "void *",
+      "description": "Pointer to a secondary data or coordinate buffer used across spatial and collision subroutines."
+    },
+    {
+      "name": "count",
+      "location": "[esp+arg_8]",
+      "type": "int",
+      "description": "Element count or iteration bound derived from resource state."
+    }
+  ],
+  "return_value": "none",
+  "side_effects": [
+    "Modifies fields within the resource/state block passed in esi",
+    "Updates particle and spatial grid state data",
+    "Performs extensive x87 floating-point calculations and conversions"
+  ],
+  "data_structures": [
+    "Resource block structure: contains fields at +0x0, +0x4, +0xE6C0 (array buffer), +0xE6E0 (count), +0xE6E4 (coordinate/metric array), +0xE744 (loop count), +0xE748 (status flag)"
+  ],
+  "confidence": "high | complete disassembly mapped to sub-systems and verified through caller context"
+}

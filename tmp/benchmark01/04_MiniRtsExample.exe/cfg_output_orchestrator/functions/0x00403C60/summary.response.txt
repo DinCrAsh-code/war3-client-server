@@ -1,0 +1,22 @@
+{
+  "suggested_name": "FinalizeResourceBlock",
+  "prototype": "void __stdcall FinalizeResourceBlock(void *resourceBlock)",
+  "short_summary": "Iterates through sub-components of a resource block, performing an arithmetic calculation involving table values to compute a validation checksum stored back into the block.",
+  "detailed_summary": "The function checks a count at offset +0x5BBBC of the resource block. If the count is greater than zero, it enters a loop running that many times, advancing through a strided array of substructures (spaced by 0x108 bytes). Inside the loop, it checks flags and iterates through a secondary internal table (bounded by addresses 0x41B178 and 0x41BCF4) accumulating values from word fields into an index variable `esi`. It then combines `esi` with values from the substructure at offsets +0xEC, +0xE8, and +0xE4, tracking the maximum calculated value across all iterations. Finally, it stores the resulting best value or -1 into offset +0x5BBD4 and sets a completion flag at offset +0x5BBD0.",
+  "parameters": [
+    {
+      "name": "resourceBlock",
+      "location": "[esp+0x10] (arg_0)",
+      "type": "void *",
+      "description": "Pointer to the main resource block being finalized."
+    }
+  ],
+  "return_value": "none",
+  "side_effects": [
+    "Modifies fields at offsets +0x5BBD0 and +0x5BBD4 within the resource block pointer."
+  ],
+  "data_structures": [
+    "ResourceBlock: +0x5BBBC int count, +0x5BBD0 byte statusFlag, +0x5BBD4 int checksumResult"
+  ],
+  "confidence": "high | clear loop structure, field offsets, and status flag updates matching caller expectations"
+}

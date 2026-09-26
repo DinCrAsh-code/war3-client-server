@@ -1,0 +1,15 @@
+{
+  "parsed_ok": true,
+  "suggested_name": "InitCrc32Table",
+  "prototype": "void __cdecl InitCrc32Table(void)",
+  "short_summary": "Initializes the standard CRC32 lookup table using the polynomial 0xEDB88320.",
+  "detailed_summary": "The function loops 256 times from `ecx = 0` to `255`. In each iteration, it performs 8 consecutive bit-shift and conditional XOR operations corresponding to an unrolled computation for a single byte value (`ecx`). The resulting 32-bit CRC value is stored into the lookup table array `dword_422860` at index `ecx`. After the loop completes, it sets a global initialization flag (`byte_42285D`) to 1 to prevent re-initialization.",
+  "parameters": [],
+  "return_value": "none",
+  "side_effects": [
+    "populates the CRC32 lookup table at dword_422860 (256 dwords)",
+    "sets the global initialization flag byte_42285D to 1"
+  ],
+  "data_structures": [],
+  "confidence": "high, standard unrolled implementation of IEEE 802.3 CRC32 table initialization using polynomial 0xEDB88320"
+}

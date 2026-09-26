@@ -1,0 +1,8 @@
+{
+  "function_role": "Acts as a callback/comparator function (passed to an entity collection or spatial query routine) that validates a specific entity/component pair against multiple criteria flags and structural conditions before conditionally invoking a downstream handling routine.",
+  "callsite_summaries": {
+    "0x0040C950": "Called at the beginning of the function, passing the two input arguments (`arg_0` as `esi` and `arg_4` as `edi`) to perform an initial preliminary check or compatibility test between them. If the return value (`al`) is zero, the function immediately aborts and returns false.",
+    "0x0040CAF0": "Called at the end of the function after passing all validation gates (including flag checks on `esi+18h` and a zero check on `esi+60h`), passing data derived from `edi` (`[edi]`) to perform the primary processing or action for this component/entity pair."
+  },
+  "fallbacks": []
+}

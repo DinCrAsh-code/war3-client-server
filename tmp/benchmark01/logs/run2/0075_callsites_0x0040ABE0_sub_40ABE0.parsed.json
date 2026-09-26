@@ -1,0 +1,8 @@
+{
+  "function_role": "A virtual opcode handler (slot 18 in vtable 0x0041D228) invoked from the bytecode interpreter to process a typed value/operand (checking if it is type 2, converting floating-point via __ftol2_sse or extracting payload, bounding to <= 5, and indexing/dispatching to a helper sub_403BF0).",
+  "callsite_summaries": {
+    "0x0041A160": "Called to convert a floating-point value (currently on the x87 FPU stack via fld) into an integer when the operand type indicator at [eax] equals 2.",
+    "0x00403BF0": "Called with the processed integer value (clamped/bounded to be <= 5) in EBX to perform the core operation or lookup associated with this opcode handler."
+  },
+  "fallbacks": []
+}

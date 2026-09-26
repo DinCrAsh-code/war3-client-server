@@ -1,0 +1,30 @@
+{
+  "suggested_name": "VM_PushValue",
+  "prototype": "bool __fastcall VM_PushValue(VMContext *vm, const Value64 *valPtr)",
+  "short_summary": "Pushes a 64-bit value onto the virtual machine's internal stack, checking for overflow and setting an error flag if the stack limit (256 entries) is exceeded.",
+  "detailed_summary": "The function checks the current stack pointer located at offset 0x998 of the VM context (passed in EAX). If the index has reached or exceeded 0x100 (256), it sets an overflow/error flag at offset 0xA68 of the VM context and returns 0 (false). Otherwise, it reads a 64-bit value from the pointer passed in EDX, stores it into the VM stack array at `0x198 + index * 8`, increments the stack pointer at offset 0x998 by 1, and returns 1 (true).",
+  "parameters": [
+    {
+      "name": "vm",
+      "location": "eax",
+      "type": "VMContext *",
+      "description": "Pointer to the virtual machine state structure."
+    },
+    {
+      "name": "valPtr",
+      "location": "edx",
+      "type": "const void *",
+      "description": "Pointer to the 64-bit value structure to be pushed."
+    }
+  ],
+  "return_value": "bool (1 for success, 0 for stack overflow) returned in al",
+  "side_effects": [
+    "Modifies the stack pointer integer at VMContext+0x998",
+    "Writes a 64-bit value into the stack buffer at VMContext+0x198+index*8",
+    "Sets an error flag at VMContext+0xA68 to 1 if a stack overflow occurs"
+  ],
+  "data_structures": [
+    "VMContext: +0x198 stack array (256 entries of 8 bytes each), +0x998 stack count/index (int), +0xA68 stack overflow/error flag (byte)"
+  ],
+  "confidence": "high | clear memory offsets, standard stack-push pattern with bounds checking"
+}

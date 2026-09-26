@@ -1,0 +1,17 @@
+{
+  "function_role": "This function is the standard MSVC vector deleting/destroying destructor helper (`??_M`), responsible for iterating backwards through an array of objects and invoking a provided element destructor function on each item, with structured exception handling to unwind partially constructed or destroyed arrays.",
+  "callsites": [
+    {
+      "callee": "0x00419DE8",
+      "callsite_summary": "Called at the beginning of the function (via `__SEH_prolog4`) to set up standard structured exception handling (SEH) frame tracking for safe array destruction/unwinding."
+    },
+    {
+      "callee": "0x00419E2D",
+      "callsite_summary": "Called near the end of the function (via `__SEH_epilog4`) to tear down the structured exception handling frame set up by the prologue."
+    },
+    {
+      "callee": "0x00419901",
+      "callsite_summary": "Called from the local cleanup helper function (at 0x004199AA) if an exception occurs mid-destruction before all elements are processed, passing the array pointer (`arg_0`), element count (`arg_8`), element size (`arg_4`), and the destructor function pointer (`arg_C`) to unwind the remaining elements."
+    }
+  ]
+}

@@ -1,0 +1,9 @@
+{
+  "function_role": "Allocates and initializes a script/runtime object or block using global manager state, integrating it into a linked list or internal management structure and handling allocation failure or resizing if necessary.",
+  "callsite_summaries": {
+    "0x004185D0": "Called with size 24h (decimal 36) pushed as an argument before checking a global capacity or availability condition. Its non-zero return value determines whether a new object can be created or if allocation falls back to zero.",
+    "0x00410BD0": "Called if the initial check succeeds, taking an argument from the function's parameter stack (`arg_0`) in `ecx` to construct or initialize the newly allocated object, returning the resulting object pointer in `eax`.",
+    "0x00404100": "Called when an internal array/buffer capacity limit is reached (when the current count equals the maximum), passing a pointer to the container/manager structure on the stack to grow or reallocate the underlying storage buffer."
+  },
+  "fallbacks": []
+}

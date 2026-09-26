@@ -1,0 +1,25 @@
+{
+  "parsed_ok": true,
+  "suggested_name": "InitializeSubManager",
+  "prototype": "void __fastcall InitializeSubManager(void *manager)",
+  "short_summary": "Initializes a sub-manager structure by allocating an 8000-byte block and setting up a linked list or table of 4096 (0x1000) entries with zeroed values and index links.",
+  "detailed_summary": "The function sets up a management structure passed in the `esi` register. It configures two fields at offsets `+4` (set to `0x1000`) and calls `AllocateCustomBlock` with a size of `0x8000` (32,768 bytes), storing the resulting pointer at offset `+0`. It then enters a loop running `0x1000` (4096) iterations. In each iteration, it populates an 8-byte element structure: setting the 4-byte payload field at `base + index*8` to zero, the 2-byte field at `base + index*8 + 4` to 1, and the 2-byte field at `base + index*8 + 6` to the next index (`index + 1`). Finally, it clears two dword fields at offsets `+8` and `+0x0C` in the main structure.",
+  "parameters": [
+    {
+      "name": "manager",
+      "location": "esi",
+      "type": "void*",
+      "description": "Pointer to the sub-manager structure being initialized."
+    }
+  ],
+  "return_value": "none",
+  "side_effects": [
+    "Allocates a memory block via AllocateCustomBlock",
+    "Initializes fields within the structure passed in esi"
+  ],
+  "data_structures": [
+    "Manager: +0x0 void* block_ptr, +0x4 int capacity (0x1000), +0x8 int field_8, +0x0C int field_C",
+    "Entry: +0x0 int value_0, +0x4 short value_4, +0x6 short next_index"
+  ],
+  "confidence": "high, clean loop initialization over an allocated block with distinct stride and index patterns."
+}

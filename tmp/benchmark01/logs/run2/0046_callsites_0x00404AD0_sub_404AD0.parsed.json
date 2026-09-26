@@ -1,0 +1,12 @@
+{
+  "function_role": "Iterates over a collection of sub-objects/elements stored within an entity (passed in eax), performing distance-to-target calculations or state checks to conditionally trigger sub-routines, management actions, or status updates on the entity.",
+  "callsite_summaries": {
+    "0x00402E50": "Called twice (at 0x00404B3A and 0x00404CC8) to query or retrieve an associated object/target related to coordinates or state offset [edi+34h]. The returned pointer is checked for validity (non-zero) to determine subsequent conditional execution paths or status thresholds.",
+    "0x004046B0": "Called twice within the main entity loop (at 0x00404BFB and 0x00404C48) to perform an action or trigger a notification/dispatch on a sub-element, passing the entity pointer in edx, source data in eax/ebx, and several flags or computed parameters onto the stack.",
+    "0x00402A30": "Called at 0x00404C1F with a pointer to [edi+34h] to check or query a condition/state. If it returns a non-zero pointer, fields from the result are used in subsequent entity processing.",
+    "0x00405110": "Called at 0x00404CB5 under specific threshold and comparison checks involving entity attributes and configuration indices, passing the main entity pointer in edi and an index value as an argument.",
+    "0x00404DF0": "Called at 0x00404D00 when entity state counters and flags meet specific requirements, passing the main entity pointer in edi and a calculated index/parameter in esi on the stack.",
+    "0x00405300": "Called at 0x00404D10 as part of a final conditional branch after sub_404DF0, passing an integer constant '1' as an argument."
+  },
+  "fallbacks": []
+}

@@ -1,0 +1,29 @@
+{
+  "function_role": "Validates and processes a state or command transition for an entity (passed in ecx with additional parameter data in eax), handling property updates, type checks, and invoking associated subsystem helpers depending on entity flags and type codes.",
+  "callsites": [
+    {
+      "callee": "0x0040D900",
+      "callsite_summary": "Called to retrieve or transform attribute/type data into a local structure when the primary entity type is 7, passing the entity pointer in eax and a destination buffer pointer in edi."
+    },
+    {
+      "callee": "0x0040DA90",
+      "callsite_summary": "Called to validate the entity type code (passed as zero-extended `cl`) against specific criteria; if it returns non-zero, the function aborts and returns false."
+    },
+    {
+      "callee": "0x0040BED0",
+      "callsite_summary": "Invoked at multiple points with `esi = ebx` and `edi` set to 0 or 1 to check internal entity/resource conditions or states, aborting or branching based on whether the returned eax is zero or non-zero."
+    },
+    {
+      "callee": "0x00413930",
+      "callsite_summary": "Called on a secondary entity or sub-object returned by a prior check (`esi = eax`) to perform cleanup, destruction, or state finalization."
+    },
+    {
+      "callee": "0x0040BF70",
+      "callsite_summary": "Called as part of the state reset or update sequence following type-specific validation and cleanup operations."
+    },
+    {
+      "callee": "0x0040C100",
+      "callsite_summary": "Called with `eax = ebx` to refresh, re-initialize, or notify the main entity object after modifying its internal state parameters."
+    }
+  ]
+}

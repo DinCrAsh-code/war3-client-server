@@ -1,0 +1,24 @@
+{
+  "parsed_ok": true,
+  "suggested_name": "ResourceBlock_Initialize",
+  "prototype": "void* __cdecl ResourceBlock_Initialize(void *resourceBlock)",
+  "short_summary": "Initializes a large resource block data structure (approx 0x5BBE4 bytes) containing various internal lists, states, and an array of 7 elements via vector constructor.",
+  "detailed_summary": "The function sets up a large resource block passed as a parameter (esi). It clears several fields (offsets +0x51E90 to +0x51E98) and initializes an integer flag at +0x51E9C to 1. It then invokes the vector constructor (__vec_ctor) at offset +0x51EA4 to construct an array of 7 elements, each 12 bytes in size, using ElementDestructor_12Bytes for cleanup and ResourceObject_Destructor for construction. It also zeroes out various other fields and status dwords throughout the block (ranging up to offset +0x573B8). An associated SEH/exception unwinding handler is set up to safely unwind the initialized vector elements in case of an exception. Finally, it returns the pointer to the initialized resource block in eax.",
+  "parameters": [
+    {
+      "name": "resourceBlock",
+      "location": "[esp+4]",
+      "type": "void *",
+      "description": "Pointer to the allocated resource block (RM header region)."
+    }
+  ],
+  "return_value": "void* in eax, returning the pointer to the initialized resource block (esi).",
+  "side_effects": [
+    "Initializes fields, counters, and vectors within the provided resource block memory region.",
+    "Registers an SEH exception handler for vector construction cleanup."
+  ],
+  "data_structures": [
+    "ResourceBlock: +0x51E90 int status/flags, +0x51EA4 array of 7 objects (12 bytes each)"
+  ],
+  "confidence": "high, clear constructor call with specific element counts and sizes, field initializations, and structured exception handling matching MSVC conventions."
+}

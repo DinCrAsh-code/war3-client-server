@@ -1,0 +1,37 @@
+{
+  "suggested_name": "RtsManager::UpdateSimulationTick",
+  "prototype": "void __stdcall RtsManager::UpdateSimulationTick(void *resourceBlock)",
+  "short_summary": "Executes a single simulation tick for the RTS manager, incrementing counters, processing network stream batches, updating entities, grids, and priority queues, and conditionally flushing network buffers or computing checksums.",
+  "detailed_summary": "The function begins by reading a frame or tick counter from [ebp+0x5BBC0] and performing modulo arithmetic. If a certain interval is met (e.g., modulo 5 is zero), it processes network stream batches via RtsManager::ProcessNetworkStreamBatches. It then advances a priority queue tick via ProcessPriorityQueueTick, checks simulation bounds/state, updates entities/units via CManager::UpdateEntitiesOrUnits, updates resource collections, and compacts/resizes containers. It updates entity references and proximity based on a floating-point distance threshold. At other intervals (e.g., every 10 ticks), it updates simulation grid regions via UpdateSimulationGridRegions and always cleans up expired simulation objects. Finally, based on further tick conditions (modulo 5 equals 4), it flushes network stream buffers, increments an internal sequence counter at offset 0x5BBC4, periodically computes a resource checksum via ComputeResourceChecksum, and writes packet headers into staging buffers.",
+  "parameters": [
+    {
+      "name": "resourceBlock",
+      "location": "[esp+8]",
+      "type": "void *",
+      "description": "Pointer to the main RTS manager or simulation resource structure."
+    }
+  ],
+  "return_value": "none",
+  "side_effects": [
+    "Increments simulation tick counters at offsets 0x5BBC0 and 0x5BBC4",
+    "Processes network stream batches and flushes resource buffers",
+    "Updates simulation entities, grid regions, and priority queues",
+    "Cleans up and expires simulation objects",
+    "Conditionally computes and stores resource checksums at offset 0x5BBD8"
+  ],
+  "data_structures": [
+    {
+      "name": "RtsManager / SimulationBlock",
+      "offsets": {
+        "+0x51E90": "Priority queue structure / sub-buffer",
+        "+0x51F00": "Network stream / resource buffer context",
+        "+0x54740": "Buffer staging area / packet data header struct",
+        "+0x571D4": "Entity reference collection or proximity tracking struct",
+        "+0x5BBC0": "Simulation tick or frame counter",
+        "+0x5BBC4": "Secondary counter or network packet sequence index",
+        "+0x5BBD8": "Stored simulation resource checksum"
+      }
+    }
+  ],
+  "confidence": "high | complete integration with caller context, clear callee contracts, and straightforward block layout."
+}

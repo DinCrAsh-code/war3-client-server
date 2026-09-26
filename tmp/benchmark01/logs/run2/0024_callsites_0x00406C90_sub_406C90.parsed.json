@@ -1,0 +1,10 @@
+{
+  "function_role": "Evaluates and processes an entity's internal collection of sub-components or spatial points, performing filtering, distance or threshold checks, and invoking batch update/routing routines (sub_404760, sub_4062E0) based on state flags and criteria.",
+  "callsite_summaries": {
+    "0x00404760": "Called twice (at 0x00406D77 and 0x00406EC3) to process a filtered batch of entity elements. In the first call, it passes the main entity pointer (`ebp`), a local array of collected element pointers (`ecx`), the count (`esi`), and constant configuration values (3, 0, and `ebp+34h`) when elements are found. In the second call, it passes the main entity pointer (`ebp`), a secondary collection (`var_60`), a count (`var_DC`), and pointer/integer arguments (`4`, `ecx+8`, `ecx+4`) to perform a subsequent batch operation.",
+    "0x0040CAA0": "Address is passed as a callback or comparator function pointer into a configuration or search helper routine (called via sub_4062E0) along with a local buffer (`var_C8`) and data pointers.",
+    "0x004062E0": "Called at 0x00406DCE with the entity pointer (`ebp`), a local output buffer (`var_68`), a count (18h), and reference structures (including `sub_40CAA0` and `var_D8`), likely to perform a query, sort, or spatial lookup on the collected items.",
+    "0x004177F0": "Called at 0x00406DE4 to retrieve a count or limit (`esi`), passing a global configuration/manager pointer from `dword_42AC60 + 43D7Ch` and the return value or result from the previous lookup routine (`sub_4062E0`)."
+  },
+  "fallbacks": []
+}

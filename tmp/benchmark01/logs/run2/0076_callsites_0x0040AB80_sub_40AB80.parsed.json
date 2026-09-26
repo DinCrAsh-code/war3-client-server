@@ -1,0 +1,8 @@
+{
+  "function_role": "Acts as a virtual bytecode instruction handler (vtable slot 17), evaluating a variant-like argument object to determine an integer or index, performing an array lookup or table-based computation involving a global offset, calling a helper function, and storing the resulting status and value into an output structure.",
+  "callsite_summaries": {
+    "0x0041A160": "Converts a floating-point value loaded onto the FPU stack into a 32-bit integer when the variant type byte at the start of the argument object equals 2.",
+    "0x004044D0": "Called after computing a scaled index (value squared plus a global base address from dword_42AC60), presumably to perform an underlying data lookup or retrieval operation whose integer return value is placed into the output structure."
+  },
+  "fallbacks": []
+}

@@ -1,0 +1,13 @@
+{
+  "function_role": "Performs geometric, sizing, or configuration calculations on a newly allocated resource/object block (passed in ebx), evaluating floating-point parameters, structures, and lookup tables before invoking virtual methods on the object and its linked sub-elements.",
+  "callsites": [
+    {
+      "callee": "0x00404460",
+      "callsite_summary": "Called during the initial series of floating-point and integer sizing calculations on fields extracted from the resource block's structure (`[ebx+1Ch]`), passing an adjusted integer index/value as an argument (pushed via edi + ebp) to perform a lookup or conversion helper operation."
+    },
+    {
+      "callee": "0x004043B0",
+      "callsite_summary": "Called after processing a sequence of field conversions and multiplications involving the resource block's configuration data, acting as a secondary conversion or evaluation helper step in the property setup sequence."
+    }
+  ]
+}

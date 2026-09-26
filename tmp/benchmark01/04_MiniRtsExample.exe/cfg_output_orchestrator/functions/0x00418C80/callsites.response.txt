@@ -1,0 +1,9 @@
+{
+  "function_role": "Performs mathematical transformations (such as normalization, clamping, and floating-point to integer conversion using custom rounding control) on input floating-point values before passing the resulting data along with a context/parameter pointer to a lower-level serialization or packing handler.",
+  "callsites": [
+    {
+      "callee": "0x00418AA0",
+      "callsite_summary": "Called after clamping and rounding a processed floating-point value to an integer, passing the integer result (pushed via eax) along with context parameters to finalize writing or packing that value into the bitstream buffer."
+    }
+  ]
+}

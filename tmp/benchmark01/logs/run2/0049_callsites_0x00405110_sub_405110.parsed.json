@@ -1,0 +1,8 @@
+{
+  "function_role": "Performs validation and suitability checks (such as timing cooldowns, resource requirements, and criteria matching against table data) for an entity action or skill before executing it by invoking a handler function and updating timestamp/state tracking on success.",
+  "callsite_summaries": {
+    "0x00404260": "Called conditional on a non-zero byte value loaded from a static table entry ([esi+2E'], converted via movsx to a signed integer) to perform an auxiliary check or sub-validation on the entity or action; the boolean return value (in al) is tested, and if zero, the main function aborts and returns failure (0).",
+    "0x004046B0": "Called to execute or dispatch the validated action once a suitable sub-object or target has been successfully identified from an internal collection. It is passed the primary entity pointer (in edx), the selected sub-object pointer (in ecx), an offset/identifier from the sub-object (lea eax, [ecx+8]), an integer constant 0Bh, two zero arguments, and the action/index argument passed into the function (arg_4 via esi)."
+  },
+  "fallbacks": []
+}

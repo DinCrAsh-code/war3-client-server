@@ -1,0 +1,9 @@
+{
+  "function_role": "Performs coordinate scaling, clamping, and 2D grid/lookup index generation using floating-point arithmetic and integer clamping (bounded to 0..95), ultimately retrieving a byte flag from a data structure to return a boolean/bit status.",
+  "callsites": [
+    {
+      "callee": "0x0041A160",
+      "callsite_summary": "Called twice to convert floating-point values (derived from math operations involving input coordinates and constant scaling factors) into signed 32-bit integers, which are then used as grid or coordinate indices (clamped between 0 and 95) for table/array lookup."
+    }
+  ]
+}

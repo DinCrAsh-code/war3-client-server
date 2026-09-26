@@ -1,0 +1,22 @@
+{
+  "suggested_name": "CreateScriptVariable",
+  "prototype": "void* __stdcall CreateScriptVariable(char typeCode)",
+  "short_summary": "Allocates and initializes a new script variable object of a specified type, registers it within a global runtime container pool, and returns a pointer to the created variable object.",
+  "detailed_summary": "The function first allocates a 36-byte (0x24) custom memory block using AllocateCustomBlock. If successful, it passes the allocated memory and a type code parameter to ScriptVariable_Initialize to initialize the script variable object (setting up its vtable and type-specific properties). It then accesses a global manager structure at dword_42AC60, checks or updates a free-list or pool allocator tracking structure for variable objects, and links the newly created variable into a container/array managed by that subsystem (growing the container via GrowContainerCapacity if necessary). If initialization or allocation fails, or if container capacity limits trigger cleanup, it handles destruction or returns null appropriately.",
+  "parameters": [
+    {
+      "name": "typeCode",
+      "location": "[esp+8]",
+      "type": "char",
+      "description": "The type code or identifier used to initialize the script variable."
+    }
+  ],
+  "return_value": "Returns a pointer to the newly allocated and initialized script variable object (in eax), or 0 on failure.",
+  "side_effects": [
+    "Allocates memory via AllocateCustomBlock",
+    "May resize a global container/array via GrowContainerCapacity",
+    "Modifies global state at dword_42AC60 and related container fields"
+  ],
+  "data_structures": [],
+  "confidence": "high | based on clear instantiation, initialization, and container management pattern common to game script runtimes."
+}

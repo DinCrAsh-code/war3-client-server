@@ -1,0 +1,31 @@
+{
+  "parsed_ok": true,
+  "suggested_name": "main",
+  "prototype": "int __cdecl main(int argc, char **argv)",
+  "short_summary": "Serves as the application's entry point (`main`), hashing command-line arguments to build a configuration seed, initializing core runtime subsystems like sine and CRC32 lookup tables, managing the allocation and initialization of a large resource block, running the RTS simulation loop, and performing a clean teardown.",
+  "detailed_summary": "The function begins by establishing standard SEH frame handling and stack security cookies. It then iterates over the command-line arguments (`argc`/`argv`), computing a custom rolling hash/checksum value derived from the argument strings (using magic constants like 0x3C6EF372 and 0x811C9DC5 combined with multiplication). It initializes global lookup tables by calling `InitSineTable` and `InitCrc32Table`, and ensures a global flag/state struct (`byte_42285C`) is initialized once. Next, it allocates a custom 0x5BBE4-byte memory block with an 'RM' header and 0xFF block type via `malloc`, initializes it using `memset`, and calls `ResourceBlock_Initialize`. It stores this resource block pointer globally at `0x0042AC60`, invokes `InitializeSimulationAndResourceSubsystem` using a parameter derived from the command-line hash value, and if successful, enters the main RTS simulation via `RtsManager::RunSimulationLoopAndFinalize`. Upon completion, it calls cleanup routines including `CleanupResourceLists`, `ResourceObject_Cleanup`, and `ShutdownResourceBlock`, releases the allocated resource memory (either via `free` or returning it to a custom free list depending on header flags), masks the simulation result to 31 bits, and returns it.",
+  "parameters": [
+    {
+      "name": "argc",
+      "location": "stack [esp+20h+argc]",
+      "type": "int",
+      "description": "Number of command-line arguments passed to the program."
+    },
+    {
+      "name": "argv",
+      "location": "stack [esp+20h+argv]",
+      "type": "char**",
+      "description": "Array of command-line argument strings."
+    }
+  ],
+  "return_value": "Returns the simulation result code from RtsManager::RunSimulationLoopAndFinalize masked with 0x7FFFFFFF in eax.",
+  "side_effects": [
+    "Allocates and frees a large global resource memory block ('RM' header) via malloc/free.",
+    "Initializes global lookup tables and tracking counters.",
+    "Runs the primary RTS simulation loop and interacts with game state subsystems."
+  ],
+  "data_structures": [
+    "RM block header: +0x0 word signature (0x4D52 'RM'), +0x2 byte flags/index, +0x3 byte type, +0x4 dword size, +0x8 data payload"
+  ],
+  "confidence": "high | standard program entry point pattern with matching startup and shutdown calls"
+}

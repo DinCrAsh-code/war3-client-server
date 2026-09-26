@@ -1,0 +1,36 @@
+{
+  "parsed_ok": true,
+  "suggested_name": "BitStream_WriteBits",
+  "prototype": "void __fastcall BitStream_WriteBits(BitStream *stream, int value, int count)",
+  "short_summary": "Writes a specified number of bits from an integer value into a bitstream buffer, updating bit offsets and tracking overflow status.",
+  "detailed_summary": "The function first checks an overflow flag at offset +0x0C of the stream object. If the flag is already set, it returns immediately. Otherwise, it calculates the new bit position by adding the requested bit count to the current bit count at offset +0x8, comparing it against the maximum capacity (derived from offset +0x4 multiplied by 8). If the write would exceed capacity, the overflow flag is set and the function returns. If within bounds, it loops 'count' times, testing each bit of the input value and setting the corresponding bit in the byte array buffer (located via base pointer at offset +0x0) by computing byte and bit offsets, advancing the bit stream pointer accordingly.",
+  "parameters": [
+    {
+      "name": "stream",
+      "location": "eax",
+      "type": "BitStream*",
+      "description": "Pointer to the bitstream context structure."
+    },
+    {
+      "name": "value",
+      "location": "[esp+4]",
+      "type": "int",
+      "description": "The integer value containing the bits to be written."
+    },
+    {
+      "name": "count",
+      "location": "[esp+8]",
+      "type": "int",
+      "description": "The number of bits to write from the value."
+    }
+  ],
+  "return_value": "none",
+  "side_effects": [
+    "Modifies the bitstream buffer memory at the current bit position",
+    "Updates bit count and overflow flag fields within the BitStream structure"
+  ],
+  "data_structures": [
+    "BitStream: +0x0 byte* buffer, +0x4 int capacity_bytes, +0x8 int current_bit_offset, +0x0C byte overflow_flag"
+  ],
+  "confidence": "high, clear bit manipulation and buffer serialization pattern matching a bitstream context"
+}

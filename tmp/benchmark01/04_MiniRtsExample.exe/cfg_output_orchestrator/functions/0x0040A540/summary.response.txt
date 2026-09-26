@@ -1,0 +1,29 @@
+{
+  "suggested_name": "ResolveScriptReference",
+  "prototype": "void __cdecl ResolveScriptReference(void *this_ptr, const void *operand_struct)",
+  "short_summary": "Validates and dereferences a script/bytecode resource identifier, performing bounds checking against a global table and invoking a virtual method on the resolved target object.",
+  "detailed_summary": "The function inspects an operand structure passed via stack (`[esp+arg_4]`). First, it verifies that the byte at offset 0 of the structure equals 3. If so, it reads a 32-bit value at offset +4. It extracts a 16-bit index from the lower half and a 16-bit identifier from the upper half (via right shift by 16). It then bounds-checks the index against a global resource/object table stored in `dword_42AC60`. If valid, it retrieves the entry, compares the upper 16 bits with a stored identifier field, and ensures a pointer within the entry is non-null. Finally, it checks a byte flag at offset +0x1A of the target object to ensure it equals 1, extracts a vtable function pointer from offset +0xC of the object's vtable, and calls it with a zero argument.",
+  "parameters": [
+    {
+      "name": "this_ptr",
+      "location": "esi (via caller context)",
+      "type": "void*",
+      "description": "Object instance pointer passed in esi from the virtual dispatch table."
+    },
+    {
+      "name": "operand_struct",
+      "location": "[esp+4]",
+      "type": "const void*",
+      "description": "Pointer to the bytecode operand structure containing type tag and packed resource reference ID."
+    }
+  ],
+  "return_value": "none",
+  "side_effects": [
+    "Invokes a virtual method (vtable slot 3, offset +0x0C) on a resolved internal object if all validation checks pass."
+  ],
+  "data_structures": [
+    "Operand structure: +0x0 byte type tag (expects 3), +0x4 dword packed resource identifier (low 16-bit index, high 16-bit version/id).",
+    "Global resource table manager at dword_42AC60: +0x51E80 array pointer, +0x51E84 count."
+  ],
+  "confidence": "high, clear pointer arithmetic, bitfields, and virtual method call pattern typical of bytecode engines."
+}

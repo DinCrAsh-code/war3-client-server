@@ -1,0 +1,58 @@
+{
+  "parsed_ok": true,
+  "suggested_name": "DispatchCommandPacket",
+  "prototype": "void __fastcall DispatchCommandPacket(void *entity, void *edx_unused, void *sourceData, int arg0, char arg4, char arg8, int argC, short arg10)",
+  "short_summary": "Constructs and serializes an outgoing network command packet using a local bitstream buffer, checking global packet-rate limits before transmission.",
+  "detailed_summary": "The function builds a local command packet structure on the stack using provided parameters (entity pointer, source data pointers, and multiple flags/arguments passed via registers and stack). It accesses a global state structure at `dword_42AC60` and checks if a rate-limiting or counter value at offset `+0x5472C` exceeds `3C00h` (15360). If the threshold is exceeded, it increments an error or drop counter at `+0x5473Ch` and aborts early. Otherwise, it writes bit flags using `BitStream_WriteBits`, serializes the command packet via `SerializeCommandPacket`, and increments a sent packet counter at `+0x54734h`.",
+  "parameters": [
+    {
+      "name": "entity",
+      "location": "edx",
+      "type": "void*",
+      "description": "Primary entity or context pointer (byte at [edx] used to initialize packet byte)"
+    },
+    {
+      "name": "sourceData",
+      "location": "eax",
+      "type": "void*",
+      "description": "Pointer to source data/sub-object used to populate packet fields"
+    },
+    {
+      "name": "arg_0",
+      "location": "esp+5Ch",
+      "type": "int",
+      "description": "Integer argument or ID"
+    },
+    {
+      "name": "arg_4",
+      "location": "esp+60h",
+      "type": "char",
+      "description": "Byte parameter / flag"
+    },
+    {
+      "name": "arg_8",
+      "location": "esp+64h",
+      "type": "char",
+      "description": "Byte parameter / flag"
+    },
+    {
+      "name": "arg_C",
+      "location": "esp+68h",
+      "type": "int",
+      "description": "Integer parameter or identifier"
+    },
+    {
+      "name": "arg_10",
+      "location": "esp+6Ch",
+      "type": "short",
+      "description": "Short parameter or index"
+    }
+  ],
+  "return_value": "none",
+  "side_effects": [
+    "Modifies global statistics counters at dword_42AC60 (+0x54734h and +0x5473Ch)",
+    "Serializes and writes data into a bitstream buffer"
+  ],
+  "data_structures": [],
+  "confidence": "high | well-supported by callee signatures (BitStream_WriteBits, SerializeCommandPacket) and typical RTS network packet dispatch patterns"
+}

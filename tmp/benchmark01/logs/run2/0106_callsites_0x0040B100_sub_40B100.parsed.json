@@ -1,0 +1,8 @@
+{
+  "function_role": "Initializes a newly allocated resource or sub-element structure passed in `ebx`, setting up its virtual method table pointer, configuring various state fields and floating-point parameters based on incoming arguments, and iterating through a lookup table to conditionally instantiate and register sub-components.",
+  "callsite_summaries": {
+    "0x00411580": "Called inside a loop (iterating 4 times) to instantiate or fetch a sub-resource when a table entry check succeeds (`cmp al, 0FFh` and state check `cmp byte ptr [ebx+5Eh], 5`). If successful, the returned object pointer is stored into an array within the main structure (`[ebx+ecx*4+210h]`), the count at `[ebx+5Eh]` is incremented, and a virtual method at offset +4 of the returned object is invoked.",
+    "0x004198F2": "Invoked as part of the standard MSVC SEH/exception handler prologue cleanup via the frame handler (`__CxxFrameHandler3` / `SEH_40B100`) to validate the security cookie (`___security_cookie` XOR'd with `esp`) upon function exit."
+  },
+  "fallbacks": []
+}

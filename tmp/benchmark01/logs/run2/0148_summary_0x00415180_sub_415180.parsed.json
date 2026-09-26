@@ -1,0 +1,25 @@
+{
+  "parsed_ok": true,
+  "suggested_name": "EvaluateProceduralNoiseGrid",
+  "prototype": "__fastcall double EvaluateProceduralNoiseGrid(int count, void *data)",
+  "short_summary": "Iterates a specified number of times, accumulating values computed by a procedural noise/hash function (`ComputeNoiseOrRandomCellValues`) combined with floating-point weightings, and returns a normalized result.",
+  "detailed_summary": "The function uses a custom fastcall-like convention where `eax` passes an integer count and `ecx` passes a pointer to a data structure. It initializes floating-point state on the x87 FPU stack (zero and one), loops `count` times if `count > 0`, and within the loop advances a pointer offset (`esi + 1Fh`), calls `ComputeNoiseOrRandomCellValues`, and performs intensive x87 floating-point arithmetic (accumulating, scaling, multiplying, and adding constants). After the loop completes, it divides or normalizes the accumulated floating-point value and returns the final result in `st(0)`. It cleans up 8 bytes of stack arguments upon return (`retn 8`).",
+  "parameters": [
+    {
+      "name": "count",
+      "location": "eax",
+      "type": "int",
+      "description": "The number of iterations to perform in the evaluation loop."
+    },
+    {
+      "name": "dataPtr",
+      "location": "ecx",
+      "type": "void*",
+      "description": "A pointer to a structure or buffer processed during the noise evaluation loop."
+    }
+  ],
+  "return_value": "st(0) (double-precision floating-point value)",
+  "side_effects": [],
+  "data_structures": [],
+  "confidence": "high | the function logic, loop count check, x87 FPU manipulations, and call to ComputeNoiseOrRandomCellValues are clearly identifiable."
+}

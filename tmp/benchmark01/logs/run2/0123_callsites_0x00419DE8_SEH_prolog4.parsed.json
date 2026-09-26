@@ -1,0 +1,7 @@
+{
+  "function_role": "Standard MSVC compiler runtime helper (__SEH_prolog4) that sets up a Structured Exception Handling (SEH) frame, security cookies, and custom stack allocation for functions requiring exception guards.",
+  "callsite_summaries": {
+    "0x00419E41": "Pushed onto the stack at the very beginning of the prolog (address 0x00419DE8) to be registered as the SEH exception filter/handler callback (`__except_handler4`) for the current activation record, managing unwinding when exceptions occur during operations like array construction or destruction."
+  },
+  "fallbacks": []
+}

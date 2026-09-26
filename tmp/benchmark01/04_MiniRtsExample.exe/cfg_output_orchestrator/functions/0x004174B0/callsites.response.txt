@@ -1,0 +1,9 @@
+{
+  "function_role": "Converts floating-point spatial coordinates or bounding box values into clamped integer grid indices (clamped to a range of 0 to 23), storing the resulting indices and intermediate calculation values into output pointers provided by the caller.",
+  "callsites": [
+    {
+      "callee": "0x0041A160",
+      "callsite_summary": "Called multiple times to convert floating-point values (derived from coordinate and grid dimension calculations) into integer values. The resulting integers are then clamped to the range [0, 23] and written to output coordinate/index structures."
+    }
+  ]
+}

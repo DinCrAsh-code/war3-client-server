@@ -1,0 +1,45 @@
+{
+  "suggested_name": "__vec_ctor",
+  "prototype": "void __stdcall __vec_ctor(void *ptr, int element_size, int count, void (__cdecl *ctor)(void *), void (__cdecl *dtor)(void *))",
+  "short_summary": "Constructs an array of objects using a provided constructor function, handling exception unwinding via `__ArrayUnwind` if any constructor throws an exception.",
+  "detailed_summary": "The function sets up a standard MSVC SEH (Structured Exception Handling) frame. It then loops `count` times, advancing a loop counter and the current element pointer by `element_size` on each iteration, and invokes the constructor `ctor` (passed via `arg_C`) on each element via the `__thiscall` or standard calling convention (with `ecx` pointing to the object). If the loop completes successfully, a completion flag is set to 1. If an exception occurs during construction, the SEH exception filter/handler checks the completion flag and, if zero, invokes `__ArrayUnwind` to properly destruct the already-constructed elements in reverse order.",
+  "parameters": [
+    {
+      "name": "ptr",
+      "location": "[ebp+arg_0]",
+      "type": "void*",
+      "description": "Pointer to the beginning of the array to construct."
+    },
+    {
+      "name": "element_size",
+      "location": "[ebp+arg_4]",
+      "type": "int",
+      "description": "Size of each array element in bytes."
+    },
+    {
+      "name": "count",
+      "location": "[ebp+arg_8]",
+      "type": "int",
+      "description": "Number of elements in the array."
+    },
+    {
+      "name": "ctor",
+      "location": "[ebp+arg_C]",
+      "type": "void (__cdecl *)(void*)",
+      "description": "Constructor function pointer to invoke for each element."
+    },
+    {
+      "name": "dtor",
+      "location": "[ebp+arg_10]",
+      "type": "void (__cdecl *)(void*)",
+      "description": "Destructor function pointer to pass to `__ArrayUnwind` if construction fails."
+    }
+  ],
+  "return_value": "none",
+  "side_effects": [
+    "Invokes the constructor function on each element of the array",
+    "Triggers `__ArrayUnwind` and potential exception propagation if a constructor throws"
+  ],
+  "data_structures": [],
+  "confidence": "high | standard MSVC vector constructor helper implementation"
+}

@@ -1,0 +1,16 @@
+{
+  "function_role": "Performs state machine updates, distance/target calculations, and behavior checks for an individual simulation entity (passed in ebx) based on its current state, flags, and spatial proximity.",
+  "callsite_summaries": {
+    "0x00405AD0": "Called near the beginning of the function (at 0x0040677D) to fetch some initial value or perform a preliminary computation involving global data before setting up entity behavior state checks.",
+    "0x004062E0": "Called at 0x0040678C, passing the entity pointer in ebx and a stack variable pointer in ecx, likely to query or initialize entity-specific property/status data.",
+    "0x00417FD0": "Called at 0x004067CB to perform a spatial or mathematical calculation, consuming floating-point context values.",
+    "0x00406540": "Called conditionally during state-dependent branching (at 0x004068F7 and 0x00406B21) with the entity pointer (ebx) and an offset/substructure pointer (edi) as arguments, returning a boolean condition (in al) that determines whether the entity transitions states or performs specific actions.",
+    "0x00404880": "Called across multiple branches (at 0x00406920, 0x00406989, 0x004069F5, 0x00406A6D, 0x00406A87, 0x00406B5D, 0x00406B96, 0x00406C3A, and 0x00406C55) with constant integers (like 3 or 5) and pointers to entity substructures or coordinate data, acting as a utility routine to dispatch events, trigger animations/effects, or update entity subsystems.",
+    "0x00408610": "Called at 0x00406957, passing an entity array/substructure pointer, a stack variable pointer, and an index argument, to search or query related target/pathfinding nodes and return an index or status code.",
+    "0x00406000": "Called at 0x00406A2F and 0x00406AA6 with the entity pointer in eax and a pointer to a local stack variable, used to compute distance, range, or angle relative to a target.",
+    "0x00417F80": "(The caller's analysis gave no description of this use. Plain facts: call at 0x00406B00.)"
+  },
+  "fallbacks": [
+    "0x00417F80"
+  ]
+}

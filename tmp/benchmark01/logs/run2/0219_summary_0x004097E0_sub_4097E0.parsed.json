@@ -1,0 +1,23 @@
+{
+  "parsed_ok": true,
+  "suggested_name": "InitializeStateBlock",
+  "prototype": "bool __thiscall InitializeStateBlock(void *this)",
+  "short_summary": "Initializes a state or configuration block object via `this` (passed in `ecx`), setting up vtable/type pointers, zeroing fields, and populating internal configuration tables from constant data.",
+  "detailed_summary": "The function operates on an object instance passed via `ecx`. It sets up initial pointer/type fields (such as `this+8` and `this+0Ch` with constant 0x2AB), zeroes out several fields at specific offsets (`+0`, `+4`, `+998h`, `+99Ch`, `+0A60h`, etc.), and configures array/count fields at `+90h` (value 6) and `+194h` (value 2). It then enters a loop running up to 6 iterations (`[ecx+90h]`), copying 4-byte chunks of data from a read-only constant table (`unk_41CF7C`) into an internal array (`this+10h`). During this loop, it checks if a loaded word equals 0x2AB; if it is not below (i.e. greater than or equal), it immediately aborts and returns `false`. If all iterations succeed, it enters a second loop based on `+194h` to initialize secondary table entries, and finally returns `true`.",
+  "parameters": [
+    {
+      "name": "this",
+      "location": "ecx",
+      "type": "void *",
+      "description": "Pointer to the state or configuration block object being initialized."
+    }
+  ],
+  "return_value": "bool in al (1/true on successful initialization, 0/false if validation fails during table population)",
+  "side_effects": [
+    "Modifies fields and internal buffers of the object instance pointed to by ecx."
+  ],
+  "data_structures": [
+    "StateBlock: +0x0 void*, +0x4 void*, +0x8 void*, +0x0Ch int, +0x10h char[24], +0x90h int, +0x94h void*, +0x194h int, +0x998h int, +0x99Ch int, +0x0A60h int, +0x0A64h int, +0x0A68h char"
+  ],
+  "confidence": "high | standard object initialization pattern with constant table population and boundary validation"
+}

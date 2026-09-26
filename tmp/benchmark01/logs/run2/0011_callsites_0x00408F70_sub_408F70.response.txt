@@ -1,0 +1,9 @@
+{
+  "function_role": "Ensures a dynamic buffer/vector structure (managed via pointer ebx) has enough capacity to append data of a given size, reallocating or growing the backing storage via sub_418670 if needed, and then copies the source bytes into the buffer using memcpy.",
+  "callsites": [
+    {
+      "callee": "0x00418670",
+      "callsite_summary": "Called when the buffer's current capacity ([ebx+8]) is insufficient to hold the incoming data (i.e., current write offset + size exceeds capacity). It reallocates the buffer block, taking the new capacity in edi (doubled from the old capacity, starting at 0x10 if zero) and the existing buffer pointer in esi, and returns a pointer to the newly allocated memory block in eax."
+    }
+  ]
+}

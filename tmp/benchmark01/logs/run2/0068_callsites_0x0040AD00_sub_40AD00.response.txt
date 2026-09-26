@@ -1,0 +1,13 @@
+{
+  "function_role": "Executes a virtual opcode handler (vtable slot 21) that processes a script/bytecode runtime value—clamping or converting a floating-point/integer argument and allocating/recording it in an internal execution state structure array if capacity permits.",
+  "callsites": [
+    {
+      "callee": "0x0041A160",
+      "callsite_summary": "Called to convert a floating-point value loaded from the script argument structure into a 32-bit integer when the argument type indicates it should be handled as an integer."
+    },
+    {
+      "callee": "0x00419280",
+      "callsite_summary": "Called as part of the state recording/allocation routine after storing operational flags and index details into a newly claimed slot within the runtime's state array (pointed to by EDI), passing context to update or initialize the newly created entry."
+    }
+  ]
+}

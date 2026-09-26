@@ -1,0 +1,13 @@
+{
+  "function_role": "Deserializes or parses a structured binary format/stream into a local data structure (passed via esi), reading components via helper functions, validating header/type fields, and returning a boolean status indicating success.",
+  "callsites": [
+    {
+      "callee": "0x00418D10",
+      "callsite_summary": "Called multiple times throughout the function (with various values loaded into edi beforehand, presumably as a stream reader/field identifier or context) to fetch bytes, integers, or status flags from the input stream into local variables and fields of the structure at [esi]."
+    },
+    {
+      "callee": "0x00418D80",
+      "callsite_summary": "Called at specific points during parsing (including within a loop bounded by a header byte) to read variable-length data or additional numerical values from the input stream, with results stored into fields of the structure at [esi]."
+    }
+  ]
+}

@@ -1,0 +1,9 @@
+{
+  "function_role": "Iterates through an entity's array of up to 4 references (at offset +0Ch), validates each resolved reference against global resource and state conditions, and performs entity state updates or method invocations on valid elements.",
+  "callsites": [
+    {
+      "callee": "0x0040DAC0",
+      "callsite_summary": "Invoked inside the loop for a valid referenced entity (passed via `ecx = esi`) after checking its status flags. It is passed a pointer on the stack (`var_14` initialized to structure containing {3, 4, 0, 0} and fields from `esi+230h` / `esi+234h`) as an argument. The call acts on the entity object, presumably triggering a primary action, activation, or event notification routine."
+    }
+  ]
+}

@@ -1,0 +1,9 @@
+{
+  "function_role": "Acts as a callback/handler function referenced in an execution context entry, validating an index argument against a bound at offset +0xA60 in a context structure (passed via argument 0) and checking a flag byte before conditionally retrieving a byte and invoking sub_40A0D0.",
+  "callsites": [
+    {
+      "callee": "0x0040A0D0",
+      "callsite_summary": "Called conditionally when the input index is within bounds and the flag byte at [esi + eax*4 + 0x9A2] is non-zero, passing an extracted byte value (from offset +1 of a calculated record pointer) to perform an element-specific operation or dispatch."
+    }
+  ]
+}

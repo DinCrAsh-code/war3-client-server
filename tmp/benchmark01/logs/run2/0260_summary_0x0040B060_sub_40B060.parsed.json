@@ -1,0 +1,41 @@
+{
+  "parsed_ok": true,
+  "suggested_name": "VirtualOpcodeHandler_Slot27",
+  "prototype": "void __stdcall VirtualOpcodeHandler_Slot27(void *this_ptr, int arg4, int arg8, int *out_status)",
+  "short_summary": "Executes a specific script/bytecode virtual opcode method from vtable slot 27, writing a status code and an integer value to an output structure.",
+  "detailed_summary": "The function fetches a global pointer or value from 0x0042AC60, interacts with the floating-point stack, and writes a status integer (value 2) and another local variable/parameter into an output structure pointed to by the `out_status` argument (passed at stack offset `arg_C`). It cleans up its local stack allocation and returns normally.",
+  "parameters": [
+    {
+      "name": "this_ptr",
+      "location": "esi (via caller convention / object instance)",
+      "type": "void*",
+      "description": "The object instance pointer (this)"
+    },
+    {
+      "name": "arg_4",
+      "location": "[esp+4]",
+      "type": "int",
+      "description": "First operand or argument"
+    },
+    {
+      "name": "arg_8",
+      "location": "[esp+8]",
+      "type": "int",
+      "description": "Second operand or argument"
+    },
+    {
+      "name": "out_status",
+      "location": "[esp+12]",
+      "type": "int*",
+      "description": "Pointer to output structure where status/result fields are written"
+    }
+  ],
+  "return_value": "none",
+  "side_effects": [
+    "Writes an integer value '2' and another local value into the memory structure pointed to by the output argument."
+  ],
+  "data_structures": [
+    "Output structure: +0x0 int status/type (set to 2), +0x4 int value"
+  ],
+  "confidence": "medium, disassembled snippet is slightly truncated or has raw fld/fstp instructions without explicit operands, but overall stack parameter usage and output structure writing are clear."
+}

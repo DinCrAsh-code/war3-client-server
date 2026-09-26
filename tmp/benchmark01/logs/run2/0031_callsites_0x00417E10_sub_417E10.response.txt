@@ -1,0 +1,9 @@
+{
+  "function_role": "Performs a lookup, coordinate transformation, or filtering operation on a 2D grid/array structure based on floating-point inputs, returning a boolean flag derived from a bitfield.",
+  "callsites": [
+    {
+      "callee": "0x0041A160",
+      "callsite_summary": "Called twice to convert floating-point values from the x87 FPU stack into integer coordinates or indices (clamped/processed subsequently via bitwise/arithmetic checks) for accessing elements in a grid or data array."
+    }
+  ]
+}

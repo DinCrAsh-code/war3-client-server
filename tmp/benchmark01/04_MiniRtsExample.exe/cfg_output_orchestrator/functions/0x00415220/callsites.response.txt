@@ -1,0 +1,9 @@
+{
+  "function_role": "Performs a nested grid or table initialization (likely a double loop running up to 0x61 iterations each, updating data structures with floating-point calculations), called from sub_416640 to set up state data.",
+  "callsites": [
+    {
+      "callee": "0x00415180",
+      "callsite_summary": "Called inside the inner loop of the nested iteration (running up to 0x61 times for both outer and inner loops), likely to perform a per-element coordinate or value calculation, updating state data before subsequent floating-point arithmetic."
+    }
+  ]
+}

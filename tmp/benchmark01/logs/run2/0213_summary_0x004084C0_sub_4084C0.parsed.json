@@ -1,0 +1,37 @@
+{
+  "parsed_ok": true,
+  "suggested_name": "HandleEntityInteractionEvent",
+  "prototype": "void __fastcall HandleEntityInteractionEvent(void *arg1 /* in eax */, void *arg2 /* in ecx */, void *arg3 /* in edi */)",
+  "short_summary": "Validates an entity or resource index from an object context, optionally resolves a handle, and conditionally invokes an entity interaction processor.",
+  "detailed_summary": "The function begins by inspecting a field at offset +0x238 of the object pointer passed in eax. If this value is negative or greater than or equal to a limit stored at offset +0x1B0 of the structure in ecx, or if the pointer in edi is null, the function immediately returns. Otherwise, it scales the index by 36 (using lea edx, [eax+eax*8] and multiplying by 4) to access an array element at `ecx + edx*4`. It checks a byte flag at offset +0x0B of this element; if zero, it prepares `esi` (the element pointer) and `edi` as arguments and performs a tail jump to `ProcessEntityInteractionContext`. If the flag is non-zero, it extracts a 32-bit value from offset +0x20 of the array element and calls `LookupResourceOrHandle`. If the resulting handle resolves to a valid non-zero pointer, it performs a floating-point load and store operation (likely referencing a constant value for floating-point validation or conversion) and returns; otherwise, it falls through to the same tail jump to `ProcessEntityInteractionContext` using the element pointer and `edi`.",
+  "parameters": [
+    {
+      "name": "context_or_object",
+      "location": "eax",
+      "type": "void*",
+      "description": "Primary object pointer containing an index at offset +0x238."
+    },
+    {
+      "name": "base_structure",
+      "location": "ecx",
+      "type": "void*",
+      "description": "Base structure pointer containing bounds at +0x1B0 and an array starting around +0x0B."
+    },
+    {
+      "name": "entity_context",
+      "location": "edi",
+      "type": "void*",
+      "description": "Entity interaction context pointer passed along to the tail-called function."
+    }
+  ],
+  "return_value": "none",
+  "side_effects": [
+    "May perform a resource/handle lookup via sub_4029F0",
+    "Tail-calls sub_4080A0 [ProcessEntityInteractionContext] under specific conditional branches"
+  ],
+  "data_structures": [
+    "Primary object: +0x238 int index",
+    "Base structure: +0x1B0 int limit, +0x0B byte flag, array elements of size 36 bytes starting at array base with +0x20 handle/id field"
+  ],
+  "confidence": "high, clear register usage, bounds checks, and control flow mapping directly to known callees."
+}

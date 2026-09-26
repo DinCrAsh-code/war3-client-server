@@ -1,0 +1,42 @@
+{
+  "parsed_ok": true,
+  "suggested_name": "ExecuteBytecodeVtableSlot17",
+  "prototype": "int __cdecl ExecuteBytecodeVtableSlot17(void *this_ptr, int arg1, int arg2, int *out_status)",
+  "short_summary": "Executes a virtual opcode handler that evaluates a type-checked operand (converting floats to integers or reading integer fields), computes a table lookup index, and stores a status flag and result.",
+  "detailed_summary": "The function inspects an argument structure passed at `arg_4`. If its type tag byte at offset 0 equals 2, it loads a floating-point value and converts it to a 32-bit integer via `__ftol2_sse`; otherwise, it reads an integer value from offset +4 of the structure. It then checks if the resulting value is within the range [0, 5]. If out of range, it writes a status flag of 1 and an output value of 0 to the output structure pointer (`arg_C`). If in range, it multiplies the value by itself (squaring it), adds a base constant from `dword_42AC60`, calls `LookupBytecodeTable` (`sub_4044D0`), and writes a status flag of 1 along with the table lookup result into `arg_C`.",
+  "parameters": [
+    {
+      "name": "this_ptr",
+      "location": "ecx (implied by vtable context)",
+      "type": "void*",
+      "description": "Object instance pointer (this)"
+    },
+    {
+      "name": "arg_4",
+      "location": "[esp+0x4]",
+      "type": "int*",
+      "description": "Pointer to an input operand structure"
+    },
+    {
+      "name": "arg_8",
+      "location": "[esp+0x8]",
+      "type": "int",
+      "description": "Additional bytecode interpreter argument or count"
+    },
+    {
+      "name": "out_status",
+      "location": "[esp+0xC]",
+      "type": "int*",
+      "description": "Pointer to an output status/result structure where status (offset +0) and result (offset +4) are written"
+    }
+  ],
+  "return_value": "none",
+  "side_effects": [
+    "Writes status and result values to the output structure pointed to by arg_C"
+  ],
+  "data_structures": [
+    "Input Operand Struct: +0x0 type byte, +0x4 integer value / float storage",
+    "Output Struct: +0x0 status byte/int, +0x4 result int"
+  ],
+  "confidence": "high, clear control flow, standard calling conventions, and well-mapped callee interactions."
+}

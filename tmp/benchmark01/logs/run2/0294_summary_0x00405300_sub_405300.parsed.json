@@ -1,0 +1,36 @@
+{
+  "parsed_ok": true,
+  "suggested_name": "Entity::TryPerformActionOrCommand",
+  "prototype": "bool __fastcall Entity::TryPerformActionOrCommand(void *pEntity, void *edx_unused, int actionIndex)",
+  "short_summary": "Validates timing cooldowns, resource/structure criteria, geometric placement, and target availability for an entity action, and if successful, dispatches a command packet and updates the action cooldown timestamp.",
+  "detailed_summary": "The function begins by checking a global time counter retrieved from a global structure against a timestamp stored in the entity structure at [edi + esi*4 + 0x48], ensuring a cooldown/delay of at least 30 ticks has elapsed. It then looks up an action/type configuration table from .rdata based on the action index (esi), and verifies specific requirements such as resource quantities or inventory counts against fields in a resolved sub-structure. Next, it calls CheckEntityPlacementOrActionCriteria to validate spatial/grid conditions and Entity::FindTargetOrValidSubEntity to locate a valid target. If all validation steps succeed, it constructs and dispatches a command packet using DispatchCommandPacket, updates the entity's action timestamp with the current global time, and returns true (1). If any check fails, it immediately aborts and returns false (0).",
+  "parameters": [
+    {
+      "name": "pEntity",
+      "location": "edi",
+      "type": "void*",
+      "description": "Pointer to the main entity object being evaluated."
+    },
+    {
+      "name": "actionIndex",
+      "location": "esi",
+      "type": "int",
+      "description": "The index of the action, command, or capability being evaluated."
+    },
+    {
+      "name": "arg_0",
+      "location": "stack [esp+0x10]",
+      "type": "int",
+      "description": "An additional parameter/flag passed to CheckEntityPlacementOrActionCriteria."
+    }
+  ],
+  "return_value": "Returns true (1) in al if the action was successfully executed and dispatched, or false (0) if any validation check failed.",
+  "side_effects": [
+    "Dispatches an outgoing network command packet via DispatchCommandPacket.",
+    "Updates the action cooldown timestamp stored at [edi + esi*4 + 0x48]."
+  ],
+  "data_structures": [
+    "Entity: +0x0 pointer to internal structure, +0x4/0x8 resource/requirement fields, +0x48+esi*4 action cooldown/timestamp array."
+  ],
+  "confidence": "high | clean disassembler output with well-defined callee signatures and caller contexts."
+}

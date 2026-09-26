@@ -1,0 +1,7 @@
+{
+  "function_role": "A virtual opcode handler (slot 19) called by the bytecode interpreter/script execution engine (sub_409940) to process a specific script instruction by inspecting a variant/operand structure, performing type conversion or value extraction via __ftol2_sse, and evaluating condition/range checks against data tables.",
+  "callsite_summaries": {
+    "0x0041A160": "Called when an operand structure's type tag equals 2 (indicating a floating-point value), converting the floating-point number currently loaded on the FPU stack into an integer."
+  },
+  "fallbacks": []
+}

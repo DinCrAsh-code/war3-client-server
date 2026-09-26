@@ -1,0 +1,13 @@
+{
+  "function_role": "Calculates spatial proximity, range, or distance-based metrics for a simulation entity relative to a set of other entities or spatial targets, querying a spatial partition or container via a callback function and aggregating numerical results.",
+  "callsites": [
+    {
+      "callee": "0x0040C950",
+      "callsite_summary": "Passed as a callback function pointer (along with stack space for results and search parameters) to sub_4177F0, likely serving as a predicate or collector callback invoked during spatial range-query or collision/proximity checks."
+    },
+    {
+      "callee": "0x004177F0",
+      "callsite_summary": "Called with a query configuration struct (size 0x30, flags set to 0x101), an entity pointer, a spatial/distance limit, and the callback function pointer sub_40C950 to perform a spatial search or proximity query, returning the count of matching entities in eax."
+    }
+  ]
+}

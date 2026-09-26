@@ -1,0 +1,19 @@
+{
+  "parsed_ok": true,
+  "suggested_name": "CheckEntityGridFilter",
+  "prototype": "bool __stdcall CheckEntityGridFilter(void *entityData)",
+  "short_summary": "Converts spatial coordinates into grid/lookup indices via floating-point arithmetic and integer clamping, then checks a bit flag within a lookup table or grid structure.",
+  "detailed_summary": "The function performs 2D spatial coordinate mapping into a grid or lookup table. It reads floating-point coordinates from the x87 floating-point stack, multiplies them by a scaling constant from .rdata, converts them to integers via __ftol2_sse, and clamps the resulting indices between 0 and 95 (0x5F). It then performs index arithmetic using a multi-dimensional array or stride calculation (multiplying indices by 96/3/etc.) offset by an argument pointer, accesses a byte within that structure at offset +4, and extracts a specific bit using a shift and bitwise AND operation to return a boolean pass/fail status.",
+  "parameters": [
+    {
+      "name": "entityData",
+      "location": "stack [esp+8] (arg_0)",
+      "type": "void *",
+      "description": "Pointer to entity or grid configuration data structure used as the base for array indexing."
+    }
+  ],
+  "return_value": "bool in eax (0 or 1, extracted via bitwise operations from the calculated table entry)",
+  "side_effects": [],
+  "data_structures": [],
+  "confidence": "medium | The disassembly clearly shows coordinate scaling, float-to-int conversion, clamping to 0x5F (95), and 2D grid index calculations into an array structure, but precise struct layouts are inferred from address arithmetic."
+}

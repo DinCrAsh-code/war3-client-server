@@ -1,0 +1,51 @@
+{
+  "parsed_ok": true,
+  "suggested_name": "FlushAndCompressBuffer",
+  "prototype": "void __fastcall FlushAndCompressBuffer(void *buffer_ctx)",
+  "short_summary": "Flushes, compresses, and packetizes the current staging buffer in the context structure, appending a 10-byte header, the payload data (either compressed or uncompressed), and updating CRC checksums.",
+  "detailed_summary": "The function checks if the buffer pointer at `[edi+0x2000]` is non-zero. If zero, it immediately returns. Otherwise, it calls `CompressLZ77` on the buffer data. If the compressed size is less than the original size, it selects the compressed data and sets a flag byte indicating compression; otherwise, it falls back to the uncompressed buffer and size. It then calculates a CRC32 checksum over the output payload, constructs a 10-byte packet header (containing encoded size, compression flag, and the CRC32 checksum fields), and appends both the header and the payload to the destination stream or buffer using `AppendToDynamicBuffer`. Finally, it updates an overall running CRC32 checksum, increments a sequence/packet counter at `[edi+0x2020]`, and resets the buffer write pointer `[edi+0x2000]` to zero.",
+  "parameters": [
+    {
+      "name": "buffer_ctx",
+      "location": "ecx",
+      "type": "void *",
+      "description": "Pointer to the buffer context/structure containing state fields, pointers, and offsets."
+    }
+  ],
+  "return_value": "none",
+  "side_effects": [
+    "reads from and resets the buffer pointer at context+0x2000",
+    "compresses data using CompressLZ77",
+    "appends headers and payload to the dynamic buffer via AppendToDynamicBuffer",
+    "updates CRC32 checksum storage at context+0x201C",
+    "increments packet sequence count at context+0x2020"
+  ],
+  "data_structures": [
+    {
+      "name": "BufferContext",
+      "offsets": [
+        {
+          "offset": "0x2000",
+          "type": "void*",
+          "description": "Current buffer/data pointer or write index (reset to 0 on flush)"
+        },
+        {
+          "offset": "0x2004",
+          "type": "void*",
+          "description": "Base or destination buffer pointer/storage for AppendToDynamicBuffer"
+        },
+        {
+          "offset": "0x201C",
+          "type": "unsigned int",
+          "description": "Running CRC32 checksum"
+        },
+        {
+          "offset": "0x2020",
+          "type": "unsigned int",
+          "description": "Packet count or sequence counter incremented on flush"
+        }
+      ]
+    }
+  ],
+  "confidence": "high | complete disassembly with well-understood helpers (CompressLZ77, CalculateCrc32, AppendToDynamicBuffer)"
+}

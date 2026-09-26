@@ -1,0 +1,15 @@
+{
+  "parsed_ok": true,
+  "suggested_name": "__SEH_epilog4",
+  "prototype": "void __cdecl __SEH_epilog4()",
+  "short_summary": "Tears down a standard MSVC Structured Exception Handling (SEH) frame, restoring the previous exception handler chain, stack pointer, and saved registers before returning.",
+  "detailed_summary": "The function implements the standard MSVC compiler-generated SEH epilogue (`__SEH_epilog4`). It restores the previous SEH registration record by reading the saved pointer from `[ebp-10h]` and writing it back to the Thread Information Block (TIB) at `fs:0`. It then restores the preserved registers (`ebx`, `esi`, and `edi`), resets the stack pointer to `ebp`, pops the old base pointer, and performs an indirect return via a temporary return address preserved on the stack.",
+  "parameters": [],
+  "return_value": "none",
+  "side_effects": [
+    "restores the previous SEH exception handler in the TIB (fs:0)",
+    "restores preserved registers ebx, esi, edi, ebp, esp"
+  ],
+  "data_structures": [],
+  "confidence": "high, standard compiler runtime helper with recognizable SEH frame tear-down sequence"
+}

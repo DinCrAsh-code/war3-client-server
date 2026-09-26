@@ -1,0 +1,10 @@
+{
+  "function_role": "Iterates over a collection of handles or entries associated with a resource structure, validates each entry against global tables and state flags, dispatches actions based on a command/type code, and updates success/failure counters in a manager object.",
+  "callsite_summaries": {
+    "0x0040BED0": "Called inside the main loop for a specific operation type (when byte [ebp+0] is 2) passing `esi` (the validated object pointer) and `edi` (derived from a word at [ebp+36h]) to look up or acquire a sub-component/state, checking its flags before updating an activation state and incrementing a success counter.",
+    "0x0040F3D0": "Called inside the main loop for operation type 1, passing `edi` (word from [ebp+36h]) after verifying a flag on an internal sub-structure, to perform the requested command-specific action and increment a success counter.",
+    "0x00408CE0": "Called during operation type 0 when secondary condition checks pass on command parameters, passing a pointer to local stack parameters (`ebp+3Ch` in ebx and `var_1C` in edi) to transform, format, or initialize command arguments before final dispatch.",
+    "0x0040DAC0": "Called during operation type 0 (unconditional execution path or after argument preparation), passing a pointer to a prepared local argument structure (`&var_14`) and an operation flag derived from `ebp+3` to execute the core command handler, incrementing a success counter upon completion."
+  },
+  "fallbacks": []
+}

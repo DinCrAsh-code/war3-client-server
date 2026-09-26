@@ -1,0 +1,30 @@
+{
+  "parsed_ok": true,
+  "suggested_name": "EntityInteractionEventCallback",
+  "prototype": "__thiscall void EntityInteractionEventCallback(void *this, int arg1, int arg2)",
+  "short_summary": "Serves as a callback wrapper that validates an object context and state before forwarding an event to the entity interaction handler.",
+  "detailed_summary": "The function expects a pointer structure (commonly the 'this' or context pointer) on the stack. It checks if the pointer at offset +4 is non-null and whether the byte at offset +0x1B within that sub-structure equals 4. If these validation checks pass, it extracts a value from offset +8 into edi, computes an adjusted value from the second argument (adding the constant 0x571D4), and delegates the interaction handling to sub_4084C0 [HandleEntityInteractionEvent].",
+  "parameters": [
+    {
+      "name": "context",
+      "location": "[esp+arg_0]",
+      "type": "void*",
+      "description": "Context structure containing internal pointers at +4 and +8."
+    },
+    {
+      "name": "event_arg",
+      "location": "[esp+arg_4]",
+      "type": "int",
+      "description": "Event-related value or offset used to compute the parameter for the handler."
+    }
+  ],
+  "return_value": "none",
+  "side_effects": [
+    "Conditionally invokes HandleEntityInteractionEvent if validation checks succeed."
+  ],
+  "data_structures": [
+    "Context: +0x4 sub_structure_ptr, +0x8 entity_index_or_handle",
+    "SubStructure: +0x1B state_byte"
+  ],
+  "confidence": "high | clean and straightforward callback function structure matching the caller's usage as a function pointer."
+}

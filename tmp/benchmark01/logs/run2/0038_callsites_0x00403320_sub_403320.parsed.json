@@ -1,0 +1,7 @@
+{
+  "function_role": "Evaluates an entity-specific filtering check by inspecting bitmasks and flags based on a type identifier and threshold criteria, and falls back to calling a secondary lookup/validation routine if initial checks fail.",
+  "callsite_summaries": {
+    "0x00417D70": "Called as a fallback query/validation method when the primary entity bitmask check fails or when specific numeric threshold criteria are met (ebx < 4 check fails and initial bit test yields zero). Passes a modified data pointer/offset (derived from the global data and an added constant 0x4467C) as an argument on the stack, while `edi` points to an offset (`edx+8`) within the entity structure."
+  },
+  "fallbacks": []
+}

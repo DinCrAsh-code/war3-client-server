@@ -1,0 +1,30 @@
+{
+  "parsed_ok": true,
+  "suggested_name": "Entity::ProcessStateTransitionOrAction",
+  "prototype": "bool __fastcall Entity::ProcessStateTransitionOrAction(void *pEntity, void *edx_unused, const unsigned char *pConfigData)",
+  "short_summary": "Evaluates a configuration command/action byte array against entity state attributes and dispatches corresponding actions or updates state flags.",
+  "detailed_summary": "The function reads a configuration byte pointer from `ebx` and an entity pointer from `eax`. It extracts a command/operation type byte via `movzx eax, byte ptr [ebx]`, multiplies it with an offset from the entity's base structure, and uses a switch-case jump table (indices 0 through 5) to handle different entity operations. Depending on the case, it validates conditions like entity counts, placement criteria, cooldown limits, and capacity caps using helper functions (`CheckEntityConditionsOrCount`, `CheckEntityPlacementOrActionCriteria`, `ValidateCapacityOrLimit`), and executes abilities or actions (`TryPerformActionOrCommand`, `CheckAndExecuteUnitAbility`, `CheckAndDispatchAction`). Case 6 directly sets a state byte at offset +0x3C on the entity and returns true; all other action branches return false (`xor al, al`) upon completion.",
+  "parameters": [
+    {
+      "name": "pEntity",
+      "location": "eax",
+      "type": "void*",
+      "description": "Pointer to the entity instance being updated."
+    },
+    {
+      "name": "pConfigData",
+      "location": "ebx",
+      "type": "const unsigned char*",
+      "description": "Pointer to the configuration data bytes defining the action/condition type and parameters."
+    }
+  ],
+  "return_value": "Returns a boolean value in al (1 for success/continuation on specific state updates, 0 otherwise).",
+  "side_effects": [
+    "Invokes various action and ability execution routines which may dispatch command packets, update timestamps, or modify entity states.",
+    "Modifies entity byte field at offset +0x3C in the default state transition branch."
+  ],
+  "data_structures": [
+    "Entity: +0x0 pointer to base/sub-structure, +0x10 limit/capacity field, +0x3C state byte, +0x76/+0x14 word attributes, +0xF4 count/limit field"
+  ],
+  "confidence": "high | switch-case state dispatcher well-structured with clear helper function associations."
+}

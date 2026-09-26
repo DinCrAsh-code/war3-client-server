@@ -1,0 +1,7 @@
+{
+  "function_role": "Queries spatial data structures and filters entities or elements within a region or grid using bounding/distance calculations, checking optional callback criteria and collecting matching items into an output array.",
+  "callsite_summaries": {
+    "0x004174B0": "Called once at the beginning of the function, passing pointers to several local stack variables to initialize or retrieve spatial grid / bounding range bounds or indexing parameters."
+  },
+  "fallbacks": []
+}

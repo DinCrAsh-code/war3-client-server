@@ -1,0 +1,40 @@
+{
+  "parsed_ok": true,
+  "suggested_name": "__ArrayUnwind",
+  "prototype": "void __stdcall __ArrayUnwind(void *ptr, int element_size, int count, void (__cdecl *dtor)(void *))",
+  "short_summary": "Iterates backwards through an array of objects to invoke their destructor function, protected by a Structured Exception Handling (SEH) filter that calls terminate() if a C++ exception occurs during unwinding.",
+  "detailed_summary": "The function sets up an SEH frame using __SEH_prolog4. It enters a loop that decrements the element count (`arg_8`). For each iteration, it adjusts the pointer (`arg_0`) backward by `element_size` (`arg_4`) and calls the destructor function pointer (`arg_C`) with the adjusted element pointer passed implicitly (or via the expected convention). If an exception is thrown during destruction, the SEH filter checks if the exception code is `0xE06D7363` (Microsoft C++ exception); if it is, it invokes `?terminate@@YAXXZ` to handle the nested exception scenario during unwinding. Otherwise, it propagates the exception. Upon normal completion of all elements, it tears down the SEH frame via __SEH_epilog4 and returns.",
+  "parameters": [
+    {
+      "name": "ptr",
+      "location": "[esp+0x14]",
+      "type": "void *",
+      "description": "Base pointer to the array or the end-point depending on the caller's offset context."
+    },
+    {
+      "name": "element_size",
+      "location": "[esp+0x18]",
+      "type": "int",
+      "description": "Size of each individual array element in bytes."
+    },
+    {
+      "name": "count",
+      "location": "[esp+0x1C]",
+      "type": "int",
+      "description": "Number of elements to unwind."
+    },
+    {
+      "name": "dtor",
+      "location": "[esp+0x20]",
+      "type": "void (__cdecl *)(void *)",
+      "description": "Destructor function pointer to be invoked on each element."
+    }
+  ],
+  "return_value": "none",
+  "side_effects": [
+    "invokes element destructors on array items in reverse order",
+    "calls std::terminate if a C++ exception occurs during array unwinding"
+  ],
+  "data_structures": [],
+  "confidence": "high, standard MSVC runtime helper function for array unwinding with SEH"
+}

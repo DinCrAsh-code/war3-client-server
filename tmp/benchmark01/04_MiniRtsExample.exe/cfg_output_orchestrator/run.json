@@ -1,0 +1,9 @@
+{
+  "cfg": "C:\\Users\\New\\Desktop\\projects\\RE\\ingame\\my_tools\\just_another_re_pipeline\\extractor\\output\\04_MiniRtsExample.exe\\cfg_output.json",
+  "cfg_sha256": "ec5d63588b24a85ff012530b0d78f020ce40b181908a04d8d45f7a6549183a0c",
+  "extractor_dir": "C:\\Users\\New\\Desktop\\projects\\RE\\ingame\\my_tools\\just_another_re_pipeline\\extractor\\output\\04_MiniRtsExample.exe",
+  "root": "0x00401050",
+  "root_context": "This is the program's main().",
+  "dry_run": false,
+  "started": "2026-09-26T05:54:03"
+}

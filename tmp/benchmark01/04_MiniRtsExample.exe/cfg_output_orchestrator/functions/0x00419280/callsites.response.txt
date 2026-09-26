@@ -1,0 +1,17 @@
+{
+  "function_role": "Manages a dynamic state/allocation array inside an execution context object (passed via ESI), checking capacity limits, expanding or reallocating storage if full via sub_419800, writing a multi-word record/entry containing various values including a function pointer sub_40A1E0, and finally invoking sub_419590 to update the state.",
+  "callsites": [
+    {
+      "callee": "0x0040A1E0",
+      "callsite_summary": "The function's address is loaded into EBX and stored directly into the third dword offset (+8) of the newly initialized entry structure within the internal array. It is stored as a callback or handler reference for that record."
+    },
+    {
+      "callee": "0x00419800",
+      "callsite_summary": "Called with ESI pushed on the stack and ECX set to current capacity plus one when the current count of elements ([esi+4]) equals the capacity limit ([esi+8]), presumably to grow or reallocate the underlying storage buffer."
+    },
+    {
+      "callee": "0x00419590",
+      "callsite_summary": "Called with ESI pushed on the stack after successfully writing the new record and incrementing the count, passing the updated index (count minus one) to notify or re-index the execution state."
+    }
+  ]
+}

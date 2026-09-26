@@ -1,0 +1,26 @@
+{
+  "suggested_name": "FindNearestValidEntityOrTarget",
+  "prototype": "bool __stdcall FindNearestValidEntityOrTarget(void *entity, void *outTarget)",
+  "short_summary": "Scans entity lists and grid structures to find a valid target or entity meeting specific distance and filtering criteria relative to the given entity.",
+  "detailed_summary": "The function iterates through two separate potential entity/target collections retrieved from a global management structure (`dword_42AC60`). In the first loop, it iterates up to a count stored at `[edx+57390h]`, retrieving entries via a pointer array at `[edx+5738Ch]`. For each entry, it checks various entity flags and types, applies grid-based spatial filtering via `CheckEntityGridFilter`, and calculates the Euclidean distance to the source entity using `CalculateDistance`. If the distance is within valid bounds and closer than previous candidates, it updates the output structure `outTarget` and sets a found flag. If no valid target is chosen in the first loop, a second loop scans an alternate list up to `[edx+5BBBCh]`, performing similar filtering and manual Euclidean distance calculations using `_CIsqrt`, updating `outTarget` if a closer match is found. Finally, it returns true if a valid target was found and selected, or false otherwise.",
+  "parameters": [
+    {
+      "name": "entity",
+      "location": "[ebp+8]",
+      "type": "void *",
+      "description": "Pointer to the source entity data being evaluated."
+    },
+    {
+      "name": "outTarget",
+      "location": "[ebp+0xC]",
+      "type": "void *",
+      "description": "Pointer to a destination buffer/structure where the nearest valid target reference is written if found."
+    }
+  ],
+  "return_value": "bool (in al), indicating whether a valid target was successfully found and assigned.",
+  "side_effects": [
+    "Writes a target entity pointer and associated data to the output buffer pointed to by arg_4 if a valid target is located."
+  ],
+  "data_structures": [],
+  "confidence": "high | based on clear loop structures, spatial distance calculations, filtering checks, and interaction with global entity management tables."
+}

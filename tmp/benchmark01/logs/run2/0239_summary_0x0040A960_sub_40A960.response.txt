@@ -1,0 +1,37 @@
+{
+  "suggested_name": "EvalScriptReference",
+  "prototype": "void __cdecl EvalScriptReference(const void *arg0, int arg4, int arg8, void *outResult)",
+  "short_summary": "Evaluates a script or bytecode reference operand (checking type tag 3, index bounds, and validity) to produce a floating-point value written to an output buffer.",
+  "detailed_summary": "The function begins by checking if the input pointer (arg_4) starts with a type tag of 3. If so, it extracts a 32-bit identifier from offset +4, performs bounds checking against a global table stored at 0x0042AC60 (verifying the table index and a 16-bit version/discriminator tag in the high word), and looks up a pointer in an array of structures. If any check fails or the target object lacks a specific flag (offset +1A == 1), it falls back to loading 0.0 onto the x87 floating-point stack. Otherwise, it loads a floating-point value (or reference) from the resolved object. Finally, it stores the resulting value and associated metadata into the output structure provided via arg_C.",
+  "parameters": [
+    {
+      "name": "operand",
+      "location": "[esp+4]",
+      "type": "const void*",
+      "description": "Pointer to the script operand or bytecode structure containing a type tag and reference identifier."
+    },
+    {
+      "name": "arg2",
+      "location": "[esp+8]",
+      "type": "int",
+      "description": "Unused or secondary argument slot."
+    },
+    {
+      "name": "outResult",
+      "location": "[esp+0xC]",
+      "type": "void*",
+      "description": "Pointer to an output buffer where the resulting evaluated value and type tag are written."
+    }
+  ],
+  "return_value": "none",
+  "side_effects": [
+    "Writes evaluation results (floating-point value and type indicator) to the memory location specified by the output parameter."
+  ],
+  "data_structures": [
+    {
+      "name": "Global Lookup Table (0x0042AC60)",
+      "layout": "+0x51E80: pointer to array of item structures, +0x51E84: integer count/limit of items. Item structure: +0x0 pointer to object, +0x4 16-bit tag/version."
+    }
+  ],
+  "confidence": "high, clear operand validation, global table bounds checking, and output writing sequence."
+}

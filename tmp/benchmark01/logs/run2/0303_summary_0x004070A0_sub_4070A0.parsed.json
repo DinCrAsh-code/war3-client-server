@@ -1,0 +1,29 @@
+{
+  "parsed_ok": true,
+  "suggested_name": "CUnit::EvaluateCombatActionOrAcquireTarget",
+  "prototype": "void __fastcall CUnit::EvaluateCombatActionOrAcquireTarget(void *entity, void *edx_unused, int arg0)",
+  "short_summary": "Evaluates unit combat states, checks proximity/range to targets or entities in an internal array, and dispatches command packets if criteria are met.",
+  "detailed_summary": "The function begins by loading several constant floating-point values and setting up pointers, referencing an internal array at `esi+264h` containing up to 6 elements. It loops through this array checking the entity type byte (`+1Ch`) against specific values (0, 1, and 0Ah). For matching types, it performs distance or range comparisons using floating-point math. If a condition matches and a flag at `esi+1F4h` is set, it cleans up the FPU stack and dispatches a command packet using `DispatchCommandPacket` (sub_4046B0). If no array element triggers a match, it checks alternative state conditions and calls `FindNearestValidEntityInRange` (sub_4030C0) to find a target within range. If a valid target is located and passes type lookup checks, a secondary command packet is dispatched via `DispatchCommandPacket` to engage or interact with it.",
+  "parameters": [
+    {
+      "name": "entity",
+      "location": "esi",
+      "type": "void*",
+      "description": "Pointer to the main entity object."
+    },
+    {
+      "name": "arg0",
+      "location": "[esp+4]",
+      "type": "int",
+      "description": "Parameter passed along to DispatchCommandPacket."
+    }
+  ],
+  "return_value": "none",
+  "side_effects": [
+    "Dispatches network command packets using DispatchCommandPacket"
+  ],
+  "data_structures": [
+    "Entity: +0x8 position/coords, +0x70 state byte, +0x1F4 action flag, +0x264 internal entity collection/array"
+  ],
+  "confidence": "high, based on clean structure, standard iterator loops over fixed-size arrays, and clear integration with known command packet and entity search functions."
+}

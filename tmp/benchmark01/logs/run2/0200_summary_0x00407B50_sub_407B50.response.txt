@@ -1,0 +1,24 @@
+{
+  "suggested_name": "ProcessRtsResourceSpawningOrPathNodes",
+  "prototype": "void __fastcall ProcessRtsResourceSpawningOrPathNodes(void *resourceBlock)",
+  "short_summary": "Iterates through waypoint or resource spawn definitions, evaluates spatial metrics and procedural selection checks via geometric calculations and pseudo-random generators, and instantiates new resource entities using sub_402560.",
+  "detailed_summary": "The function validates that the resource structure's internal count (`arg_0 + 0x1B0`) is less than 0x0C. It then iterates over a collection of spatial points from a global manager table. For each entry, it calculates distances using _CIsqrt and checks collision or proximity metrics. It uses a pseudo-random number generator state (stored at `esi+51EF8h`) with bit-shifting and multiplication routines to determine sub-variant types, indexes, and probabilities. It calls sub_418050 to evaluate complex spatial/path metrics and calls sub_402560 to create and register resource entities when specific threshold conditions and spatial constraints are met, incrementing the active count.",
+  "parameters": [
+    {
+      "name": "resourceBlock",
+      "location": "[ebp+8]",
+      "type": "void*",
+      "description": "Pointer to the main resource/state block structure being initialized or configured."
+    }
+  ],
+  "return_value": "none",
+  "side_effects": [
+    "Modifies fields within the resource block passed as argument, including count and array elements at +0x1B0",
+    "Allocates and registers new resource entities via sub_402560"
+  ],
+  "data_structures": [
+    "ResourceBlock: +0x1B0 int count/index",
+    "EntityInstance: +0x230 void*, +0x234 void*, +0x238 int"
+  ],
+  "confidence": "high | clear control flow, recognizable entity creation and math loops matching standard game engine initialization patterns"
+}

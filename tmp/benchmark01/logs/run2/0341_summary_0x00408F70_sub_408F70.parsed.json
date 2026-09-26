@@ -1,0 +1,37 @@
+{
+  "parsed_ok": true,
+  "suggested_name": "AppendToDynamicBuffer",
+  "prototype": "void __fastcall AppendToDynamicBuffer(void *buffer_ctx, void *src, size_t size)",
+  "short_summary": "Appends data of a given size to a dynamic growable buffer structure, automatically resizing and reallocating the underlying storage if capacity is exceeded.",
+  "detailed_summary": "The function manages a dynamic buffer structure passed in `ebx`. It reads the current write offset (at `ebx+4`) and the requested data size from the stack. It calculates the required end offset (`current_offset + size`) and compares it against the current buffer capacity (`ebx+8`). If the required capacity exceeds the allocated size, it calculates a new capacity by doubling the previous capacity (starting at a minimum of 0x10) in a loop until it is large enough to accommodate the requested size. It then calls `ReallocateCustomBlock` (`sub_418670`) to resize the underlying memory buffer (`ebx`) and updates the capacity field (`ebx+8`). Finally, it copies the source data (`Src`) into the buffer at the current write offset using `memcpy`, updates the write offset (`ebx+4`) to the new end position, and returns.",
+  "parameters": [
+    {
+      "name": "buffer_ctx",
+      "location": "ebx",
+      "type": "struct BufferContext *",
+      "description": "Pointer to the buffer context structure managing the dynamic buffer."
+    },
+    {
+      "name": "Src",
+      "location": "[esp+0x8]",
+      "type": "const void *",
+      "description": "Pointer to the source data to be appended."
+    },
+    {
+      "name": "Size",
+      "location": "[esp+0xC]",
+      "type": "size_t",
+      "description": "Number of bytes to append."
+    }
+  ],
+  "return_value": "none",
+  "side_effects": [
+    "Reallocates the buffer memory block if current capacity is insufficient.",
+    "Copies source bytes into the buffer memory.",
+    "Updates the buffer write offset and capacity fields in the context structure."
+  ],
+  "data_structures": [
+    "BufferContext: +0x0 void* buffer_ptr, +0x4 size_t write_offset, +0x8 size_t capacity"
+  ],
+  "confidence": "high | complete clarity on buffer growth logic, custom struct field offsets, and memcpy/realloc usage."
+}

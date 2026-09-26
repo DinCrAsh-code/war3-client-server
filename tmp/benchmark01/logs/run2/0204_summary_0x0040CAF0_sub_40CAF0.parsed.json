@@ -1,0 +1,30 @@
+{
+  "parsed_ok": true,
+  "suggested_name": "ValidateEntityPairCompatibility",
+  "prototype": "bool __fastcall ValidateEntityPairCompatibility(void *entityA, void *entityB)",
+  "short_summary": "Performs a multi-stage validation check between two entities (passed in ebx and esi) to determine if they are compatible for interaction or spatial association.",
+  "detailed_summary": "The function performs a series of validation gates using fields from two entity structures, referenced via registers ebx and esi. First, it extracts a pointer from [ebx+1Ch] (edi) and checks if [edi+0Ch] is non-zero. It ensures esi is non-zero, that bit 0 of [esi+18h] is not set (by checking `not al` & 1), and that esi is not equal to ebx. It also verifies that bit 4 of [ebx+18h] is not set. Next, it checks the byte at [esi+1Ah]. If this byte equals 3, it validates that [edi+0Bh] equals 2. If the byte at [esi+1Ah] equals 1, it calls sub_40BD40 [ValidateEntitySubComponent] on esi, checks that bit 6 of [esi+18h] is not set, and calls sub_40BCD0 with esi and ebx to verify compatibility. Finally, it checks bit 3 of the byte at the pointer stored in [esi+1Ch], which determines whether to test bit 10 or bit 11 of the 16-bit value at [edi], returning the resulting bit as a boolean.",
+  "parameters": [
+    {
+      "name": "entityA",
+      "location": "ebx",
+      "type": "void*",
+      "description": "Primary entity pointer"
+    },
+    {
+      "name": "entityB",
+      "location": "esi",
+      "type": "void*",
+      "description": "Secondary entity or sub-component pointer"
+    }
+  ],
+  "return_value": "bool in al (1 if compatible, 0 otherwise)",
+  "side_effects": [],
+  "data_structures": [
+    {
+      "name": "Entity",
+      "layout": "+0x0: WORD, +0x18: BYTE (flags), +0x1A: BYTE (type/state), +0x1B: BYTE, +0x1C: void*"
+    }
+  ],
+  "confidence": "high, clear register-based conventions and sequential validation gates matching caller usage context."
+}

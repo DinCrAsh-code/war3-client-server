@@ -1,0 +1,45 @@
+{
+  "parsed_ok": true,
+  "suggested_name": "BitStream_WriteNormalizedFloat",
+  "prototype": "void __stdcall BitStream_WriteNormalizedFloat(BitStream *stream, float val, float min_val, float max_val, int num_bits)",
+  "short_summary": "Serializes and writes a floating-point value clamped to a specified range into a bitstream as a quantized fixed-point integer.",
+  "detailed_summary": "The function takes a floating-point value along with range boundaries (min and max) and a bit-width count. It normalizes and scales the floating-point value to a quantized integer range, clamps it between 0.0 and 1.0 using x87 FPU comparison logic, multiplies it by the maximum integer representable by the given bit count, rounds it to the nearest integer using custom FPU control word manipulation, and finally invokes BitStream_WriteBits to write the resulting integer into the bitstream.",
+  "parameters": [
+    {
+      "name": "stream",
+      "location": "stack / register per calling convention",
+      "type": "BitStream*",
+      "description": "The bitstream context pointer to write to."
+    },
+    {
+      "name": "val",
+      "location": "x87 stack / argument",
+      "type": "float",
+      "description": "The floating-point value to serialize."
+    },
+    {
+      "name": "min_val",
+      "location": "x87 stack / argument",
+      "type": "float",
+      "description": "The lower bound of the normalization range."
+    },
+    {
+      "name": "max_val",
+      "location": "x87 stack / argument",
+      "type": "float",
+      "description": "The upper bound of the normalization range."
+    },
+    {
+      "name": "num_bits",
+      "location": "stack",
+      "type": "int",
+      "description": "The number of bits used to quantize the value."
+    }
+  ],
+  "return_value": "none",
+  "side_effects": [
+    "Modifies the state of the provided BitStream buffer by writing quantized bits."
+  ],
+  "data_structures": [],
+  "confidence": "high | standard pattern for networked game engines encoding ranged floats into fixed bit-widths via bitstreams."
+}

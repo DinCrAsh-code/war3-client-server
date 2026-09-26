@@ -1,0 +1,21 @@
+{
+  "function_role": "Iterates over a grid or collection structure within nested loops, updating a pseudo-random number generator state and performing intensive floating-point calculations, distance checks, and state/resource registration based on spatial or physical criteria.",
+  "callsites": [
+    {
+      "callee": "0x00415180",
+      "callsite_summary": "Called once within the inner loop structure after various floating-point operations and square-root calculations to evaluate a condition or obtain a value used in subsequent threshold and comparison checks."
+    },
+    {
+      "callee": "0x00418050",
+      "callsite_summary": "Called at multiple points during the processing block, passing floating-point values and local/structure arguments on the stack/FPU to perform a specialized mathematical transformation or resource query."
+    },
+    {
+      "callee": "0x00418140",
+      "callsite_summary": "Called repeatedly in succession alongside sub_418050 to process dependent floating-point parameters or perform follow-up calculations on the active item."
+    },
+    {
+      "callee": "0x004188F0",
+      "callsite_summary": "Called near the end of the validation block when specific comparison thresholds are met, passing parameters via the stack and FPU registers to register or finalize a state update."
+    }
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "function_role": "Manages a dynamic collection or buffer inside a container structure passed via edi (reallocating storage, cleaning up elements, and adjusting capacities or counts during updates).",
+  "callsites": [
+    {
+      "callee": "0x00410D00",
+      "callsite_summary": "Called inside a loop that iterates over elements stored in an array at [edi+57398h], performing a per-element cleanup or update operation."
+    },
+    {
+      "callee": "0x004185D0",
+      "callsite_summary": "Called to allocate a new buffer block of size calculated in ebx when capacity needs to be grown or initialized, returning the newly allocated buffer pointer in eax."
+    }
+  ]
+}

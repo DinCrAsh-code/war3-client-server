@@ -1,0 +1,42 @@
+{
+  "suggested_name": "VM_ResolveResourceHandle",
+  "prototype": "void __cdecl VM_ResolveResourceHandle(void *this_ptr, const void *operand, int count, int *out_status)",
+  "short_summary": "Validates and resolves a resource/object handle from bytecode operand data, returning a status code and index/handle value.",
+  "detailed_summary": "The function inspects an operand structure passed as an argument. It first checks that the type byte at offset 0 equals 3 and that the pointer/ID at offset +4 is non-zero. It then treats the lower 16 bits of that ID minus 1 as an index into a global resource/object table located via data pointer at 0x0042AC60. After bounds-checking this index against a table size limit, it retrieves a table entry, verifies that its upper 16-bit tag/version matches the upper 16 bits of the original ID, and checks an internal flag at offset +1A (expecting value 1). If all checks pass successfully, it extracts a byte value from offset +1B of the resolved resource object, writes a success indicator (1) to the status output pointer, and stores the extracted byte into the second dword of the status output. If any check fails, it writes a failure/invalid indicator (status = 1, value = 0xFFFFFFFF) to the output structure instead.",
+  "parameters": [
+    {
+      "name": "this_ptr",
+      "location": "[esp+4]",
+      "type": "void*",
+      "description": "The VM or interpreter context 'this' pointer (passed via ESI in the vtable caller)."
+    },
+    {
+      "name": "operand",
+      "location": "[esp+8]",
+      "type": "const void*",
+      "description": "Pointer to the bytecode operand structure containing type and resource ID information."
+    },
+    {
+      "name": "count",
+      "location": "[esp+C]",
+      "type": "int",
+      "description": "An argument/count associated with the instruction execution."
+    },
+    {
+      "name": "out_status",
+      "location": "[esp+10]",
+      "type": "int*",
+      "description": "Pointer to an output structure (2 dwords) receiving the result status and resolved handle/value."
+    }
+  ],
+  "return_value": "none",
+  "side_effects": [
+    "writes success or failure status and resolved resource data into the output structure pointed to by out_status"
+  ],
+  "data_structures": [
+    "Global resource table manager at 0x0042AC60: contains array pointer at +0x51E80 and count limit at +0x51E84",
+    "Resource table entry: +0x0 pointer to resource object, +0x2 word tag/version",
+    "Resource object: +0x1A byte flag (checked for 1), +0x1B byte value (extracted on success)"
+  ],
+  "confidence": "high, clear validation logic and structured table lookup matching a typical bytecode virtual machine implementation"
+}

@@ -1,0 +1,9 @@
+{
+  "function_role": "Iterates over a collection of entity or component pointers passed from its caller, constructs a local packet or request structure using these pointers and additional configuration parameters, checks against a global state buffer/limit, and dispatches the packed data via sub_4087D0 in a loop.",
+  "callsites": [
+    {
+      "callee": "0x004087D0",
+      "callsite_summary": "Called inside the main processing loop to submit or dispatch the constructed local packet/request structure (passed as a pointer on the stack via `lea eax, [esp+58h+var_48]`)."
+    }
+  ]
+}

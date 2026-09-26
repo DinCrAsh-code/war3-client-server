@@ -1,0 +1,13 @@
+{
+  "suggested_name": "InitSineTable",
+  "prototype": "void __cdecl InitSineTable(void)",
+  "short_summary": "Initializes a precomputed sine or trigonometric lookup table containing 1024 float values.",
+  "detailed_summary": "The function executes a loop from 0 to 1024 (0x400). In each iteration, it converts the loop index into a floating-point value, multiplies it by specific constants stored in the .rdata section, computes the sine using _CIsin, and stores the resulting floating-point value into an array or lookup table located in the .data section at 0x00421814.",
+  "parameters": [],
+  "return_value": "none",
+  "side_effects": [
+    "Populates a global floating-point lookup table in the .data section (starting at 0x00421814) with 1024 calculated values."
+  ],
+  "data_structures": [],
+  "confidence": "high | the loop runs 1024 times, computes trigonometric values using _CIsin, and stores them sequentially into a data array."
+}

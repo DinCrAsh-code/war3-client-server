@@ -1,0 +1,20 @@
+{
+  "suggested_name": "ValidateEntitySubComponent",
+  "prototype": "bool __fastcall ValidateEntitySubComponent(void *object)",
+  "short_summary": "Validates specific bit flags and a byte state field within an object structure to determine sub-component compatibility.",
+  "detailed_summary": "The function checks bit fields located at offset +0x18 and a byte field at offset +0x60 of the passed object pointer (in eax). First, it inspects bit 0 of the inverted byte at [eax+18h]; if this bit is zero (meaning bit 0 of the original byte was set), it immediately fails and returns false. Next, it checks if any of the bits corresponding to the mask 0x206 are set in the word at [eax+18h]; if any are set, it returns false. Finally, it checks whether the byte at [eax+60h] is equal to zero, returning true if it is zero and false otherwise.",
+  "parameters": [
+    {
+      "name": "object",
+      "location": "eax",
+      "type": "void *",
+      "description": "Pointer to the object or sub-state structure being validated."
+    }
+  ],
+  "return_value": "bool in al (1 if validation passes, 0 if it fails)",
+  "side_effects": [],
+  "data_structures": [
+    "Object: +0x18 word/byte bitfield flags, +0x60 byte state indicator"
+  ],
+  "confidence": "high, straightforward bitwise checks and comparisons on a single structure pointer with clear boolean outputs"
+}

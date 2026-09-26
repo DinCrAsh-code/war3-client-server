@@ -1,0 +1,7 @@
+{
+  "function_role": "Iterates through two resource/object collections in the simulation structure provided in esi, validating flags, processing cleanup or state transitions on matching items, and invoking virtual methods or helper routines (such as sub_403780) when specific conditions are met.",
+  "callsite_summaries": {
+    "0x00403780": "Called during a reverse-order loop over the first collection (`[esi+5738Ch]`) whenever an element's flag byte at offset +18h has its high bit (0x80) set. Passes the primary resource/object pointer in `esi` (via `mov ecx, esi`), acting on individual items that meet the active flag criteria."
+  },
+  "fallbacks": []
+}

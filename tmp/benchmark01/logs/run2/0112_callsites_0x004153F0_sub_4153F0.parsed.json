@@ -1,0 +1,7 @@
+{
+  "function_role": "Performs a heavy mathematical and geometric calculation involving nested loops (outer loop limits up to 0x24C1 with step 0x61, inner loop up to 0x61), vector/coordinate operations, square roots, and conditional checks, likely calculating distance or collision metrics for a grid of elements.",
+  "callsite_summaries": {
+    "0x00414AF0": "Called twice in the initialization phase of the function (once with the data pointer in `esi` and once via other register state) to retrieve or transform configuration/resource parameters before entering the nested calculation loops."
+  },
+  "fallbacks": []
+}

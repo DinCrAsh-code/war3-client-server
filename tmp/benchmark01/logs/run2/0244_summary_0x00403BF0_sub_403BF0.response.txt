@@ -1,0 +1,25 @@
+{
+  "suggested_name": "TriggerHandlersByIndex",
+  "prototype": "void __fastcall TriggerHandlersByIndex(int index)",
+  "short_summary": "Performs a squared-index lookup into a global data structure to flag a status bit and iterates through an array of registered objects, invoking a virtual method on any object whose identifier matches the input index and whose state conditions are met.",
+  "detailed_summary": "The function takes an integer index passed in EBX. It first computes the square of this index (`eax = ebx * ebx`), adds it to a base pointer retrieved from the global `dword_42AC60`, and checks a status byte at offset +3 of that computed address. If the flag (bit 2) is already set, it returns immediately. Otherwise, it sets bit 2 at that location. Then, it iterates through a list of objects stored in an array located at `[esi + 0x5738C]`, with the count given at `[esi + 0x57390]`. For each object pointer, it checks if a byte field at offset +0x1B matches the input index EBX, and checks that bit 0 of the inverted byte at offset +0x18 is set (indicating an active/enabled status). If both conditions are met, it retrieves a virtual function pointer from the object's vtable (`*(vtable + 0x0C)`) and invokes it with a parameter of 0.",
+  "parameters": [
+    {
+      "name": "index",
+      "location": "ebx",
+      "type": "int",
+      "description": "The operand or index value processed from bytecode (bounded to <= 5)."
+    }
+  ],
+  "return_value": "none",
+  "side_effects": [
+    "Modifies a flag byte within a global table derived from dword_42AC60 based on the square of the input index.",
+    "Iterates over a list of registered runtime objects and invokes a virtual function method on matching items."
+  ],
+  "data_structures": [
+    "Global struct at dword_42AC60 containing lookup flags/tables at squared offsets.",
+    "Runtime object list array at base + 0x5738C with count at base + 0x57390.",
+    "Runtime object: +0x0 vtable, +0x18 state/flags byte, +0x1B identifier/index byte."
+  ],
+  "confidence": "high based on clear register usage, pointer arithmetic, loops, and virtual method call patterns."
+}

@@ -1,0 +1,29 @@
+{
+  "suggested_name": "FindMatchLZ77",
+  "prototype": "int __cdecl FindMatchLZ77(int current_pos, int *match_distance_out)",
+  "short_summary": "Searches a sliding window via hash lookup tables (`0x422C60` and `0x426C60`) to find the longest matching substring for the input stream at the current position.",
+  "detailed_summary": "The function takes a current input position (argument `arg_0` in ebx) and an upper bound/limit (eax), reading stream bytes from a base pointer in edx. First, it ensures there are at least 3 bytes remaining; otherwise, it returns 0. It hashes the first 3 bytes at the current position using a multiplication and right shift (`shr eax, 14h`), then indexes into a hash table at `0x422C60` to retrieve a chain head index (`esi`). It traverses a linked chain of previous occurrences using a second table at `0x426C60`, limiting search depth to 32 iterations (`var_C`). For each candidate position within a valid window distance (< 4096 bytes), it compares bytes to measure the length of the matching string up to a maximum length of 18 bytes (`0x12`). It tracks the best match found so far (`var_8`), writing the match distance to `arg_4` if a better match is found. Finally, if the best match length is at least 3, it returns the match length; otherwise, it returns 0.",
+  "parameters": [
+    {
+      "name": "current_pos",
+      "location": "stack arg_0 ([esp+10h])",
+      "type": "int",
+      "description": "Current byte index or offset in the input stream."
+    },
+    {
+      "name": "match_distance_out",
+      "location": "stack arg_4 ([esp+14h])",
+      "type": "int*",
+      "description": "Pointer where the distance/offset to the best matching sequence is written."
+    }
+  ],
+  "return_value": "Returns the length of the longest matching sequence found (in eax), or 0 if no match of length >= 3 is found.",
+  "side_effects": [
+    "Writes the match distance to the integer pointer passed in arg_4 when a valid match is found."
+  ],
+  "data_structures": [
+    "Hash lookup table at 0x422C60 storing initial chain heads",
+    "Hash chain table at 0x426C60 storing next pointers for collision resolution"
+  ],
+  "confidence": "high | Function implements a standard LZ77 hash-chain dictionary match-finding algorithm."
+}

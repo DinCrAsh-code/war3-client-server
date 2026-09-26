@@ -1,0 +1,18 @@
+{
+  "suggested_name": "CalculateGridPointerOrMetric",
+  "prototype": "float __fastcall CalculateGridPointerOrMetric(float arg_0)",
+  "short_summary": "Performs geometric bounding/clipping checks and coordinate-to-grid index calculations using x87 floating-point math, returning a computed pointer or metric value.",
+  "detailed_summary": "The function begins by manipulating several floating-point values on the x87 FPU stack, involving constants from .rdata (0x0041D960 and 0x0041D970) and performing conditional min/max or clamping logic via FPU comparison sequences (fcom, fnstsw, test ah, 5). If a certain bounding check fails, it branches to an alternate path or cleans up the FPU stack. Otherwise, it converts parts of the evaluated floating-point coordinates into integers using __ftol2_sse, computes a linear grid offset using multiplication and addition (imul), and offsets a base pointer passed via arguments. The remainder of the function continues complex vector/distance or interpolation math using dot-product-like or squared-distance accumulation patterns on the FPU stack, ultimately returning a floating-point result in st(0).",
+  "parameters": [
+    {
+      "name": "base_ptr_or_struct",
+      "location": "[esp+10h+arg_0]",
+      "type": "void*",
+      "description": "Base pointer or structure reference used for calculating final indexed memory locations."
+    }
+  ],
+  "return_value": "st(0) (floating-point result)",
+  "side_effects": [],
+  "data_structures": [],
+  "confidence": "medium, heavy x87 floating-point arithmetic makes exact symbolic reconstruction of expressions complex, but overall structure (clamping -> integer conversion -> grid indexing -> distance metric calculation) is clear."
+}

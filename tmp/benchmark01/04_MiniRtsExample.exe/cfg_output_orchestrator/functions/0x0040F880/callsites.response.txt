@@ -1,0 +1,9 @@
+{
+  "function_role": "Initializes a newly allocated resource or sub-element structure (pointed to by esi) as part of a factory/setup routine, setting virtual table pointers, clearing flags, and performing internal configuration via a helper call.",
+  "callsites": [
+    {
+      "callee": "0x0040B100",
+      "callsite_summary": "Called immediately upon entering the initialization sequence to perform a preparatory setup step on the object or context, receiving object and stack-based arguments pushed prior to the call."
+    }
+  ]
+}

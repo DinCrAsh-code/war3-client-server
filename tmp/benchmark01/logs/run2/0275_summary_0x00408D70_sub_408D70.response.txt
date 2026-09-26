@@ -1,0 +1,29 @@
+{
+  "suggested_name": "RtsManager::ProcessCommandOrActionBatch",
+  "prototype": "void __stdcall RtsManager::ProcessCommandOrActionBatch(void *rtsManager, void *commandPacket)",
+  "short_summary": "Iterates over a batch of entity commands or resource requests packed within a structure, validates them against game state and entity references, and dispatches them to appropriate handlers (such as component upgrades, resource parameter checks, or entity interaction processors).",
+  "detailed_summary": "The function begins by inspecting header fields in the command packet (`ebp`). It checks type bounds and global feature flags, early-exiting and incrementing a failure counter if validation fails. It then loops over a count of sub-items located within the packet. For each item, it resolves an entity or resource handle by indexing into global entity lookup tables using encoded handles (splitting index and validation salt). Once a valid target entity/resource is confirmed and state flags (`+0x1A`, `+0x1B`, `+0x18`) are verified, it dispatches based on the command type byte (`[ebp+0]`): case 0 processes general entity interactions/commands via `ProcessEntityInteractionOrCommand` (optionally calling `CalculateGridCoordinatesOrMapping` if coordinate mapping is needed); case 1 performs component upgrades via `RtsManager::UpgradeComponent`; case 2 finds and updates resource entries via `FindResourceEntryByParam`. Successful processing increments a success counter at `[rtsManager+0x2838]`, whereas failures increment `[rtsManager+0x283C]`. Cleanups are handled via `retn 8` (__stdcall convention taking two dword arguments).",
+  "parameters": [
+    {
+      "name": "rtsManager",
+      "location": "[esp+2Ch+arg_0]",
+      "type": "void*",
+      "description": "Pointer to the RTS manager object containing statistics counters at +0x2838 and +0x283C."
+    },
+    {
+      "name": "commandPacket",
+      "location": "[esp+2Ch+arg_4]",
+      "type": "void*",
+      "description": "Pointer to a packet structure containing command type, sub-item count, entity/resource handles, and parameters."
+    }
+  ],
+  "return_value": "none",
+  "side_effects": [
+    "Increments success and failure counters on the RTS manager object at offsets +0x2838 and +0x283C.",
+    "Triggers entity interactions, component upgrades, or resource parameter updates."
+  ],
+  "data_structures": [
+    "CommandPacket: +0x0 byte commandType, +0x1 byte subType, +0x2 byte itemCount, +0x4 dword[] itemHandlesOrData, +0x34 dword parameters..."
+  ],
+  "confidence": "high | complete CFG reconstruction and clear alignment with caller context and callee prototypes"
+}

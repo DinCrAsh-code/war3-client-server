@@ -1,0 +1,33 @@
+{
+  "parsed_ok": true,
+  "suggested_name": "RtsComponentFactory_Create",
+  "prototype": "void* __fastcall RtsComponentFactory_Create(void *arg_ebx, int arg_edx, int type_index, int arg_edi)",
+  "short_summary": "Factory function that allocates and initializes various RTS component or sub-component objects based on a type index lookup table.",
+  "detailed_summary": "The function acts as a centralized component factory. It first checks if the input type index in `esi` (or parameters) falls within a valid bounds range (0 to 0x17). It then maps the index through a byte lookup table `byte_41BDC0` using an indexed multiplication calculation. The resulting byte value serves as a case selector (0 through 15) dispatched via a jump table (`jpt_4115A9`). For each valid case, it allocates a custom memory block of a specific size (ranging from 0x1C to 0x28 bytes) using `AllocateCustomBlock`, and upon successful allocation, invokes the corresponding constructor or initialization function for that component type, passing appropriate parameters in registers and on the stack (`edi`, `esi`, `ebx`). If the index is out of bounds or allocation fails, it safely returns 0 (null).",
+  "parameters": [
+    {
+      "name": "arg_ebx",
+      "location": "ebx",
+      "type": "void*",
+      "description": "Context or manager object passed as an argument to component constructors."
+    },
+    {
+      "name": "type_index",
+      "location": "esi",
+      "type": "int",
+      "description": "Component type index used to lookup the factory case."
+    },
+    {
+      "name": "arg_edi",
+      "location": "edi",
+      "type": "int",
+      "description": "Additional parameter forwarded to the specific component constructor/initializer."
+    }
+  ],
+  "return_value": "Pointer to the newly allocated and initialized component instance in eax, or NULL (0) on failure.",
+  "side_effects": [
+    "Allocates memory blocks from the custom block allocator or heap."
+  ],
+  "data_structures": [],
+  "confidence": "high, clear factory dispatcher pattern with comprehensive callee references and explicit jump table bounds checking."
+}

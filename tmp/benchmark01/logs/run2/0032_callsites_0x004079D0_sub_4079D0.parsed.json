@@ -1,0 +1,11 @@
+{
+  "function_role": "Iterates over an entity's internal collection/sub-components (up to a count at [edi+3DCh]), checking timers, state flags, and conditions to perform unit/ability/spell targeting or casting logic by invoking processing and action routines.",
+  "callsite_summaries": {
+    "0x0041A160": "Converts a floating-point calculation result (representing scaled time or range threshold) to a 32-bit integer, which is then compared against a threshold value from the entity structure.",
+    "0x004046B0": "Invoked when a sub-component passes cooldown and validity checks to execute a primary action or activation event, passing the entity pointer in edx, target/sub-object pointers via stack arguments, and calculated integer parameters.",
+    "0x00406EF0": "Called during sub-component validation checks when an internal flag test fails (specifically when bit 0 of byte [esi+18h] is set), passing the entity pointer and a component-related pointer to perform cleanup or state resetting.",
+    "0x004070A0": "Called immediately after sub_406EF0 during the alternative branch for an invalid or inactive sub-component state, passing the main entity pointer (edi).",
+    "0x004071C0": "Called conditionally (if byte [esi+70h] != 0Dh) after sub_4070A0 during sub-component processing, passing the entity pointer and component pointer as arguments."
+  },
+  "fallbacks": []
+}

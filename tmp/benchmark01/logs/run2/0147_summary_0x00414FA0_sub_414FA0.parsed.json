@@ -1,0 +1,25 @@
+{
+  "parsed_ok": true,
+  "suggested_name": "ComputeNoiseOrRandomCellValues",
+  "prototype": "double __cdecl ComputeNoiseOrRandomCellValues(double val1, double val2)",
+  "short_summary": "Performs complex floating-point calculations combined with a pseudo-random integer mixing hash function (resembling a value noise or hash-based procedural generation routine).",
+  "detailed_summary": "The function receives floating-point input arguments on the x87 FPU stack. It converts parts of the floating-point values to integers using __ftol2_sse, performs integer multiplications, and applies a multi-step integer mixing/hashing algorithm using bitwise XOR, shifts, and specific magic constants (such as 0x165667B1, 0x27D4EB2F, and 0x3E2B52E0). These mixed integer states are then converted back to floating-point values to participate in a series of normalization, scaling, interpolation, and arithmetic combining steps across the FPU stack. The function ultimately returns a single precision floating-point result in st(0).",
+  "parameters": [
+    {
+      "name": "val1",
+      "location": "x87 FPU stack (st(0) / st(1) on entry)",
+      "type": "double",
+      "description": "First input floating-point coordinate or parameter."
+    },
+    {
+      "name": "val2",
+      "location": "x87 FPU stack (st(0) on entry)",
+      "type": "double",
+      "description": "Second input floating-point coordinate or parameter."
+    }
+  ],
+  "return_value": "st(0) (floating-point result)",
+  "side_effects": [],
+  "data_structures": [],
+  "confidence": "high, standard pattern for procedural hash/noise generation combined with math transformations matching upstream callers."
+}

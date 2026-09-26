@@ -1,0 +1,9 @@
+{
+  "function_role": "Evaluates and validates an entity's state, configuration, and attributes against game/system rules, returning a status code and structure based on permission, type checks, and helper evaluations.",
+  "callsites": [
+    {
+      "callee": "0x0040CAF0",
+      "callsite_summary": "Called as a boolean validation or condition check helper during specific entity interaction or state checks (at 0x0040D9CE and 0x0040DA59), receiving context/pointers via registers/stack (such as ebp/ebx), and its boolean/status return value (in al) is used to determine whether to branch to a success state (setting result code 4) or fallback/alternative failure paths."
+    }
+  ]
+}

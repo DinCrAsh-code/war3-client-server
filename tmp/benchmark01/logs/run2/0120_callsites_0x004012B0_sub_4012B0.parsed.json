@@ -1,0 +1,10 @@
+{
+  "function_role": "Initializes a large resource/object structure (passed via argument in esi) by zeroing out various fields, setting up flags and counters, and invoking an array constructor helper for an embedded array of 7 elements of size 12.",
+  "callsite_summaries": {
+    "0x00401690": "Passed as the constructor function pointer callback (element constructor) to the vector/array constructor helper `??_L@YGXPAXIHP6EX0@Z1@Z` to initialize elements within the newly allocated structure.",
+    "0x00401680": "Passed as the destructor function pointer callback (element destructor) to the vector/array constructor helper `??_L@YGXPAXIHP6EX0@Z1@Z` for cleanup handling during array construction.",
+    "0x004199C2": "Invoked as the MSVC vector constructor helper (`??_L@YGXPAXIHP6EX0@Z1@Z`) to initialize an array located at offset +0x51EA4 of the main resource structure. It is called with the array address, an element count of 7, an element size of 0Ch (12 bytes), the element destructor (`unknown_libname_1`), and the element constructor (`sub_00401690`).",
+    "0x004198F2": "Called from the SEH exception handler epilog (`SEH_4012B0`) to perform standard stack security cookie validation before unwinding or exiting."
+  },
+  "fallbacks": []
+}

@@ -1,0 +1,9 @@
+{
+  "function_role": "Performs a heavy block of floating-point calculations combined with bit-mixing / pseudo-random number generator steps (resembling a hash or noise function), taking inputs via the x87 FPU stack.",
+  "callsites": [
+    {
+      "callee": "0x0041A160",
+      "callsite_summary": "Converts a floating-point value currently on the x87 FPU stack into an integer (using standard SSE/FPU conversion semantics) to be used in subsequent integer arithmetic and bit-mixing operations."
+    }
+  ]
+}

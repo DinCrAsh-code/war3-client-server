@@ -1,0 +1,43 @@
+{
+  "parsed_ok": true,
+  "suggested_name": "ScheduleTimedEventOrState",
+  "prototype": "void __cdecl ScheduleTimedEventOrState(void *this_ptr, const void *param1, int param2, void *status_out)",
+  "short_summary": "Evaluates a timed/parameterized script value, checks against scheduling limits, and enqueues a new state or event entry via EnqueueStateEntry.",
+  "detailed_summary": "The function inspects a variant-like input parameter structure to extract a floating-point value and a secondary integer or float component. It clamps or validates the extracted index against a limit stored at offset +0x90 and a maximum active entry count of 0x10 stored at offset +0xA60 of the primary 'this' object. If valid, a new entry is populated in an internal fixed-size array/queue structure inside the object (each entry sized at 12 bytes, based on the lea stride pattern `ebp + ebp*2`), initialized with status bytes, and passed to EnqueueStateEntry (sub_419280). Finally, it populates the output status struct with the resulting entry index or -1 on failure.",
+  "parameters": [
+    {
+      "name": "this_ptr",
+      "location": "[esp+4] / arg_0",
+      "type": "void *",
+      "description": "The object instance pointer (containing state queues and limits)."
+    },
+    {
+      "name": "param1",
+      "location": "[esp+8] / arg_4",
+      "type": "const void *",
+      "description": "Input descriptor/variant structure containing opcode/type fields and data."
+    },
+    {
+      "name": "arg2",
+      "location": "[esp+12] / arg_8",
+      "type": "int",
+      "description": "Additional numeric argument or context flag."
+    },
+    {
+      "name": "status_out",
+      "location": "[esp+16] / arg_C",
+      "type": "int *",
+      "description": "Output structure populated with status and allocated entry index (or -1)."
+    }
+  ],
+  "return_value": "none",
+  "side_effects": [
+    "modifies the state container queue inside the object",
+    "calls EnqueueStateEntry to enqueue the new element",
+    "updates the active entry count at offset +0xA60"
+  ],
+  "data_structures": [
+    "Object: +0x90 max limit index, +0xA60 active count, +0x9A0 start of state/event entry array"
+  ],
+  "confidence": "high | based on clear caller vtable integration, state queue manipulation, and call to EnqueueStateEntry"
+}

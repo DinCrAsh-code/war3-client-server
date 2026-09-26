@@ -1,0 +1,24 @@
+{
+  "suggested_name": "CheckRaySegmentCollisionOrDistance",
+  "prototype": "bool __fastcall CheckRaySegmentCollisionOrDistance(void *this, void *edx_param)",
+  "short_summary": "Performs a 2D geometric test by calling a ray/segment intersection routine and evaluating vector dot products or squared distances to determine a boolean outcome (such as line-of-sight obstruction or distance threshold validation).",
+  "detailed_summary": "The function allocates local stack space and calls sub_4182F0 (IntersectRaySegmentOrLine), passing a pointer to a temporary coordinate buffer via edx. Following the call, it performs a sequence of x87 floating-point arithmetic operations, computing differences, products, and sums (characteristic of vector dot products, magnitudesquared calculations, or squared distance comparisons). It checks the resulting flags using FPU status word extraction (`fnstsw ax` and `test ah, 41h`) to evaluate a conditional relation (such as a distance threshold check or intersection success/failure), returning 1 if the condition is met and 0 otherwise.",
+  "parameters": [
+    {
+      "name": "this",
+      "location": "ecx",
+      "type": "void*",
+      "description": "Object context pointer"
+    },
+    {
+      "name": "edx_param",
+      "location": "edx",
+      "type": "void*",
+      "description": "Pointer to geometric data or parameters passed to the intersection routine"
+    }
+  ],
+  "return_value": "bool (1 or 0) in eax",
+  "side_effects": [],
+  "data_structures": [],
+  "confidence": "medium, control flow and callee purpose are clear, but exact floating-point vector semantics are inferred from the math pattern"
+}

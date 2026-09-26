@@ -1,0 +1,43 @@
+{
+  "parsed_ok": true,
+  "suggested_name": "VM_OpcodeHandler_Slot22",
+  "prototype": "void __fastcall VM_OpcodeHandler_Slot22(void *pVMState, void *pArg1, int count, void *pResultStruct)",
+  "short_summary": "Executes a virtual machine opcode handler (vtable slot 22) that reads an operand, converts or extracts an integer value, checks bounds against an array limit, and appends or registers an item into a VM state queue or buffer.",
+  "detailed_summary": "The function begins by inspecting the type of an operand passed via argument (arg_4). If the operand type is 2, it loads a floating-point value and converts it to a 32-bit signed integer using __ftol2_sse. Otherwise, it extracts an integer value from a secondary offset within the operand structure. It then checks the VM state object's current count at offset +0xA60: if it has reached or exceeded 16 (0x10), or if the extracted integer is negative or greater than or equal to the array limit stored at offset +0x90, it fails and returns an invalid result status (writing 1 and -1 to the output structure). If bounds checks pass, it increments the count at +0xA60, calculates an index into an array of structures starting at +0x9A0 (each entry being 12 bytes: 3 dwords or similar layout), populates the entry with flags and the extracted integer value, and writes success indicators to the output status struct.",
+  "parameters": [
+    {
+      "name": "pVMState",
+      "location": "ecx",
+      "type": "void*",
+      "description": "Pointer to the virtual machine state or context structure."
+    },
+    {
+      "name": "pArg1",
+      "location": "[esp+4]",
+      "type": "void*",
+      "description": "First operand or parameter structure pointer."
+    },
+    {
+      "name": "count",
+      "location": "[esp+8]",
+      "type": "int",
+      "description": "Count or secondary argument (unused or context-dependent)."
+    },
+    {
+      "name": "pResultStruct",
+      "location": "[esp+0C]",
+      "type": "void*",
+      "description": "Pointer to an output structure receiving the operation status and index/handle."
+    }
+  ],
+  "return_value": "none",
+  "side_effects": [
+    "Modifies VM state fields including the count at +0xA60 and array entries starting at +0x9A0",
+    "Writes result status and index/handle to the output structure passed in pResultStruct"
+  ],
+  "data_structures": [
+    "VMState: +0x90 int max_limit, +0xA60 int active_count, +0x9A0 array of items (12 bytes each: +0 flag, +1 byte value, etc.)",
+    "Operand: +0 type, +4 value or nested pointer"
+  ],
+  "confidence": "high | medium confidence based on consistent bytecode/VM handler patterns and field usage."
+}

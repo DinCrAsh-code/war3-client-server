@@ -1,0 +1,8 @@
+{
+  "function_role": "Evaluates an entity or waypoint structure (passed via edi) by iterating through an array of up to 4 references, checking global resource/game state tables, computing spatial distances, and conditionally triggering state transition or reset routines.",
+  "callsite_summaries": {
+    "0x004081B0": "Called with `eax` set to `edi` (the current structure pointer) when a validation check fails or when an entity state condition is met. Specifically, it is invoked either during the loop when a distance threshold comparison triggers an early exit path, or after completing the loop successfully if `var_11` is zero and a zero-comparison check passes. It acts as a primary state-clearing, reset, or deactivation handler for the entity/element.",
+    "0x00407FE0": "Called with `eax` set to `edi` and a constant argument `1` pushed onto the stack. This is invoked conditionally at the very end of the function only if the entity passes all 4 reference checks, distance/threshold evaluations, has a non-zero `var_11` flag, and the caller's parent structure at `[ecx+1B4h]` has a non-zero byte flag. It appears to perform a successful activation, trigger, or completion routine for the element."
+  },
+  "fallbacks": []
+}

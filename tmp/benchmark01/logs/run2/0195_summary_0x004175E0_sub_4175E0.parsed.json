@@ -1,0 +1,33 @@
+{
+  "parsed_ok": true,
+  "suggested_name": "InsertIntoSpatialGrid",
+  "prototype": "void __fastcall InsertIntoSpatialGrid(void *entityStruct, int *gridArray)",
+  "short_summary": "Calculates the grid cell index for an entity using its 2D coordinates and inserts it into a linked list at that cell position in a spatial hash grid.",
+  "detailed_summary": "The function evaluates the entity's position by calling sub_417410 (CalculateGridIndex) using two floating-point values located at [esi+8] and [esi+12]. It stores the resulting grid index at [esi+248h] and clears a status or pointer field at [esi+244h]. It then accesses a grid bucket array pointed to by ebx using the grid index as a scaled lookup, retrieves the current head of the linked list at that bucket, and stores it in [esi+240h]. If an existing entity is present at the head of the bucket, its back-pointer at offset +0x244h is updated to point to the current entity (esi). Finally, the current entity is set as the new head of the grid bucket array at [ebx + index * 4].",
+  "parameters": [
+    {
+      "name": "entityStruct",
+      "location": "esi",
+      "type": "void*",
+      "data_type": "struct Entity*",
+      "description": "Pointer to the entity structure being registered or updated in the grid, containing coordinate data starting at offset +8."
+    },
+    {
+      "name": "gridArray",
+      "location": "ebx",
+      "type": "int*",
+      "data_type": "struct Entity**",
+      "description": "Pointer to the base of the grid lookup table / bucket array."
+    }
+  ],
+  "return_value": "none",
+  "side_effects": [
+    "Updates entity fields at offsets +0x240h, +0x244h, and +0x248h",
+    "Modifies the linked list head in the grid bucket array at [ebx + index * 4]",
+    "Updates the previous/next links of neighboring entities in the spatial grid bucket"
+  ],
+  "data_structures": [
+    "Entity: +0x8 float posX, +0xC float posY, +0x240h Entity *next, +0x244h Entity *prev, +0x248h int gridIndex"
+  ],
+  "confidence": "high | the function clearly implements a standard singly- or doubly-linked list bucket insertion using a spatial grid index calculated from entity coordinates."
+}

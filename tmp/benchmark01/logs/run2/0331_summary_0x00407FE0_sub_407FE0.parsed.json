@@ -1,0 +1,32 @@
+{
+  "parsed_ok": true,
+  "suggested_name": "CheckOrActivateReferences",
+  "prototype": "void __fastcall CheckOrActivateReferences(void* this_ptr, void* edx_unused, int flag)",
+  "short_summary": "Iterates through an array of up to 4 resource handles/references stored in the object, validates their global state and flags, and conditionally either registers/activates them or updates a sub-object's completion state.",
+  "detailed_summary": "The function operates on a structure passed via `eax` (acting as `this_ptr`), adjusting it by an offset of +0x0C to access an array of 4 reference entries. It loops 4 times, reading each reference handle (`ecx`). It unpacks a global resource lookup table from `dword_42AC60`, validates that the reference index and sequence number match the global table entry, and ensures the referenced object (`ebx`) is valid with its state byte `[ebx+1A]` equal to 1 and bit 0 of `[ebx+18]` cleared (not set). Depending on the `flag` argument passed on the stack: if non-zero, it calls `ResourceObject::ActivateOrRegisterReference` with type ID 0x0C; if zero, it traverses a linked list starting at `[ebx+20Ch]`, looking for a node matching specific criteria (byte `[eax+0Ch] == 0Ch` and byte `[eax+0Eh] == 0`), and sets byte `[eax+0Eh] = 1` once found.",
+  "parameters": [
+    {
+      "name": "this_ptr",
+      "location": "eax",
+      "type": "void*",
+      "description": "Pointer to the parent structure containing the reference array at offset +0x0C."
+    },
+    {
+      "name": "flag",
+      "location": "stack [esp+4]",
+      "type": "int",
+      "description": "Boolean or mode flag determining whether to activate/register the resource or update sub-object states."
+    }
+  ],
+  "return_value": "none",
+  "side_effects": [
+    "May call ResourceObject::ActivateOrRegisterReference to register or activate a resource object.",
+    "Modifies sub-object state flags (e.g., setting `[eax+0Eh] = 1`) during the traversal if `flag` is zero."
+  ],
+  "data_structures": [
+    "Parent struct: +0x0C contains an array of 4 reference handles (4 bytes each).",
+    "Reference object (`ebx`): +0x18 flags, +0x1A state byte, +0x20Ch pointer to a linked list/sub-object hierarchy.",
+    "Sub-object node: +0x0C type/ID byte, +0x0E status/flag byte, +0x1C next pointer."
+  ],
+  "confidence": "high | Based on clear structure iteration patterns, well-understood global resource lookups, and the call to ResourceObject::ActivateOrRegisterReference."
+}

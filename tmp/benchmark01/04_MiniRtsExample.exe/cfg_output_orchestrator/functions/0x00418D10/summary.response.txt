@@ -1,0 +1,30 @@
+{
+  "suggests_name": "StreamReadBits",
+  "suggested_name": "StreamReadBits",
+  "prototype": "unsigned int __cdecl StreamReadBits(StreamContext *stream, int numBits)",
+  "short_summary": "Reads a variable number of bits (up to 32) from a bitstream context, advancing the read position and handling end-of-stream bounds.",
+  "detailed_summary": "The function reads `edi` bits (passed in `edi`, representing `numBits`) from a custom stream structure passed in `ebx`. It first checks if the current bit offset (`[ebx+8] + edi`) exceeds the total available capacity (`[ebx+4] * 8`). If out of bounds, it clamps the bit pointer to the end, sets an error/EOF flag at `[ebx+0Ch]`, and returns 0. Otherwise, it loops `edi` times, extracting individual bits from a byte buffer located at `[ebx]`. Each bit is shifted into its corresponding position in a local accumulator variable (`var_4`), after which the stream's bit position pointer (`[ebx+8]`) is advanced by `edi` bits, and the accumulated integer value is returned.",
+  "parameters": [
+    {
+      "name": "stream",
+      "location": "ebx",
+      "type": "StreamContext*",
+      "description": "Pointer to the stream context structure containing buffer pointer, size, and current bit position."
+    },
+    {
+      "name": "numBits",
+      "location": "edi",
+      "type": "int",
+      "description": "Number of bits to read from the stream (typically 1 to 32)."
+    }
+  ],
+  "return_value": "unsigned int returned in eax, containing the bits read from the stream (or 0 on EOF/overflow).",
+  "side_effects": [
+    "Modifies the stream read position at [ebx+8]",
+    "May set an error or EOF flag at byte [ebx+0Ch]"
+  ],
+  "data_structures": [
+    "StreamContext: +0x0 void* buffer, +0x4 int sizeInBytes, +0x8 int currentBitOffset, +0x0C char errorOrEofFlag"
+  ],
+  "confidence": "high | The bit-manipulation logic (div/mod 8 via shr 3 and and 7) combined with buffer bounds checks clearly implements a bitstream reader."
+}

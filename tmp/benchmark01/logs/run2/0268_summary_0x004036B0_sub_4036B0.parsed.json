@@ -1,0 +1,26 @@
+{
+  "parsed_ok": true,
+  "suggested_name": "UpdateSimulationGridRegions",
+  "prototype": "void __fastcall UpdateSimulationGridRegions(void *resourceBlock)",
+  "short_summary": "Iterates through sub-components and grid regions in the simulation resource structure, clearing flags and conditionally invoking grid region updates.",
+  "detailed_summary": "The function operates on a large resource/state block passed via the `esi` register. It first checks a count at `[esi+5BBBCh]`. If greater than zero, it loops through that many entries, advancing an internal base pointer (`ebp`) by 0x2400 bytes each iteration and clearing bit 0 (clearing the lowest bit via `and byte ptr [eax+ebp], 0FEh`) across a 2400-byte block. It then iterates through an item list of size `[esi+57390h]` stored at `[esi+5738Ch]`. For each item, it performs bitwise checks on flags at offset +0x18, verifies an index at offset +0x1B is within bounds (<= 5), and checks a bitmask at `[esi+0E8h]` using a shift derived from that index. If conditions pass, it extracts parameters from the item's sub-structure and invokes `sub_417B50 [ProcessGridRegionAction]` to update the grid region.",
+  "parameters": [
+    {
+      "name": "resourceBlock",
+      "location": "esi",
+      "type": "void *",
+      "dt": "Pointer to the main simulation resource structure.",
+      "description": "Pointer to the main resource block containing grid data, item lists, and configuration flags."
+    }
+  ],
+  "return_value": "none",
+  "side_effects": [
+    "Modifies memory blocks within the resource structure including grid region buffers (+0x44680 onwards).",
+    "Calls ProcessGridRegionAction for valid simulation items."
+  ],
+  "data_structures": [
+    "Resource structure: +0x0E8 bitmask, +0x5738C item array pointer, +0x57390 item count, +0x5BBBC loop/count limit, +0x44680 grid region data block.",
+    "Item structure: +0x18 flags, +0x1B type/index byte, +0x1C nested data pointer."
+  ],
+  "confidence": "high based on clear loop structures, field offsets, and interaction with ProcessGridRegionAction"
+}

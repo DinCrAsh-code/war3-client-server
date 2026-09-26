@@ -1,0 +1,53 @@
+{
+  "parsed_ok": true,
+  "suggested_name": "InitializeRecord",
+  "prototype": "void __fastcall InitializeRecord(void *this_ptr, void *edx_unused, unsigned char arg_0, unsigned char arg_4, const void *arg_8)",
+  "short_summary": "Initializes a structured configuration record in a state buffer by setting field bytes, zeroing blocks with memset, computing a bit shift value, and copying pointers from an input structure.",
+  "detailed_summary": "The function takes an object or buffer pointer in `esi` (using a custom fastcall convention along with `bl`, `dl`), copies input bytes `arg_0` and `arg_4` (and `dl`, `bl`) into specific header offsets of the structure, zeroes out multiple internal block regions using `memset`, resets several 32-bit fields to zero, computes a bitmask or shift value (`1 << bl`) stored at offset 0xE8, and copies pointers from a supplied source structure pointer (`arg_8`) into offsets 0xEC and 0xF0.",
+  "parameters": [
+    {
+      "name": "this_ptr",
+      "location": "esi",
+      "type": "void *",
+      "description": "Pointer to the main structure/record being initialized."
+    },
+    {
+      "name": "param_bl",
+      "location": "bl",
+      "type": "unsigned char",
+      "description": "Used as a byte value for the record and a shift count for a bitmask."
+    },
+    {
+      "name": "param_dl",
+      "location": "dl",
+      "type": "unsigned char",
+      "description": "Used as a byte value written to offset +3."
+    },
+    {
+      "name": "arg_0",
+      "location": "esp+4",
+      "type": "unsigned char",
+      "description": "Byte value written to offset +1."
+    },
+    {
+      "name": "arg_4",
+      "location": "esp+8",
+      "type": "unsigned char",
+      "description": "Byte value written to offset +2."
+    },
+    {
+      "name": "arg_8",
+      "location": "esp+C",
+      "type": "const void *",
+      "description": "Source structure/data pointer providing values for offsets 0xEC and 0xF0."
+    }
+  ],
+  "return_value": "none",
+  "side_effects": [
+    "Modifies the memory structure pointed to by esi, including calls to memset."
+  ],
+  "data_structures": [
+    "Record structure: +0x0 byte bl, +0x1 byte arg_0, +0x2 byte arg_4, +0x3 byte dl, +0x4-0x13 zeroed fields, +0x14-0x75 memset buffer (0x62 bytes), +0x76-0xD7 memset buffer (0x62 bytes), +0xD8-+0xE4 zeroed dwords, +0xE8 bitshift value (1 << bl), +0xEC dword from [ebp+0], +0xF0 dword from [ebp+4], +0xF4-+0x104 zeroed dwords."
+  ],
+  "confidence": "high | complete disassembly mapping and clear custom calling conventions verified via caller context"
+}

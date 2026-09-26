@@ -1,0 +1,31 @@
+{
+  "parsed_ok": true,
+  "suggested_name": "RtsManager::UpgradeComponent",
+  "prototype": "bool __fastcall RtsManager::UpgradeComponent(void *this_ebx, int edx_unused, int componentIndex_eax)",
+  "short_summary": "Validates and advances a specific component level within an RTS manager object, optionally instantiating or updating the underlying component instance via the component factory.",
+  "detailed_summary": "The function first validates the provided component index (passed in `eax`, must be <= 2) and checks resource/availability limits on the manager structure (`ebx`). It checks state flags and ensures a level progression limit is not exceeded. If valid, it increments the component's level counter at `[ebx + edi + 0x260]` and decrements a resource counter at `[ebx + 0x258]`. It then searches through an array of existing component pointers at `[ebx + 0x210]` to find one matching a type identifier stored in a lookup structure. If an existing component is found, its level property at offset `0x11` is updated. If not found and the count of active components is below 5, it calls `RtsComponentFactory_Create` to instantiate a new component object, stores it in the array, updates the active count at `[ebx + 0x5E]`, and invokes a virtual method on the newly created object. Finally, it sets a status bit (`0x400`) in the manager's flags word at `[ebx + 0x18]` and returns `true` on success, or `false` if validation fails.",
+  "parameters": [
+    {
+      "name": "this",
+      "location": "ecx",
+      "type": "void*",
+      "description": "Pointer to the RTS manager object"
+    },
+    {
+      "name": "componentIndex",
+      "location": "eax",
+      "type": "int",
+      "description": "The index/type of the component being upgraded (0 to 2)"
+    }
+  ],
+  "return_value": "bool (1 in al on success, 0 on failure)",
+  "side_effects": [
+    "Modifies component levels, resource counts, and component pointers within the manager structure",
+    "Allocates new sub-components using RtsComponentFactory_Create when upgrading a component type for the first time",
+    "Updates manager status flags at [ebx + 0x18]"
+  ],
+  "data_structures": [
+    "RtsManager: +0x18 word flags, +0x5E byte activeComponentCount, +0x210 array of component pointers, +0x24C pointer to data/config table, +0x258 resource counter, +0x260 component level array"
+  ],
+  "confidence": "high | complete disassembly available and high-level RTS architecture clearly maps out structure field meanings"
+}

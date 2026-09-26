@@ -1,0 +1,33 @@
+{
+  "suggested_name": "ResourceBuffer_FlushOrWritePacket",
+  "prototype": "void __fastcall ResourceBuffer_FlushOrWritePacket(void *edi_resource_substruct, int param_unused, int src_value)",
+  "short_summary": "Serializes a 1-bit header, copies data into a buffered region with alignment calculation, conditionally flushes via a packet-writing helper if a flag is active, and resets the underlying buffer state via memset.",
+  "detailed_summary": "The function begins by calling sub_418AA0 [BitStream_WriteBits] to write a single 1-bit flag (value 0) into a bitstream located at [edi + 2824h]. It then computes a byte-aligned or adjusted destination offset using bit-twiddling and multiplication on the provided source size (`[esp+Src]`, adjusted by +2), copying source data into an internal buffer (`[edi + 2024h]`) via `memcpy`. If a condition check at `[edi + 2834h]` is positive (greater than 0), it calls sub_408FE0 [WriteBufferPacket] to transmit the accumulated packet using a base context pointer from `[edi]`. Finally, it resets the internal buffer via `memset` (clearing a region of size 0x800 starting at `[edi + 2024h]`), updates associated buffer descriptor fields within `[edi + 2824h]`, clears the flag at `[edi + 2834h]`, and returns, cleaning up 4 bytes of stack parameters via `retn 4`.",
+  "parameters": [
+    {
+      "name": "edi_resource_substruct",
+      "location": "edi",
+      "type": "void *",
+      "data_type": "void *",
+      "description": "Pointer to a resource sub-structure containing buffer descriptors and state flags."
+    },
+    {
+      "name": "src_value",
+      "location": "[esp+0Ch+Src] / stack",
+      "type": "int",
+      "data_type": "int",
+      "description": "A size or value parameter passed from the caller, incremented by 2 internally."
+    }
+  ],
+  "return_value": "none",
+  "side_effects": [
+    "Writes bits to the bitstream at [edi + 2824h]",
+    "Copies data into internal buffer at [edi + 2024h] using memcpy",
+    "Conditionally calls WriteBufferPacket based on [edi + 2834h]",
+    "Resets internal buffer memory using memset and clears [edi + 2834h]"
+  ],
+  "data_structures": [
+    "ResourceSubStruct: +0x0 ptr packet context, +0x2024h buffer [0x800 bytes], +0x2824h bitstream / buffer descriptor, +0x2834h int send/flush flag"
+  ],
+  "confidence": "high based on clear register usage, direct callees, and structural offsets matching caller expectations"
+}

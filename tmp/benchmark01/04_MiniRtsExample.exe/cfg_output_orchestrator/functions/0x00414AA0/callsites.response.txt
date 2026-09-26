@@ -1,0 +1,9 @@
+{
+  "function_role": "Performs scaling, floating-to-integer conversion using SSE, and bounds-clamping (between 0 and 95) on coordinate or dimension values within layout/graphics property calculations.",
+  "callsites": [
+    {
+      "callee": "0x0041A160",
+      "callsite_summary": "Converts a floating-point calculation result (after multiplying a float from the FPU stack by a constant scaling factor at 0x0041D960) into a signed 32-bit integer. The resulting integer is subsequently used for comparison, bounds-checking against 0 and 95 (0x5F), and as a clamped index or coordinate output."
+    }
+  ]
+}

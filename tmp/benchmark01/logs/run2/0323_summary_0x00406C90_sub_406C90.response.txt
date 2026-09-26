@@ -1,0 +1,23 @@
+{
+  "suggested_name": "ProcessEntityCommandBatchOrSpatialQuery",
+  "prototype": "void __stdcall ProcessEntityCommandBatchOrSpatialQuery(void *entity)",
+  "short_summary": "Inspects an entity's sub-collection of pointers, serializes command batches via SerializeCommandBatch based on internal item flags and counts, and performs a spatial grid query using SpatialGridQueryEntities to process nearby targets.",
+  "detailed_summary": "The function performs a series of checks and operations on a given entity structure. First, it tests spatial or type conditions using floating-point comparisons against constants in .rdata, verifying that the entity is not in a specific state ([ebp+0Ch] != 3). It then iterates up to [ebp+3C8h] times over a sub-collection starting at offset +0x248, inspecting entity pointers. Depending on status flags (bit 0x10 and bit 0x4000 in offset +0x1C) and internal counters, items are categorized into local arrays (command batches). If enough items are collected, it invokes SerializeCommandBatch. Next, if sufficient secondary command targets exist, it calculates the entity's centroid using CalculateEntityCentroidOrAverage and queries a spatial grid via SpatialGridQueryEntities to find nearby entities. It loops through the resulting query hits, performs conditional validation, and issues a final command batch serialization via SerializeCommandBatch.",
+  "parameters": [
+    {
+      "name": "entity",
+      "location": "[esp+0E8h]",
+      "type": "void *",
+      "description": "Pointer to the main simulation or entity object being processed."
+    }
+  ],
+  "return_value": "none",
+  "side_effects": [
+    "Serializes command packets via SerializeCommandBatch",
+    "Queries the spatial grid via SpatialGridQueryEntities"
+  ],
+  "data_structures": [
+    "Entity: +0x0 vtable/ptr, +0x0Ch state/type flag, +0x34 command metadata, +0x248 sub-collection array, +0x3C8 item count"
+  ],
+  "confidence": "high | clean disassembly with well-understood caller/callee context and standard MSVC calling conventions."
+}

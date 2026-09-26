@@ -1,0 +1,9 @@
+{
+  "function_role": "Serializes and packs structured command/packet data into a bitstream buffer using a state-tracking context (passed in esi) and a parameter/configuration source structure (passed in ebp).",
+  "callsite_summaries": {
+    "0x00418AA0": "Called multiple times to write initial header fields or primitive values from the parameter structure (bytes from ebp) into the serialization stream, passing values and size/type specifiers via stack arguments with the context pointer in esi.",
+    "0x00418B10": "Called to write integer or bit-length fields (such as calculated bounds or word values from the parameter structure) into the serialization stream, receiving the context pointer in eax/esi and value in ecx.",
+    "0x00418C80": "Called conditionally based on bit flags in the parameter structure, passing the serialization context pointer (esi) alongside floating-point values to serialize extended attributes or coordinate data."
+  },
+  "fallbacks": []
+}

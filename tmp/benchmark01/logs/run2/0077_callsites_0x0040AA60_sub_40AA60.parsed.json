@@ -1,0 +1,7 @@
+{
+  "function_role": "Executes a specific script/bytecode virtual machine instruction handler (dispatched via vtable slot 16), validating operand types and global state before performing math or transformation operations and writing out status/result structures.",
+  "callsite_summaries": {
+    "0x0040DAC0": "Called after setting up a local parameter block on the stack (including floating-point conversions and retrieved attributes) to execute a core computation or subsystem routine, with its status/return value used to populate the output status structure."
+  },
+  "fallbacks": []
+}

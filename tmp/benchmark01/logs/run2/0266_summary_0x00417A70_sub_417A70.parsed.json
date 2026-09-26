@@ -1,0 +1,57 @@
+{
+  "parsed_ok": true,
+  "suggested_name": "UpdateGridCellRegion",
+  "prototype": "void __cdecl UpdateGridCellRegion(void *gridBlock, float param1, float param2, float param3, float param4, int count, int limit)",
+  "short_summary": "Performs bounds-checked modifications and lookups on a 2D grid/terrain array (96x96 space) based on floating-point coordinate transformations and loop parameters.",
+  "detailed_summary": "The function takes a grid-related data structure pointer and several parameters including floating-point coordinates and integer limits. It iterates a specified number of times (controlled by 'count'), using x87 FPU calculations and __ftol2_sse to compute 2D integer grid indices (esi and eax). It verifies that these indices fall within a 96x96 grid boundary ([0, 96)). For valid grid coordinates, it sets bits in a bitfield/flag byte within the grid cell structure (e.g., ORing by 3). If a condition flag (bl) is zero, it performs additional checks against structure offsets (such as comparing a byte at offset 0x9304 against arg_18 and checking bit 3 at offset 0xB704). If any check fails or bounds are exceeded, the loop terminates early or skips the update.",
+  "parameters": [
+    {
+      "name": "gridBlock",
+      "location": "[esp+4 + arg_0]",
+      "type": "void *",
+      "description": "Pointer to the base grid/terrain block structure."
+    },
+    {
+      "name": "param1",
+      "location": "x87 FPU stack / stack arguments",
+      "type": "float",
+      "description": "Floating-point coordinate or parameter used in grid transformation."
+    },
+    {
+      "name": "param2",
+      "location": "stack arguments",
+      "type": "float",
+      "description": "Floating-point coordinate or parameter."
+    },
+    {
+      "name": "param3",
+      "location": "stack arguments",
+      "type": "float",
+      "description": "Floating-point coordinate or parameter."
+    },
+    {
+      "name": "param4",
+      "location": "stack arguments",
+      "type": "float",
+      "description": "Floating-point coordinate or parameter."
+    },
+    {
+      "name": "count",
+      "location": "[esp+4 + arg_14]",
+      "type": "int",
+      "description": "Number of iterations for the inner grid processing loop."
+    },
+    {
+      "name": "limit",
+      "location": "[esp+4 + arg_18]",
+      "type": "int",
+      "description": "Threshold or limit value compared against grid cell data."
+    }
+  ],
+  "return_value": "none",
+  "side_effects": [
+    "Modifies grid cell flags and attributes within the passed grid structure based on calculated 96x96 grid coordinates."
+  ],
+  "data_structures": [],
+  "confidence": "medium, complex x87 floating-point instruction sequence makes exact parameter typing approximate, but grid bounds (0x60 = 96) and array indexing math are clear."
+}

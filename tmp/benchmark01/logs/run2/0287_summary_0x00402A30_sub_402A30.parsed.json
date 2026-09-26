@@ -1,0 +1,28 @@
+{
+  "parsed_ok": true,
+  "suggested_name": "FindEntityInRange",
+  "prototype": "void* __stdcall FindEntityInRange(float x, float y)",
+  "short_summary": "Iterates through a global list of entities, checks their active state, distance to a specified 2D coordinate, and grid/pathfinding constraints, returning the first matching entity pointer or NULL.",
+  "detailed_summary": "The function begins by retrieving a global manager/state pointer from `dword_42AC60`. It checks an entity count stored at `[ebp + 573B4h]`. If greater than zero, it loops through an array of entity pointers located at `[ebp + 573B0h]`. For each entity, it verifies that bit 0 of `byte ptr [entity + 18h]` is NOT set (checking an active/valid flag). It then calculates the squared 2D Euclidean distance from the input coordinates (`arg_0`, `arg_4`) to the entity's position, comparing it against a threshold radius (the FPU comparison sequence computes distance squared and tests it). If within range, it performs grid coordinate checks via a loop using lookup tables `dword_41D31C` and `dword_41D32C` combined with entity properties (`word ptr [entity + 1c]` scaled by 0x60). If all spatial/grid condition tests pass, it selects that entity, halts the iteration, and returns a pointer to it in `eax`. Otherwise, it completes the loop and returns `NULL`.",
+  "parameters": [
+    {
+      "name": "x",
+      "location": "[esp+0] / FPU stack",
+      "type": "float",
+      "description": "X coordinate to check distance against."
+    },
+    {
+      "name": "y",
+      "location": "[esp+4] / FPU stack",
+      "type": "float",
+      "description": "Y coordinate to check distance against."
+    }
+  ],
+  "return_value": "Pointer to the matched entity object (or NULL), returned in eax.",
+  "side_effects": [],
+  "data_structures": [
+    "Global Manager: +0x573B0 int entity_array_ptr, +0x573B4 int entity_count, +0xD124 grid/map data matrix",
+    "Entity Object: +0x18 byte flags (bit 0 = inactive/dead), +0x1C word grid/position index"
+  ],
+  "confidence": "high | Clear loops, spatial distance calculations, grid checks, and pointer array iteration typical of RTS entity management."
+}

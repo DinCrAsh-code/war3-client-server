@@ -1,0 +1,43 @@
+{
+  "parsed_ok": true,
+  "suggested_name": "Entity::ProcessTimedBehaviorsOrActions",
+  "prototype": "bool __fastcall Entity::ProcessTimedBehaviorsOrActions(void *pEntity)",
+  "short_summary": "Iterates through a configuration-driven sequence of state actions or behavior frames for an entity, using Entity::ProcessStateTransitionOrAction, and updates timing counters or loop indices upon success or special termination conditions.",
+  "detailed_summary": "The function begins by computing a table offset using the entity's data at `[ebp+0]` multiplied by itself, offset by a global value `d_42AC60`, to select between two configuration tables in `.rdata` (`unk_41CCC0` or `unk_41CD70`). It determines a loop count (`edi`) and a limit or secondary threshold based on configuration bytes. It then enters a loop running up to `edi` iterations. In each iteration, it fetches an entry from the configuration array, conditionally checks command/action attributes using calculated offsets from `0x41B178`, and invokes `Entity::ProcessStateTransitionOrAction` (`sub_404EA0`). If the action handler returns true, it advances to the next entry (`esi++`, `ebx += 4`). If a specific configuration byte indicates a special condition (value 6) and an internal counter (`[ebp+8]`) is less than 0x14, it increments that counter and exits early. Otherwise, it updates the entity's state progress counter at `[ebp+4]` and returns whether all actions succeeded or the sequence completed.",
+  "parameters": [
+    {
+      "name": "pEntity",
+      "location": "[esp+8]",
+      "type": "void *",
+      "description": "Pointer to the entity structure being processed."
+    }
+  ],
+  "return_value": "bool in al / eax (true if processing completed successfully or advanced, false otherwise)",
+  "side_effects": [
+    "Modifies entity fields at offset +0x4 and +0x8 (progress counters/timers).",
+    "Invokes Entity::ProcessStateTransitionOrAction which updates entity state and flags."
+  ],
+  "data_structures": [
+    {
+      "name": "Entity",
+      "fields": [
+        {
+          "offset": "+0x0",
+          "type": "int",
+          "description": "Index or identifier used for configuration table selection."
+        },
+        {
+          "offset": "+0x4",
+          "type": "int",
+          "description": "Progress counter or iteration index updated upon completion/failure."
+        },
+        {
+          "offset": "+0x8",
+          "type": "int",
+          "description": "Timer or state count incremented under specific condition bytes."
+        }
+      ]
+    }
+  ],
+  "confidence": "high | well-structured control flow matching entity update subsystems"
+}

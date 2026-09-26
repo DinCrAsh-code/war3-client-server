@@ -1,0 +1,7 @@
+{
+  "function_role": "Compresses input data using a sliding-window or dictionary-based compression scheme (reminiscent of Lempel-Ziv / LZ77 or similar formats), populating lookup tables at 0x422C60 and 0x426C60 and writing compressed output bytes to 0x41F3D8.",
+  "callsite_summaries": {
+    "0x00418EC0": "Called within a compression loop (iterating while esi < edi) to check for a match or find a sequence length/token for the current input position. Passes the input stream pointer/state in edx and edi, current index esi, and a pointer to a local variable output/length storage on the stack. The return value in eax is tested to determine whether a matched sequence or literal byte path should be taken."
+  },
+  "fallbacks": []
+}

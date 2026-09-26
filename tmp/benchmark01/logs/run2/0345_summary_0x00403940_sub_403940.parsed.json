@@ -1,0 +1,55 @@
+{
+  "parsed_ok": true,
+  "suggested_name": "ComputeResourceChecksum",
+  "prototype": "unsigned int __cdecl ComputeResourceChecksum(void *resourceBlock)",
+  "short_summary": "Computes a rolling hash or checksum of a large resource structure, incorporating various integer and floating-point fields across multiple sub-blocks and a dynamic entity array.",
+  "detailed_summary": "The function initializes an accumulator using base fields from the resource structure (offsets 0x5BBC0 and 0x51EF8/0x51EFC) and processes them through a repeating mix of multiplications, bit rotations, and XOR operations combined with a magic constant (0x19AB949C). It then loops twice (esi = 2) over a block of fields starting near offset +8, hashing multiple dword values at specific offsets (such as +0x104, +0x108, +0x10C, +0x20C, +0x210, +0x214) with the same hashing mix. Afterward, if the count at offset +0x57390 is greater than zero, it iterates through an array of pointers located at +0x5738C. For each entry, it loads floating-point values from the pointed-to object, manipulates the FPU control word (setting rounding/precision flags via fnstcw/fldcw), converts the floats to integers using fistp, and incorporates them into the rolling checksum along with byte fields at offsets +0x5C and +0x70. The final mixed hash value is returned in eax.",
+  "parameters": [
+    {
+      "name": "resourceBlock",
+      "location": "eax",
+      "type": "void *",
+      "description": "Pointer to the main resource block containing internal configuration values and a dynamic entity/sub-object list."
+    }
+  ],
+  "return_value": "unsigned int in eax representing the computed checksum/hash value.",
+  "side_effects": [],
+  "data_structures": [
+    {
+      "name": "ResourceBlock",
+      "offsets": [
+        {
+          "offset": "+0x8",
+          "type": "uint32_t[]",
+          "description": "Start of fields hashed in the primary loop."
+        },
+        {
+          "offset": "+0x51EF8",
+          "type": "uint32_t",
+          "description": "Hash seed/input component."
+        },
+        {
+          "offset": "+0x51EFC",
+          "type": "uint32_t",
+          "description": "Hash multiplier/input component."
+        },
+        {
+          "offset": "+0x5BBC0",
+          "type": "uint32_t",
+          "description": "Initial hash factor."
+        },
+        {
+          "offset": "+0x5738C",
+          "type": "void **",
+          "description": "Pointer to an array of sub-objects/entities."
+        },
+        {
+          "offset": "+0x57390",
+          "type": "int",
+          "description": "Count of sub-objects in the array at +0x5738C."
+        }
+      ]
+    }
+  ],
+  "confidence": "high, clear rolling hash algorithm structure processing specific struct offsets and floating-point conversions."
+}

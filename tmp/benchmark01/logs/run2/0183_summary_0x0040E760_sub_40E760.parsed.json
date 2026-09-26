@@ -1,0 +1,35 @@
+{
+  "parsed_ok": true,
+  "suggested_name": "RtsObject_InitializeDerivedType",
+  "prototype": "void* __fastcall RtsObject_InitializeDerivedType(void *obj, int type_index, int flags)",
+  "short_summary": "Initializes a specific derived RTS object instance, setting up its virtual table, searching a static lookup table to configure its type properties, and initializing internal state fields.",
+  "detailed_summary": "The function begins by calling RtsObject_InitializeBase to perform baseline initialization of the allocated object instance (setting up its vtable and basic sub-objects). It then installs a derived type-specific virtual table pointer (`off_41D374`) at the start of the object structure. Following this, it iterates through a static table starting at `asc_41BD00` (inspecting elements in 0x20-byte steps) to match a property against the passed `type_index` in `edi`. If a match is found, the matched index is scaled and used to retrieve specific configuration parameters; otherwise, fallback default values are used. Finally, it initializes various member fields offset in the object structure from `+0x24C` to `+0x278` to default states (such as zeroing counters, setting flags to 1, and clearing pointers/buffers), and returns the initialized object pointer in `eax`.",
+  "parameters": [
+    {
+      "name": "obj",
+      "location": "esi",
+      "type": "void*",
+      "description": "Pointer to the newly allocated RTS object structure being initialized."
+    },
+    {
+      "name": "type_index",
+      "location": "edi",
+      "type": "int",
+      "description": "Type index or identifier used to search the lookup table."
+    },
+    {
+      "name": "flags",
+      "location": "pushed on stack / arg_4",
+      "type": "int",
+      "description": "Flags passed through to RtsObject_InitializeBase."
+    }
+  ],
+  "return_value": "Returns the initialized object pointer in eax.",
+  "side_effects": [
+    "Initializes memory fields of the target object instance passed in esi."
+  ],
+  "data_structures": [
+    "RtsObjectDerived: +0x0 vtable (off_41D374), +0x24C int state/counter, +0x250 int flag, +0x254 int/ptr, +0x258 int flag, +0x260-0x278 zeroed/initialized fields."
+  ],
+  "confidence": "high, clear structure initialization logic following a base initializer call and static table lookup."
+}

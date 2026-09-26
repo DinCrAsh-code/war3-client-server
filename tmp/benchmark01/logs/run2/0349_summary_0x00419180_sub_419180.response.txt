@@ -1,0 +1,26 @@
+{
+  "suggested_name": "DecompressLZSS",
+  "prototype": "int __cdecl DecompressLZSS(const void *src, int srcSize)",
+  "short_summary": "Decompresses an LZSS-encoded data stream into a fixed 8KB global history buffer (`byte_42ACC8`), returning the decompressed size on success or 0 on error/overflow.",
+  "detailed_summary": "The function implements standard LZSS (Lempel-Ziv-Storer-Sachs) decompression, commonly used in games and file archiving (often related to LZRW or similar variants). It takes an input buffer pointer in `eax` and its size in `arg_0`. It maintains a sliding window / history buffer of 0x2000 (8192) bytes located at `byte_42ACC8`. The outer loop processes chunks of compressed data governed by an 8-bit flag byte read from the input stream. For each bit in the flag byte (from bit 0 to 7): if the bit is set, a literal byte is read directly from the input and copied into the history buffer. If the bit is cleared, a 16-bit offset/length match pair is read from the input; the offset and length define a back-reference into the already decoded history buffer, from which bytes are copied sequentially. Rigorous bounds checks are performed throughout to prevent buffer overruns on both the source input and the 8KB destination history buffer. If any bounds check fails, the function immediately halts and returns 0; otherwise, upon successful completion, it returns the total number of bytes written to the history buffer (`ebp`).",
+  "parameters": [
+    {
+      "name": "src",
+      "location": "eax",
+      "type": "const void *",
+      "description": "Pointer to the compressed source data buffer."
+    },
+    {
+      "name": "srcSize",
+      "location": "[esp+18h+arg_0]",
+      "type": "int",
+      "description": "Size of the compressed source data in bytes."
+    }
+  ],
+  "return_value": "Returns the total number of decompressed bytes stored in the history buffer in eax on success, or 0 on failure/buffer overflow.",
+  "side_effects": [
+    "Writes decompressed data into the global history buffer byte_42ACC8 (0x0042ACC8)."
+  ],
+  "data_structures": [],
+  "confidence": "high, matched standard LZSS sliding window decompression algorithm and signature structure."
+}

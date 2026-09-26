@@ -1,0 +1,34 @@
+{
+  "suggested_name": "CheckEntityPlacementOrActionCriteria",
+  "prototype": "bool __stdcall CheckEntityPlacementOrActionCriteria(void *pEntity, int arg_4, Vector2 *outPos)",
+  "short_summary": "Evaluates complex geometric, proximity, and grid placement/action criteria for an entity, checking surrounding entities and map grid regions before validating target coordinates.",
+  "detailed_summary": "The function begins by computing configuration parameters based on an input value/index from the entity state. It calls FindNearestValidEntityInRadius to locate the closest entity within a specified range. It then iterates through global entity lists and grid areas, testing validity flags, calculating Euclidean distances using _CIsqrt, and verifying grid cell passability criteria via CheckGridAction (sub_414CE0). Geometric projections and ray/segment intersections (via IntersectRaySegmentOrLine) are performed to test line-of-sight or boundary clearance. If all spatial, grid, and proximity conditions are satisfied, the resulting target 2D coordinates are written to the output buffer pointer passed as argument 3, and true is returned; otherwise, false (al == 0) is returned.",
+  "parameters": [
+    {
+      "name": "pEntity",
+      "location": "[ebp+8]",
+      "type": "void*",
+      "description": "Pointer to the entity structure being evaluated."
+    },
+    {
+      "name": "arg_4",
+      "location": "[ebp+0xC]",
+      "type": "int",
+      "description": "Flag or mode selector influencing proximity and intersection test branches."
+    },
+    {
+      "name": "outPos",
+      "location": "[ebp+0x10]",
+      "type": "Vector2*",
+      "description": "Pointer to a coordinate buffer where the resulting validated position is written upon success."
+    }
+  ],
+  "return_value": "Returns true (1 in al) if all placement/action criteria and spatial checks pass, storing the resulting position; false (0 in al) otherwise.",
+  "side_effects": [
+    "Writes validated 2D coordinates to the output buffer pointed to by arg_8 upon successful completion."
+  ],
+  "data_structures": [
+    "Entity: +0x18 flags/state byte, +0x1C status pointer/flags, +0x34 position/transform data, +0x38 index/type configuration"
+  ],
+  "confidence": "high | complete disassembly and caller context match spatial/grid validation routine"
+}

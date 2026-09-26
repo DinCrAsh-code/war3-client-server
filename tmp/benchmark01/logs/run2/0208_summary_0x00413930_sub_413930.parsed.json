@@ -1,0 +1,25 @@
+{
+  "parsed_ok": true,
+  "suggested_name": "CleanupSecondaryEntityOrResource",
+  "prototype": "void __fastcall CleanupSecondaryEntityOrResource(void *esi)",
+  "short_summary": "Cleans up a secondary entity or referenced resource associated with an object, decrementing a reference count if conditions are met and resetting state flags.",
+  "detailed_summary": "The function checks several conditions on the object passed in `esi`: if the handle/pointer at `esi+24h` is zero, or if the byte at `esi+1Ch` is zero, 4, or 5, it bypasses resource lookup and proceeds directly to resetting the state byte at `esi+1Ch` to zero. Otherwise, it calls LookupResourceOrHandle on the value at `esi+24h` to retrieve a referenced object. If that object is valid and its internal flags (at `eax+1Ch`, tested with 0x80) indicate active status, it checks the integer counter at `eax+2C4h`. If this counter is greater than zero, it decrements it by one. Finally, it clears the state byte at `esi+1Ch` to zero and returns.",
+  "parameters": [
+    {
+      "name": "entity",
+      "location": "esi",
+      "type": "void*",
+      "description": "Pointer to the primary entity/object being cleaned up"
+    }
+  ],
+  "return_value": "none",
+  "side_effects": [
+    "modifies the byte at [esi+1Ch]",
+    "decrements a reference/count field at [resource+2C4h] if positive"
+  ],
+  "data_structures": [
+    "Entity: +0x1C state byte, +0x24h resource handle/id",
+    "ManagedResource: +0x1C flags pointer/word, +0x2C4h reference count or counter"
+  ],
+  "confidence": "high | clear control flow and field interactions matched with caller context"
+}

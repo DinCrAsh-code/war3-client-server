@@ -1,0 +1,28 @@
+{
+  "parsed_ok": true,
+  "suggested_name": "FindNearestValidEntityInRadius",
+  "prototype": "void* __stdcall FindNearestValidEntityInRadius(float x, float y)",
+  "short_summary": "Iterates through a global list of entities, filtering by flags, health, and a squared distance radius, and returns a pointer to the closest matching entity (or null if none found).",
+  "detailed_summary": "The function retrieves a global manager structure from `dword_42AC60` which contains an array of entity pointers and a count. It accepts coordinates (or distance criteria) passed via stack/FPU arguments. It unrolls the entity processing loop in chunks of 4 (using a vectorized-like pattern over blocks of 4 pointers), followed by a cleanup loop for any remaining items. For each entity, it checks several criteria: whether a flag byte at offset +1Fh (or via pointer +1Ch) has bit 7 set, whether flag bits at +18h match specific mask criteria, and whether the integer at +28Ch (or +2B8h) is greater than zero (representing health or active state). If these checks pass, it computes the squared Euclidean distance from the target coordinates, compares it against a threshold or current minimum, and tracks the entity that meets the criteria with the closest distance.",
+  "parameters": [
+    {
+      "name": "y",
+      "location": "stack arg_0 (via ebp)",
+      "type": "float",
+      "description": "Target Y coordinate or search parameter"
+    },
+    {
+      "name": "x_or_radius",
+      "location": "FPU stack (st(0)) on entry",
+      "type": "float",
+      "description": "Target X coordinate or radius threshold"
+    }
+  ],
+  "return_value": "Pointer to the nearest matching entity object, or NULL (0) in eax",
+  "side_effects": [],
+  "data_structures": [
+    "Global Manager: +0x5738C entity array pointer, +0x57390 entity count",
+    "Entity Object: +0x18 flags/state, +0x1C status flags pointer/byte, +0x2B8 health/status counter"
+  ],
+  "confidence": "medium, based on standard spatial proximity search patterns over entity lists with health and flag checks"
+}

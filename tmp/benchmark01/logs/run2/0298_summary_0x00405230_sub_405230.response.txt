@@ -1,0 +1,29 @@
+{
+  "suggested_name": "CheckAndDispatchAction",
+  "prototype": "char __fastcall CheckAndDispatchAction(void *entity, void *edx_unused, int actionIndex)",
+  "short_summary": "Validates command cooldown timers, resource requirements, and target state for a specific action index, returning false if conditions fail or dispatching a command packet via DispatchCommandPacket and updating the cooldown timestamp on success.",
+  "detailed_summary": "The function first checks a global tick/time counter (from `dword_42AC60`) against a cooldown timestamp stored in the entity structure at `[edi + esi*4 + 10Ch]`. If less than 30 ticks (1Eh) have elapsed, it returns `0` (failure). Otherwise, it evaluates table-driven resource or cost requirements using configuration data from `.rdata` (`0x41CB18`, indexed by `esi`), verifying them against values in the entity structure. It then iterates through an array of objects (`[edi + 3E0h]`, count at `[edi + 4E0h]`) to find a valid target matching specific flags and state criteria (`[edx + 5Ch]`, bit `0x10` in `[edx + 18h]`, and state `>= 2` at `[edx + 29Ch]`). If a valid target is found, it calls `DispatchCommandPacket` to transmit the action packet, updates the cooldown timestamp in the entity for the action index, and returns `1` (success). If any check fails or no valid target is found, it aborts and returns `0`.",
+  "parameters": [
+    {
+      "name": "entity",
+      "location": "edi",
+      "type": "void*",
+      "description": "Pointer to the entity or object state structure."
+    },
+    {
+      "name": "actionIndex",
+      "location": "esi",
+      "type": "int",
+      "description": "The index of the command/action being validated and executed."
+    }
+  ],
+  "return_value": "char (1 for success/dispatched, 0 for failure), returned in al",
+  "side_effects": [
+    "Updates the action cooldown timestamp in the entity structure at [edi + esi*4 + 10Ch] on successful dispatch",
+    "Sends a network command packet by calling DispatchCommandPacket"
+  ],
+  "data_structures": [
+    "Entity: +0x10Ch action cooldown timestamps array (4 bytes per index), +0x3E0h pointer/array of target objects, +0x4E0h target count"
+  ],
+  "confidence": "high | standard reverse engineering based on register usage, memory offsets, and callee integration"
+}

@@ -1,0 +1,29 @@
+{
+  "parsed_ok": true,
+  "suggested_name": "IntersectRaySegmentOrLine",
+  "prototype": "Vector2* __fastcall IntersectRaySegmentOrLine(void *this, void *edx_buffer)",
+  "short_summary": "Performs a 2D geometric intersection or closest-point/projection calculation (likely between a ray/line segment and a point or other geometric primitive), populating a coordinate buffer and returning its pointer.",
+  "detailed_summary": "The function performs heavy floating-point arithmetic (x87 FPU) implementing a 2D geometric calculation such as a ray-segment intersection, line projection, or distance-based spatial query. It accesses input data via `ecx` and a buffer pointer passed in `edx`. Based on conditional checks (fcom / fnstsw / test ah, 5), it branches between alternative geometric handling paths (e.g., handling parallel lines, clamping parameters between 0 and 1 for segments, or computing intersection factors) before writing resulting coordinates into the `edx` buffer and returning `eax = edx`.",
+  "parameters": [
+    {
+      "name": "this_ptr",
+      "location": "ecx",
+      "type": "void*",
+      "description": "Pointer to an object containing geometric parameters (source points, direction vectors, or shape data)."
+    },
+    {
+      "name": "out_buffer",
+      "location": "edx",
+      "type": "Vector2*",
+      "description": "Pointer to a local stack or heap buffer where resulting 2D coordinates or intersection points are written."
+    }
+  ],
+  "return_value": "Returns the pointer to the output coordinate buffer in eax (equal to the input edx).",
+  "side_effects": [
+    "Writes computed 2D coordinate values into the buffer pointed to by edx."
+  ],
+  "data_structures": [
+    "Output Buffer: +0x0 float x, +0x4 float y"
+  ],
+  "confidence": "medium | heavy x87 floating-point math and conditional branching consistent with 2D geometry/intersection routines."
+}

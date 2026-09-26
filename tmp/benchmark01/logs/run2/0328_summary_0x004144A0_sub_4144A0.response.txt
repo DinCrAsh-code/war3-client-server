@@ -1,0 +1,28 @@
+{
+  "suggested_name": "InitializeSubtypeObject",
+  "prototype": "void __fastcall InitializeSubtypeObject(void *objectInstance, int typeId)",
+  "short_summary": "Initializes a newly allocated 32-byte object instance by setting its vtable, storing type/parameter identifiers, and initializing member fields based on input registers EAX, ECX, and ESI.",
+  "detailed_summary": "The function takes a pointer to a newly allocated object instance in EAX and an integer identifier/parameter in ECX. It initializes the object header by storing a default vtable pointer (`off_41D7D8`) at offset `+0` and zeroing out offset `+4`. It stores ECX at offset `+0Ch` and computes a lookup/lookup-table offset using a clamped/masked version of ECX combined with `byte_41C600`, storing the result at offset `+8`. Based on the value of ESI (clamped between 1 and 3), it calculates and stores a byte value at offset `+0Dh`. Finally, it clears bytes at offsets `+0Eh`, `+0Fh`, and double-words at `+18h` and `+1Ch` to zero.",
+  "parameters": [
+    {
+      "name": "objectInstance",
+      "location": "eax",
+      "type": "void *",
+      "description": "Pointer to the newly allocated 32-byte object to initialize"
+    },
+    {
+      "name": "typeId",
+      "location": "ecx",
+      "type": "int",
+      "description": "Identifier or parameter value used to configure type-specific fields"
+    }
+  ],
+  "return_value": "none",
+  "side_effects": [
+    "Initializes fields of the object instance passed in EAX"
+  ],
+  "data_structures": [
+    "Object instance: +0x0 vtable ptr, +0x4 int/ptr field, +0x8 int/ptr field, +0xC char typeId, +0xD char clampedSsi, +0xE char, +0xF char, +0x18 int, +0x1C int"
+  ],
+  "confidence": "high | clean disassembly with well-understood object initialization patterns"
+}

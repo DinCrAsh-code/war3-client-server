@@ -1,0 +1,24 @@
+{
+  "suggested_name": "AllocateMemoryPoolBlock",
+  "prototype": "bool __fastcall AllocateMemoryPoolBlock(int bucket_index)",
+  "short_summary": "Allocates a large 64KB memory chunk via malloc, initializes a linked list of fixed-size sub-blocks within it for a specific pool bucket, and registers the new chunk with global tracking structures.",
+  "detailed_summary": "The function requests 64KB (0x10000 bytes) of heap memory using `malloc`. If the allocation fails, it immediately returns false (0). On success, it links the new block into a global block list (`Block` at 0x00422858) and increments a global counter (`dword_422854`). It uses an index passed via `esi` (the bucket index) to look up a size configuration from a read-only table (`word_41B150`), computes how many sub-blocks fit into the 64KB chunk, and links them together by modifying pointers within the newly allocated chunk, prepending them to the free-list array stored at `dword_422820`. Finally, it returns true (1) in `al` to indicate success.",
+  "parameters": [
+    {
+      "name": "bucket_index",
+      "location": "esi",
+      "type": "int",
+      "description": "Index of the memory pool bucket being expanded or populated."
+    }
+  ],
+  "return_value": "bool in al (1 for success, 0 for allocation failure)",
+  "side_effects": [
+    "Calls malloc to allocate 64KB of memory",
+    "Modifies global tracking variables at 0x00422854 and 0x00422858",
+    "Updates the free list head pointer for the specified bucket at 0x00422820[esi]"
+  ],
+  "data_structures": [
+    "MemoryChunk Header: +0x0 pointer to previous/next block, +0x4 bucket index"
+  ],
+  "confidence": "high, clear heap allocation, linked list traversal, and global table indexing pattern."
+}

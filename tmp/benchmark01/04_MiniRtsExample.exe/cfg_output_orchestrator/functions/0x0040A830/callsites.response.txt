@@ -1,0 +1,9 @@
+{
+  "function_role": "A virtual opcode handler (vtable slot 11) within a bytecode/script interpreter that extracts integer/float operands from a structure and updates a state array or data structure based on an indexed offset.",
+  "callsites": [
+    {
+      "callee": "0x0041A160",
+      "callsite_summary": "Called twice (at 0x0040A83E and 0x0040A858) when a type flag byte in an argument structure equals 2, converting a floating-point value loaded on the FPU stack into a 32-bit integer returned in EAX."
+    }
+  ]
+}

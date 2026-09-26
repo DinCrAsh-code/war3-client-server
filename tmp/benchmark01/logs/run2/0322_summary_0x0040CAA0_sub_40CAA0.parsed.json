@@ -1,0 +1,51 @@
+{
+  "parsed_ok": true,
+  "suggested_name": "ValidateAdvancedEntityMatch",
+  "prototype": "__thiscall bool ValidateAdvancedEntityMatch(const void *entity, const void *queryCriteria)",
+  "short_summary": "Evaluates whether an entity meets criteria and specific internal state/compatibility conditions to qualify for an interaction or query result.",
+  "detailed_summary": "The function first calls ValidateEntityCriteriaFilter to check if the entity matches the general query criteria. If it fails, it returns false. If it passes, it inspects several bitfields and flags on the entity structure: bit 0 of the byte at offset 0x18 must be set (inverted via NOT and tested with bitwise AND 1, implying bit 0 must be 0 originally or after negation), certain bits in the word at offset 0x18 (0x206) must be clear, and the byte at offset 0x60 must be zero. If all internal state checks pass, it extracts a pointer from the criteria structure ([edi]) and calls ValidateEntityPairCompatibility between the entity and the secondary entity/context pointer, returning the resulting boolean compatibility status.",
+  "parameters": [
+    {
+      "name": "entity",
+      "location": "esp+4 (arg_0)",
+      "type": "const void *",
+      "description": "The primary entity being evaluated."
+    },
+    {
+      "name": "queryCriteria",
+      "location": "esp+8 (arg_4)",
+      "type": "const void *",
+      "description": "The query criteria or context structure containing search parameters and associated data pointers."
+    }
+  ],
+  "return_value": "bool (in al), true if all criteria and compatibility checks pass, false otherwise.",
+  "side_effects": [],
+  "data_structures": [
+    {
+      "name": "Entity",
+      "fields": [
+        {
+          "offset": "0x18",
+          "type": "WORD / BYTE",
+          "description": "Flags and state bits tested against specific masks (bit 0 inverted, bits 0x206 must be 0)."
+        },
+        {
+          "offset": "0x60",
+          "type": "BYTE",
+          "description": "Status or type byte that must be zero."
+        }
+      ]
+    },
+    {
+      "name": "QueryCriteria",
+      "fields": [
+        {
+          "offset": "0x0",
+          "type": "void *",
+          "description": "Pointer to a secondary entity or context used for pair compatibility validation."
+        }
+      ]
+    }
+  ],
+  "confidence": "high | standard callback wrapper filtering based on entity criteria, internal state flags, and pair compatibility."
+}

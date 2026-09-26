@@ -1,0 +1,29 @@
+{
+  "suggested_name": "ResizeContainer",
+  "prototype": "void* __fastcall ResizeContainer(int capacity_hint, void *container_struct)",
+  "short_summary": "Resizes the underlying data array of a dynamic container structure, doubling or scaling capacity until it can satisfy a required minimum size hint.",
+  "detailed_summary": "The function calculates a new capacity for a dynamic container. It inspects the current capacity stored at `container_struct+8`. If it is zero, it initializes a default capacity of 16 (0x10); otherwise, it doubles the current capacity (`eax * 2`). It then enters a loop that continues doubling `ebx` until it is greater than or equal to the requested minimum capacity passed in `ecx`. Once the target capacity is determined, it calculates the new byte size (multiplying capacity by 8, implying elements are 8 bytes each) and calls ReallocateCustomBlock to resize the underlying data buffer at `container_struct+0`. Finally, it updates the container structure with the new buffer pointer and the new capacity value, and returns the new buffer pointer.",
+  "parameters": [
+    {
+      "name": "capacity_hint",
+      "location": "ecx",
+      "type": "size_t",
+      "description": "Minimum required capacity or size hint for the expansion."
+    },
+    {
+      "name": "container_struct",
+      "location": "[esp+8]",
+      "type": "void*",
+      "description": "Pointer to the container tracking structure."
+    }
+  ],
+  "return_value": "void* in eax, pointing to the reallocated buffer",
+  "side_effects": [
+    "Reallocates the memory buffer stored inside the container structure",
+    "Updates the buffer pointer and capacity fields within the container structure"
+  ],
+  "data_structures": [
+    "ContainerStruct: +0x0 void* data_ptr, +0x8 size_t capacity"
+  ],
+  "confidence": "high | matched container growth and reallocation pattern precisely based on disassembly and caller context"
+}

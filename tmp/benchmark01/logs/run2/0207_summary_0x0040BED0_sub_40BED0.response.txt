@@ -1,0 +1,27 @@
+{
+  "suggested_name": "FindResourceEntryByParam",
+  "prototype": "void* __fastcall FindResourceEntryByParam(void *esi, int edi)",
+  "short_summary": "Searches an array of pointers within a resource object at offset 0x210 to find an entry matching a specific property value (`edi`), returning the matching pointer or NULL.",
+  "detailed_summary": "The function reads a count from `byte ptr [esi+5Eh]`. If this count is less than or equal to zero, it immediately returns NULL (0). Otherwise, it loops through an array of pointers located at `esi + 0x210` up to `ecx` elements. For each element, it dereferences the pointer, reads a byte from offset 0x10 of the target structure (`[ebx+10h]`), and compares it against `edi`. If a match is found, it returns the pointer from the array (`[esi+eax*4+210h]`). If the loop finishes without finding a match, it returns NULL.",
+  "parameters": [
+    {
+      "name": "resourceObj",
+      "location": "esi",
+      "type": "void*",
+      "description": "Pointer to the main resource or entity object containing the array and count."
+    },
+    {
+      "name": "targetValue",
+      "location": "edi",
+      "type": "int",
+      "description": "Value to match against the byte field at offset 0x10 of each referenced sub-structure."
+    }
+  ],
+  "return_value": "Pointer to the matching sub-structure from the array, or NULL if no match is found, returned in eax.",
+  "side_effects": [],
+  "data_structures": [
+    "ResourceObject: +0x5E byte count, +0x210 pointer array",
+    "SubStructure: +0x10 byte property used for matching"
+  ],
+  "confidence": "high | clean, straightforward pointer array search loop with clear field references"
+}

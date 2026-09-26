@@ -1,0 +1,36 @@
+{
+  "suggested_name": "CalculateDistance",
+  "prototype": "double __cdecl CalculateDistance(float x1, float y1, float x2, float y2)",
+  "short_summary": "Computes the Euclidean distance between two 2D points (x1, y1) and (x2, y2).",
+  "detailed_summary": "The function calculates the Euclidean distance between two points by computing the square root of the sum of squared coordinate differences. It loads the coordinate values from the stack (or registers depending on calling convention), computes $(x_2 - x_1)^2 + (y_2 - y_1)^2$ using x87 FPU instructions, calls the square root routine `_CIsqrt`, and returns the final floating-point distance in st(0).",
+  "parameters": [
+    {
+      "name": "x1",
+      "location": "[esp+4]",
+      "type": "float",
+      "description": "X coordinate of the first point"
+    },
+    {
+      "name": "y1",
+      "location": "[esp+8]",
+      "type": "float",
+      "description": "Y coordinate of the first point"
+    },
+    {
+      "name": "x2",
+      "location": "[esp+12]",
+      "type": "float",
+      "description": "X coordinate of the second point"
+    },
+    {
+      "name": "y2",
+      "location": "[esp+16]",
+      "type": "float",
+      "description": "Y coordinate of the second point"
+    }
+  ],
+  "return_value": "st(0) (floating-point distance value)",
+  "side_effects": [],
+  "data_structures": [],
+  "confidence": "high, standard Euclidean distance formula implementation using x87 FPU and _CIsqrt."
+}

@@ -1,0 +1,7 @@
+{
+  "function_role": "Iterates over a nested resource/state buffer (running for a fixed count of 96 iterations across blocks) to perform heavy floating-point calculations, clamping, and conversion of computed values into quantized byte outputs stored back into the structure.",
+  "callsite_summaries": {
+    "0x0041A160": "Called inside the inner loop (executing 96 times total per invocation) to convert a floating-point result into a signed 32-bit integer, whose value is then clamped, adjusted, and stored into state arrays."
+  },
+  "fallbacks": []
+}

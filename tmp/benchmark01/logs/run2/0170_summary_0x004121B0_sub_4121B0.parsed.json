@@ -1,0 +1,42 @@
+{
+  "parsed_ok": true,
+  "suggested_name": "RtsComponent7_Constructor",
+  "prototype": "void* __fastcall RtsComponent7_Constructor(void *this, int edx, int ecx_id, char arg_0)",
+  "short_summary": "Initializes a newly allocated component object (case 7 in the factory dispatcher) using an ID index, a configuration byte argument, and a lookup table in read-only memory.",
+  "detailed_summary": "The function acts as a constructor or initializer for a specific sub-component type created by the factory dispatcher. It receives the object pointer in `eax`, a pointer/parameter in `edx`, an ID index in `ecx`, and an argument on the stack (`arg_0`). It sets up virtual table pointers at offset 0 (overwriting `off_41D464` with `off_41D568`), stores `edx` at offset `+8`, and performs clamping/clipping logic on `ecx` using conditional instructions (`cmp ecx, 18h`, `setnl`) and bitwise operations to compute an index into a global configuration array at `byte_41BDC0`. It then extracts a bitfield from the retrieved table entry by shifting and masking, storing various flags and bytes into fields at offsets `+10h`, `+11h`, `+12h`, and clearing offset `+13h`. Floating-point instructions (`fldz`, `fst`, `fstp`) are executed during the setup, likely as part of zeroing or initializing float fields or maintaining stack hygiene.",
+  "parameters": [
+    {
+      "name": "this",
+      "location": "eax",
+      "type": "void*",
+      "description": "Pointer to the newly allocated component memory block."
+    },
+    {
+      "name": "edx_param",
+      "location": "edx",
+      "type": "void*",
+      "description": "Auxiliary pointer or value stored into [eax+8]."
+    },
+    {
+      "name": "ecx_id",
+      "location": "ecx",
+      "type": "int",
+      "description": "Index or identifier used for lookup and range clipping."
+    },
+    {
+      "name": "arg_0",
+      "location": "[esp+4]",
+      "type": "char",
+      "description": "Configuration byte stored at [eax+11h]."
+    }
+  ],
+  "return_value": "none",
+  "side_effects": [
+    "Initializes the fields and virtual table of the object instance pointed to by eax",
+    "Reads from global configuration table byte_41BDC0"
+  ],
+  "data_structures": [
+    "ComponentObject: +0x0 vptr (set to off_41D568), +0x4 dword (set to 0), +0x8 dword (edx_param), +0x0C dword (pointer into byte_41BDC0), +0x10 byte (ecx id/clamped byte), +0x11 byte (arg_0), +0x12 byte (extracted flag from table entry), +0x13 byte (set to 0)"
+  ],
+  "confidence": "high | Disassembly is fully clear, matches caller context regarding factory case 7 initialization."
+}

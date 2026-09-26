@@ -1,0 +1,23 @@
+{
+  "parsed_ok": true,
+  "suggested_name": "UpdateEntitySelectionAndLists",
+  "prototype": "void __cdecl UpdateEntitySelectionAndLists(Entity *entityStruct)",
+  "short_summary": "Iterates through a global list of game units/entities, filtering and categorizing them into various sub-lists and tracking counts within the specified entity structure.",
+  "detailed_summary": "The function initializes several counters and list sizes within the passed entity structure (in eax) to zero. It then retrieves a global entity manager or collection pointer from `[0x0042AC60]` which contains a count (`+0x57390`) and an array of entity pointers (`+0x5738C`). It loops through each global entity, checking if its type byte (`[ecx+0x1B]`) matches the target identifier stored at `[eax]`. For matching entities, it inspects various flags, states, and subtypes (such as flags at offsets `+0x18`, `+0x1C`, and sub-struct values) to classify them. Depending on these flags, entities are added to distinct internal arrays/lists (such as selection/command queues at offsets `+0x144`, `+0x248`, `+0x3D0`, `+0x3E0`, and `+0x4E4`) up to specific capacity limits. Finally, if any entities were added to a specific category, it updates primary target or coordinate fields (`+0x34`, `+0x38`) using data from the first matched entity.",
+  "parameters": [
+    {
+      "name": "entityStruct",
+      "location": "eax",
+      "type": "Entity*",
+      "description": "Pointer to the main entity/selection structure being updated."
+    }
+  ],
+  "return_value": "none",
+  "side_effects": [
+    "Modifies fields and collection arrays within the Entity structure passed in eax"
+  ],
+  "data_structures": [
+    "Entity: +0x0 target type byte, +0x34 target/position X, +0x38 target/position Y, +0x144... entity pointer lists and counters"
+  ],
+  "confidence": "high, clear iteration pattern over global entity list with structured classification flags and array insertions."
+}

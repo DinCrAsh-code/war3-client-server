@@ -1,0 +1,13 @@
+{
+  "function_role": "Implements a virtual opcode handler (vtable slot 20) for the bytecode interpreter, processing script data structures by reading operand values, performing type checks or conversions, and invoking helper routines to compute a result stored into an output status structure.",
+  "callsites": [
+    {
+      "callee": "0x0041A160",
+      "callsite_summary": "Called as part of an inline helper or conversion sequence to convert a floating-point value on the x87 stack into an integer when a specific type tag condition is met in the script operand structure."
+    },
+    {
+      "callee": "0x004027A0",
+      "callsite_summary": "Called with parameters prepared from processed script operand values (including floating-point/integer conversions loaded onto the x87 stack and an integer code pushed on the stack) to perform a core operation, returning a pointer whose field is used to update the output status structure."
+    }
+  ]
+}

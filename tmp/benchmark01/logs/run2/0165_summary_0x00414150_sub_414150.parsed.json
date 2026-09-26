@@ -1,0 +1,35 @@
+{
+  "parsed_ok": true,
+  "suggested_name": "CComponentType2Factory_Constructor",
+  "prototype": "void* __fastcall sub_414150(void *this_ptr, void *edx_unused, int arg_ecx, int arg_0)",
+  "short_summary": "Initializes a specific component object (case 2 factory type) using configuration tables and a provided parameter index.",
+  "detailed_summary": "The function initializes a memory block passed in `eax` (acting as `this` pointer). It sets up virtual function table pointers (`off_41D464` then overwritten with `off_41D7A4`), stores the passed `edx` pointer at offset `+8`, and configures fields using values derived from `ecx` (clamped or masked against `18h`) and a byte array located at `0x0041BDC0`. It computes an indexed offset into the table `byte_41BDC0` using multiplication, extracts bit-level configuration flags from the table entry, stores them at specific offsets within the object structure, and clears or initializes remaining fields.",
+  "parameters": [
+    {
+      "name": "this_ptr",
+      "location": "eax",
+      "type": "void*",
+      "description": "Pointer to the newly allocated component memory block."
+    },
+    {
+      "name": "type_index",
+      "location": "ecx",
+      "type": "int",
+      "description": "Type or index identifier used for configuration and table lookup."
+    },
+    {
+      "name": "extra_arg",
+      "location": "[esp+4]",
+      "type": "unsigned char",
+      "description": "Additional context parameter stored into the object structure."
+    }
+  ],
+  "return_value": "none",
+  "side_effects": [
+    "Initializes the fields and virtual method table of the object instance pointed to by eax."
+  ],
+  "data_structures": [
+    "ComponentObject: +0x0 vtable pointer, +0x4 unknown/zero, +0x8 pointer, +0xC table entry pointer, +0x10 cl field, +0x11 extra_arg field, +0x12 extracted flag byte, +0x13 byte zero, +0x1C zero field"
+  ],
+  "confidence": "high due to clear structural initialization patterns, field offsets, and table indexing logic matching factory constructor idioms."
+}

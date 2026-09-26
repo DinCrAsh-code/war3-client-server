@@ -1,0 +1,49 @@
+{
+  "parsed_ok": true,
+  "suggested_name": "SpawnResourceOrEntityBatch",
+  "prototype": "void __stdcall SpawnResourceOrEntityBatch(void *resourceBlock, int resourceIndex)",
+  "short_summary": "Processes a specific resource or state entry by calculating spatial metrics, normalizing vectors, validating grid positions, and spawning/registering entity instances via factory routines.",
+  "detailed_summary": "The function performs per-item processing for resource blocks in a loop/batch framework. It begins by reading coordinate and configuration fields from the passed resource block (ebp) combined with an index offset (ebx). It normalizes 3D vectors using Vec3_NormalizeOrZero, computes spatial metrics using CalculateSpatialOrPathMetric, and clamps float values. It checks grid area validity and availability using CheckGridAreaPassesCriteria and CheckGridAreaOrFindNearby, iterating through radius loops and condition checks to find valid placement coordinates. When criteria are met, it invokes CreateAndRegisterResourceEntity to instantiate and register new resource/RTS entities into spatial tracking containers.",
+  "parameters": [
+    {
+      "name": "resourceBlock",
+      "location": "[esp+70h+arg_0]",
+      "type": "void*",
+      "description": "Pointer to the large resource/state block ('RM' header structure)."
+    },
+    {
+      "name": "resourceIndex",
+      "location": "[esp+70h+arg_4]",
+      "type": "int",
+      "description": "Index or identifier of the resource item being processed."
+    }
+  ],
+  "return_value": "none",
+  "side_effects": [
+    "Allocates and registers new resource entities via CreateAndRegisterResourceEntity",
+    "Modifies spatial grid cells and resource tracking containers"
+  ],
+  "data_structures": [
+    {
+      "name": "ResourceBlock",
+      "fields": [
+        {
+          "offset": "+0xEC",
+          "type": "int / float",
+          "description": "X or coordinate/metric component"
+        },
+        {
+          "offset": "+0xF0",
+          "type": "int / float",
+          "description": "Y or coordinate/metric component"
+        },
+        {
+          "offset": "+0x1A20",
+          "type": "void*",
+          "description": "Grid base data structure for area validation"
+        }
+      ]
+    }
+  ],
+  "confidence": "high based on clear function call patterns matching resource initialization and grid validation logic"
+}

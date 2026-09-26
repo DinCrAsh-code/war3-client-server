@@ -1,0 +1,42 @@
+{
+  "parsed_ok": true,
+  "suggested_name": "OpcodeRandomRange",
+  "prototype": "void __cdecl OpcodeRandomRange(void *this_ptr, struct RangeArg *arg, int unused, int *out_status)",
+  "short_summary": "Executes a bytecode range/random instruction by extracting low and high bounds (converting floats to ints if needed), generating a random integer within that range, and storing the output result.",
+  "detailed_summary": "The function begins by inspecting a descriptor structure passed as its second argument (`arg`). It retrieves two values (lower and upper bounds). For each bound, it checks a type indicator byte at offset +8 (or +0); if the value is a floating-point type (indicated by the value 2), it loads the floating-point value and converts it to a 32-bit signed integer using `__ftol2_sse`. Otherwise, it reads the integer directly from the structure offset. Once both bounds (`esi` as lower/min, `ebx` as upper/max) are obtained, it compares them. If `esi > ebx`, it uses a linear congruential or xorshift-like PRNG seeded in a global state block (`dword_42AC60`) to generate a pseudo-random number, scales it based on the range size (`esi - ebx + 1`), adds the minimum bound, and stores the resulting random value. If the lower bound is not greater than the upper bound, it simply returns the upper bound or handles it directly. Finally, it writes an integer status flag (value 1) and the result value to an output structure pointer provided in the fourth argument.",
+  "parameters": [
+    {
+      "name": "this_ptr",
+      "location": "[esp+10h]",
+      "type": "void *",
+      "description": "The VM or bytecode executor instance pointer (this in ESI context)."
+    },
+    {
+      "name": "arg",
+      "location": "[esp+14h]",
+      "type": "struct RangeArg *",
+      "description": "Argument structure containing operand descriptors for the range bounds."
+    },
+    {
+      "name": "unused",
+      "location": "[esp+18h]",
+      "type": "int",
+      "description": "Unused or count parameter passed from dynamic dispatch."
+    },
+    {
+      "name": "out_status",
+      "location": "[esp+1Ch]",
+      "type": "int *",
+      "description": "Pointer to output status/result structure where the execution outcome is written."
+    }
+  ],
+  "return_value": "none",
+  "side_effects": [
+    "modifies global pseudo-random number generator state at 0x0042AC60",
+    "writes execution status and result value to the output structure pointer"
+  ],
+  "data_structures": [
+    "RangeArg: +0x0 type/flags for bound 1, +0x4 int value 1, +0x8 type/flags for bound 2, +0xC int/float value 2"
+  ],
+  "confidence": "high, clear operand parsing, bounds checking, PRNG logic, and output writing matching bytecode interpreter vtable handlers."
+}

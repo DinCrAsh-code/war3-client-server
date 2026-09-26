@@ -1,0 +1,247 @@
+[
+  {
+    "library": "MSVCR80",
+    "name": "__setusermatherr",
+    "iat_address": "0x0041B038"
+  },
+  {
+    "library": "MSVCR80",
+    "name": "_adjust_fdiv",
+    "iat_address": "0x0041B03C"
+  },
+  {
+    "library": "MSVCR80",
+    "name": "__p__commode",
+    "iat_address": "0x0041B040"
+  },
+  {
+    "library": "MSVCR80",
+    "name": "__p__fmode",
+    "iat_address": "0x0041B044"
+  },
+  {
+    "library": "MSVCR80",
+    "name": "_encode_pointer",
+    "iat_address": "0x0041B048"
+  },
+  {
+    "library": "MSVCR80",
+    "name": "__set_app_type",
+    "iat_address": "0x0041B04C"
+  },
+  {
+    "library": "MSVCR80",
+    "name": "_crt_debugger_hook",
+    "iat_address": "0x0041B050"
+  },
+  {
+    "library": "MSVCR80",
+    "name": "_configthreadlocale",
+    "iat_address": "0x0041B054"
+  },
+  {
+    "library": "MSVCR80",
+    "name": "_unlock",
+    "iat_address": "0x0041B058"
+  },
+  {
+    "library": "MSVCR80",
+    "name": "__dllonexit",
+    "iat_address": "0x0041B05C"
+  },
+  {
+    "library": "MSVCR80",
+    "name": "_lock",
+    "iat_address": "0x0041B060"
+  },
+  {
+    "library": "MSVCR80",
+    "name": "_onexit",
+    "iat_address": "0x0041B064"
+  },
+  {
+    "library": "MSVCR80",
+    "name": "_decode_pointer",
+    "iat_address": "0x0041B068"
+  },
+  {
+    "library": "MSVCR80",
+    "name": "_invoke_watson",
+    "iat_address": "0x0041B06C"
+  },
+  {
+    "library": "MSVCR80",
+    "name": "_controlfp_s",
+    "iat_address": "0x0041B070"
+  },
+  {
+    "library": "MSVCR80",
+    "name": "_initterm_e",
+    "iat_address": "0x0041B074"
+  },
+  {
+    "library": "MSVCR80",
+    "name": "_initterm",
+    "iat_address": "0x0041B078"
+  },
+  {
+    "library": "MSVCR80",
+    "name": "__initenv",
+    "iat_address": "0x0041B07C"
+  },
+  {
+    "library": "MSVCR80",
+    "name": "exit",
+    "iat_address": "0x0041B080"
+  },
+  {
+    "library": "MSVCR80",
+    "name": "_XcptFilter",
+    "iat_address": "0x0041B084"
+  },
+  {
+    "library": "MSVCR80",
+    "name": "_exit",
+    "iat_address": "0x0041B088"
+  },
+  {
+    "library": "MSVCR80",
+    "name": "_cexit",
+    "iat_address": "0x0041B08C"
+  },
+  {
+    "library": "MSVCR80",
+    "name": "__getmainargs",
+    "iat_address": "0x0041B090"
+  },
+  {
+    "library": "MSVCR80",
+    "name": "_amsg_exit",
+    "iat_address": "0x0041B094"
+  },
+  {
+    "library": "MSVCR80",
+    "name": "?terminate@@YAXXZ",
+    "iat_address": "0x0041B098"
+  },
+  {
+    "library": "MSVCR80",
+    "name": "malloc",
+    "iat_address": "0x0041B09C"
+  },
+  {
+    "library": "MSVCR80",
+    "name": "free",
+    "iat_address": "0x0041B0A0"
+  },
+  {
+    "library": "MSVCR80",
+    "name": "_except_handler4_common",
+    "iat_address": "0x0041B0A4"
+  },
+  {
+    "library": "MSVCR80",
+    "name": "_purecall",
+    "iat_address": "0x0041B0A8"
+  },
+  {
+    "library": "MSVCR80",
+    "name": "memset",
+    "iat_address": "0x0041B0AC"
+  },
+  {
+    "library": "MSVCR80",
+    "name": "_CIsin",
+    "iat_address": "0x0041B0B0"
+  },
+  {
+    "library": "MSVCR80",
+    "name": "_CIsqrt",
+    "iat_address": "0x0041B0B4"
+  },
+  {
+    "library": "MSVCR80",
+    "name": "_CIpow",
+    "iat_address": "0x0041B0B8"
+  },
+  {
+    "library": "MSVCR80",
+    "name": "_CIfmod",
+    "iat_address": "0x0041B0BC"
+  },
+  {
+    "library": "MSVCR80",
+    "name": "__CxxFrameHandler3",
+    "iat_address": "0x0041B0C0"
+  },
+  {
+    "library": "MSVCR80",
+    "name": "memcpy",
+    "iat_address": "0x0041B0C4"
+  },
+  {
+    "library": "KERNEL32",
+    "name": "GetCurrentProcessId",
+    "iat_address": "0x0041B000"
+  },
+  {
+    "library": "KERNEL32",
+    "name": "GetCurrentThreadId",
+    "iat_address": "0x0041B004"
+  },
+  {
+    "library": "KERNEL32",
+    "name": "GetTickCount",
+    "iat_address": "0x0041B008"
+  },
+  {
+    "library": "KERNEL32",
+    "name": "QueryPerformanceCounter",
+    "iat_address": "0x0041B00C"
+  },
+  {
+    "library": "KERNEL32",
+    "name": "IsDebuggerPresent",
+    "iat_address": "0x0041B010"
+  },
+  {
+    "library": "KERNEL32",
+    "name": "SetUnhandledExceptionFilter",
+    "iat_address": "0x0041B014"
+  },
+  {
+    "library": "KERNEL32",
+    "name": "UnhandledExceptionFilter",
+    "iat_address": "0x0041B018"
+  },
+  {
+    "library": "KERNEL32",
+    "name": "GetCurrentProcess",
+    "iat_address": "0x0041B01C"
+  },
+  {
+    "library": "KERNEL32",
+    "name": "TerminateProcess",
+    "iat_address": "0x0041B020"
+  },
+  {
+    "library": "KERNEL32",
+    "name": "InterlockedCompareExchange",
+    "iat_address": "0x0041B024"
+  },
+  {
+    "library": "KERNEL32",
+    "name": "Sleep",
+    "iat_address": "0x0041B028"
+  },
+  {
+    "library": "KERNEL32",
+    "name": "InterlockedExchange",
+    "iat_address": "0x0041B02C"
+  },
+  {
+    "library": "KERNEL32",
+    "name": "GetSystemTimeAsFileTime",
+    "iat_address": "0x0041B030"
+  }
+]

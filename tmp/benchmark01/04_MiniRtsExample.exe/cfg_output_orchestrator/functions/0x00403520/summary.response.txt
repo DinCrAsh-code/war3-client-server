@@ -1,0 +1,24 @@
+{
+  "suggested_name": "ResizeOrCompactContainer",
+  "prototype": "void __fastcall ResizeOrCompactContainer(void *pContainer)",
+  "short_summary": "Manages a dynamic container or vector structure located in the edi register, updating element states, compacting valid items, and growing or reallocating the underlying buffer when capacity is exceeded.",
+  "detailed_summary": "The function processes a container passed via the edi register. First, it iterates through the active elements (count at edi+0x5739c, array pointer at edi+0x57398) and invokes UpdateElementState (sub_410D00) on each. Next, it performs a compaction pass: it iterates again over the elements, checking a flag byte at offset +0x29 of each element object. If the flag is non-zero, it invokes a virtual destructor/cleanup method at [object_vtable] and drops the item from the sequence; otherwise, it keeps the item and packs it down. After compaction, it checks if the new active element count exceeds the capacity stored at edi+0x573a0. If capacity is insufficient, it computes a new capacity (doubling the current capacity or using a default size of 16), allocates a new memory block via AllocateCustomBlock (sub_4185D0), copies the existing elements using memcpy, and frees or recycles the old memory block through custom allocator tracking or standard free(). Finally, it updates the container's internal pointer, count, and capacity fields.",
+  "parameters": [
+    {
+      "name": "pContainer",
+      "location": "edi",
+      "type": "void*",
+      "description": "Pointer to the container or resource structure being updated and resized."
+    }
+  ],
+  "return_value": "none",
+  "side_effects": [
+    "updates element states via sub_410D00",
+    "frees or reallocates internal storage buffers using AllocateCustomBlock and free"
+  ],
+  "data_structures": [
+    "Container: +0x57398 element array pointer, +0x5739C active element count, +0x573A0 capacity",
+    "Element: +0x29 state/flag byte, +0x0 virtual function table pointer"
+  ],
+  "confidence": "high | Clear iteration, compaction, and vector resizing/reallocation logic matching standard C++ STL vector-like patterns."
+}

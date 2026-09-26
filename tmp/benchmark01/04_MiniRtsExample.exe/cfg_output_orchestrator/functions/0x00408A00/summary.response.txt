@@ -1,0 +1,29 @@
+{
+  "suggested_name": "DeserializeObjectState",
+  "prototype": "bool __cdecl DeserializeObjectState(BitStream *stream, ObjectState *stateStruct)",
+  "short_summary": "Deserializes serialized object network or snapshot state from a bitstream into a structure, validating length and header constraints.",
+  "detailed_summary": "The function reads a series of bit fields and variable-length encoded values from an input bitstream context (passed via eax/ebx) into a destination structure pointed to by esi. It first reads four initial bit fields, validating that the first byte-sized field is <= 12 and the second is < 3. If valid, it loops a number of times (specified by the second byte read) to decode variable-length values using zig-zag decoding (`BitStream_ReadVariableLengthValue`). Next, it reads additional bit fields, an optional variable-length value (if a bitmask condition matches), and optionally parses floating-point scaling or position/rotation components using constants from .rdata/.data if specified by a flag. Finally, it checks a byte field at `[ebx+0Ch]` to determine the success return value (returning true if zero, false otherwise), or early-exits returning false if the initial bounds checks fail.",
+  "parameters": [
+    {
+      "name": "stream",
+      "location": "eax (saved to ebx at function entry)",
+      "type": "BitStream *",
+      "description": "Bitstream reader context."
+    },
+    {
+      "name": "stateStruct",
+      "location": "esi",
+      "type": "ObjectState *",
+      "description": "Pointer to the destination structure where the decoded state fields are written."
+    }
+  ],
+  "return_value": "bool in al (1 if successful and stream/state constraints pass, 0 otherwise)",
+  "side_effects": [
+    "Advances the read position of the provided bitstream context",
+    "Populates the fields of the object state structure passed via esi"
+  ],
+  "data_structures": [
+    "ObjectState: +0x00 to +0x03 various parsed bit fields/bytes, +0x04.. array/vector values decoded via variable length, +0x34 byte, +0x35 byte, +0x36 WORD, +0x38.. additional integer and floating point state fields"
+  ],
+  "confidence": "high | complete control flow and callee usage mapped, recognizing standard network/snapshot serialization patterns including zig-zag decoding and bitfield checks"
+}

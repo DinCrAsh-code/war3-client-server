@@ -1,0 +1,36 @@
+{
+  "parsed_ok": true,
+  "suggested_name": "RtsComponentCase4_Init",
+  "prototype": "void __fastcall RtsComponentCase4_Init(void *this, void *edx_unused, int index, char arg1)",
+  "short_summary": "Initializes a specific RTS component object (case 4 in the factory dispatcher) using an index, a byte parameter, and a configuration table look-up.",
+  "detailed_summary": "The function initializes an object instance whose pointer is passed in `eax` (acting as `this`). It sets up virtual method table pointers at offset 0, stores arguments and calculated indices across various offsets of the structure, performs bounds-checking and clamping on the `index` parameter (`ecx`) against the value 24, and indexes into a lookup table (`byte_41BDC0`) using the adjusted index value. It also extracts a bit flag from a byte in the looked-up table entry, stores it at offset 0x12, and cleans up the x87 floating-point stack after a `fldz` operation.",
+  "parameters": [
+    {
+      "name": "this",
+      "location": "eax",
+      "type": "void*",
+      "description": "Pointer to the newly allocated component object being initialized."
+    },
+    {
+      "name": "index",
+      "location": "ecx",
+      "type": "int",
+      "description": "Type or index identifier passed from the factory dispatcher."
+    },
+    {
+      "name": "arg1",
+      "location": "esp+4",
+      "type": "char",
+      "description": "Additional configuration byte passed on the stack."
+    }
+  ],
+  "return_value": "none",
+  "side_effects": [
+    "Initializes fields of the object at `eax`",
+    "Reads from global lookup table byte_41BDC0"
+  ],
+  "data_structures": [
+    "ComponentObject: +0x0 vtable pointer, +0x4 padding/field, +0x8 pointer/field, +0xC table pointer, +0x10 index byte, +0x11 config byte, +0x12 extracted flag byte, +0x13 zero-initialized byte"
+  ],
+  "confidence": "high | based on clear register usage, structural member initialization, and caller context."
+}

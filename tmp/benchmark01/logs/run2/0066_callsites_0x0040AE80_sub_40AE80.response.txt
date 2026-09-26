@@ -1,0 +1,9 @@
+{
+  "function_role": "A virtual opcode handler (slot 23 of an interpreter/bytecode execution engine vtable) that extracts or converts a runtime value (checking its type tag and loading or scaling it) and stores the resulting variant-like structure into a destination pointer.",
+  "callsites": [
+    {
+      "callee": "0x0041A160",
+      "callsite_summary": "Called when a value type check condition matches (byte ptr [eax] == 2), converting a floating-point value on the x87 FPU stack into an integer via SSE (__ftol2_sse) when the value is handled."
+    }
+  ]
+}

@@ -1,0 +1,7 @@
+{
+  "function_role": "Executes a virtual bytecode/script opcode handler that extracts and type-checks two operand values (possibly converting floating-point numbers to integers using `__ftol2_sse`), performs a bounded range or pseudo-random selection involving a linear congruential/Xorshift-like PRNG structure stored in global data, and writes the resulting integer outcome and a status flag back to output structures.",
+  "callsite_summaries": {
+    "0x0041A160": "Called to convert a floating-point operand value from the x87 floating-point stack into a 32-bit integer whenever an operand type tag indicates a floating-point representation (type value 2). It is invoked conditionally for either the first or second operand (or both) before comparing and computing values."
+  },
+  "fallbacks": []
+}

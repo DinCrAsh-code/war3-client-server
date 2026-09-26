@@ -1,0 +1,9 @@
+{
+  "function_role": "Serves as an event handler or callback routine registered in a resource structure's callback table, performing an optional check on an object pointer before conditionally invoking a downstream handling function.",
+  "callsites": [
+    {
+      "callee": "0x004084C0",
+      "callsite_summary": "Invoked as a conditional handler or processing action inside the callback function. It is called only when the object pointer extracted from the resource structure (at offset +4) is non-null and has a specific type/status byte at offset +1Bh equal to 4. It receives an adjusted value from the second argument (arg_4 plus an offset of 0x571D4) in ecx, while its other arguments are implicitly set up via registers like edi (derived from offset +8 of the first argument)."
+    }
+  ]
+}

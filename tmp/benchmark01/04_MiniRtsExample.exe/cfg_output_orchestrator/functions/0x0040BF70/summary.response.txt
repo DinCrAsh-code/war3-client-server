@@ -1,0 +1,25 @@
+{
+  "suggested_name": "ProcessEntitySubItems",
+  "prototype": "void __fastcall ProcessEntitySubItems(void *ebx)",
+  "short_summary": "Iterates over an array of sub-objects/items contained within an entity if a specific flag is set, invoking a virtual method on each item that meets criteria.",
+  "detailed_summary": "The function first checks a bit flag (`0x100`) at offset `+0x18` of the entity structure pointed to by `ebx`. If the flag is not set, it immediately returns. If set, it enters a loop running `byte ptr [ebx+5Eh]` times. For each iteration, it inspects an array of pointers starting at offset `+0x210` of the entity. If a byte at offset `+0x13` of the sub-object is non-zero, it invokes a virtual function located at offset `+0x1C` of the sub-object's virtual method table. Finally, it clears the `0x100` flag from offset `+0x18` before returning.",
+  "parameters": [
+    {
+      "name": "entity",
+      "location": "ebx",
+      "type": "void*",
+      "description": "Pointer to the main entity structure."
+    }
+  ],
+  "return_value": "none",
+  "side_effects": [
+    "Invokes virtual methods on sub-objects stored within the entity structure",
+    "Clears bit 0x100 at offset +0x18 of the entity structure"
+  ],
+  "data_structures": [
+    "Entity: +0x18 WORD flags, +0x5E BYTE sub_item_count, +0x210 array of sub-item pointers",
+    "SubItem: +0x13 BYTE status_flag, +0x0 vtable pointer",
+    "VTable: +0x1C function pointer"
+  ],
+  "confidence": "high | disassembly is straightforward and cleanly maps to container iteration and virtual method dispatch."
+}

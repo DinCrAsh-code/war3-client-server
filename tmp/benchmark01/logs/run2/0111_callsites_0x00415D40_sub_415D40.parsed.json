@@ -1,0 +1,7 @@
+{
+  "function_role": "Performs complex geometry or particle simulation calculations, updating coordinates, vectors, and state arrays in a structured object using extensive floating-point arithmetic and random number generation.",
+  "callsite_summaries": {
+    "0x0041A160": "Called twice consecutively during particle generation/coordinate calculation loops to convert floating-point values from the top of the FPU stack into 32-bit integers via SSE, used for array indexing or bit-mask operations."
+  },
+  "fallbacks": []
+}

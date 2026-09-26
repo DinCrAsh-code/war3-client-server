@@ -1,0 +1,36 @@
+{
+  "parsed_ok": true,
+  "suggested_name": "RtsComponent10_Constructor",
+  "prototype": "void* __fastcall RtsComponent10_Constructor(void *this_obj, int ecx, int arg0)",
+  "short_summary": "Initializes a specific RTS game component structure (factory case 10) by setting up its virtual method table, storing initialization parameters, and configuring internal flags based on a lookup table.",
+  "detailed_summary": "The function initializes a memory block passed in `eax` (acting as the `this` pointer for a component object). It sets the virtual table pointer at offset 0 (temporarily `off_41D464`, then overwritten with `off_41D604`), stores `edx` at offset `+8`, and a zero at offset `+4`. It performs boundary/clamping logic on `ecx` using a threshold of `18h` (24), computes an offset into a global configuration/lookup array `byte_41BDC0`, and stores data extracted from that lookup table into various object fields. It also reads an argument from the stack (`arg_0`), packs various bit-field properties into bytes at offsets `+10h`, `+11h`, and `+12h`, clears offset `+13h`, and cleans up the floating-point stack (`fldz`, `fst`, `fstp`) before returning with a 4-byte stack cleanup.",
+  "parameters": [
+    {
+      "name": "this_obj",
+      "location": "eax",
+      "type": "void*",
+      "description": "Pointer to the newly allocated component memory block to be initialized."
+    },
+    {
+      "name": "param_index",
+      "location": "ecx",
+      "type": "int",
+      "description": "Type or index identifier passed from the factory dispatcher, validated against 0x18."
+    },
+    {
+      "name": "arg_0",
+      "location": "esp+4",
+      "type": "unsigned char",
+      "description": "Additional configuration byte passed on the stack."
+    }
+  ],
+  "return_value": "none",
+  "side_effects": [
+    "Initializes the component object structure pointed to by eax",
+    "Modifies fields within the object memory block from offset 0 to 0x13"
+  ],
+  "data_structures": [
+    "ComponentObject: +0x0 vtable ptr, +0x4 dword, +0x8 ptr/value, +0xC lookup ptr, +0x10 byte (index/clamped), +0x11 byte (arg_0), +0x12 byte (bitfield from lookup), +0x13 byte (zero)"
+  ],
+  "confidence": "high, based on the clear layout of constructor initialization code, vtable assignments, field offsets, and caller context."
+}

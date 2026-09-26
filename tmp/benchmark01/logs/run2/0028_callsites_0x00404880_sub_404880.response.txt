@@ -1,0 +1,9 @@
+{
+  "function_role": "Filters or collects a list of sub-components/entities from the simulation entity in ebx based on state flags and counts, storing pointers in a local buffer, and then delegates to sub_404760 along with parameters passed on the stack (arg_0, arg_4).",
+  "callsites": [
+    {
+      "callee": "0x00404760",
+      "callsite_summary": "Called if any matching items were found/collected (esi > 0), passing a pointer to the local entity pointer array on the stack, the entity pointer (ebx), the count (esi), and two additional arguments (arg_0 and arg_4) passed into the current function."
+    }
+  ]
+}

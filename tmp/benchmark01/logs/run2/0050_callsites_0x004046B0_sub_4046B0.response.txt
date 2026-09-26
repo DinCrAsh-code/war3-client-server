@@ -1,0 +1,13 @@
+{
+  "function_role": "Packs entity, action, and target parameters into a local packet or structure after performing global threshold checks on data at dword_42AC60, conditionally incrementing counters and invoking subroutines for action execution or event dispatch.",
+  "callsites": [
+    {
+      "callee": "0x00418AA0",
+      "callsite_summary": "Called with two integer constants (1, 1) and a pointer derived from a global structure ([edi+54724h]) to allocate or retrieve a resource/buffer/object prior to packet processing."
+    },
+    {
+      "callee": "0x004087D0",
+      "callsite_summary": "Called with a pointer to the locally constructed parameter/packet buffer (at [esp+var_48]), receiving an object or status result in esi from the resource returned by sub_418AA0, as part of dispatching the action or event."
+    }
+  ]
+}

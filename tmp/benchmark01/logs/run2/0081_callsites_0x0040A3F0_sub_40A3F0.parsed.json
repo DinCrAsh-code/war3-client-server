@@ -1,0 +1,10 @@
+{
+  "function_role": "Interprets and executes a specific graphics, layout, or positioning bytecode instruction by extracting parameters from a descriptor structure, validating bounds against a lookup table, performing math/coordinate conversions, querying resource/state managers, and storing the resulting value into an output descriptor container.",
+  "callsite_summaries": {
+    "0x0041A160": "Called to convert floating-point values extracted from the operand descriptor structure into integer values when type flags dictate truncation.",
+    "0x00414AA0": "Called twice in succession to obtain coordinate or dimension values, using intermediate floating-point calculations to prepare arguments for a subsequent manager/resource lookup.",
+    "0x00414E40": "Called with a pointer to a sub-structure within global state (at esi+1A20h), a pointer to coordinates, and size 8, to query or validate a region or transform, returning a boolean result in al that conditionally gates subsequent math operations.",
+    "0x00402560": "Called with parameters including global state (esi), integer bounds/indices (ebx, edi), and a stack-allocated coordinate/value buffer (var_8) to retrieve an object or resource pointer, whose field at offset +4 is used as the final result if non-null."
+  },
+  "fallbacks": []
+}

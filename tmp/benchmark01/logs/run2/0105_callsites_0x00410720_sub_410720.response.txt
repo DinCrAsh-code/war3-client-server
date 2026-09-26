@@ -1,0 +1,9 @@
+{
+  "function_role": "Performs specialized constructor/initialization logic on a newly allocated resource object passed in `esi`, updating its virtual table pointer, floating-point state, and internal fields.",
+  "callsites": [
+    {
+      "callee": "0x0040B100",
+      "callsite_summary": "Called as part of the object initialization sequence for `esi`, receiving `esi` in a register/stack argument along with the constant 0x27 and other preliminary values, likely acting as a base constructor, sub-component allocator, or property initialization routine."
+    }
+  ]
+}

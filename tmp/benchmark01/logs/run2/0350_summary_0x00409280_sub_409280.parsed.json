@@ -1,0 +1,23 @@
+{
+  "parsed_ok": true,
+  "suggested_name": "VerifyResourceBlocks",
+  "prototype": "bool __cdecl VerifyResourceBlocks(const void *resourceBlock)",
+  "short_summary": "Iterates through packed records in a resource block, decompressing or copying sub-components, validating CRC32 checksums, and verifying their expected contents against a destination buffer.",
+  "detailed_summary": "The function processes a serialized list of resource records from a resource block structure. It loops while parsing 10-byte header entries that specify flags, compressed/uncompressed sizes, and checksums. For each entry, it either decompresses data using LZSS (`DecompressLZSS`) or copies raw data using `memcpy` into a global 8KB buffer (`byte_42ACC8`). It validates a CRC32 checksum via `CalculateCrc32`, checks boundaries, and performs a byte-by-byte or dword-by-dword memory comparison (`memcmp`-like inline unrolled loop) against a target buffer. If all records match successfully and bounds check out, it returns true (1); otherwise, it returns false or 0 upon error.",
+  "parameters": [
+    {
+      "name": "resourceBlock",
+      "location": "[esp+arg_0]",
+      "type": "const void *",
+      "description": "Pointer to the resource block structure containing metadata, data pointers, and buffer size limits."
+    }
+  ],
+  "return_value": "bool (1 on success, 0 on failure) in eax",
+  "side_effects": [
+    "writes decompressed or copied data into global buffer byte_42ACC8"
+  ],
+  "data_structures": [
+    "ResourceBlock: +0x2004 src buffer pointer, +0x2008 total size, +0x2010 offset/size field, +0x2014 destination buffer pointer/limit"
+  ],
+  "confidence": "high | clean parsing loop over structured resource records with well-understood crypto/compression helpers"
+}

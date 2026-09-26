@@ -1,0 +1,30 @@
+{
+  "suggested_name": "CheckProximityMatch",
+  "prototype": "void __cdecl CheckProximityMatch(const void *arg0, void *arg1)",
+  "short_summary": "Validates entity state and computes spatial distance against a threshold to update registration or trigger status flags.",
+  "detailed_summary": "The function inspects a structure passed as `arg_0`, extracting nested pointers (`[eax+4]` and `[eax+8]`). It validates that these pointers are non-null and checks state flags within the referenced object (such as a byte at offset 0x1B matching an integer at `[esi]` and specific bit patterns at `[eax+1C]`). If these checks pass, it extracts coordinates, computes the Euclidean distance between a point embedded in the object and a point derived from `arg_1` (`esi`) using `CalculateDistance`, and compares the result against a float constant. If the distance condition is met, it updates state fields in `arg_1` (setting a flag at offset 0x1C and copying coordinate data from `edi`).",
+  "parameters": [
+    {
+      "name": "context_or_params",
+      "location": "[esp+4]",
+      "type": "const void *",
+      "description": "Pointer to a container or configuration structure holding nested entity/pointer references."
+    },
+    {
+      "name": "target_struct",
+      "location": "[esp+8]",
+      "type": "void *",
+      "description": "Pointer to a structure (referenced as esi) containing coordinates, threshold data, and state flags to be updated."
+    }
+  ],
+  "return_value": "none",
+  "side_effects": [
+    "modifies fields within the target structure pointed to by arg_1 (sets a byte at offset 0x1C and writes coordinates at offsets 0x20 and 0x24)"
+  ],
+  "data_structures": [
+    "Target structure (esi): +0x00 threshold/ID (int), +0x1C status byte, +0x20/0x24 coordinate data, +0x34 point data",
+    "Nested structure (referenced via arg_0 + 4): +0x1B byte flag, +0x1C status flags",
+    "Nested structure (referenced via arg_0 + 8): +0x08 and +0x0C coordinate or object pointers"
+  ],
+  "confidence": "high, clear logic flow involving pointer dereferences, distance calculation, and state updates matching caller expectations."
+}

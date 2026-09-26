@@ -1,0 +1,31 @@
+{
+  "suggested_name": "VM_PopOperand",
+  "prototype": "bool __fastcall VM_PopOperand(VMContext *vm, Variant *outValue)",
+  "short_summary": "Pops an 8-byte value (variant/operand) from the virtual machine's internal stack structure, returning false if the stack is underflowed or true on success.",
+  "detailed_summary": "The function checks a stack pointer field at offset +0x998 of the VM state structure (passed in EAX). If this value is less than or equal to 0, it indicates a stack underflow; it sets a flag at offset +0xA68 to 1, writes a zero/default value (0) into the output buffer at ECX, and returns false (AL = 0). If the stack pointer is valid, it decrements the pointer, uses it to index into an array of 8-byte stack elements located at offset +0x198 of the VM structure, copies the 8-byte value into the output buffer (ECX), and returns true (AL = 1).",
+  "parameters": [
+    {
+      "name": "vm",
+      "location": "eax",
+      "type": "VMContext *",
+      "description": "Pointer to the virtual machine state structure."
+    },
+    {
+      "name": "outValue",
+      "location": "ecx",
+      "type": "Variant *",
+      "description": "Pointer to a caller-allocated 8-byte buffer where the popped value will be stored."
+    }
+  ],
+  "return_value": "bool (in al): true (1) if an operand was successfully popped, false (0) on stack underflow.",
+  "side_effects": [
+    "Decrements the VM stack pointer at offset +0x998 (if greater than 0)",
+    "Sets an error/underflow flag at offset +0xA68 of the VM structure if underflow occurs",
+    "Copies an 8-byte value from the VM stack into the buffer pointed to by ECX"
+  ],
+  "data_structures": [
+    "VMContext: +0x198 array of 8-byte stack elements, +0x998 stack pointer/count, +0xA68 underflow/error flag",
+    "Variant: 8-byte structure containing a value/type representation (+0x0 dword, +0x4 dword)"
+  ],
+  "confidence": "high, clear stack pop logic with underflow checking and 8-byte element copying."
+}
