@@ -1,0 +1,23 @@
+# Local machine configuration for building this repo with VS8 (Visual
+# Studio 2005 / VC80).
+#
+# Copy this file to "paths.cmake" (in the repo root, next to this file)
+# and edit the values below for your machine. paths.cmake is gitignored
+# so your local paths never get committed.
+
+# Root directory of your VS8 (Visual Studio 2005) installation.
+# Expected to contain:
+#   <VS8_ROOT>/VC/bin/cl.exe
+#   <VS8_ROOT>/VC/include
+#   <VS8_ROOT>/VC/lib
+#   <VS8_ROOT>/Common7/IDE/mspdb80.dll
+set(VS8_ROOT "C:/VS8" CACHE PATH "Path to Visual Studio 8 (2005) installation root")
+
+# Optional: Windows Platform SDK root, only needed if a project starts
+# using WinAPI headers/libs beyond what VC80's own include/lib ships with.
+# Leave empty if you don't have/need it.
+set(WINSDK_ROOT "" CACHE PATH "Path to a Windows Platform SDK (optional)")
+
+# Optional: any extra include/lib directories you need, semicolon-separated.
+set(EXTRA_INCLUDE_DIRS "" CACHE STRING "Extra include dirs (optional)")
+set(EXTRA_LIB_DIRS "" CACHE STRING "Extra lib dirs (optional)")
