@@ -280,6 +280,10 @@ Matching в комментарии остаётся заявлением ист�
 ### P0. От ввода и выделения до приказа
 
 Текущая граница работы и интеграционный PR: [REV-SIM-01](WORKBOARD.md).
+[FND-0057](findings/simulation/FND-0057-selection-before-basic-order-queue.md)
+показывает producer ordering: перед basic unit order он условно ставит
+две разновидности selection delta. На входе это отдельные action cases;
+parser gates ещё не показывают права sender или изменения world order.
 
 [Input pump](../../src/Input/inputeventpump.cpp) и
 [диспетчер действий](../../src/Net/netcommand_dispatch.cpp) дают C++-входы

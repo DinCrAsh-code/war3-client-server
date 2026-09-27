@@ -52,6 +52,7 @@
 | [FND-0050: сетевой выбор юнита передаёт команду](findings/visibility/FND-0050-unit-selection-command-outbound-boundary.md) | visibility; unit, selection, network, command, disclosure-boundary | boundary | static | source-reviewed | bounded |
 | [FND-0052: SetUnitOwner условно снимает биты виджета](findings/visibility/FND-0052-setunitowner-widget-mask-revocation.md) | visibility; unit, ownership, player-mask, selection, GameUI, revocation | contract | static | source-reviewed | bounded |
 | [FND-0055: dying-юнит может сохранять радиус обзора](findings/visibility/FND-0055-unit-life-threshold-dying-fog-policy.md) | visibility; unit, life, death, listener, fog, reveal-radius | contract | static | source-reviewed | bounded |
+| [FND-0057: selection deltas отправляются перед basic order](findings/simulation/FND-0057-selection-before-basic-order-queue.md) | simulation; selection, order, network-command, identity, queue | contract | static | source-reviewed | bounded |
 
 Основной evidence относится только к выводу карточки. Например, связанный
 компонентный запуск не доказывает обычный запуск всей игры, а проверка
@@ -62,7 +63,7 @@
 | Подсистема | Что известно / где вход | Следующий существенный вопрос |
 |---|---|---|
 | Startup | FND-0001, FND-0004 | Обычный запуск, обязательные владельцы и полный teardown |
-| Simulation | FND-0002–0004 | Все игровые действия, pathfinding/коллизии, полный матч и порядок RNG |
+| Simulation | FND-0002–0004, FND-0057; исходный порядок selection и basic order на producer/parser boundary | Найти observer recipient, authority и изменение текущего приказа; далее pathfinding, RNG и полный матч |
 | JASS | FND-0005, FND-0009; C++-обвязка и исходные redirects в S10 | Локальные контексты, ожидания, события и синхронизация без изменения карты |
 | Visibility | FND-0006–0008, FND-0010–0039, FND-0050/0052/0055; точка/юнит/детект, writers, owner change и dying fog policy | Установить тайминг записи/отзыва fog при death/RemoveUnit и границу выдачи полей юнита; затем двухигроковый оракул |
 | Presentation | S01/S03, FND-0008/0009; локальные входы и UI-зависимость тумана | Поле за полем проверить потребителей мира; клиентский runtime ещё не выбран |
