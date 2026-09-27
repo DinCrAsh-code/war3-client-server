@@ -21,7 +21,7 @@ PR и `agent_worktrees/funcs/0xADDR.json` в соответствующей ве
 
 ## Обзор, обнаружение и туман — [PR #52](https://github.com/FilippTheBestDev/claudecraft/pull/52)
 
-Владелец: `codex/visibility-fog-rescan`. 61 C++ тело в опубликованной
+Владелец: `codex/visibility-fog-rescan`. 63 C++ тела в опубликованной
 ветке; одна временная зависимость остаётся переходом в оригинал.
 
 | Адрес | Статус | Участок |
@@ -87,6 +87,8 @@ PR и `agent_worktrees/funcs/0xADDR.json` в соответствующей ве
 | `0x6F2AB310` | DIFFERS | target-lost stack event; прежний Filipp THUNK заменён |
 | `0x6F3A3A70` | DIFFERS | 12-slot widget mask builder |
 | `0x6F3A5DC0` | DIFFERS | widget-cell two-plane query; прежний собственный THUNK заменён |
+| `0x6F3A3830` | DIFFERS | unit submission gate |
+| `0x6F3A38F0` | DIFFERS | unit submission gate |
 | `0x6F752570` | THUNK | зависимость |
 
 При независимой сверке `0x6F755B90` с ASM была исправлена инверсия
@@ -102,13 +104,16 @@ Target-lost event опубликован коммитом `3088ef8a0`: normal-pa
 два data symbols, instruction gap SEH/unwind; не сетевой sender.
 Widget-mask closure опубликован коммитом `88e75702a`: builder и query
 заменили прежний переход в оригинал на пути rescan.
+SubmitUnit gate pair опубликована коммитом `6273cab3c`:
+нижние пять бит player index задают маску x86 shift count; путь
+ограничен локальным publication predicate, не сетевым serializer.
 Эти ветви остаются без штатного verify и игрового прогона.
 
 ## Формирование исходящих приказов — [PR #53](https://github.com/FilippTheBestDev/claudecraft/pull/53)
 
-Владелец: `codex/sim-order-flag-builders`. В опубликованной ветке 60 новых
-C++ тел: 46 для приказов/selection, девять для replay chunk/codec и пять
-для turn-store buffer ownership. Они
+Владелец: `codex/sim-order-flag-builders`. В опубликованной ветке 68 новых
+C++ тел: 46 для приказов/selection, девять для replay chunk/codec, пять
+для turn-store buffer ownership и восемь для sender-key lifecycle. Они
 прошли ограниченную проверку исходника и native-компиляцию, но не полную
 проверку совпадения.
 
@@ -223,10 +228,30 @@ Turn-store buffer ownership опубликован коммитом `ee34f547d` 
 | `0x6F543DF0` | DIFFERS | turn-store Reset |
 | `0x6F5484B0` | DIFFERS | turn-store deleting destructor |
 
+Sender-key registration/lookup опубликованы коммитом `dca548a482` и
+описаны в [FND-0079](https://github.com/DinCrAsh-code/war3-client-server/blob/a6b49a7442e0702f8d50b51a55066005c5f4b729/research/reverse/findings/network/FND-0079-sender-key-local-binding.md).
+Эти пять адресов до claim не имели C++ тела. Локальное соответствие key →
+player byte не доказывает привязку к authenticated peer.
+
+| Адрес | Статус | Участок |
+|---|---|---|
+| `0x6F5491D0` | DIFFERS | sender-key relocation |
+| `0x6F5496A0` | DIFFERS | sender-key TLS wrapper |
+| `0x6F54F3F0` | DIFFERS | session lookup wrapper |
+| `0x6F538690` | DIFFERS | player pointer-array capacity |
+| `0x6F5386F0` | DIFFERS | player pointer-array growth |
+| `0x6F546130` | DIFFERS | unlink sender entry |
+| `0x6F54E800` | DIFFERS | sender-key removal |
+| `0x6F53EC50` | DIFFERS | leave-state callback |
+
+Sender-key removal/leave marker опубликованы коммитом `c32e48808`.
+`0x6F54E800` ожидает существующий entry и не защищает null lookup;
+`0x6F54FDF0` остаётся отдельной незавершённой оболочкой.
+
 ## Приём входящих приказов — [PR #54](https://github.com/FilippTheBestDev/claudecraft/pull/54)
 
 Владелец: `codex/inbound-order-callbacks`. Пять крупных обработчиков и
-восемнадцать вспомогательных C++ тел опубликованы в PR #54. QA исправил
+двадцать вспомогательных C++ тел опубликованы в PR #54. QA исправил
 порядок освобождения ссылки (`e21aecc44`) и сверил обе fogged ветви;
 штатная проверка совпадения остаётся открытой.
 
@@ -258,9 +283,13 @@ Turn-store buffer ownership опубликован коммитом `ee34f547d` 
 | `0x6F026870` | DIFFERS | Aall tag accessor |
 | `0x6F284350` | DIFFERS | point/fogged candidate rank |
 | `0x6F421DE0` | DIFFERS | player row membership |
+| `0x6F2CADC0` | DIFFERS | direct-target candidate scanner |
+| `0x6F2CB190` | DIFFERS | two-target candidate scanner |
 
 Row metadata pair опубликована коммитом `fc651d6ca` и уточняет
 [FND-0068](findings/simulation/FND-0068-point-target-fogged-order-family.md).
+Два target candidate scanner опубликованы коммитом `055911eb0` и
+ограничены [FND-0082](https://github.com/DinCrAsh-code/war3-client-server/blob/a6b49a7442e0702f8d50b51a55066005c5f4b729/research/reverse/findings/simulation/FND-0082-target-candidate-row-capacity.md).
 
 ## В работе, без опубликованного C++ тела
 
@@ -269,17 +298,11 @@ Row metadata pair опубликована коммитом `fc651d6ca` и ут�
 
 | Адрес | Владелец | Связный участок |
 |---|---|---|
-| `0x6F5491D0` | PR #53 | sender-key relocation |
-| `0x6F5496A0` | PR #53 | sender-key TLS wrapper |
-| `0x6F54F3F0` | PR #53 | session lookup wrapper |
-| `0x6F54E800` | PR #53 | sender-key removal |
 | `0x6F54FDF0` | PR #53 | sender-key cleanup wrapper |
-| `0x6F538690` | PR #53 | player pointer-array capacity |
-| `0x6F5386F0` | PR #53 | player pointer-array growth |
-| `0x6F546130` | PR #53 | unlink sender entry |
-| `0x6F53EC50` | PR #53 | leave-state callback |
-| `0x6F2CADC0` | PR #54 | direct-target candidate scanner |
-| `0x6F2CB190` | PR #54 | two-target candidate scanner |
+| `0x6F279800` | PR #54 | two-target ability score |
+| `0x6F279720` | PR #54 | target-point fallback score |
+| `0x6F2794E0` | PR #54 | special order score |
+| `0x6F284160` | PR #54 | target order score |
 
 Эти PR — параллельная работа по движку. Статусы не сообщают, что код уже
 пригоден для игры, прошёл полный матч или устраняет утечку скрытого состояния.
