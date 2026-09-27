@@ -20,7 +20,7 @@
 | [FND-0008: fog writer обращается к world frame](findings/visibility/FND-0008-fog-ui-dependency.md) | visibility; presentation, lifetime | boundary | static | source-reviewed | bounded |
 | [FND-0009: локальные входы и состояние ожидания JASS](findings/jass/FND-0009-local-input-continuations.md) | jass; camera, tls, continuation | boundary | static | source-reviewed | bounded |
 | [FND-0010: запрос о юните имеет ранние выходы и маску ответа](findings/visibility/FND-0010-unit-submit-gates.md) | visibility; unit, relations, fog, jass | contract | static | source-reviewed | bounded |
-| [FND-0011: C++ SetPlayerAlliance расширяет обновление маски](findings/visibility/FND-0011-alliance-refresh-divergence.md) | visibility; jass, alliance, reconstruction | negative-result | static | source-reviewed | open |
+| [FND-0011: C++ SetPlayerAlliance расходится по аргументам и обновлению](findings/visibility/FND-0011-alliance-refresh-divergence.md) | visibility; jass, alliance, argument-order, reconstruction | negative-result | static | source-reviewed | open |
 | [FND-0012: детект юнита учитывает два канала со счётчиками](findings/visibility/FND-0012-detection-refcounts.md) | visibility; unit, detection, buffs, abilities | contract | static | source-reviewed | bounded |
 | [FND-0013: writer тумана юнита меняет две плоскости](findings/visibility/FND-0013-unit-fog-writer-planes.md) | visibility; unit, fog, grid, masks | boundary | static | source-reviewed | bounded |
 | [FND-0014: повторная проверка SubmitUnit берёт первый канал детекта](findings/visibility/FND-0014-submit-detection-gate.md) | visibility; unit, detection, relations, jass | boundary | static | source-reviewed | bounded |
