@@ -145,6 +145,11 @@ snapshot `+0x2A`. Смена результата между sleep и resume н�
 сверяет token, ready снимает бит из ожидаемой маски без проверки его
 прежнего участия, а общий обход имеет gate вложенных executions.
 Глобальная авторизация и повторный эффект этим не доказаны.
+[FND-0054](findings/jass/FND-0054-cross-domain-native-dispatch.md)
+проводит opcode native dispatch до GetLocalPlayer, camera и unit
+natives: таблица TLS slot 5 общая для этих вызовов, но camera идёт к
+process-global GameUI, а unit natives меняют мир по handles. Отдельный
+EvtContext без дополнительных границ не изолирует камеру в одном процессе.
 
 В S10 `GetLocalPlayer` есть лишь в
 [регистрации](../../src/Jass/jassregisterallnatives.cpp). [FND-0043](findings/jass/FND-0043-local-player-handle-selection.md)
