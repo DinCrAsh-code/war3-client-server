@@ -34,6 +34,7 @@
 | [FND-0054: общий native dispatch ведёт к UI и миру](findings/jass/FND-0054-cross-domain-native-dispatch.md) | jass; vm, native-dispatch, local-context, camera, simulation, compatibility | boundary | static | source-reviewed | bounded |
 | [FND-0056: сброс GameUI привязан к lifecycle мира](findings/jass/FND-0056-gameui-world-reset-boundary.md) | jass; camera, presentation, gameui, world-lifecycle, tls | boundary | static | source-reviewed | bounded |
 | [FND-0058: продолжение trigger может записать состояние юнита](findings/jass/FND-0058-resumed-trigger-unit-state-write.md) | jass; trigger, continuation, native-dispatch, unit, world-state, handles | boundary | static | source-reviewed | bounded |
+| [FND-0060: sender-key записывается событиями присоединения](findings/network/FND-0060-sender-key-enrollment-boundary.md) | network; participant, sender-key, session-record, event-queue, replay, authority, jass | boundary | static | source-reviewed | bounded |
 
 Основной evidence относится только к выводу карточки. Например, связанный
 компонентный запуск не доказывает обычный запуск всей игры, а проверка
@@ -49,7 +50,7 @@
 | Visibility | FND-0006–0008; чтение точки/юнита/детекта и fog writer | Завершить маршрут SubmitUnit и writers; оракул, общий обзор, права на поля/события |
 | Presentation | S01/S03, FND-0008/0009; локальные входы и UI-зависимость тумана | Поле за полем проверить потребителей мира; клиентский runtime ещё не выбран |
 | Resources | Компонентный маршрут архивов/собственной карты в S01/S09 | Произвольные карты и обязательный серверу ресурсный состав |
-| Network | FND-0002/0003; action/turn dispatch в S10, см. SRC_MAP | Связать полный ввод игрока с миром; новый wire-протокол ещё проектируется |
+| Network | FND-0002/0003/0060; action/turn dispatch и заполнение sender-key таблицы событиями, см. SRC_MAP | Найти live packet/peer admission до queued event и связать полный ввод игрока с миром; новый wire-протокол ещё проектируется |
 | Map extensions | Общего подтверждённого контракта не перенесено | Версии расширений, зависимости от UI, server mode и отдельная приёмка |
 
 Отсутствующая карточка означает пробел, а не отсутствие подсистемы.

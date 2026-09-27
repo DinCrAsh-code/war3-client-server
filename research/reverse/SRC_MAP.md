@@ -160,6 +160,11 @@ native dispatch и `SetUnitState(state=2)` до записи tracked mana
 range мира. Token и handle проверки ограничивают вход, но не являются
 сами по себе счётчиком общего эффекта на игрока; факт такого bytecode
 в карте и число исполнений не проверены.
+[FND-0060](findings/network/FND-0060-sender-key-enrollment-boundary.md)
+прослеживает первоначальную запись participant key из событий
+`GameCreate`/`GameJoin`/`PlayerJoin` в таблицу выбранной сетевой записи,
+которую позднее ищет turn action. Та же очередь получает replay records;
+прямая связь key с authenticated peer до queued event остаётся открытой.
 
 В S10 `GetLocalPlayer` есть лишь в
 [регистрации](../../src/Jass/jassregisterallnatives.cpp). [FND-0043](findings/jass/FND-0043-local-player-handle-selection.md)
