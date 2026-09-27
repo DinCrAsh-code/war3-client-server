@@ -111,9 +111,9 @@ SubmitUnit gate pair опубликована коммитом `6273cab3c`:
 
 ## Формирование исходящих приказов — [PR #53](https://github.com/FilippTheBestDev/claudecraft/pull/53)
 
-Владелец: `codex/sim-order-flag-builders`. В опубликованной ветке 68 новых
+Владелец: `codex/sim-order-flag-builders`. В опубликованной ветке 69 новых
 C++ тел: 46 для приказов/selection, девять для replay chunk/codec, пять
-для turn-store buffer ownership и восемь для sender-key lifecycle. Они
+для turn-store buffer ownership и девять для sender-key lifecycle. Они
 прошли ограниченную проверку исходника и native-компиляцию, но не полную
 проверку совпадения.
 
@@ -243,15 +243,19 @@ player byte не доказывает привязку к authenticated peer.
 | `0x6F546130` | DIFFERS | unlink sender entry |
 | `0x6F54E800` | DIFFERS | sender-key removal |
 | `0x6F53EC50` | DIFFERS | leave-state callback |
+| `0x6F54FDF0` | DIFFERS | player-leave sender lifecycle |
 
 Sender-key removal/leave marker опубликованы коммитом `c32e48808`.
 `0x6F54E800` ожидает существующий entry и не защищает null lookup;
-`0x6F54FDF0` остаётся отдельной незавершённой оболочкой.
+`0x6F54FDF0` опубликован отдельным коммитом `ff16a7a55`: callback
+закрывает локальные leave-ветви, но его SEH, S11 vtable VA и
+неинициализированный в исходном пути четвёртый dword echo record
+остаются явными пределами проверки.
 
 ## Приём входящих приказов — [PR #54](https://github.com/FilippTheBestDev/claudecraft/pull/54)
 
 Владелец: `codex/inbound-order-callbacks`. Пять крупных обработчиков и
-двадцать вспомогательных C++ тел опубликованы в PR #54. QA исправил
+двадцать пять вспомогательных C++ тел опубликованы в PR #54. QA исправил
 порядок освобождения ссылки (`e21aecc44`) и сверил обе fogged ветви;
 штатная проверка совпадения остаётся открытой.
 
@@ -285,11 +289,21 @@ Sender-key removal/leave marker опубликованы коммитом `c32e4
 | `0x6F421DE0` | DIFFERS | player row membership |
 | `0x6F2CADC0` | DIFFERS | direct-target candidate scanner |
 | `0x6F2CB190` | DIFFERS | two-target candidate scanner |
+| `0x6F279800` | DIFFERS | two-target ability score |
+| `0x6F279720` | DIFFERS | target-point fallback score |
+| `0x6F2794E0` | DIFFERS | special order score |
+| `0x6F284160` | DIFFERS | target order score |
+| `0x6F2CA800` | DIFFERS | общий входящий order submission sink |
 
 Row metadata pair опубликована коммитом `fc651d6ca` и уточняет
 [FND-0068](findings/simulation/FND-0068-point-target-fogged-order-family.md).
 Два target candidate scanner опубликованы коммитом `055911eb0` и
 ограничены [FND-0082](https://github.com/DinCrAsh-code/war3-client-server/blob/a6b49a7442e0702f8d50b51a55066005c5f4b729/research/reverse/findings/simulation/FND-0082-target-candidate-row-capacity.md).
+Четыре admission/ranking helpers опубликованы коммитом `6830819f6`;
+они связывают scanner candidates с проверкой допустимости приказа.
+Общий submission sink опубликован коммитом `47b2c7705`:
+ветви priority flags и два scoped checked slots сверены с S11,
+SEH frame и внешние TODO callees остаются открытыми.
 
 ## В работе, без опубликованного C++ тела
 
@@ -298,11 +312,19 @@ Row metadata pair опубликована коммитом `fc651d6ca` и ут�
 
 | Адрес | Владелец | Связный участок |
 |---|---|---|
-| `0x6F54FDF0` | PR #53 | sender-key cleanup wrapper |
-| `0x6F279800` | PR #54 | two-target ability score |
-| `0x6F279720` | PR #54 | target-point fallback score |
-| `0x6F2794E0` | PR #54 | special order score |
-| `0x6F284160` | PR #54 | target order score |
+| `0x6F53EFF0` | PR #53 | TLS setup-copy gate |
+| `0x6F5BF090` | PR #53 | 12-slot setup selection |
+| `0x6F5C0780` | PR #53 | setup slot collector; EDI/EBX ABI |
+| `0x6F5C0830` | PR #53 | setup registration path |
+| `0x6F5C0EE0` | PR #53 | alternate setup registration path |
+| `0x6F284950` | PR #52 | selection revocation handler; прежний Filipp THUNK |
+| `0x6F424CE0` | PR #52 | selection removal |
+| `0x6F29DBF0` | PR #52 | selection position scalar |
+| `0x6F28CA80` | PR #52 | unit type-minus-level getter |
+| `0x6F29C370` | PR #52 | type-table float default |
+
+Смежный `0x6F4205F0` уже claimed другим агентом (`cunit-agent7`)
+в S11 store; этот PR не заявляет адрес за нашей командой.
 
 Эти PR — параллельная работа по движку. Статусы не сообщают, что код уже
 пригоден для игры, прошёл полный матч или устраняет утечку скрытого состояния.
