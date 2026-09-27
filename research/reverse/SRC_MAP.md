@@ -158,6 +158,10 @@ NetClient send: её payload содержит событие и два dword и�
 флаги, которые fog writer допускает к расчёту, и для dying-юнита
 используется `DyingRevealRadius`. Момент фактического обновления grid
 после смерти по этим телам ещё не установлен.
+[FND-0059](findings/visibility/FND-0059-dying-death-event-dispatch-fog-boundary.md)
+показывает порядок двух death events после dying-битов и условный
+JASS trigger bridge. Ни в этом dispatch, ни в bridge нет прямого
+fog writer; последствия подписчиков и RemoveUnit остаются открытыми.
 
 Граница работы: восстановить причинный маршрут «изменение отношений/детекта →
 маски мира и юнита → ответ `SubmitUnit`/JASS → локальные потребители», затем
