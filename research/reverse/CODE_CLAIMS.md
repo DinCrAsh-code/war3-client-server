@@ -21,7 +21,7 @@ PR и `agent_worktrees/funcs/0xADDR.json` в соответствующей ве
 
 ## Обзор, обнаружение и туман — [PR #52](https://github.com/FilippTheBestDev/claudecraft/pull/52)
 
-Владелец: `codex/visibility-fog-rescan`. 56 новых C++ тел в опубликованной
+Владелец: `codex/visibility-fog-rescan`. 58 новых C++ тел в опубликованной
 ветке; две временные зависимости остаются переходами в оригинал.
 
 | Адрес | Статус | Участок |
@@ -82,6 +82,8 @@ PR и `agent_worktrees/funcs/0xADDR.json` в соответствующей ве
 | `0x6F2967F0` | DIFFERS | shared-vision contribution add |
 | `0x6F284CD0` | DIFFERS | fog rescan recipient gate |
 | `0x6F28DB90` | DIFFERS | fog rescan notification worker; прежний собственный THUNK заменён |
+| `0x6F506CE0` | DIFFERS | material detection reset; COW и слои |
+| `0x6F506DC0` | DIFFERS | material detection final; COW и слои |
 | `0x6F3A5DC0` | THUNK | зависимость |
 | `0x6F752570` | THUNK | зависимость |
 
@@ -93,13 +95,13 @@ Notification/presentation блок опубликован коммитом `b278
 три data symbols без угаданных значений. Shared-vision/rescan блок
 опубликован коммитом `1fefaadfe`: два прежде свободных TODO адреса
 получили C++-тела, собственный `0x6F28DB90` сменил THUNK на DIFFERS.
-Обе ветви остаются без штатного verify и игрового прогона.
+Material notification pair опубликована коммитом `f87c63c4d`.
+Эти ветви остаются без штатного verify и игрового прогона.
 
 ## Формирование исходящих приказов — [PR #53](https://github.com/FilippTheBestDev/claudecraft/pull/53)
 
-Владелец: `codex/sim-order-flag-builders`. В опубликованной ветке 46 новых
-C++ тел: восемь оболочек флагов, двенадцать производителей полезной нагрузки,
-одиннадцать сериализаторов, десять функций записи полей и пять queue/record helpers. Они
+Владелец: `codex/sim-order-flag-builders`. В опубликованной ветке 55 новых
+C++ тел: 46 для приказов/selection и девять для replay chunk/codec. Они
 прошли ограниченную проверку исходника и native-компиляцию, но не полную
 проверку совпадения.
 
@@ -184,10 +186,27 @@ Selection/control-group serializer и writer опубликованы комми
 | `0x6F2CF7D0` | DIFFERS | control-group define producer |
 | `0x6F2CC1C0` | DIFFERS | control-group select producer |
 
+Replay chunk/codec опубликован коммитом `57e1be6cc` и описан в
+[FND-0080](findings/network/FND-0080-replay-payload-chunk-route.md).
+Четыре S11 lookup data records не являются переносимыми таблицами для
+другой сборки; внешний ctor `0x6F543D90` принадлежит отдельному claim.
+
+| Адрес | Статус | Участок |
+|---|---|---|
+| `0x6F549450` | DIFFERS | replay chunk pump |
+| `0x6F6562F0` | DIFFERS | replay payload encoder |
+| `0x6F6563A0` | DIFFERS | replay payload decoder |
+| `0x6F5482A0` | DIFFERS | compressed replay serializer |
+| `0x6F548350` | DIFFERS | uncompressed replay serializer |
+| `0x6F548400` | DIFFERS | replay-done serializer |
+| `0x6F554690` | DIFFERS | compressed replay writer |
+| `0x6F554650` | DIFFERS | uncompressed replay writer |
+| `0x6F554560` | DIFFERS | replay-done writer |
+
 ## Приём входящих приказов — [PR #54](https://github.com/FilippTheBestDev/claudecraft/pull/54)
 
 Владелец: `codex/inbound-order-callbacks`. Пять крупных обработчиков и
-двенадцать вспомогательных C++ тел опубликованы в PR #54. QA исправил
+шестнадцать вспомогательных C++ тел опубликованы в PR #54. QA исправил
 порядок освобождения ссылки (`e21aecc44`) и сверил обе fogged ветви;
 штатная проверка совпадения остаётся открытой.
 
@@ -213,6 +232,10 @@ Selection/control-group serializer и writer опубликованы комми
 | `0x6F47B5B0` | DIFFERS | unregister resolved request |
 | `0x6F491650` | DIFFERS | find resolved object in 12-slot holder |
 | `0x6F491FB0` | DIFFERS | clear resolved object from holder |
+| `0x6F285D10` | DIFFERS | local inbound sender eligibility |
+| `0x6F3A37F0` | DIFFERS | sender visible relation bit |
+| `0x6F3A36D0` | DIFFERS | sender enemy relation bit |
+| `0x6F026870` | DIFFERS | Aall tag accessor |
 
 Эти PR — параллельная работа по движку. Статусы не сообщают, что код уже
 пригоден для игры, прошёл полный матч или устраняет утечку скрытого состояния.
