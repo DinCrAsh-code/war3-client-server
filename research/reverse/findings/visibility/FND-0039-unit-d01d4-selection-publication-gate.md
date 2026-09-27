@@ -3,7 +3,7 @@
 | Поле | Значение |
 |---|---|
 | Subsystem | visibility |
-| Tags | unit, observer, SubmitUnit, selection, GameUI, presentation |
+| Tags | unit, observer, SubmitUnit, selection, leader-rank, GameUI, presentation |
 | Kind | boundary |
 | Evidence | static |
 | Verification | source-reviewed |
@@ -47,6 +47,17 @@ membership проверка была положительной, `0x6F332700`;
 `0x6F284830` завершает оба исхода обновлением presentation state.
 Подробный конечный экранный эффект этих helpers здесь не установлен.
 
+Если удаляемый unit был текущим лидером (`selection+0x1E0`),
+`0x6F424CE0` проходит оставшиеся узлы со signed `> 0` terminator и
+передаёт выбранного лидера в `0x6F420380`. Кандидат заменяет лидера
+при большем selection rank из `0x6F29DBF0`; при равных рангах выбирается
+меньшее поле типа `unit+0x30`. Сравнение `fcompp/fucompp` не выбирает
+кандидата на unordered/NaN. Перед сравнением rank существующий лидер
+проходит handle/tag gate (`0x2B61676C`, поле блока `+0x20 == 0`);
+если gate не прошёл, следующий кандидат становится лидером без rank
+tie-break. Это порядок локального выбора после удаления, а не правило
+выдачи состояния юнита клиенту.
+
 ## Почему это не fog- и не Net-пакет
 
 В этом caller первый аргумент `PublishPosition` равен **1**. По
@@ -83,9 +94,15 @@ relation/detection gate `0x6F3A15F0`; затем установленный би
 В показанной цепи доказана локальная проверка и mutation selection
 state, не server→client выдача health/position/inventory.
 
-Статусы S11: `0x6F284950`, `0x6F2A0E30` — `THUNK` в S10
-реконструкции при наличии IDA-body; `0x6F285110` — `DIFFERS`,
-остальные адресные связи прочитаны статически без исполнения.
+В закреплённом S11 `0x6F284950` и `0x6F2A0E30` были `THUNK` в
+реконструкции при наличии IDA-body. В [C++ PR #52, коммит `c86020520`](https://github.com/FilippTheBestDev/claudecraft/pull/52)
+`0x6F284950` заменён собственным C++ телом, а `0x6F424CE0` получил
+новое тело; оба остаются `DIFFERS`. Независимая ограниченная сверка
+VC8 generated assembly дала 77/77 для handler, 76/181 для removal.
+Возвращаемое 0/1 значение virtual `PublishPosition` восстановлено в
+производном и базовом объявлении; базовый `0x6F2AD710` сохранил 28/28
+в локальной сверке. Это не штатный `verify.py`, full link или игровой
+прогон; `0x6F285110` остаётся `DIFFERS`.
 Остаются открытыми точный runtime trigger `0xD01D4`, все side
 effects helper'ов выбора и независимый outbound serializer state.
 Следующий опыт: в двухигроковом матче записать `unit+0x114/+0x118`,
