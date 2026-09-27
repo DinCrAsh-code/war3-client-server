@@ -108,7 +108,10 @@ Matching в комментарии остаётся заявлением ист�
 сохраняются переходы в оригинал. В S11 [FND-0040–0041](INDEX.md)
 прослеживают native → TLS/VM yield → сохранённый trigger instance →
 публикацию sleep-события → команду resume и условный повторный вход.
-Косвенная подписка события и доставка команды не воспроизведены.
+Таймерный observer-мост установлен статически в
+[FND-0045](findings/jass/FND-0045-trigger-timer-observer-bridge.md):
+sleep code `0` ставит event, fire-слот обращается к `CTriggerExecution`,
+отмена снимает timer-ref. Реальный fire очереди и доставка команды не воспроизведены.
 [FND-0042](findings/jass/FND-0042-trigger-sync-barrier.md) отличает
 sync-mask/ready-команду от обычного сна и `SyncSelections` с нулевым sleep.
 [FND-0044](findings/jass/FND-0044-trigger-continuation-command-identity.md)
