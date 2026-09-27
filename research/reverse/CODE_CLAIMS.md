@@ -21,8 +21,8 @@ PR и `agent_worktrees/funcs/0xADDR.json` в соответствующей ве
 
 ## Обзор, обнаружение и туман — [PR #52](https://github.com/FilippTheBestDev/claudecraft/pull/52)
 
-Владелец: `codex/visibility-fog-rescan`. 59 новых C++ тел в опубликованной
-ветке; две временные зависимости остаются переходами в оригинал.
+Владелец: `codex/visibility-fog-rescan`. 61 C++ тело в опубликованной
+ветке; одна временная зависимость остаётся переходом в оригинал.
 
 | Адрес | Статус | Участок |
 |---|---|---|
@@ -85,7 +85,8 @@ PR и `agent_worktrees/funcs/0xADDR.json` в соответствующей ве
 | `0x6F506CE0` | DIFFERS | material detection reset; COW и слои |
 | `0x6F506DC0` | DIFFERS | material detection final; COW и слои |
 | `0x6F2AB310` | DIFFERS | target-lost stack event; прежний Filipp THUNK заменён |
-| `0x6F3A5DC0` | THUNK | зависимость |
+| `0x6F3A3A70` | DIFFERS | 12-slot widget mask builder |
+| `0x6F3A5DC0` | DIFFERS | widget-cell two-plane query; прежний собственный THUNK заменён |
 | `0x6F752570` | THUNK | зависимость |
 
 При независимой сверке `0x6F755B90` с ASM была исправлена инверсия
@@ -99,6 +100,8 @@ Notification/presentation блок опубликован коммитом `b278
 Material notification pair опубликована коммитом `f87c63c4d`.
 Target-lost event опубликован коммитом `3088ef8a0`: normal-path C++ body,
 два data symbols, instruction gap SEH/unwind; не сетевой sender.
+Widget-mask closure опубликован коммитом `88e75702a`: builder и query
+заменили прежний переход в оригинал на пути rescan.
 Эти ветви остаются без штатного verify и игрового прогона.
 
 ## Формирование исходящих приказов — [PR #53](https://github.com/FilippTheBestDev/claudecraft/pull/53)
@@ -223,7 +226,7 @@ Turn-store buffer ownership опубликован коммитом `ee34f547d` 
 ## Приём входящих приказов — [PR #54](https://github.com/FilippTheBestDev/claudecraft/pull/54)
 
 Владелец: `codex/inbound-order-callbacks`. Пять крупных обработчиков и
-шестнадцать вспомогательных C++ тел опубликованы в PR #54. QA исправил
+восемнадцать вспомогательных C++ тел опубликованы в PR #54. QA исправил
 порядок освобождения ссылки (`e21aecc44`) и сверил обе fogged ветви;
 штатная проверка совпадения остаётся открытой.
 
@@ -253,6 +256,30 @@ Turn-store buffer ownership опубликован коммитом `ee34f547d` 
 | `0x6F3A37F0` | DIFFERS | sender visible relation bit |
 | `0x6F3A36D0` | DIFFERS | sender enemy relation bit |
 | `0x6F026870` | DIFFERS | Aall tag accessor |
+| `0x6F284350` | DIFFERS | point/fogged candidate rank |
+| `0x6F421DE0` | DIFFERS | player row membership |
+
+Row metadata pair опубликована коммитом `fc651d6ca` и уточняет
+[FND-0068](findings/simulation/FND-0068-point-target-fogged-order-family.md).
+
+## В работе, без опубликованного C++ тела
+
+Эти адреса уже закреплены в S11 store соответствующих веток. Они **не**
+входят в счёт опубликованных C++ тел выше; перед работой сверить текущие PR.
+
+| Адрес | Владелец | Связный участок |
+|---|---|---|
+| `0x6F5491D0` | PR #53 | sender-key relocation |
+| `0x6F5496A0` | PR #53 | sender-key TLS wrapper |
+| `0x6F54F3F0` | PR #53 | session lookup wrapper |
+| `0x6F54E800` | PR #53 | sender-key removal |
+| `0x6F54FDF0` | PR #53 | sender-key cleanup wrapper |
+| `0x6F538690` | PR #53 | player pointer-array capacity |
+| `0x6F5386F0` | PR #53 | player pointer-array growth |
+| `0x6F546130` | PR #53 | unlink sender entry |
+| `0x6F53EC50` | PR #53 | leave-state callback |
+| `0x6F2CADC0` | PR #54 | direct-target candidate scanner |
+| `0x6F2CB190` | PR #54 | two-target candidate scanner |
 
 Эти PR — параллельная работа по движку. Статусы не сообщают, что код уже
 пригоден для игры, прошёл полный матч или устраняет утечку скрытого состояния.
