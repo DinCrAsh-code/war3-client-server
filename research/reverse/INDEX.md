@@ -21,6 +21,7 @@
 | [FND-0009: локальные входы и состояние ожидания JASS](findings/jass/FND-0009-local-input-continuations.md) | jass; camera, tls, continuation | boundary | static | source-reviewed | bounded |
 | [FND-0040: натив ожидания выводит JASS instance с отдельным статусом](findings/jass/FND-0040-jass-vm-yield-status.md) | jass; tls, native-dispatch, sleep, continuation | contract | static | source-reviewed | bounded |
 | [FND-0041: trigger action удерживает instance и продолжает исполнение](findings/jass/FND-0041-trigger-action-continuation.md) | jass; trigger, sleep, event, continuation, handles | contract | static | source-reviewed | bounded |
+| [FND-0042: sync trigger использует маску игроков и ready-команду](findings/jass/FND-0042-trigger-sync-barrier.md) | jass; trigger, sync, player-mask, network-command | contract | static | source-reviewed | bounded |
 | [FND-0043: GetLocalPlayer выбирает слот и возвращает handle token](findings/jass/FND-0043-local-player-handle-selection.md) | jass; local-context, player, handles | boundary | static | source-reviewed | bounded |
 
 Основной evidence относится только к выводу карточки. Например, связанный
@@ -33,7 +34,7 @@
 |---|---|---|
 | Startup | FND-0001, FND-0004 | Обычный запуск, обязательные владельцы и полный teardown |
 | Simulation | FND-0002–0004 | Все игровые действия, pathfinding/коллизии, полный матч и порядок RNG |
-| JASS | FND-0005, FND-0009, FND-0043; регистрация натива, режимный выбор слота и handle token | Локальные контексты, ожидания, события и синхронизация без изменения карты |
+| JASS | FND-0005, FND-0009, FND-0040–0043; локальный слот, TLS/VM yield, trigger instance и sync-mask | Проверить событие, доставку команд и поведение локального значения после ожидания на двух игроках |
 | Visibility | FND-0006–0008; чтение точки/юнита/детекта и fog writer | Завершить маршрут SubmitUnit и writers; оракул, общий обзор, права на поля/события |
 | Presentation | S01/S03, FND-0008/0009; локальные входы и UI-зависимость тумана | Поле за полем проверить потребителей мира; клиентский runtime ещё не выбран |
 | Resources | Компонентный маршрут архивов/собственной карты в S01/S09 | Произвольные карты и обязательный серверу ресурсный состав |

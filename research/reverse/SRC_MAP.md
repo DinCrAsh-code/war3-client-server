@@ -103,17 +103,22 @@ Matching в комментарии остаётся заявлением ист�
 [JassThreadSleep / JassThreadSyncStart](../../src/Jass/jassthreadstate.cpp)
 меняют текущий поток из TLS. Это C++-тела, не полный планировщик продолжений.
 
-В [ExecuteOpcodeStream](../../src/Jass/jassexecutestream.cpp) и
+В S10 [ExecuteOpcodeStream](../../src/Jass/jassexecutestream.cpp) и
 [Construct / CreateChildInstance](../../src/Jass/jassinstancebigthunks.cpp)
-сохраняются переходы в оригинал. В
-[ExecuteFunc](../../src/Jass/jassruntimeexecutefunc.cpp) C++-обвязка соседствует
-с таким переходом у `JassExecuteFuncFrame::Invoke`.
-`GetLocalPlayer` найден в [регистрации](../../src/Jass/jassregisterallnatives.cpp);
-эта запись не является восстановленным телом натива.
+сохраняются переходы в оригинал. В S11 [FND-0040–0041](INDEX.md)
+прослеживают native → TLS/VM yield → сохранённый trigger instance →
+публикацию sleep-события → команду resume и условный повторный вход.
+Косвенная подписка события и доставка команды не воспроизведены.
+[FND-0042](findings/jass/FND-0042-trigger-sync-barrier.md) отличает
+sync-mask/ready-команду от обычного сна и `SyncSelections` с нулевым sleep.
 
-Нужно проследить один локальный ввод, общие изменения, handles и ожидание до
-возобновления. Простое повторение скрипта для каждого игрока не принято как
-решение. [FND-0009](findings/jass/FND-0009-local-input-continuations.md).
+В S10 `GetLocalPlayer` есть лишь в
+[регистрации](../../src/Jass/jassregisterallnatives.cpp). [FND-0043](findings/jass/FND-0043-local-player-handle-selection.md)
+читает S11 IDA-тело: выбор одного из двух player slots зависит от режима,
+результат проходит через handle registry. Не установлено, как локальное
+значение переживает yield и какие общие эффекты карта делает после него.
+Простое повторение скрипта для каждого игрока не принято как решение;
+см. [FND-0009](findings/jass/FND-0009-local-input-continuations.md).
 
 ### P0. От ввода и выделения до приказа
 

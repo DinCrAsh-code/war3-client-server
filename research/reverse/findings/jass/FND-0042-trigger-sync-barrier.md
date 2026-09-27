@@ -1,0 +1,33 @@
+# FND-0042 — TriggerSyncStart и TriggerSyncReady используют маску игроков и отдельную команду готовности
+
+| Поле | Значение |
+|---|---|
+| Subsystem | jass |
+| Tags | trigger, sync, player-mask, network-command, continuation |
+| Kind | contract |
+| Evidence | static |
+| Verification | source-reviewed |
+| State | bounded |
+| Impact | compatibility, correctness, security |
+| Scope | S11, статический маршрут JASS trigger sync предполагаемой Game.dll 1.26a/build 6401 x86; fingerprint образа и исполнение DLL не проверены |
+| Sources | [S11](../../SOURCES.md#s11-адресный-корпус-ida-коллеги), commit `10950d496aa7357a6180c1956def50c2a3e8c1a9`; [S10](../../SOURCES.md#s10), commit `2fc76c8035554912dd66fc0a06a39eda376a806c` |
+
+## Вывод
+
+В прочитанной цепочке `TriggerSyncStart` выводит текущий JASS instance со статусом `4`, после чего trigger строит 12-битную маску ожидаемых игроков `+0x8C` и выпускает команду `ResumeTriggerExec` (`0xA0062`). `TriggerSyncReady` выпускает отдельную команду `0xA0063` и помечает текущий JASS instance ожидающим с `sleepKind`, равным текущему trigger. Обработчик команды готовности снимает бит игрока с маски и вызывает обход trigger только после её обнуления. Это другой контракт продолжения, чем сон с длительностью из [FND-0041](FND-0041-trigger-action-continuation.md).
+
+## Основание и контроли
+
+1. [Регистрация S10](../../../../src/Jass/jassregisterallnatives.cpp) сопоставляет `TriggerSyncStart` с [`0x6F3B2DC0`](https://github.com/FilippTheBestDev/claudecraft/blob/10950d496aa7357a6180c1956def50c2a3e8c1a9/agent_worktrees/funcs/0x6F3B2DC0.json), `TriggerSyncReady` с [`0x6F3BB710`](https://github.com/FilippTheBestDev/claudecraft/blob/10950d496aa7357a6180c1956def50c2a3e8c1a9/agent_worktrees/funcs/0x6F3BB710.json). Первый ставит у верхнего instance TLS slot 5 флаг `+0x3C`; [VM `0x6F45E9D0`](https://github.com/FilippTheBestDev/claudecraft/blob/10950d496aa7357a6180c1956def50c2a3e8c1a9/agent_worktrees/funcs/0x6F45E9D0.json) после native dispatch возвращает `4`, если нет более приоритетного sleep-флага `+0x34` ([FND-0040](FND-0040-jass-vm-yield-status.md)).
+2. [`CTriggerExecution::` маршрут `0x6F447340`](https://github.com/FilippTheBestDev/claudecraft/blob/10950d496aa7357a6180c1956def50c2a3e8c1a9/agent_worktrees/funcs/0x6F447340.json) на статусе `4` вызывает [`0x6F445120`](https://github.com/FilippTheBestDev/claudecraft/blob/10950d496aa7357a6180c1956def50c2a3e8c1a9/agent_worktrees/funcs/0x6F445120.json). Эта функция обнуляет `trigger+0x8C`, перебирает слоты игроков `0..11` через [`0x6F3A1650`](https://github.com/FilippTheBestDev/claudecraft/blob/10950d496aa7357a6180c1956def50c2a3e8c1a9/agent_worktrees/funcs/0x6F3A1650.json) и ставит бит для слота с `player+0x270==1` и `player+0x268==0`. Затем `0x6F447340` проходит через [`0x6F4442D0`](https://github.com/FilippTheBestDev/claudecraft/blob/10950d496aa7357a6180c1956def50c2a3e8c1a9/agent_worktrees/funcs/0x6F4442D0.json) с нулевым флагом sleep-публикации и вызывает [`0x6F43F620`](https://github.com/FilippTheBestDev/claudecraft/blob/10950d496aa7357a6180c1956def50c2a3e8c1a9/agent_worktrees/funcs/0x6F43F620.json) для команды `ResumeTriggerExec` (`0xA0062`). Это положительный контроль отдельной ветви статуса `4`.
+3. `TriggerSyncReady` берёт текущий trigger из стека контекста через [`0x6F3A1680`](https://github.com/FilippTheBestDev/claudecraft/blob/10950d496aa7357a6180c1956def50c2a3e8c1a9/agent_worktrees/funcs/0x6F3A1680.json). Если он существует, натив вызывает [`0x6F43F720`](https://github.com/FilippTheBestDev/claudecraft/blob/10950d496aa7357a6180c1956def50c2a3e8c1a9/agent_worktrees/funcs/0x6F43F720.json), собирающий `CNetCommandTriggerSyncReady` (`0xA0063`, код `0x63`), и затем `JassThreadSleep` с указателем на общий ноль и `kind=trigger`. При отсутствии текущего trigger натив возвращается без команды и без записи sleep — отрицательный контроль. [S10 тип команды](../../../../src/Net/netcommand_classes_multifield.h) и [её разбор](../../../../src/Net/netcommand_attach_multifield.cpp) подтверждают два поля trigger handle; исход команды после отправки отдельно не воспроизведён.
+4. [Регистраторы команд `0x6F440DB0`](https://github.com/FilippTheBestDev/claudecraft/blob/10950d496aa7357a6180c1956def50c2a3e8c1a9/agent_worktrees/funcs/0x6F440DB0.json) и [`0x6F440F70`](https://github.com/FilippTheBestDev/claudecraft/blob/10950d496aa7357a6180c1956def50c2a3e8c1a9/agent_worktrees/funcs/0x6F440F70.json) привязывают код `0x63` к [`0x6F440730`](https://github.com/FilippTheBestDev/claudecraft/blob/10950d496aa7357a6180c1956def50c2a3e8c1a9/agent_worktrees/funcs/0x6F440730.json). Обработчик проверяет trigger handle и его состояние, берёт индекс отправителя из байта команды `+0x15` и вызывает [`0x6F447720`](https://github.com/FilippTheBestDev/claudecraft/blob/10950d496aa7357a6180c1956def50c2a3e8c1a9/agent_worktrees/funcs/0x6F447720.json). Тот снимает бит отправителя `trigger+0x8C`, ещё раз очищает биты игроков с изменившимися состояниями `+0x268/+0x270` и вызывает `0x6F447340` только если маска стала нулевой. Положительный контроль: полный сброс маски допускает повторный обход; отрицательный: ненулевая маска не ведёт к этому вызову.
+5. [`SyncSelections`, 0x6F3BB740](https://github.com/FilippTheBestDev/claudecraft/blob/10950d496aa7357a6180c1956def50c2a3e8c1a9/agent_worktrees/funcs/0x6F3BB740.json) также проходит 12 игроков, вызывает `0x6F425490` для доступных selection-records и заканчивает `JassThreadSleep` с общим нулём, но с `kind=0`. Он не выпускает в своём теле команду `0xA0063` и не ставит `+0x3C`; один только нулевой sleep не означает sync-ready барьер.
+
+## Ограничения и отвергнутые гипотезы
+
+Статический код показывает команды, маску и условия вызовов, но не доказывает доставку каждого сетевого пакета, тайминг команд, отсутствие повторов или независимую VM на игрока. Условие `player+0x268/+0x270` приведено по данным полям; их бизнес-смысл и все состояния игроков не восстановлены. Значение глобального нуля для `TriggerSyncReady`/`SyncSelections` поддержано S10, но fingerprint исходной DLL для этой константы здесь не проверен. `TriggerSyncReady` нельзя считать завершённым барьером без анализа всех отправителей, ошибок и жизненного цикла trigger. `SyncSelections` служит контрпримером переноса этого вывода на любой `JassThreadSleep(0)`.
+
+## Значение для проекта
+
+Если JASS продолжится в другом месте или будет разделён по игрокам, нельзя терять mask готовности, привязку команды к отправителю и связь с прежним trigger instance. Проверка совместимости должна отдельно покрыть sync с несколькими активными игроками, выход игрока из ожидания и недействительный handle, прежде чем выбирать архитектуру локального JASS.
