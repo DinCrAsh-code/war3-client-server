@@ -103,17 +103,86 @@ Matching в комментарии остаётся заявлением ист�
 [JassThreadSleep / JassThreadSyncStart](../../src/Jass/jassthreadstate.cpp)
 меняют текущий поток из TLS. Это C++-тела, не полный планировщик продолжений.
 
-В [ExecuteOpcodeStream](../../src/Jass/jassexecutestream.cpp) и
+В S10 [ExecuteOpcodeStream](../../src/Jass/jassexecutestream.cpp) и
 [Construct / CreateChildInstance](../../src/Jass/jassinstancebigthunks.cpp)
-сохраняются переходы в оригинал. В
-[ExecuteFunc](../../src/Jass/jassruntimeexecutefunc.cpp) C++-обвязка соседствует
-с таким переходом у `JassExecuteFuncFrame::Invoke`.
-`GetLocalPlayer` найден в [регистрации](../../src/Jass/jassregisterallnatives.cpp);
-эта запись не является восстановленным телом натива.
+сохраняются переходы в оригинал. В S11 [FND-0040–0041](INDEX.md)
+прослеживают native → TLS/VM yield → сохранённый trigger instance →
+публикацию sleep-события → команду resume и условный повторный вход.
+Таймерный observer-мост установлен статически в
+[FND-0045](findings/jass/FND-0045-trigger-timer-observer-bridge.md):
+sleep code `0` ставит event, fire-слот обращается к `CTriggerExecution`,
+отмена снимает timer-ref. Реальный fire очереди и доставка команды не воспроизведены.
+[FND-0042](findings/jass/FND-0042-trigger-sync-barrier.md) отличает
+sync-mask/ready-команду от обычного сна и `SyncSelections` с нулевым sleep.
+[FND-0044](findings/jass/FND-0044-trigger-continuation-command-identity.md)
+разделяет payload команд resume и ready: первая несёт token исполнения,
+вторая берёт индекс отправителя из оболочки. Проверка handle и token в
+оригинальном пути не доказывает право клиента посылать эту команду.
+[FND-0046](findings/jass/FND-0046-local-player-context-after-trigger-sleep.md)
+отделяет сохранённый ключ JASS instance от нового вызова GetLocalPlayer:
+resume разрешает ключ через TLS slot 5, а native вновь выбирает игрока
+по singleton и TLS slot 13. Судьба локальной идентичности через сон
+зависит от ещё не проверенного контекста dispatch.
+[FND-0047](findings/jass/FND-0047-resume-dispatch-tls-boundary.md)
+прослеживает inbound event pump до parser/observer/trigger handler:
+в этом синхронном стеке resume берёт TLS slots 13 и 5 текущего потока.
+Сам этот локальный маршрут не устанавливает scheduler и связь с потоком sleep.
+[FND-0048](findings/jass/FND-0048-event-context-tls-rebinding.md)
+сужает этот пробел: scheduler worker перед вызовом handlers привязывает
+TLS array выбранного EvtContext, а startup handler регистрирует pump
+в том же контексте по TLS slot 0. Реальный транспорт и содержимое slots
+между событиями всё ещё требуют проверки.
+[FND-0049](findings/jass/FND-0049-local-player-slot-writers.md)
+связывает выбор `GetLocalPlayer` с `SNetSessionInfo+0x610` — индексом
+активной сетевой записи — и показывает условные writers `+0x28` и
+snapshot `+0x2A`. Смена результата между sleep и resume не наблюдалась.
+[FND-0051](findings/jass/FND-0051-resume-sender-resolution.md)
+прослеживает sender-key входного turn через таблицу выбранной сетевой
+записи и action gate до resume/ready builder. Неизвестный key отвергается
+до trigger handler, но связь key с сетевым peer не доказана.
+[FND-0053](findings/jass/FND-0053-trigger-ready-membership-boundary.md)
+разделяет route-level sender gate и trigger-local проверки: resume
+сверяет token, ready снимает бит из ожидаемой маски без проверки его
+прежнего участия, а общий обход имеет gate вложенных executions.
+Глобальная авторизация и повторный эффект этим не доказаны.
+[FND-0054](findings/jass/FND-0054-cross-domain-native-dispatch.md)
+проводит opcode native dispatch до GetLocalPlayer, camera и unit
+natives: таблица TLS slot 5 общая для этих вызовов, но camera идёт к
+process-global GameUI, а unit natives меняют мир по handles. Отдельный
+EvtContext без дополнительных границ не изолирует камеру в одном процессе.
+[FND-0056](findings/jass/FND-0056-gameui-world-reset-boundary.md)
+находит обнуление global GameUI на пути сброса world object, включая вход
+из TLS13 и прямой вызов на world. Смена EvtContext сама этот указатель
+не сбрасывает; одновременное существование двух миров не установлено.
+[FND-0058](findings/jass/FND-0058-resumed-trigger-unit-state-write.md)
+прослеживает условный `ResumeTriggerExec` через сохранённый VM cursor,
+native dispatch и `SetUnitState(state=2)` до записи tracked mana
+range мира. Token и handle проверки ограничивают вход, но не являются
+сами по себе счётчиком общего эффекта на игрока; факт такого bytecode
+в карте и число исполнений не проверены.
+[FND-0060](findings/network/FND-0060-sender-key-enrollment-boundary.md)
+прослеживает первоначальную запись participant key из событий
+`GameCreate`/`GameJoin`/`PlayerJoin` в таблицу выбранной сетевой записи,
+которую позднее ищет turn action. Та же очередь получает replay records;
+прямая связь key с authenticated peer до queued event остаётся открытой.
+[FND-0063](findings/network/FND-0063-local-turn-sender-key.md)
+показывает обратный локальный путь: в режиме `LOOP`/`NONE` pump берёт
+slot активной записи, разрешает participant key и кладёт его в queued
+turn `0x1F`. Прочие session tags проходят отдельный send branch;
+его serializer и peer admission здесь не восстановлены.
+[FND-0066](findings/network/FND-0066-online-turn-store-flush-boundary.md)
+прослеживает запись готовых command bytes в online `CTurnStore`, flush
+через TLS net client и последующий reset store. Связь virtual sink с
+peer и обратный путь до turn event остаются открытыми.
 
-Нужно проследить один локальный ввод, общие изменения, handles и ожидание до
-возобновления. Простое повторение скрипта для каждого игрока не принято как
-решение. [FND-0009](findings/jass/FND-0009-local-input-continuations.md).
+В S10 `GetLocalPlayer` есть лишь в
+[регистрации](../../src/Jass/jassregisterallnatives.cpp). [FND-0043](findings/jass/FND-0043-local-player-handle-selection.md)
+читает S11 IDA-тело: выбор одного из двух player slots зависит от
+активного индекса сетевой записи ([FND-0049](findings/jass/FND-0049-local-player-slot-writers.md)),
+результат проходит через handle registry. Не установлено, как локальное
+значение переживает yield и какие общие эффекты карта делает после него.
+Простое повторение скрипта для каждого игрока не принято как решение;
+см. [FND-0009](findings/jass/FND-0009-local-input-continuations.md).
 
 ### P0. От ввода и выделения до приказа
 
