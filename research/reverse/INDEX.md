@@ -67,6 +67,7 @@
 | [FND-0076: запись 0x1F попадает в локальную очередь событий](findings/network/FND-0076-local-net-event-enqueue-boundary.md) | network; order, event, queue, special-session, peer-boundary | boundary | static | source-reviewed | bounded |
 | [FND-0077: selection и control-group используют пять путей записи](findings/simulation/FND-0077-selection-control-group-wire-fields.md) | simulation; selection, control-group, serialization, handle-pair, outbound | contract | static | source-reviewed | bounded |
 | [FND-0078: локальное событие `0x1F` достигает turn parser](findings/network/FND-0078-local-event-turn-parser.md) | network; order, event, queue, turn-parser, sender-byte, peer-boundary | boundary | static | source-reviewed | bounded |
+| [FND-0079: sender key связывается с байтом игрока](findings/network/FND-0079-sender-key-local-binding.md) | network; sender-key, player-byte, session, lookup, admission, peer-boundary | boundary | static | source-reviewed | bounded |
 
 Основной evidence относится только к выводу карточки. Например, связанный
 компонентный запуск не доказывает обычный запуск всей игры, а проверка
