@@ -3,7 +3,7 @@
 | Поле | Значение |
 |---|---|
 | Subsystem | simulation |
-| Tags | order, point, target, fogged, selection, identity, disclosure |
+| Tags | order, point, target, fogged, selection, identity, disclosure, ranking |
 | Kind | boundary |
 | Evidence | static |
 | Verification | source-reviewed |
@@ -48,6 +48,18 @@
 список различается (`6`/`7`). Это **фильтр применения**, не доказанная
 аутентификация отправителя или правило выдачи скрытой цели.
 
+Для point/fogged candidate row дополнительная сверка S11 и
+[C++ PR #54, коммит `fc651d6ca`](https://github.com/FilippTheBestDev/claudecraft/pull/54)
+уточнила два поля. [`0x6F284350`](https://github.com/FilippTheBestDev/claudecraft/blob/10950d496aa7357a6180c1956def50c2a3e8c1a9/agent_worktrees/funcs/0x6F284350.json)
+берёт беззнаковый минимум ответов ability slot `+0x220` для order ID и
+точки; если все ответы равны `-1`, вычисляет масштабированный квадрат
+расстояния от позиции юнита до точки через `CFloat`, с нулевым Z.
+Результат идёт в row `+0x0C` и участвует в ранжировании кандидатов.
+[`0x6F421DE0`](https://github.com/FilippTheBestDev/claudecraft/blob/10950d496aa7357a6180c1956def50c2a3e8c1a9/agent_worktrees/funcs/0x6F421DE0.json)
+заполняет row `+0x14`: null player list `+0x1C0` даёт `0`, иначе
+вызывает уже существующий `SUnitMembershipList::Contains(unit)`.
+Это локальный выбор кандидата, не server admission.
+
 ## Контроли и открытая граница
 
 Положительный статический контроль: при разрешённой общей паре
@@ -57,8 +69,11 @@
 неразрешённая или чужого tag пара объекта в target image не даёт
 объектной ссылки; `0x6F285D10`-ветвь меняет обработку выбранного юнита.
 Сам callback может продолжить работу с пустой ссылкой, поэтому из этого
-**не следует** безусловный отказ всей команды. Также не показаны
-producer всех пяти вариантов, origin/authentication слота, фактическая
+**не следует** безусловный отказ всей команды. Если ability не даёт
+score, `0x6F284350` не отвергает кандидата, а переходит к расстоянию;
+если membership list отсутствует, `0x6F421DE0` возвращает ноль.
+Не показаны producer всех пяти вариантов, origin/authentication слота,
+фактическая
 смена task, эффект move/attack или безопасность `fogged` payload при
 выдаче клиенту.
 
