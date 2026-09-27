@@ -21,7 +21,7 @@ PR и `agent_worktrees/funcs/0xADDR.json` в соответствующей ве
 
 ## Обзор, обнаружение и туман — [PR #52](https://github.com/FilippTheBestDev/claudecraft/pull/52)
 
-Владелец: `codex/visibility-fog-rescan`. 31 новое C++ тело в опубликованной
+Владелец: `codex/visibility-fog-rescan`. 34 новых C++ тела в опубликованной
 ветке; три временные зависимости остаются переходами в оригинал.
 
 | Адрес | Статус | Участок |
@@ -57,6 +57,9 @@ PR и `agent_worktrees/funcs/0xADDR.json` в соответствующей ве
 | `0x6F27A3C0` | DIFFERS | счётчик вклада обзора: добавить |
 | `0x6F27A400` | DIFFERS | счётчик вклада обзора: снять |
 | `0x6F28DC80` | DIFFERS | снять вклад обзора юнита |
+| `0x6F27A240` | DIFFERS | добавить вклад детекта |
+| `0x6F27A2B0` | DIFFERS | снять вклад детекта |
+| `0x6F27A430` | DIFFERS | direct override обзора |
 | `0x6F28DB90` | THUNK | зависимость |
 | `0x6F3A5DC0` | THUNK | зависимость |
 | `0x6F752570` | THUNK | зависимость |
@@ -65,23 +68,27 @@ PR и `agent_worktrees/funcs/0xADDR.json` в соответствующей ве
 ветки плотных R/S-тегов. Компиляция пройдена, штатная проверка совпадения
 и игровой запуск остаются открытыми.
 
-Следующий связный блок счётчиков детекта и direct override занят этим
-кодером; эти адреса ещё не имеют опубликованных C++ тел:
+Следующий связный блок CUnit wrappers и их lazy-allocation/getter
+зависимостей занят этим кодером; эти адреса ещё не имеют опубликованных
+C++ тел:
 
 | Адрес | Статус | Участок |
 |---|---|---|
-| `0x6F27A240` | TODO | добавить вклад детекта |
-| `0x6F27A2B0` | TODO | снять вклад детекта |
-| `0x6F27A430` | TODO | direct override обзора |
+| `0x6F26C240` | TODO | rawcode getter |
+| `0x6F26C2C0` | TODO | rawcode getter |
+| `0x6F274250` | TODO | checked-slot Assign |
+| `0x6F2742D0` | TODO | checked-slot Assign |
+| `0x6F27F040` | TODO | checked-slot constructor |
+| `0x6F27F0A0` | TODO | checked-slot constructor |
 | `0x6F284A50` | TODO | снять вклад детекта юнита |
 | `0x6F296680` | TODO | добавить вклад детекта юнита |
 | `0x6F296910` | TODO | установить direct override обзора |
 
 ## Формирование исходящих приказов — [PR #53](https://github.com/FilippTheBestDev/claudecraft/pull/53)
 
-Владелец: `codex/sim-order-flag-builders`. В опубликованной ветке 30 новых
-C++ тел: семь оболочек флагов, семь производителей полезной нагрузки,
-пять сериализаторов, шесть функций записи полей и пять queue/record helpers. Они
+Владелец: `codex/sim-order-flag-builders`. В опубликованной ветке 33 новых
+C++ тел: восемь оболочек флагов, восемь производителей полезной нагрузки,
+шесть сериализаторов, шесть функций записи полей и пять queue/record helpers. Они
 прошли ограниченную проверку исходника и native-компиляцию, но не полную
 проверку совпадения.
 
@@ -131,28 +138,44 @@ C++ тел: семь оболочек флагов, семь производи�
 | `0x6F53E080` | DIFFERS | слот отправителя → байт |
 | `0x6F6522D0` | DIFFERS | запись длины и payload |
 
-Следующий subtype `0xA0010` занят тем же кодером; тела ещё пишутся:
+Subtype `0xA0010` опубликован коммитом `d30c7ea45`:
 
 | Адрес | Статус | Участок |
 |---|---|---|
-| `0x6F339C60` | TODO | basic order wrapper |
-| `0x6F2CB940` | TODO | basic order producer |
-| `0x6F2C97D0` | TODO | basic order serializer |
+| `0x6F339C60` | DIFFERS | basic order wrapper |
+| `0x6F2CB940` | DIFFERS | basic order producer |
+| `0x6F2C97D0` | DIFFERS | basic order serializer |
+
+Следующий связный блок selection/control-group serializer и writer занят
+этим кодером; все девять адресов проверены как TODO без старых C++ тел.
+`0x6F5542D0` уже EXACT и остаётся за границей блока.
+
+| Адрес | Статус | Участок |
+|---|---|---|
+| `0x6F2C9C50` | TODO | selection/control-group serializer |
+| `0x6F2C9D10` | TODO | selection/control-group serializer |
+| `0x6F2C9DD0` | TODO | selection/control-group serializer |
+| `0x6F2C9E90` | TODO | selection/control-group serializer |
+| `0x6F2C9F50` | TODO | selection/control-group serializer |
+| `0x6F554160` | TODO | selection/control-group writer |
+| `0x6F5541C0` | TODO | selection/control-group writer |
+| `0x6F554220` | TODO | selection/control-group writer |
+| `0x6F554270` | TODO | selection/control-group writer |
 
 ## Приём входящих приказов — [PR #54](https://github.com/FilippTheBestDev/claudecraft/pull/54)
 
-Владелец: `codex/inbound-order-callbacks`. Пять крупных callbacks заняты
-кодером. Три больших обработчика `0x6F2CD020`/`0x6F2CD4E0`/`0x6F2CDA40`
-и четыре вспомогательных тела уже опубликованы в PR #54, QA исправил
-порядок освобождения ссылки (`e21aecc44`); два fogged callback ещё без кода.
+Владелец: `codex/inbound-order-callbacks`. Пять крупных обработчиков и
+четыре вспомогательных C++ тела опубликованы в PR #54. QA исправил
+порядок освобождения ссылки (`e21aecc44`) и сверил обе fogged ветви;
+штатная проверка совпадения остаётся открытой.
 
 | Адрес | Статус | Участок |
 |---|---|---|
 | `0x6F2CD020` | DIFFERS | входящий callback приказа |
 | `0x6F2CD4E0` | DIFFERS | входящий callback приказа |
 | `0x6F2CDA40` | DIFFERS | входящий callback приказа |
-| `0x6F2CDFF0` | TODO | входящий callback приказа |
-| `0x6F2CE550` | TODO | входящий callback приказа |
+| `0x6F2CDFF0` | DIFFERS | входящий callback приказа |
+| `0x6F2CE550` | DIFFERS | входящий callback приказа |
 
 | Адрес | Статус | Участок |
 |---|---|---|
