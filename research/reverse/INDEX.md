@@ -20,6 +20,7 @@
 | [FND-0008: fog writer обращается к world frame](findings/visibility/FND-0008-fog-ui-dependency.md) | visibility; presentation, lifetime | boundary | static | source-reviewed | bounded |
 | [FND-0009: локальные входы и состояние ожидания JASS](findings/jass/FND-0009-local-input-continuations.md) | jass; camera, tls, continuation | boundary | static | source-reviewed | bounded |
 | [FND-0040: натив ожидания выводит JASS instance с отдельным статусом](findings/jass/FND-0040-jass-vm-yield-status.md) | jass; tls, native-dispatch, sleep, continuation | contract | static | source-reviewed | bounded |
+| [FND-0041: trigger action удерживает instance и продолжает исполнение](findings/jass/FND-0041-trigger-action-continuation.md) | jass; trigger, sleep, event, continuation, handles | contract | static | source-reviewed | bounded |
 | [FND-0043: GetLocalPlayer выбирает слот и возвращает handle token](findings/jass/FND-0043-local-player-handle-selection.md) | jass; local-context, player, handles | boundary | static | source-reviewed | bounded |
 
 Основной evidence относится только к выводу карточки. Например, связанный
