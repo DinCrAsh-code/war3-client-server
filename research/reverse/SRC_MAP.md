@@ -162,6 +162,11 @@ NetClient send: её payload содержит событие и два dword и�
 показывает порядок двух death events после dying-битов и условный
 JASS trigger bridge. Ни в этом dispatch, ни в bridge нет прямого
 fog writer; последствия подписчиков и RemoveUnit остаются открытыми.
+[FND-0061](findings/visibility/FND-0061-death-detector-contribution-revocation.md)
+закрывает одного конкретного подписчика unit death event:
+активированная detector ability снимает свой вклад в два канала
+detection targets с порогом счётчика `1 → 0`. Это может изменить
+`QueryDetection`, но не доказывает отзыв fog grid.
 
 Граница работы: восстановить причинный маршрут «изменение отношений/детекта →
 маски мира и юнита → ответ `SubmitUnit`/JASS → локальные потребители», затем
