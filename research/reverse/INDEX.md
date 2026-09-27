@@ -36,6 +36,7 @@
 | [FND-0058: продолжение trigger может записать состояние юнита](findings/jass/FND-0058-resumed-trigger-unit-state-write.md) | jass; trigger, continuation, native-dispatch, unit, world-state, handles | boundary | static | source-reviewed | bounded |
 | [FND-0060: sender-key записывается событиями присоединения](findings/network/FND-0060-sender-key-enrollment-boundary.md) | network; participant, sender-key, session-record, event-queue, replay, authority, jass | boundary | static | source-reviewed | bounded |
 | [FND-0063: локальный turn переводит слот в sender-key](findings/network/FND-0063-local-turn-sender-key.md) | network; turn, sender-key, local-slot, session-record, event-queue, loopback, jass | boundary | static | source-reviewed | bounded |
+| [FND-0066: online turn store буферизует команды перед net client](findings/network/FND-0066-online-turn-store-flush-boundary.md) | network; turn, command-store, tls, net-client, outbound, peer-boundary, jass | boundary | static | source-reviewed | bounded |
 
 Основной evidence относится только к выводу карточки. Например, связанный
 компонентный запуск не доказывает обычный запуск всей игры, а проверка
@@ -51,7 +52,7 @@
 | Visibility | FND-0006–0008; чтение точки/юнита/детекта и fog writer | Завершить маршрут SubmitUnit и writers; оракул, общий обзор, права на поля/события |
 | Presentation | S01/S03, FND-0008/0009; локальные входы и UI-зависимость тумана | Поле за полем проверить потребителей мира; клиентский runtime ещё не выбран |
 | Resources | Компонентный маршрут архивов/собственной карты в S01/S09 | Произвольные карты и обязательный серверу ресурсный состав |
-| Network | FND-0002/0003/0060/0063; enrollment sender-key и локальный turn slot→key, см. SRC_MAP | Найти online packet/peer admission до queued event и связать полный ввод игрока с миром; новый wire-протокол ещё проектируется |
+| Network | FND-0002/0003/0060/0063/0066; enrollment sender-key, локальный turn slot→key и online command store→net client, см. SRC_MAP | Найти online packet/peer admission до queued event и связать полный ввод игрока с миром; новый wire-протокол ещё проектируется |
 | Map extensions | Общего подтверждённого контракта не перенесено | Версии расширений, зависимости от UI, server mode и отдельная приёмка |
 
 Отсутствующая карточка означает пробел, а не отсутствие подсистемы.

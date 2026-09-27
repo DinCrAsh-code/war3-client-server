@@ -170,6 +170,10 @@ range мира. Token и handle проверки ограничивают вхо
 slot активной записи, разрешает participant key и кладёт его в queued
 turn `0x1F`. Прочие session tags проходят отдельный send branch;
 его serializer и peer admission здесь не восстановлены.
+[FND-0066](findings/network/FND-0066-online-turn-store-flush-boundary.md)
+прослеживает запись готовых command bytes в online `CTurnStore`, flush
+через TLS net client и последующий reset store. Связь virtual sink с
+peer и обратный путь до turn event остаются открытыми.
 
 В S10 `GetLocalPlayer` есть лишь в
 [регистрации](../../src/Jass/jassregisterallnatives.cpp). [FND-0043](findings/jass/FND-0043-local-player-handle-selection.md)
