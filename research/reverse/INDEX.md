@@ -47,6 +47,7 @@
 | [FND-0035: деактивация снимает observer-регистрацию](findings/visibility/FND-0035-unit-deactivation-event-registration-release.md) | visibility; unit, deactivation, observer, event, refcount, fog | boundary | static | source-reviewed | bounded |
 | [FND-0036: KillUnit задаёт life=0 и открывает два канала уведомлений](findings/visibility/FND-0036-killunit-life-notification-death-boundary.md) | visibility; unit, KillUnit, life, death, observer, fog | boundary | static | source-reviewed | bounded |
 | [FND-0037: relation teardown условно вызывает CUnit Deactivate](findings/visibility/FND-0037-relation-teardown-unit-deactivation-boundary.md) | visibility; unit, lifecycle, relation, deactivation, observer, fog | boundary | static | source-reviewed | bounded |
+| [FND-0038: ответ публикации юнита допускает локальный MISS-текст](findings/visibility/FND-0038-unit-publication-miss-text-gate.md) | visibility; unit, SubmitUnit, fog, combat, GameUI, text-tag | boundary | static | source-reviewed | bounded |
 
 Основной evidence относится только к выводу карточки. Например, связанный
 компонентный запуск не доказывает обычный запуск всей игры, а проверка
@@ -59,7 +60,7 @@
 | Startup | FND-0001, FND-0004 | Обычный запуск, обязательные владельцы и полный teardown |
 | Simulation | FND-0002–0004 | Все игровые действия, pathfinding/коллизии, полный матч и порядок RNG |
 | JASS | FND-0005, FND-0009; C++-обвязка и исходные redirects в S10 | Локальные контексты, ожидания, события и синхронизация без изменения карты |
-| Visibility | FND-0006–0008, FND-0010–0037; точка/юнит/детект, writers, маски, spatial teardown, life-уведомления и условный relation callback к Deactivate | Связать death/RemoveUnit с deactivation и отзывом fog-радиуса; затем двухигроковый оракул |
+| Visibility | FND-0006–0008, FND-0010–0038; точка/юнит/детект, writers, маски, lifecycle и локальный MISS text consumer | Связать death/RemoveUnit с fog revoke, найти сетевую границу выдачи юнита; затем двухигроковый оракул |
 | Presentation | S01/S03, FND-0008/0009; локальные входы и UI-зависимость тумана | Поле за полем проверить потребителей мира; клиентский runtime ещё не выбран |
 | Resources | Компонентный маршрут архивов/собственной карты в S01/S09 | Произвольные карты и обязательный серверу ресурсный состав |
 | Network | FND-0002/0003; action/turn dispatch в S10, см. SRC_MAP | Связать полный ввод игрока с миром; новый wire-протокол ещё проектируется |

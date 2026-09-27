@@ -136,6 +136,10 @@ range-list и сообщения `0xD01E6`. В просмотренных пря
 вызывает slot `+0x34` у связанного delegate; для CUnit это
 `Deactivate`. Связь именно со смертью/RemoveUnit и дальнейшая
 очистка fog plane остаются открытыми.
+[FND-0038](findings/visibility/FND-0038-unit-publication-miss-text-gate.md)
+показывает локальный consumer: combat MISS text проходит через
+виртуальный `PublishPosition(0,4)`, затем GameUI gate и text-tag sink.
+Он не устанавливает сетевую границу раскрытия полей юнита.
 
 Граница работы: восстановить причинный маршрут «изменение отношений/детекта →
 маски мира и юнита → ответ `SubmitUnit`/JASS → локальные потребители», затем
