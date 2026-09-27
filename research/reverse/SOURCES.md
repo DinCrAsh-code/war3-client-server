@@ -74,6 +74,25 @@ commit `10950d496aa7357a6180c1956def50c2a3e8c1a9`, проверен чтение
 завышал первые два числа на `.gitkeep`. Это адресный реестр IDA, **не**
 число восстановленных функций и не оценка готовности клиента-сервера.
 
+Полный адресный корпус дизассемблированных функций находится в
+[`agent_worktrees/funcs/`](https://github.com/FilippTheBestDev/claudecraft/tree/10950d496aa7357a6180c1956def50c2a3e8c1a9/agent_worktrees/funcs):
+один JSON на IDA-адрес, поле `raw_asm` содержит строки инструкций, а
+`raw_bytes` — байты функции. Формат и происхождение полей описаны в
+[схеме коллеги](https://github.com/FilippTheBestDev/claudecraft/blob/10950d496aa7357a6180c1956def50c2a3e8c1a9/docs/agent-worktrees-schema.md).
+Проверка всех JSON на закреплённом commit дала `raw_asm` у **76 572 из
+76 572** записей (2 361 804 строки), непустой `raw_bytes` у **76 558**;
+14 записей без байтов относятся к старым выгрузкам. Это проверка
+заполненности полей, **не** сверка строк и байтов с локальной DLL или IDA.
+Отдельные call-tree дампы лежат в
+[`pipeline/asm/`](https://github.com/FilippTheBestDev/claudecraft/tree/10950d496aa7357a6180c1956def50c2a3e8c1a9/pipeline/asm)
+(1534 файла, из них 265 в `processed/`); ссылка `dump_file` есть только
+у 27 адресных JSON. Корпус массово выгружен скриптом
+[`verifier/ida_scripts/dump_agent_worktrees.py`](https://github.com/FilippTheBestDev/claudecraft/blob/10950d496aa7357a6180c1956def50c2a3e8c1a9/verifier/ida_scripts/dump_agent_worktrees.py)
+из IDA; старые дампы перенесены
+[`backfill_agent_worktrees.py`](https://github.com/FilippTheBestDev/claudecraft/blob/10950d496aa7357a6180c1956def50c2a3e8c1a9/pipeline/tools/backfill_agent_worktrees.py).
+В этой ревизии видны 76 572 записи, а заявленные ~82 тысячи — внешняя
+оценка: полноту выгрузки относительно всей DLL мы не подтвердили.
+
 Статусы всех `agent_worktrees/funcs/*.json` этой ревизии пересчитаны:
 `git ls-tree -rz` дал blob ID файлов `.json`, `git cat-file --batch`
 прочитал их JSON-поле `status`; записи не менялись.
