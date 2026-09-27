@@ -63,6 +63,7 @@
 | [FND-0072: режимы приказа выбирают point, target и fogged](findings/simulation/FND-0072-multimode-order-variant-gates.md) | simulation; order, point, target, fogged, selection, visibility, result | boundary | static | source-reviewed | bounded |
 | [FND-0073: варианты приказа записывают поля цепью writer](findings/simulation/FND-0073-order-payload-writer-chain.md) | simulation; order, target, fogged, serialization, disclosure | contract | static | source-reviewed | bounded |
 | [FND-0074: command store проверяет слот и ёмкость](findings/simulation/FND-0074-order-command-store-admission.md) | simulation; order, command-store, sender, queue, admission | boundary | static | source-reviewed | bounded |
+| [FND-0075: special-session flush пишет запись 0x1F](findings/simulation/FND-0075-special-order-queue-record.md) | simulation; order, command-store, special-session, sender-slot, record | boundary | static | source-reviewed | bounded |
 
 Основной evidence относится только к выводу карточки. Например, связанный
 компонентный запуск не доказывает обычный запуск всей игры, а проверка
@@ -73,7 +74,7 @@
 | Подсистема | Что известно / где вход | Следующий существенный вопрос |
 |---|---|---|
 | Startup | FND-0001, FND-0004 | Обычный запуск, обязательные владельцы и полный teardown |
-| Simulation | FND-0002–0004, FND-0057/0062/0064/0068–0070; selection → basic/point/target/fogged order → CUnit queue/task gates | Проверить sender ↔ peer, caller/выбор producer и фактический эффект move/stop/target; далее pathfinding, RNG и полный матч |
+| Simulation | FND-0002–0004, FND-0057/0062/0064/0068–0075; selection → basic/point/target/fogged order → CUnit queue/task gates → local command store/`0x1F` record | Проверить sender ↔ peer, фактический эффект move/stop/target, недействительные ссылки; далее pathfinding, RNG и полный матч |
 | JASS | FND-0005, FND-0009; C++-обвязка и исходные redirects в S10 | Локальные контексты, ожидания, события и синхронизация без изменения карты |
 | Visibility | FND-0006–0008, FND-0010–0039, FND-0050/0052/0055/0059; точка/юнит/детект, writers, owner change, dying и death events | Установить тайминг записи/отзыва fog при death/RemoveUnit и границу выдачи полей юнита; затем двухигроковый оракул |
 | Presentation | S01/S03, FND-0008/0009; локальные входы и UI-зависимость тумана | Поле за полем проверить потребителей мира; клиентский runtime ещё не выбран |

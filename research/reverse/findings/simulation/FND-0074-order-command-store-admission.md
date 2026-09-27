@@ -9,12 +9,16 @@
 | Verification | source-reviewed |
 | State | bounded |
 | Impact | correctness, compatibility, security |
-| Scope | S11, заявленная Game.dll 1.26a/build 6401 x86; `0x6F54D970` и вызываемый им `0x6F54D930`. Описаны статические ветви локального добавления уже собранной команды; доставка peer, эффект приказа и специальная ветвь `0x6F54D760` не прослежены. Fingerprint DLL и исполнение неизвестны. |
-| Sources | [S11](../../SOURCES.md#s11-адресный-реестр-и-matching-pipeline-коллеги), pinned commit `10950d496aa7357a6180c1956def50c2a3e8c1a9`; [FND-0069](FND-0069-outbound-point-target-fogged-order-builders.md), [FND-0073](FND-0073-order-payload-writer-chain.md) |
+| Scope | S11, заявленная Game.dll 1.26a/build 6401 x86; `0x6F54D970` и вызываемый им `0x6F54D930`. Описаны статические ветви локального добавления уже собранной команды; доставка peer и эффект приказа не прослежены. Специальная ветвь отдельно ограничена [FND-0075](FND-0075-special-order-queue-record.md). Fingerprint DLL и исполнение неизвестны. |
+| Sources | [S11](../../SOURCES.md#s11-адресный-реестр-и-matching-pipeline-коллеги), pinned commit `10950d496aa7357a6180c1956def50c2a3e8c1a9`; [FND-0069](FND-0069-outbound-point-target-fogged-order-builders.md), [FND-0073](FND-0073-order-payload-writer-chain.md), [FND-0066 в PR #3](https://github.com/DinCrAsh-code/war3-client-server/blob/83bc16bee5252f67c8ae22d913777d30407f2f10/research/reverse/findings/network/FND-0066-online-turn-store-flush-boundary.md) |
 
 ## Допуск к локальной очереди
 
-Пять исходящих сериализаторов из [FND-0073](FND-0073-order-payload-writer-chain.md)
+Сетевой normal-path того же `0x6F54D970` уже описан в
+[FND-0066](https://github.com/DinCrAsh-code/war3-client-server/blob/83bc16bee5252f67c8ae22d913777d30407f2f10/research/reverse/findings/network/FND-0066-online-turn-store-flush-boundary.md)
+другого PR. Здесь он сверен для семейства приказов и связан с
+пятью исходящими сериализаторами из [FND-0073](FND-0073-order-payload-writer-chain.md),
+которые
 передают готовый буфер и индекс игрока в
 [`0x6F54D970`](https://github.com/FilippTheBestDev/claudecraft/blob/10950d496aa7357a6180c1956def50c2a3e8c1a9/agent_worktrees/funcs/0x6F54D970.json).
 Функция берёт контекст из TLS-слота `0x0D`, следует по указателям
@@ -42,7 +46,8 @@
 
 `0x6F54D930` сравнивает тег `session+0x2288` с `LOOP` (`0x4C4F4F50`)
 и `NONE` (`0x4E4F4E45`). Для этих тегов управление передаётся
-`0x6F54D760`, семантика которого здесь открыта. В обычной ветви
+`0x6F54D760`, разобранный отдельно в [FND-0075](FND-0075-special-order-queue-record.md).
+В обычной ветви
 вызывается `0x6F650480` на очереди `+0x1C78`, затем её vtable-слот
 `+0x1C`. Это граница локальной очереди, не доказательство сетевой
 доставки, обработки другим участником или правильного решения о
@@ -57,8 +62,9 @@
 буфер и повторный остаток `>=0x400` не вызывают `WriteRaw`; ненулевой
 результат `0x6F545270` отбрасывает команду только в описанном режиме.
 
-Следует проследить `0x6F54D760`, обычную очередь после vtable-слота
-`+0x1C`, связь индекса с действительным отправителем и фактическую
+Следует проследить обычную очередь после vtable-слота `+0x1C` и
+путь записи `0x1F` из [FND-0075](FND-0075-special-order-queue-record.md),
+связь индекса с действительным отправителем и фактическую
 доставку на двух игроках. Для варианта со скрытой целью нужно отдельно
 сравнить сериализованный descriptor, допуск к очереди и содержимое,
 доступное получателю.
