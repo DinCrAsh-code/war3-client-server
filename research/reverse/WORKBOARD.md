@@ -12,6 +12,7 @@
 |---|---|---|---|---|
 | `REV-VIS-01` | Право игрока на сведения о юните: направленные отношения и детект → маски и две плоскости fog-сетки → ответы точки/юнита/JASS → локальный потребитель. Не весь UI и не готовый серверный ACL. | [PR #2](https://github.com/DinCrAsh-code/war3-client-server/pull/2), ветка `codex/visibility-disclosure`; статус: активен | [FND-0010–0039, FND-0050/0052](INDEX.md) на закреплённых S10/S11; `0xD01A1` снимает регистрацию; owner change отзывает часть widget mask до смены владельца; MISS text/selection — локальные consumers; outbound selection — команда, не снимок state | Связать death/RemoveUnit и owner change с отзывом fog и найти границу выдачи полей юнита; затем двухигроковый оракул с отрицательным контролем |
 | `REV-JASS-01` | Локальная идентичность JASS → TLS/VM yield → сохранение trigger instance → таймер/команды продолжения; отдельно sync-контроль. Не выбран способ разделения скриптов между клиентом и сервером. | [PR #3](https://github.com/DinCrAsh-code/war3-client-server/pull/3), ветка `codex/jass-local-continuations`; статус: активен | FND-0040–0048 в PR #3 на закреплённых S10/S11: GetLocalPlayer, sleep/ready, timer owner bridge, payload, inbound pump и context-bound TLS; классификация в индексе PR | Проверить transport/context identity, сохранение local player, sender authorization и отсутствие повторного общего эффекта на двух клиентах |
+| `REV-SIM-01` | Выделение → идентичность управляемого юнита и цели → порядок входных команд → изменение приказа и состояния мира. Охватить семейство move/stop/target и недействительные ссылки; это не весь pathfinding и не новый wire API. | Ветка `codex/simulation-command-path`, draft PR; база [PR #2](https://github.com/DinCrAsh-code/war3-client-server/pull/2) до его интеграции; интегратор — Codex | [FND-0002](findings/simulation/FND-0002-command-order.md) из S01–S09: связный опыт на одной карте; S10/S11 для этого маршрута ещё сверяются | Проследить конкретные selection/order payloads через inbound dispatch и observer до владельца приказа; отдельно проверить неверную/устаревшую identity и перестановку selection/stop; динамический двухигроковый оракул пока не выполнен |
 
 Параллельные исследователи одного участка публикуют выводы через один
 интеграционный PR или связанные PR с явной границей файлов и тем.
@@ -39,8 +40,6 @@
    означает, что подсистема восстановлена. Архитектурные решения и
    критерии продукта остаются в `docs/`, а не в этом списке.
 
-Следующий приоритетный кандидат по [ROADMAP](../../docs/ROADMAP.md) —
-путь выделения/приказа до мира
-([FND-0002](findings/simulation/FND-0002-command-order.md)).
-Перед началом нужно проверить новые PR и claims; отсутствие другой
-строки не означает, что адреса не заняты.
+Следующий приоритет после этих участков выбирается по
+[ROADMAP](../../docs/ROADMAP.md), [INDEX](INDEX.md) и текущим PR. Отсутствие
+строки не означает, что адреса свободны от работы других команд.
