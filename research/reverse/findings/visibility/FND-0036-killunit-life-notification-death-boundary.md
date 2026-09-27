@@ -93,3 +93,8 @@ S10 [объясняет](https://github.com/DinCrAsh-code/war3-client-server/blo
 `0xD01E6`, затем зафиксировать их concrete vtable targets и момент
 `0x6F282920`/`0x6F40A650`/`0x6F40A8F0`. Проверить отдельно
 `KillUnit` при живом и уже нулевом life и после decay-таймера.
+
+Продолжение этого маршрута в [FND-0055](FND-0055-unit-life-threshold-dying-fog-policy.md)
+установило зарегистрированного получателя life-threshold события и
+условный переход CUnit в dying-состояние. Вопрос о моменте записи или
+отзыва fog plane при этом остаётся открытым.
