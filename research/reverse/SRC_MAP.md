@@ -111,6 +111,10 @@ Matching в комментарии остаётся заявлением ист�
 Косвенная подписка события и доставка команды не воспроизведены.
 [FND-0042](findings/jass/FND-0042-trigger-sync-barrier.md) отличает
 sync-mask/ready-команду от обычного сна и `SyncSelections` с нулевым sleep.
+[FND-0044](findings/jass/FND-0044-trigger-continuation-command-identity.md)
+разделяет payload команд resume и ready: первая несёт token исполнения,
+вторая берёт индекс отправителя из оболочки. Проверка handle и token в
+оригинальном пути не доказывает право клиента посылать эту команду.
 
 В S10 `GetLocalPlayer` есть лишь в
 [регистрации](../../src/Jass/jassregisterallnatives.cpp). [FND-0043](findings/jass/FND-0043-local-player-handle-selection.md)
