@@ -53,6 +53,7 @@
 | [FND-0052: SetUnitOwner условно снимает биты виджета](findings/visibility/FND-0052-setunitowner-widget-mask-revocation.md) | visibility; unit, ownership, player-mask, selection, GameUI, revocation | contract | static | source-reviewed | bounded |
 | [FND-0055: dying-юнит может сохранять радиус обзора](findings/visibility/FND-0055-unit-life-threshold-dying-fog-policy.md) | visibility; unit, life, death, listener, fog, reveal-radius | contract | static | source-reviewed | bounded |
 | [FND-0057: selection deltas отправляются перед basic order](findings/simulation/FND-0057-selection-before-basic-order-queue.md) | simulation; selection, order, network-command, identity, queue | contract | static | source-reviewed | bounded |
+| [FND-0059: death-event bridge не показывает отзыв fog](findings/visibility/FND-0059-dying-death-event-dispatch-fog-boundary.md) | visibility; unit, death, event, JASS, fog, disclosure | boundary | static | source-reviewed | bounded |
 
 Основной evidence относится только к выводу карточки. Например, связанный
 компонентный запуск не доказывает обычный запуск всей игры, а проверка
@@ -65,7 +66,7 @@
 | Startup | FND-0001, FND-0004 | Обычный запуск, обязательные владельцы и полный teardown |
 | Simulation | FND-0002–0004, FND-0057; исходный порядок selection и basic order на producer/parser boundary | Найти observer recipient, authority и изменение текущего приказа; далее pathfinding, RNG и полный матч |
 | JASS | FND-0005, FND-0009; C++-обвязка и исходные redirects в S10 | Локальные контексты, ожидания, события и синхронизация без изменения карты |
-| Visibility | FND-0006–0008, FND-0010–0039, FND-0050/0052/0055; точка/юнит/детект, writers, owner change и dying fog policy | Установить тайминг записи/отзыва fog при death/RemoveUnit и границу выдачи полей юнита; затем двухигроковый оракул |
+| Visibility | FND-0006–0008, FND-0010–0039, FND-0050/0052/0055/0059; точка/юнит/детект, writers, owner change, dying и death events | Установить тайминг записи/отзыва fog при death/RemoveUnit и границу выдачи полей юнита; затем двухигроковый оракул |
 | Presentation | S01/S03, FND-0008/0009; локальные входы и UI-зависимость тумана | Поле за полем проверить потребителей мира; клиентский runtime ещё не выбран |
 | Resources | Компонентный маршрут архивов/собственной карты в S01/S09 | Произвольные карты и обязательный серверу ресурсный состав |
 | Network | FND-0002/0003; action/turn dispatch в S10, см. SRC_MAP | Связать полный ввод игрока с миром; новый wire-протокол ещё проектируется |
