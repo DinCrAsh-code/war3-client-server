@@ -26,6 +26,7 @@
 | [FND-0014: повторная проверка SubmitUnit берёт первый канал детекта](findings/visibility/FND-0014-submit-detection-gate.md) | visibility; unit, detection, relations, jass | boundary | static | source-reviewed | bounded |
 | [FND-0015: alliance 5/9 наполняют маску получателя](findings/visibility/FND-0015-directed-alliance-mask.md) | visibility; alliance, player-relations, unit, jass | contract | static | source-reviewed | bounded |
 | [FND-0016: JASS-запись тумана выбирает маску адресатов](findings/visibility/FND-0016-map-fog-shared-mask.md) | visibility; jass, fog, alliance, grid | contract | static | source-reviewed | bounded |
+| [FND-0017: локальная публикация юнита читает две маски](findings/visibility/FND-0017-local-unit-publication-masks.md) | visibility; unit, player-relations, local-context, fog | boundary | static | source-reviewed | bounded |
 
 Основной evidence относится только к выводу карточки. Например, связанный
 компонентный запуск не доказывает обычный запуск всей игры, а проверка
@@ -38,7 +39,7 @@
 | Startup | FND-0001, FND-0004 | Обычный запуск, обязательные владельцы и полный teardown |
 | Simulation | FND-0002–0004 | Все игровые действия, pathfinding/коллизии, полный матч и порядок RNG |
 | JASS | FND-0005, FND-0009; C++-обвязка и исходные redirects в S10 | Локальные контексты, ожидания, события и синхронизация без изменения карты |
-| Visibility | FND-0006–0008, FND-0010–0016; точка/юнит/детект, writer карты/юнита и расхождение C++ с IDA | Проверить два канала детекта в gate, направленные маски, ветви writer и исправить alliance; затем двухигроковый оракул |
+| Visibility | FND-0006–0008, FND-0010–0017; точка/юнит/детект, writer карты/юнита, локальные маски и расхождение C++ с IDA | Проверить два канала детекта в gate, направленные маски, ветви writer и исправить alliance; затем двухигроковый оракул |
 | Presentation | S01/S03, FND-0008/0009; локальные входы и UI-зависимость тумана | Поле за полем проверить потребителей мира; клиентский runtime ещё не выбран |
 | Resources | Компонентный маршрут архивов/собственной карты в S01/S09 | Произвольные карты и обязательный серверу ресурсный состав |
 | Network | FND-0002/0003; action/turn dispatch в S10, см. SRC_MAP | Связать полный ввод игрока с миром; новый wire-протокол ещё проектируется |
