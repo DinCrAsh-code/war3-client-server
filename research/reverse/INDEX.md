@@ -56,6 +56,7 @@
 | [FND-0059: death-event bridge не показывает отзыв fog](findings/visibility/FND-0059-dying-death-event-dispatch-fog-boundary.md) | visibility; unit, death, event, JASS, fog, disclosure | boundary | static | source-reviewed | bounded |
 | [FND-0062: basic order применяют к выбранным допущенным юнитам](findings/simulation/FND-0062-inbound-selection-basic-order-application.md) | simulation; selection, basic-order, observer, sender, unit, authority | boundary | static | source-reviewed | bounded |
 | [FND-0064: basic order проходит разные gates очереди и задачи](findings/simulation/FND-0064-basic-order-queue-and-task-gates.md) | simulation; order, queue, task, unit, lifecycle, stop | contract | static | source-reviewed | bounded |
+| [FND-0068: point, target и fogged order расходятся по payload](findings/simulation/FND-0068-point-target-fogged-order-family.md) | simulation; order, point, target, fogged, selection, identity, disclosure | boundary | static | source-reviewed | bounded |
 
 Основной evidence относится только к выводу карточки. Например, связанный
 компонентный запуск не доказывает обычный запуск всей игры, а проверка
@@ -66,7 +67,7 @@
 | Подсистема | Что известно / где вход | Следующий существенный вопрос |
 |---|---|---|
 | Startup | FND-0001, FND-0004 | Обычный запуск, обязательные владельцы и полный teardown |
-| Simulation | FND-0002–0004, FND-0057/0062/0064; selection → basic order → CUnit queue/task gates | Проверить sender ↔ peer и фактический эффект move/stop/target; далее pathfinding, RNG и полный матч |
+| Simulation | FND-0002–0004, FND-0057/0062/0064/0068; selection → basic/point/target/fogged order → CUnit queue/task gates | Проверить sender ↔ peer, producer вариантов и фактический эффект move/stop/target; далее pathfinding, RNG и полный матч |
 | JASS | FND-0005, FND-0009; C++-обвязка и исходные redirects в S10 | Локальные контексты, ожидания, события и синхронизация без изменения карты |
 | Visibility | FND-0006–0008, FND-0010–0039, FND-0050/0052/0055/0059; точка/юнит/детект, writers, owner change, dying и death events | Установить тайминг записи/отзыва fog при death/RemoveUnit и границу выдачи полей юнита; затем двухигроковый оракул |
 | Presentation | S01/S03, FND-0008/0009; локальные входы и UI-зависимость тумана | Поле за полем проверить потребителей мира; клиентский runtime ещё не выбран |
