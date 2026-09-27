@@ -288,6 +288,12 @@ Matching в комментарии остаётся заявлением ист�
 показывает producer ordering: перед basic unit order он условно ставит
 две разновидности selection delta. На входе это отдельные action cases;
 parser gates ещё не показывают права sender или изменения world order.
+[FND-0062](findings/simulation/FND-0062-inbound-selection-basic-order-application.md)
+связывает оба action key с observer callbacks: selection modify ограничен
+12 парами и меняет выбор игрока, basic order разрешает target и перебирает
+отфильтрованный выбор, создавая order object на допущенный CUnit. Вход
+в order state показан; сетевое происхождение sender byte и игровой эффект
+конкретного приказа ещё надо проверить.
 
 [Input pump](../../src/Input/inputeventpump.cpp) и
 [диспетчер действий](../../src/Net/netcommand_dispatch.cpp) дают C++-входы
