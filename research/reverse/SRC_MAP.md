@@ -118,6 +118,11 @@ sync-mask/ready-команду от обычного сна и `SyncSelections` 
 разделяет payload команд resume и ready: первая несёт token исполнения,
 вторая берёт индекс отправителя из оболочки. Проверка handle и token в
 оригинальном пути не доказывает право клиента посылать эту команду.
+[FND-0046](findings/jass/FND-0046-local-player-context-after-trigger-sleep.md)
+отделяет сохранённый ключ JASS instance от нового вызова GetLocalPlayer:
+resume разрешает ключ через TLS slot 5, а native вновь выбирает игрока
+по singleton и TLS slot 13. Судьба локальной идентичности через сон
+зависит от ещё не проверенного контекста dispatch.
 
 В S10 `GetLocalPlayer` есть лишь в
 [регистрации](../../src/Jass/jassregisterallnatives.cpp). [FND-0043](findings/jass/FND-0043-local-player-handle-selection.md)
