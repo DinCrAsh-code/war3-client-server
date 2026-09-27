@@ -136,6 +136,10 @@ TLS array выбранного EvtContext, а startup handler регистрир
 связывает выбор `GetLocalPlayer` с `SNetSessionInfo+0x610` — индексом
 активной сетевой записи — и показывает условные writers `+0x28` и
 snapshot `+0x2A`. Смена результата между sleep и resume не наблюдалась.
+[FND-0051](findings/jass/FND-0051-resume-sender-resolution.md)
+прослеживает sender-key входного turn через таблицу выбранной сетевой
+записи и action gate до resume/ready builder. Неизвестный key отвергается
+до trigger handler, но связь key с сетевым peer не доказана.
 
 В S10 `GetLocalPlayer` есть лишь в
 [регистрации](../../src/Jass/jassregisterallnatives.cpp). [FND-0043](findings/jass/FND-0043-local-player-handle-selection.md)

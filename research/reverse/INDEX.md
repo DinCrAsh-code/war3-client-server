@@ -29,6 +29,7 @@
 | [FND-0047: resume dispatch читает TLS текущего event pump](findings/jass/FND-0047-resume-dispatch-tls-boundary.md) | jass; continuation, network-command, event-pump, tls | boundary | static | source-reviewed | bounded |
 | [FND-0048: event worker привязывает TLS array контекста](findings/jass/FND-0048-event-context-tls-rebinding.md) | jass; continuation, event-context, event-pump, tls | boundary | static | source-reviewed | bounded |
 | [FND-0049: GetLocalPlayer зависит от активной сетевой записи](findings/jass/FND-0049-local-player-slot-writers.md) | jass; local-context, player, net-session, tls, continuation | boundary | static | source-reviewed | bounded |
+| [FND-0051: sender команды определяется сетевой записью](findings/jass/FND-0051-resume-sender-resolution.md) | jass; continuation, network-command, sender, player-slot, authority | boundary | static | source-reviewed | bounded |
 
 Основной evidence относится только к выводу карточки. Например, связанный
 компонентный запуск не доказывает обычный запуск всей игры, а проверка
@@ -40,7 +41,7 @@
 |---|---|---|
 | Startup | FND-0001, FND-0004 | Обычный запуск, обязательные владельцы и полный teardown |
 | Simulation | FND-0002–0004 | Все игровые действия, pathfinding/коллизии, полный матч и порядок RNG |
-| JASS | FND-0005, FND-0009, FND-0040–0049; локальный слот, TLS/VM yield, trigger instance, timer bridge, sync-mask, pump, context-bound TLS и active net record | Проверить transport/context identity, timer fire, право sender и локальное значение после ожидания на двух игроках |
+| JASS | FND-0005, FND-0009, FND-0040–0049, FND-0051; локальный слот, TLS/VM yield, trigger instance, sync-mask, pump, context-bound TLS, net record и route-level sender lookup | Проверить transport authentication, право sender на конкретный trigger и локальное значение после ожидания на двух игроках |
 | Visibility | FND-0006–0008; чтение точки/юнита/детекта и fog writer | Завершить маршрут SubmitUnit и writers; оракул, общий обзор, права на поля/события |
 | Presentation | S01/S03, FND-0008/0009; локальные входы и UI-зависимость тумана | Поле за полем проверить потребителей мира; клиентский runtime ещё не выбран |
 | Resources | Компонентный маршрут архивов/собственной карты в S01/S09 | Произвольные карты и обязательный серверу ресурсный состав |
