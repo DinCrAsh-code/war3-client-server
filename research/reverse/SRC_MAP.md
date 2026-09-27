@@ -123,9 +123,11 @@ CPoPos/Bh имеют пустой `+0x54`, CPoPosCl уведомляет свя�
 сетевой политике раскрытия.
 
 [FND-0034](findings/visibility/FND-0034-unit-deactivation-fog-revocation-boundary.md)
-прослеживает `CUnit::Deactivate` до снятия pathing footprint и события
-`0xD01A1`. Сам `KillUnit` лишь устанавливает life=0; тело JASS
-`RemoveUnit` и получатели события ещё не связаны с fog writer.
+прослеживает `CUnit::Deactivate` до снятия pathing footprint.
+[FND-0035](findings/visibility/FND-0035-unit-deactivation-event-registration-release.md)
+уточняет `0xD01A1`: здесь снимается observer-регистрация, а не
+доставляется сообщение. Сам `KillUnit` лишь задаёт life=0; тело JASS
+`RemoveUnit` и дальнейший отзыв fog ещё не установлены.
 
 Граница работы: восстановить причинный маршрут «изменение отношений/детекта →
 маски мира и юнита → ответ `SubmitUnit`/JASS → локальные потребители», затем
