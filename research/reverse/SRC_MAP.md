@@ -153,6 +153,11 @@ NetClient send: её payload содержит событие и два dword и�
 связывает JASS `SetUnitOwner` с условным отзывом `unit+0x2C` до
 записи нового владельца и отдельным обновлением selection circle.
 Этот путь не устанавливает момент очистки fog plane `+0x30`.
+[FND-0055](findings/visibility/FND-0055-unit-life-threshold-dying-fog-policy.md)
+замыкает life threshold listener на `CUnit` dying handler. Он ставит
+флаги, которые fog writer допускает к расчёту, и для dying-юнита
+используется `DyingRevealRadius`. Момент фактического обновления grid
+после смерти по этим телам ещё не установлен.
 
 Граница работы: восстановить причинный маршрут «изменение отношений/детекта →
 маски мира и юнита → ответ `SubmitUnit`/JASS → локальные потребители», затем
