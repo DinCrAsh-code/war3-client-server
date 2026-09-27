@@ -126,8 +126,11 @@ CPoPos/Bh имеют пустой `+0x54`, CPoPosCl уведомляет свя�
 прослеживает `CUnit::Deactivate` до снятия pathing footprint.
 [FND-0035](findings/visibility/FND-0035-unit-deactivation-event-registration-release.md)
 уточняет `0xD01A1`: здесь снимается observer-регистрация, а не
-доставляется сообщение. Сам `KillUnit` лишь задаёт life=0; тело JASS
-`RemoveUnit` и дальнейший отзыв fog ещё не установлены.
+доставляется сообщение. [FND-0036](findings/visibility/FND-0036-killunit-life-notification-death-boundary.md)
+прослеживает `KillUnit → SetLife(0)` до двух каналов уведомлений:
+range-list и сообщения `0xD01E6`. В просмотренных прямых телах нет
+перехода к `Deactivate` или отзыву fog; тело JASS `RemoveUnit`
+тоже не восстановлено.
 
 Граница работы: восстановить причинный маршрут «изменение отношений/детекта →
 маски мира и юнита → ответ `SubmitUnit`/JASS → локальные потребители», затем
