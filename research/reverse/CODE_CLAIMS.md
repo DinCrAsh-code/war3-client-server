@@ -21,7 +21,7 @@ PR и `agent_worktrees/funcs/0xADDR.json` в соответствующей ве
 
 ## Обзор, обнаружение и туман — [PR #52](https://github.com/FilippTheBestDev/claudecraft/pull/52)
 
-Владелец: `codex/visibility-fog-rescan`. 58 новых C++ тел в опубликованной
+Владелец: `codex/visibility-fog-rescan`. 59 новых C++ тел в опубликованной
 ветке; две временные зависимости остаются переходами в оригинал.
 
 | Адрес | Статус | Участок |
@@ -84,6 +84,7 @@ PR и `agent_worktrees/funcs/0xADDR.json` в соответствующей ве
 | `0x6F28DB90` | DIFFERS | fog rescan notification worker; прежний собственный THUNK заменён |
 | `0x6F506CE0` | DIFFERS | material detection reset; COW и слои |
 | `0x6F506DC0` | DIFFERS | material detection final; COW и слои |
+| `0x6F2AB310` | DIFFERS | target-lost stack event; прежний Filipp THUNK заменён |
 | `0x6F3A5DC0` | THUNK | зависимость |
 | `0x6F752570` | THUNK | зависимость |
 
@@ -96,12 +97,15 @@ Notification/presentation блок опубликован коммитом `b278
 опубликован коммитом `1fefaadfe`: два прежде свободных TODO адреса
 получили C++-тела, собственный `0x6F28DB90` сменил THUNK на DIFFERS.
 Material notification pair опубликована коммитом `f87c63c4d`.
+Target-lost event опубликован коммитом `3088ef8a0`: normal-path C++ body,
+два data symbols, instruction gap SEH/unwind; не сетевой sender.
 Эти ветви остаются без штатного verify и игрового прогона.
 
 ## Формирование исходящих приказов — [PR #53](https://github.com/FilippTheBestDev/claudecraft/pull/53)
 
-Владелец: `codex/sim-order-flag-builders`. В опубликованной ветке 55 новых
-C++ тел: 46 для приказов/selection и девять для replay chunk/codec. Они
+Владелец: `codex/sim-order-flag-builders`. В опубликованной ветке 60 новых
+C++ тел: 46 для приказов/selection, девять для replay chunk/codec и пять
+для turn-store buffer ownership. Они
 прошли ограниченную проверку исходника и native-компиляцию, но не полную
 проверку совпадения.
 
@@ -202,6 +206,19 @@ Replay chunk/codec опубликован коммитом `57e1be6cc` и опи
 | `0x6F554690` | DIFFERS | compressed replay writer |
 | `0x6F554650` | DIFFERS | uncompressed replay writer |
 | `0x6F554560` | DIFFERS | replay-done writer |
+
+Turn-store buffer ownership опубликован коммитом `ee34f547d` и описан в
+[FND-0081](findings/network/FND-0081-turn-store-buffer-ownership.md).
+Эти пять адресов до claim не имели C++ тела; ctor `0x6F543D90`
+остаётся отдельной чужой работой.
+
+| Адрес | Статус | Участок |
+|---|---|---|
+| `0x6F2C9450` | DIFFERS | turn-store Grow |
+| `0x6F4C1BE0` | DIFFERS | turn-store DetachBuffer |
+| `0x6F2C9530` | DIFFERS | turn-store GetBuffer |
+| `0x6F543DF0` | DIFFERS | turn-store Reset |
+| `0x6F5484B0` | DIFFERS | turn-store deleting destructor |
 
 ## Приём входящих приказов — [PR #54](https://github.com/FilippTheBestDev/claudecraft/pull/54)
 
