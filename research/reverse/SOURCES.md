@@ -61,6 +61,25 @@ C++/asm-тела, декларации, регистрации и переход
 нужны соответствующие toolchain/flags, function registry, отчёты и harness.
 Счётчики в исходном README описывают более ранний срез; текущие берутся из Git.
 
+## S11: адресный корпус IDA коллеги
+
+Приватный [claudecraft](https://github.com/FilippTheBestDev/claudecraft),
+commit `10950d496aa7357a6180c1956def50c2a3e8c1a9`.
+Адресные записи [`agent_worktrees/funcs/`](https://github.com/FilippTheBestDev/claudecraft/tree/10950d496aa7357a6180c1956def50c2a3e8c1a9/agent_worktrees/funcs)
+содержат поля `raw_asm`, `raw_bytes`, статус и claim; формат описан в
+[схеме](https://github.com/FilippTheBestDev/claudecraft/blob/10950d496aa7357a6180c1956def50c2a3e8c1a9/docs/agent-worktrees-schema.md).
+Прочитанные в этой ветке записи указаны в карточках находок. Для них
+проверены текст дизассемблирования и статусы, но не соответствие байтов
+локальной Game.dll или результатов сборки. Адреса — координаты этого
+корпуса, не переносимые точки интеграции; fingerprint образа не установлен.
+
+В закреплённой ревизии — 76 572 JSON-записи функций, все содержат
+`raw_asm`, 76 558 содержат непустой `raw_bytes`. Это заполненность
+адресного корпуса, не доказательство полноты относительно всей DLL;
+оценка ~82 тысяч функций остаётся внешней. Подробный аудит корпуса и
+matching pipeline ведётся в [PR видимости](https://github.com/DinCrAsh-code/war3-client-server/pull/2).
+Сырые дампы, бинарники и приватный код сюда не копируются.
+
 ## Пробелы и отбор
 
 Каталог `docs/client-server/`, классификатор нативов и численные оценки

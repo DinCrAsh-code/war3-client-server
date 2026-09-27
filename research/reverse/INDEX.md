@@ -19,6 +19,7 @@
 | [FND-0007: точка, юнит и детект идут разными путями](findings/visibility/FND-0007-player-visibility-routes.md) | visibility; unit, detection, jass | boundary | static | source-reviewed | bounded |
 | [FND-0008: fog writer обращается к world frame](findings/visibility/FND-0008-fog-ui-dependency.md) | visibility; presentation, lifetime | boundary | static | source-reviewed | bounded |
 | [FND-0009: локальные входы и состояние ожидания JASS](findings/jass/FND-0009-local-input-continuations.md) | jass; camera, tls, continuation | boundary | static | source-reviewed | bounded |
+| [FND-0043: GetLocalPlayer выбирает слот и возвращает handle token](findings/jass/FND-0043-local-player-handle-selection.md) | jass; local-context, player, handles | boundary | static | source-reviewed | bounded |
 
 Основной evidence относится только к выводу карточки. Например, связанный
 компонентный запуск не доказывает обычный запуск всей игры, а проверка
@@ -30,7 +31,7 @@
 |---|---|---|
 | Startup | FND-0001, FND-0004 | Обычный запуск, обязательные владельцы и полный teardown |
 | Simulation | FND-0002–0004 | Все игровые действия, pathfinding/коллизии, полный матч и порядок RNG |
-| JASS | FND-0005, FND-0009; C++-обвязка и исходные redirects в S10 | Локальные контексты, ожидания, события и синхронизация без изменения карты |
+| JASS | FND-0005, FND-0009, FND-0043; регистрация натива, режимный выбор слота и handle token | Локальные контексты, ожидания, события и синхронизация без изменения карты |
 | Visibility | FND-0006–0008; чтение точки/юнита/детекта и fog writer | Завершить маршрут SubmitUnit и writers; оракул, общий обзор, права на поля/события |
 | Presentation | S01/S03, FND-0008/0009; локальные входы и UI-зависимость тумана | Поле за полем проверить потребителей мира; клиентский runtime ещё не выбран |
 | Resources | Компонентный маршрут архивов/собственной карты в S01/S09 | Произвольные карты и обязательный серверу ресурсный состав |
