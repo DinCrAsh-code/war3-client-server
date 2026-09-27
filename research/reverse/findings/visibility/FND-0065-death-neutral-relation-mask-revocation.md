@@ -3,7 +3,7 @@
 | Поле | Значение |
 |---|---|
 | Subsystem | visibility |
-| Tags | unit, death, relation, player-mask, ability, revocation |
+| Tags | unit, death, relation, player-mask, ability, shared-vision, revocation |
 | Kind | contract |
 | Evidence | static |
 | Verification | source-reviewed |
@@ -18,16 +18,23 @@ Vtable `CAbilityNeutral` `0x6F87A844` указывает на `0x6F06AE00`
 в slot `+0x2F8` и на `0x6F061400` в observer slot `+0x0C`.
 `CAbilityAllied` `0x6F87AB44` имеет тот же observer handler;
 его `+0x2F8 = 0x6F06AE70` вызывает `0x6F06AE00` только после
-положительной проверки `0x6F3A3700`. При вызове этих entry
+положительной проверки `0x6F3A3700`. Её inner gate `0x6F3A36D0`
+читает relation-agent field `+0x78`, названный `m_enemy` в существующей
+JASS-реконструкции. Имя класса `CAbilityAllied` поэтому не доказывает,
+что этот gate проверяет именно союзников. При вызове этих entry
 `0x6F06AE00` может передать target в `0x6F06ACD0`.
 
 `0x6F06ACD0` отвергает target с `target+0x5C & 0x100`, с
 `target+0x20 & 1` и уже выбранный через `0x6F049740` target
 в том же слоте. В прошедшей ветви он разрешает unit-владельца
-ability из `ability+0x30` либо `0x6F472890`, сохраняет target
+ability из `ability+0x30` либо `0x6F472890`, предварительно снимает
+прежний target этого slot через `0x6F061190`, сохраняет новый target
 в записи ability, регистрирует ability на target для `0xD01A0`
 через `0x6F2AB3E0(target, ability, 1)` и для `0xD01A2` через
-`0x6F26EF10`. Затем связывает запись с `target+0x164` и вызывает
+`0x6F26EF10`, а также третий observer через `0x6F2AB2D0`.
+Внутренний bit `0x80 << playerIndex` в `ability+0x20` меняется через
+`0x6F0334C0`; при входе `0x6F06AE00` проверяет его через `0x6F026A40`.
+Затем helper связывает запись с `target+0x164` и вызывает
 `0x6F2967F0(owner, target-player-index)`. Последний увеличивает
 счётчик в блоке `owner+0x13C` через `0x6F27A3C0` и сразу
 пересчитывает `owner+0x148/+0x14C` через `0x6F284DA0`.
@@ -50,6 +57,11 @@ observer-записи `0xD01A0`/`0xD01A2`, разрывает отношение
 `0x6F28DC80` с player index из subject vtable `+0x64`.
 `0x6F28DC80` уменьшает счётчик блока `owner+0x13C` через
 `0x6F27A400`, затем пересчитывает `owner+0x148/+0x14C`.
+Обход идёт от последнего slot к первому; совпавшая запись получает
+sentinel `0xFFFFFFFF` в handle и type tag, третий observer тоже
+снимается. Эффект slot освобождается отдельно, а при ненулевом
+`queueEvent` ставится timer-event `0xD01C1`; прямой вызов fog writer
+в этом теле отсутствует.
 Таким образом, смерть **связанного target** может снять его
 вклад в маску **другого unit, владельца ability**. Это отдельный
 маршрут от снятия детекта в [FND-0061](FND-0061-death-detector-contribution-revocation.md).
@@ -92,3 +104,9 @@ ability в матче, остаются открыты. Это только stat
 review; следующий эксперимент — смерть единственного связанного
 target при наблюдении owner-счётчика, `+0x14C`, запуска rebuild
 и локальной видимости, затем повтор с двумя вкладами.
+
+Девять новых C++ тел этого grant→remove→event участка опубликованы
+в [PR #52, commit `c80044ef0`](https://github.com/FilippTheBestDev/claudecraft/pull/52).
+Native VC8-компиляция и независимая ограниченная сверка с S11 пройдены;
+все девять остаются `DIFFERS`. Для `0x6F061400` исходный SEH/switch frame
+не воспроизведён; штатный `verify.py`, link и игровой опыт не проводились.
