@@ -20,7 +20,7 @@
 |---|---|---|
 | `JASS_IsVisibleToPlayer` | Player handle → индекс/маска → `IsPointVisible` → `Prepare`/`Submit` | Чтение fog-кодов точки, не полей объекта |
 | `JASS_IsUnitVisible` | Unit/player handles → `CUnit::SubmitToPlayerTable(index, 0, 4)` | Внутри `SPlayerTable::SubmitUnit` ещё переходит в оригинал; есть дополнительная проверка бита юнита |
-| `JASS_IsUnitDetected` | Unit/player handles → `CUnit::QueryDetection(index, -1)` | Через handle читаются две группы записей детекта; писатели здесь не восстановлены в связную цепочку |
+| `JASS_IsUnitDetected` | Unit/player handles → `CUnit::QueryDetection(index, -1)` | Через handle читаются две группы записей детекта; в S10 писатели не восстановлены в связную цепочку |
 
 Проверены тела [point natives](../../../../src/Jass/jassnatives_xyvisibility.cpp),
 [unit natives](../../../../src/Jass/jassnatives_unitquery.cpp),
@@ -52,3 +52,6 @@ writers его входов и сравнить ответы на сценари
 [FND-0006](FND-0006-fog-provider-scope.md): одна сетка тумана не доказывает
 готовый безопасный срез. Обновление тумана имеет отдельную UI-зависимость —
 [FND-0008](FND-0008-fog-ui-dependency.md).
+Более поздний адресный срез S11 связал два счётчика детекта с add/remove-путями
+эффектов: [FND-0012](FND-0012-detection-refcounts.md). Это дополнение не
+повышает уровень проверки исходного S10-маршрута до динамического.
