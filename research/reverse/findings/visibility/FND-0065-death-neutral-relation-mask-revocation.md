@@ -3,7 +3,7 @@
 | Поле | Значение |
 |---|---|
 | Subsystem | visibility |
-| Tags | unit, death, relation, player-mask, ability, shared-vision, revocation |
+| Tags | unit, death, relation, observer-link, player-mask, ability, shared-vision, revocation |
 | Kind | contract |
 | Evidence | static |
 | Verification | source-reviewed |
@@ -32,6 +32,16 @@ ability из `ability+0x30` либо `0x6F472890`, предварительно 
 в записи ability, регистрирует ability на target для `0xD01A0`
 через `0x6F2AB3E0(target, ability, 1)` и для `0xD01A2` через
 `0x6F26EF10`, а также третий observer через `0x6F2AB2D0`.
+Нижний уровень связи endpoint добавляет value listener к разрешённому
+target-agent до установки бита 2 у записи relation listener:
+[`0x6F4791F0`](https://github.com/FilippTheBestDev/claudecraft/blob/10950d496aa7357a6180c1956def50c2a3e8c1a9/agent_worktrees/funcs/0x6F4791F0.json)
+сравнивает linked endpoint, а
+[`0x6F4A81B0`](https://github.com/FilippTheBestDev/claudecraft/blob/10950d496aa7357a6180c1956def50c2a3e8c1a9/agent_worktrees/funcs/0x6F4A81B0.json)
+меняет бит в 12-байтной записи. При снятии
+[`0x6F479260`](https://github.com/FilippTheBestDev/claudecraft/blob/10950d496aa7357a6180c1956def50c2a3e8c1a9/agent_worktrees/funcs/0x6F479260.json)
+сначала отправляет событие собственному observer target-agent, затем
+условно очищает этот бит. Это устанавливает порядок вызовов, но не
+доказывает время обработки события или итоговое состояние fog-grid.
 Внутренний bit `0x80 << playerIndex` в `ability+0x20` меняется через
 `0x6F0334C0`; при входе `0x6F06AE00` проверяет его через `0x6F026A40`.
 Затем helper связывает запись с `target+0x164` и вызывает
@@ -57,6 +67,7 @@ observer-записи `0xD01A0`/`0xD01A2`, разрывает отношение
 `0x6F28DC80` с player index из subject vtable `+0x64`.
 `0x6F28DC80` уменьшает счётчик блока `owner+0x13C` через
 `0x6F27A400`, затем пересчитывает `owner+0x148/+0x14C`.
+
 Обход идёт от последнего slot к первому; совпавшая запись получает
 sentinel `0xFFFFFFFF` в handle и type tag, третий observer тоже
 снимается. Эффект slot освобождается отдельно, а при ненулевом
@@ -65,6 +76,16 @@ sentinel `0xFFFFFFFF` в handle и type tag, третий observer тоже
 Таким образом, смерть **связанного target** может снять его
 вклад в маску **другого unit, владельца ability**. Это отдельный
 маршрут от снятия детекта в [FND-0061](FND-0061-death-detector-contribution-revocation.md).
+
+Отдельный condition-event
+[`0x6F0612C0`](https://github.com/FilippTheBestDev/claudecraft/blob/10950d496aa7357a6180c1956def50c2a3e8c1a9/agent_worktrees/funcs/0x6F0612C0.json)
+берёт subject из event `+0x0C` через checked slot, исключает самого
+owner и повторяет проверку target через
+[`0x6F049630`](https://github.com/FilippTheBestDev/claudecraft/blob/10950d496aa7357a6180c1956def50c2a3e8c1a9/agent_worktrees/funcs/0x6F049630.json).
+При ненулевом коде отказа вызывает тот же `0x6F061190` с индексом
+из event `+0x10` и флагом 1; нулевой код оставляет связь. Это ещё один
+условный вход отзыва. Он не доказывает, когда именно condition-event
+создаётся, доставляется и обновляется fog-grid.
 
 `0x6F27A460` читает базовые биты блока `owner+0x13C`; пересчёт
 `0x6F284DA0` кладёт этот результат в `owner+0x148/+0x14C`
@@ -89,7 +110,9 @@ rebuild из death handler. Семантика блока и иных его п�
 до `0x6F28DC80`; нулевой `ability+0xBC` сразу пропускает
 цикл; при `2 → 1` базовый бит остаётся; дополнительные
 биты отношений могут сохранить прежний `+0x14C` даже после
-снятия базового бита. Fog rebuild также имеет собственные
+снятия базового бита. В condition-event null checked slot,
+совпадение subject с owner или нулевой код проверки не вызывают
+`0x6F061190`. Fog rebuild также имеет собственные
 фильтры юнитов и условную очистку grid `+0x30`.
 
 `CAbilityNeutralInteract` тоже вызывает helper `0x6F06ACD0`,
@@ -105,8 +128,10 @@ review; следующий эксперимент — смерть единст�
 target при наблюдении owner-счётчика, `+0x14C`, запуска rebuild
 и локальной видимости, затем повтор с двумя вкладами.
 
-Девять новых C++ тел этого grant→remove→event участка опубликованы
-в [PR #52, commit `c80044ef0`](https://github.com/FilippTheBestDev/claudecraft/pull/52).
+Девять C++ тел grant→remove→event участка, шесть тел нижнего уровня
+relation listener и шесть target gate→condition-event→effect тел опубликованы
+в [PR #52](https://github.com/FilippTheBestDev/claudecraft/pull/52).
 Native VC8-компиляция и независимая ограниченная сверка с S11 пройдены;
-все девять остаются `DIFFERS`. Для `0x6F061400` исходный SEH/switch frame
-не воспроизведён; штатный `verify.py`, link и игровой опыт не проводились.
+все новые тела остаются `DIFFERS`. Для `0x6F061400` исходный SEH/switch frame
+не воспроизведён; per-address `verify.py` этих тел, link и игровой опыт
+не проводились.

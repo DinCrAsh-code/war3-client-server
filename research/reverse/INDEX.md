@@ -54,7 +54,7 @@
 | [FND-0055: dying-юнит может сохранять радиус обзора](findings/visibility/FND-0055-unit-life-threshold-dying-fog-policy.md) | visibility; unit, life, death, listener, fog, reveal-radius | contract | static | source-reviewed | bounded |
 | [FND-0059: death-event bridge не показывает отзыв fog](findings/visibility/FND-0059-dying-death-event-dispatch-fog-boundary.md) | visibility; unit, death, event, JASS, fog, disclosure | boundary | static | source-reviewed | bounded |
 | [FND-0061: death event снимает вклад способности-детектора](findings/visibility/FND-0061-death-detector-contribution-revocation.md) | visibility; unit, death, detection, ability, observer, revocation | contract | static | source-reviewed | bounded |
-| [FND-0065: смерть target отзывает вклад в маску owner](findings/visibility/FND-0065-death-neutral-relation-mask-revocation.md) | visibility; unit, death, relation, player-mask, ability, shared-vision, revocation | contract | static | source-reviewed | bounded |
+| [FND-0065: смерть target отзывает вклад в маску owner](findings/visibility/FND-0065-death-neutral-relation-mask-revocation.md) | visibility; unit, death, relation, observer-link, player-mask, ability, shared-vision, revocation | contract | static | source-reviewed | bounded |
 
 Основной evidence относится только к выводу карточки. Например, связанный
 компонентный запуск не доказывает обычный запуск всей игры, а проверка
