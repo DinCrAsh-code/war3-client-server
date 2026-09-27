@@ -117,9 +117,10 @@ Selection-rank trio опубликована коммитом `f46d7d7be`: тр�
 
 ## Формирование исходящих приказов — [PR #53](https://github.com/FilippTheBestDev/claudecraft/pull/53)
 
-Владелец: `codex/sim-order-flag-builders`. В опубликованной ветке 69 новых
+Владелец: `codex/sim-order-flag-builders`. В опубликованной ветке 77 новых
 C++ тел: 46 для приказов/selection, девять для replay chunk/codec, пять
-для turn-store buffer ownership и девять для sender-key lifecycle. Они
+для turn-store buffer ownership, девять для sender-key lifecycle и восемь
+для setup selection/TLS fields. Они
 прошли ограниченную проверку исходника и native-компиляцию, но не полную
 проверку совпадения.
 
@@ -251,6 +252,22 @@ player byte не доказывает привязку к authenticated peer.
 | `0x6F53EC50` | DIFFERS | leave-state callback |
 | `0x6F54FDF0` | DIFFERS | player-leave sender lifecycle |
 
+Setup snapshot/selection trio опубликована коммитом `810b7764b`,
+пять TLS setup fields/copies — коммитом `b2d2955ff`.
+У `0x6F5C0780` нестандартный ingress через EDI/EBX; это собственный
+C++ helper с ABI-адаптером, не переход в оригинал.
+
+| Адрес | Статус | Участок |
+|---|---|---|
+| `0x6F53EFF0` | DIFFERS | TLS setup-copy gate |
+| `0x6F5BF090` | DIFFERS | 12-slot setup selection |
+| `0x6F5C0780` | DIFFERS | setup slot collector; EDI/EBX ABI |
+| `0x6F53EE00` | DIFFERS | sender→name pointer+0x19 |
+| `0x6F53EF40` | DIFFERS | sender entry+0x3C store |
+| `0x6F53E9F0` | DIFFERS | session base+0x2268 marker |
+| `0x6F53F040` | DIFFERS | alternate setup-copy gate |
+| `0x6F545A80` | DIFFERS | length-prefixed setup payload copy |
+
 Sender-key removal/leave marker опубликованы коммитом `c32e48808`.
 `0x6F54E800` ожидает существующий entry и не защищает null lookup;
 `0x6F54FDF0` опубликован отдельным коммитом `ff16a7a55`: callback
@@ -261,7 +278,7 @@ Sender-key removal/leave marker опубликованы коммитом `c32e4
 ## Приём входящих приказов — [PR #54](https://github.com/FilippTheBestDev/claudecraft/pull/54)
 
 Владелец: `codex/inbound-order-callbacks`. Пять крупных обработчиков и
-двадцать пять вспомогательных C++ тел опубликованы в PR #54. QA исправил
+тридцать вспомогательных C++ тел опубликованы в PR #54. QA исправил
 порядок освобождения ссылки (`e21aecc44`) и сверил обе fogged ветви;
 штатная проверка совпадения остаётся открытой.
 
@@ -300,6 +317,11 @@ Sender-key removal/leave marker опубликованы коммитом `c32e4
 | `0x6F2794E0` | DIFFERS | special order score |
 | `0x6F284160` | DIFFERS | target order score |
 | `0x6F2CA800` | DIFFERS | общий входящий order submission sink |
+| `0x6F286120` | DIFFERS | point-order request resolver |
+| `0x6F2863E0` | DIFFERS | target-order request resolver |
+| `0x6F47B570` | DIFFERS | movement request flag predicate |
+| `0x6F47B650` | DIFFERS | movement holder membership |
+| `0x6F47B7C0` | DIFFERS | movement destination predicate |
 
 Row metadata pair опубликована коммитом `fc651d6ca` и уточняет
 [FND-0068](findings/simulation/FND-0068-point-target-fogged-order-family.md).
@@ -310,6 +332,8 @@ Row metadata pair опубликована коммитом `fc651d6ca` и ут�
 Общий submission sink опубликован коммитом `47b2c7705`:
 ветви priority flags и два scoped checked slots сверены с S11,
 SEH frame и внешние TODO callees остаются открытыми.
+Пять request/movement queries опубликованы коммитом `2e82993d2`;
+transient slot release и unsigned index<12 сверены с S11.
 
 ## В работе, без опубликованного C++ тела
 
@@ -318,17 +342,17 @@ SEH frame и внешние TODO callees остаются открытыми.
 
 | Адрес | Владелец | Связный участок |
 |---|---|---|
-| `0x6F53EFF0` | PR #53 | TLS setup-copy gate |
-| `0x6F5BF090` | PR #53 | 12-slot setup selection |
-| `0x6F5C0780` | PR #53 | setup slot collector; EDI/EBX ABI |
 | `0x6F5C0830` | PR #53 | setup registration path |
 | `0x6F5C0EE0` | PR #53 | alternate setup registration path |
+| `0x6F3A8300` | PR #53 | setup team roster unlink helper |
+| `0x6F40F6E0` | PR #53 | setup player field+0x2A8 setter |
 | `0x6F284950` | PR #52 | selection revocation handler; прежний Filipp THUNK |
 | `0x6F424CE0` | PR #52 | selection removal |
-| `0x6F286120` | PR #54 | point-order request resolver |
-| `0x6F2863E0` | PR #54 | target-order request resolver |
-| `0x6F47B570` | PR #54 | movement request flag predicate |
-| `0x6F47B7C0` | PR #54 | movement destination predicate |
+| `0x6F2A0770` | PR #54 | special-order submission route |
+| `0x6F332760` | PR #54 | UI refresh prep |
+| `0x6F271680` | PR #54 | checked order relation helper |
+| `0x6F279FE0` | PR #54 | ability-backed event try |
+| `0x6F26E670` | PR #54 | order-id event fallback |
 
 Смежный `0x6F4205F0` уже claimed другим агентом (`cunit-agent7`)
 в S11 store; этот PR не заявляет адрес за нашей командой.
