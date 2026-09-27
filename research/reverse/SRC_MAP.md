@@ -150,6 +150,10 @@ snapshot `+0x2A`. Смена результата между sleep и resume н�
 natives: таблица TLS slot 5 общая для этих вызовов, но camera идёт к
 process-global GameUI, а unit natives меняют мир по handles. Отдельный
 EvtContext без дополнительных границ не изолирует камеру в одном процессе.
+[FND-0056](findings/jass/FND-0056-gameui-world-reset-boundary.md)
+находит обнуление global GameUI на пути сброса world object, включая вход
+из TLS13 и прямой вызов на world. Смена EvtContext сама этот указатель
+не сбрасывает; одновременное существование двух миров не установлено.
 
 В S10 `GetLocalPlayer` есть лишь в
 [регистрации](../../src/Jass/jassregisterallnatives.cpp). [FND-0043](findings/jass/FND-0043-local-player-handle-selection.md)
