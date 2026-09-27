@@ -132,10 +132,15 @@ resume разрешает ключ через TLS slot 5, а native вновь �
 TLS array выбранного EvtContext, а startup handler регистрирует pump
 в том же контексте по TLS slot 0. Реальный транспорт и содержимое slots
 между событиями всё ещё требуют проверки.
+[FND-0049](findings/jass/FND-0049-local-player-slot-writers.md)
+связывает выбор `GetLocalPlayer` с `SNetSessionInfo+0x610` — индексом
+активной сетевой записи — и показывает условные writers `+0x28` и
+snapshot `+0x2A`. Смена результата между sleep и resume не наблюдалась.
 
 В S10 `GetLocalPlayer` есть лишь в
 [регистрации](../../src/Jass/jassregisterallnatives.cpp). [FND-0043](findings/jass/FND-0043-local-player-handle-selection.md)
-читает S11 IDA-тело: выбор одного из двух player slots зависит от режима,
+читает S11 IDA-тело: выбор одного из двух player slots зависит от
+активного индекса сетевой записи ([FND-0049](findings/jass/FND-0049-local-player-slot-writers.md)),
 результат проходит через handle registry. Не установлено, как локальное
 значение переживает yield и какие общие эффекты карта делает после него.
 Простое повторение скрипта для каждого игрока не принято как решение;

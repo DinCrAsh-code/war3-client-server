@@ -1,9 +1,9 @@
-# FND-0043 — GetLocalPlayer выбирает слот по режиму и возвращает handle token
+# FND-0043 — GetLocalPlayer выбирает слот через сетевую запись и возвращает handle token
 
 | Поле | Значение |
 |---|---|
 | Subsystem | jass |
-| Tags | local-context, player, game-mode, handles, compatibility |
+| Tags | local-context, player, net-session, handles, compatibility |
 | Kind | boundary |
 | Evidence | static |
 | Verification | source-reviewed |
@@ -26,16 +26,18 @@
 [S10](../../../../src/Jass/jassregisterallnatives.cpp).
 
 Это даёт проверяемую границу локальной идентичности: два поля выбора
-игрока и преобразование объекта в handle token, причём выбор зависит от
-режима игры. Значение `+0x2A` нельзя без опыта объявлять тем же
-«локальным игроком» во всех режимах.
+игрока и преобразование объекта в handle token. [FND-0049](FND-0049-local-player-slot-writers.md)
+уточняет, что выбор зависит от активного индекса сетевой записи, а не
+от доказанного неизменного режима игры. Значение `+0x2A` нельзя без
+опыта объявлять тем же «локальным игроком» во всех состояниях сессии.
 
 ## Основание и контроли
 
-- [Режим](https://github.com/FilippTheBestDev/claudecraft/blob/10950d496aa7357a6180c1956def50c2a3e8c1a9/agent_worktrees/funcs/0x6F53F160.json)
-  сравнивает слово `+0x610` блока из TLS slot 13 с 1; S10
+- [Проверка активной записи](https://github.com/FilippTheBestDev/claudecraft/blob/10950d496aa7357a6180c1956def50c2a3e8c1a9/agent_worktrees/funcs/0x6F53F160.json)
+  сравнивает `+0x610` net session из TLS slot 13 с 1; S10
   [IsGameModeOne](../../../../src/Game/gamemode.cpp) восстанавливает эту
-  узкую проверку. Другое значение режима ведёт к полю `+0x28`.
+  узкую проверку, а [netdata.h](../../../../src/Net/netdata.h) называет
+  поле `m_activeIndex`. Значение, отличное от 1, ведёт к `+0x28`.
 - [Индексный доступ](https://github.com/FilippTheBestDev/claudecraft/blob/10950d496aa7357a6180c1956def50c2a3e8c1a9/agent_worktrees/funcs/0x6F3A1650.json)
   читает указатель по `table + 0x58 + index*4`. S10
   [playercolor](../../../../src/Widget/playercolor.cpp) использует тот же
@@ -58,8 +60,9 @@
 S11 помечает `GetLocalPlayer` как `TODO`; здесь восстановлен маршрут
 инструкций, а не готовое matching C++-тело или исполненный эксперимент.
 Соседние helper-записи имеют статусы `EXACT`/`DIFFERS`, которые не
-повышают evidence всего маршрута. Класс объекта из `+0x58`, семантика
-режима 1, значение `+0x2A`, стоимость/повторяемость регистрации token и
+повышают evidence всего маршрута. Класс объекта из `+0x58`, эффект
+активного индекса 1 в конкретной сессии, значение `+0x2A`,
+стоимость/повторяемость регистрации token и
 связь с JASS instance не подтверждены. Динамических положительных и
 отрицательных контролей нет. Прямое отождествление JASS result с
 числовым player index отвергается формой вызовов; сетевой ID из него
@@ -68,9 +71,9 @@ S11 помечает `GetLocalPlayer` как `TODO`; здесь восстано
 ## Значение для проекта
 
 При разделении общего исполнения карты и персонального представления
-нужно сохранить наблюдаемое поведение `GetLocalPlayer`, включая режимную
-ветку и identity/lifetime handle. Следующий опыт: два клиента с разными
-локальными слотами, режимы по обе стороны `IsGameModeOne`, сравнение
+нужно сохранить наблюдаемое поведение `GetLocalPlayer`, включая выбор по
+активной сетевой записи и identity/lifetime handle. Следующий опыт: два
+клиента с разными локальными слотами, значения индекса 0/1, сравнение
 JASS handle identity до и после sleep, отдельно отказ без таблицы.
 Связанные границы: [FND-0005](FND-0005-instance-context.md) и
 [FND-0009](FND-0009-local-input-continuations.md). Это исследование не
