@@ -10,7 +10,7 @@
 | State | bounded |
 | Impact | security, compatibility, correctness |
 | Scope | IDA-выгрузка S11, заявленная Game.dll 1.26a/build 6401, x86; fingerprint DLL не установлен; адреса ниже — координаты S11 |
-| Sources | [S11](../../SOURCES.md#s11-адресный-реестр-и-matching-pipeline-коллеги), [reader `0x6F27A320`](https://github.com/FilippTheBestDev/claudecraft/blob/10950d496aa7357a6180c1956def50c2a3e8c1a9/agent_worktrees/funcs/0x6F27A320.json), [add `0x6F27A240`](https://github.com/FilippTheBestDev/claudecraft/blob/10950d496aa7357a6180c1956def50c2a3e8c1a9/agent_worktrees/funcs/0x6F27A240.json), [remove `0x6F27A2B0`](https://github.com/FilippTheBestDev/claudecraft/blob/10950d496aa7357a6180c1956def50c2a3e8c1a9/agent_worktrees/funcs/0x6F27A2B0.json), [single-channel pair `0x6F27A3C0`/`0x6F27A400`](https://github.com/FilippTheBestDev/claudecraft/tree/10950d496aa7357a6180c1956def50c2a3e8c1a9/agent_worktrees/funcs) |
+| Sources | [S11](../../SOURCES.md#s11-адресный-реестр-и-matching-pipeline-коллеги), [reader `0x6F27A320`](https://github.com/FilippTheBestDev/claudecraft/blob/10950d496aa7357a6180c1956def50c2a3e8c1a9/agent_worktrees/funcs/0x6F27A320.json), [add `0x6F27A240`](https://github.com/FilippTheBestDev/claudecraft/blob/10950d496aa7357a6180c1956def50c2a3e8c1a9/agent_worktrees/funcs/0x6F27A240.json), [remove `0x6F27A2B0`](https://github.com/FilippTheBestDev/claudecraft/blob/10950d496aa7357a6180c1956def50c2a3e8c1a9/agent_worktrees/funcs/0x6F27A2B0.json), [other block add `0x6F27A3C0`](https://github.com/FilippTheBestDev/claudecraft/blob/10950d496aa7357a6180c1956def50c2a3e8c1a9/agent_worktrees/funcs/0x6F27A3C0.json), [other block remove `0x6F27A400`](https://github.com/FilippTheBestDev/claudecraft/blob/10950d496aa7357a6180c1956def50c2a3e8c1a9/agent_worktrees/funcs/0x6F27A400.json) |
 
 ## Вывод
 
@@ -25,7 +25,9 @@
 `0x6F27A240` увеличивает выбранные флагами счётчики и выставляет бит
 игрока в словах `+0x24`/`+0x6C` при переходе счётчика `0 → 1`.
 `0x6F27A2B0` уменьшает их и снимает соответствующий бит при `1 → 0`.
-Короткая пара `0x6F27A3C0`/`0x6F27A400` меняет только первый канал.
+Короткая пара `0x6F27A3C0`/`0x6F27A400` меняет один счётчик и бит
+**другого** блока, разрешаемого через `unit+0x13C`. Его нельзя считать
+первым каналом блока `unit+0x130`, который читает `QueryDetection`.
 Следовательно, серверной политике выдачи нельзя заменить этот слой одним
 постоянным boolean на юнит: источники эффекта могут перекрываться и
 отзываться по отдельности.
@@ -41,9 +43,10 @@
 - `CBuffDetected` через `0x6F0D3680` → `0x6F296680` добавляет эффект,
   а через `0x6F0D5190` → `0x6F284A50` снимает его.
 - `CBuffSharedVision` дополнительно использует `0x6F2967F0` →
-  `0x6F27A3C0` для добавления первого канала и `0x6F28DC80` →
-  `0x6F27A400` для его снятия. Точная семантика условий и порядка
-  этих вызовов открыта.
+  `0x6F27A3C0` для добавления в блок `unit+0x13C` и
+  `0x6F28DC80` → `0x6F27A400` для снятия из него. Базовый
+  `CBuffDetected` отдельно работает с блоком `unit+0x130`;
+  порядок смены адресата уточнён в [FND-0020](FND-0020-detection-revocation.md).
 
 Основание для имён классов — [vtable-записи](https://github.com/FilippTheBestDev/claudecraft/tree/10950d496aa7357a6180c1956def50c2a3e8c1a9/agent_worktrees/classes),
 а не имя, выведенное из поведения функций. В таблице ниже указан текущий
@@ -53,7 +56,7 @@
 |---|---|---|
 | `0x6F27A320` | Чтение двух каналов | EXACT |
 | `0x6F27A240`, `0x6F27A2B0` | Add/remove обоих каналов | TODO / TODO |
-| `0x6F27A3C0`, `0x6F27A400` | Add/remove первого канала | TODO / TODO |
+| `0x6F27A3C0`, `0x6F27A400` | Add/remove одного счётчика другого блока `unit+0x13C` | TODO / TODO |
 | `0x6F296680`, `0x6F284A50`, `0x6F2967F0`, `0x6F28DC80` | Применение эффекта к юниту и связанной маске | TODO / TODO / TODO / TODO |
 | `0x6F284DA0` | Пересчёт связанных relation-mask полей | DIFFERS |
 
@@ -76,6 +79,6 @@
 для каждого шага сверить оба счётчика, `QueryDetection`, `IsUnitDetected`,
 `IsUnitVisible` и клиентский вывод. Контрольному игроку не давать обзор.
 
-Связь битового слова первого канала с ранним gate `SubmitUnit` и отличие
+Связь битового слова **блока `unit+0x130`** с ранним gate `SubmitUnit` и отличие
 этого gate от `IsUnitDetected` ограничены в
 [FND-0014](FND-0014-submit-detection-gate.md).
