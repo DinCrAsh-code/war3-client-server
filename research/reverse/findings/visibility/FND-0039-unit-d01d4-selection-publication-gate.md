@@ -75,8 +75,9 @@ relation/detection gate `0x6F3A15F0`; затем установленный би
 
 Отдельная S11 функция [`0x6F2CC350`](https://github.com/FilippTheBestDev/claudecraft/blob/10950d496aa7357a6180c1956def50c2a3e8c1a9/agent_worktrees/funcs/0x6F2CC350.json)
 строит `CNetCommandUnitSelectionEvent` с type `0xA001B` из двух
-полей своего source и передаёт его в `0x6F2CA010`. Просмотренный
-`0x6F284950` не вызывает этот builder, его packet writer или
+полей своего source и передаёт его в `0x6F2CA010`; состав и
+условный сетевой выход описаны в [FND-0050](FND-0050-unit-selection-command-outbound-boundary.md).
+Просмотренный `0x6F284950` не вызывает этот builder, его packet writer или
 транспорт. Команда выбора — отдельный путь; её наличие не
 доказывает сериализацию состояния юнита для конкретного клиента.
 В показанной цепи доказана локальная проверка и mutation selection

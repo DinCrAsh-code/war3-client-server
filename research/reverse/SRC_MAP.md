@@ -144,6 +144,11 @@ range-list и сообщения `0xD01E6`. В просмотренных пря
 показывает другой локальный исход: message `0xD01D4` при
 отрицательном `PublishPosition(1,4)` может снять unit из selection;
 этот вызов отвечает до fog grid после relation/detection gate.
+[FND-0050](findings/visibility/FND-0050-unit-selection-command-outbound-boundary.md)
+прослеживает отдельную outbound команду выбора от CUnit до условного
+NetClient send: её payload содержит событие и два dword идентичности,
+но не поля состояния или ответ `PublishPosition`. По этому пути нельзя
+делать вывод о server→client выдаче состояния юнита.
 
 Граница работы: восстановить причинный маршрут «изменение отношений/детекта →
 маски мира и юнита → ответ `SubmitUnit`/JASS → локальные потребители», затем
