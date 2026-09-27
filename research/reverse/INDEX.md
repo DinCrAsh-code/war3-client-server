@@ -66,6 +66,7 @@
 | [FND-0075: special-session flush пишет запись 0x1F](findings/simulation/FND-0075-special-order-queue-record.md) | simulation; order, command-store, special-session, sender-slot, record | boundary | static | source-reviewed | bounded |
 | [FND-0076: запись 0x1F попадает в локальную очередь событий](findings/network/FND-0076-local-net-event-enqueue-boundary.md) | network; order, event, queue, special-session, peer-boundary | boundary | static | source-reviewed | bounded |
 | [FND-0077: selection и control-group используют пять путей записи](findings/simulation/FND-0077-selection-control-group-wire-fields.md) | simulation; selection, control-group, serialization, handle-pair, outbound | contract | static | source-reviewed | bounded |
+| [FND-0078: локальное событие `0x1F` достигает turn parser](findings/network/FND-0078-local-event-turn-parser.md) | network; order, event, queue, turn-parser, sender-byte, peer-boundary | boundary | static | source-reviewed | bounded |
 
 Основной evidence относится только к выводу карточки. Например, связанный
 компонентный запуск не доказывает обычный запуск всей игры, а проверка

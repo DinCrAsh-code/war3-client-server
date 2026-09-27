@@ -58,6 +58,7 @@ id `0xFF`, размера или дополнительного поля `>=0xFF
 Это не доказывает, что событие никогда не передаётся дальше. Здесь не
 проверены lifetime указателя `+0x08`, потребитель очереди, peer mapping
 и dynamic type outbound net-client sink из [FND-0066](https://github.com/DinCrAsh-code/war3-client-server/blob/83bc16bee5252f67c8ae22d913777d30407f2f10/research/reverse/findings/network/FND-0066-online-turn-store-flush-boundary.md).
-Следующий шаг — пройти потребление события из контейнера и связать его
+Потребление из контейнера до turn parser разобрано отдельно в
+[FND-0078](FND-0078-local-event-turn-parser.md). Следующий шаг — связать его
 с конкретным session/connection и входным player admission; затем
 сверить трассу двух игроков с отрицательным контролем чужого отправителя.
