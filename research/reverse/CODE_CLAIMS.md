@@ -8,8 +8,8 @@ build 6401). Снимок статусов: 2026-09-27.
 Состояние здесь — снимок открытых веток, а не доказательство совпадения с
 оригинальной `Game.dll`. Перед новой работой проверить этот список, открытый
 PR и `agent_worktrees/funcs/0xADDR.json` в соответствующей ветке.
-На этой ревизии: **208 опубликованных C++ тел**, один временный `THUNK`
-и 20 адресов в работе; все 229 адресных строк уникальны.
+На этой ревизии: **227 опубликованных C++ тел**, один временный `THUNK`
+и восемь адресов в работе; все 236 адресных строк уникальны.
 
 `DIFFERS` означает, что собственное C++-тело уже написано, но равенство
 оригиналу не доказано. `THUNK` — временный переход в оригинал, **не**
@@ -26,7 +26,7 @@ PR и `agent_worktrees/funcs/0xADDR.json` в соответствующей ве
 
 ## Обзор, обнаружение и туман — [PR #52](https://github.com/FilippTheBestDev/claudecraft/pull/52)
 
-Владелец: `codex/visibility-fog-rescan`. 68 C++ тел в опубликованной
+Владелец: `codex/visibility-fog-rescan`. 77 C++ тел в опубликованной
 ветке; одна временная зависимость остаётся переходом в оригинал.
 
 | Адрес | Статус | Участок |
@@ -99,6 +99,15 @@ PR и `agent_worktrees/funcs/0xADDR.json` в соответствующей ве
 | `0x6F29DBF0` | DIFFERS | selection position scalar |
 | `0x6F284950` | DIFFERS | selection revocation handler; прежний Filipp THUNK заменён |
 | `0x6F424CE0` | DIFFERS | selection removal |
+| `0x6F026A40` | DIFFERS | shared-vision slot bit gate |
+| `0x6F0334C0` | DIFFERS | shared-vision slot bit update |
+| `0x6F3A3700` | DIFFERS | shared-vision relation adapter |
+| `0x6F06AE00` | DIFFERS | neutral target admission |
+| `0x6F06AE70` | DIFFERS | relation target admission; прежнее имя Allied уточняется |
+| `0x6F06ACD0` | DIFFERS | shared-vision attach |
+| `0x6F061190` | DIFFERS | shared-vision remove |
+| `0x6F0613C0` | DIFFERS | death removal bridge |
+| `0x6F061400` | DIFFERS | shared-vision observer events |
 | `0x6F752570` | THUNK | зависимость |
 
 При независимой сверке `0x6F755B90` с ASM была исправлена инверсия
@@ -123,14 +132,18 @@ Selection-rank trio опубликована коммитом `f46d7d7be`: тр�
 Selection revocation pair опубликована коммитом `c86020520`:
 приоритетная ветвь снимает локальный выбор, ABI PublishPosition уточнён
 как возвращающий целое; `0x6F424CE0` остаётся частичным по инструкциям.
+Shared-vision ability lifecycle опубликован коммитом `c80044ef0`:
+девять новых тел для grant→observer→revocation; детали и пределы —
+[FND-0065](findings/visibility/FND-0065-death-neutral-relation-mask-revocation.md).
 Эти ветви остаются без штатного verify и игрового прогона.
 
 ## Формирование исходящих приказов — [PR #53](https://github.com/FilippTheBestDev/claudecraft/pull/53)
 
-Владелец: `codex/sim-order-flag-builders`. В опубликованной ветке 83 новых
+Владелец: `codex/sim-order-flag-builders`. В опубликованной ветке 90 новых
 C++ тел: 46 для приказов/selection, девять для replay chunk/codec, пять
 для turn-store buffer ownership, девять для sender-key lifecycle и восемь
-для setup selection/TLS fields, ещё шесть для setup/world/seed path. Они
+для setup selection/TLS fields, шесть для setup/world/seed path и семь
+для setup ingress helper path. Они
 прошли ограниченную проверку исходника и native-компиляцию, но не полную
 проверку совпадения.
 
@@ -283,6 +296,13 @@ C++ helper с ABI-адаптером, не переход в оригинал.
 | `0x6F40F6E0` | DIFFERS | setup player field+0x2A8 setter |
 | `0x6F24F1E0` | DIFFERS | setup seed fanout wrapper |
 | `0x6F2852D0` | DIFFERS | 45-record seed history writer |
+| `0x6F546010` | DIFFERS | setup player-data copy |
+| `0x6F54BB00` | DIFFERS | setup snapshot copy |
+| `0x6F54C760` | DIFFERS | active setup snapshot gate |
+| `0x6F545A00` | DIFFERS | sender payload copy |
+| `0x6F545AE0` | DIFFERS | session aux payload writer |
+| `0x6F5BD190` | DIFFERS | setup two-word reader |
+| `0x6F4ACF60` | DIFFERS | setup slot shuffle |
 
 Sender-key removal/leave marker опубликованы коммитом `c32e48808`.
 `0x6F54E800` ожидает существующий entry и не защищает null lookup;
@@ -294,11 +314,14 @@ Setup registration и versioned restore опубликованы коммита�
 `0f9694c767` и `fa568a67d`; шесть новых тел остаются `DIFFERS`,
 `0x6F654710` — внешняя TODO-зависимость. Пределы классифицированы в
 [FND-0079](findings/network/FND-0079-sender-key-local-binding.md).
+Семь соседних setup ingress helpers опубликованы коммитом `dd8ae4153`:
+variable-length payload copy и allocation/capacity границы сохранены,
+большой caller `0x6F5C37A0` ещё в работе.
 
 ## Приём входящих приказов — [PR #54](https://github.com/FilippTheBestDev/claudecraft/pull/54)
 
 Владелец: `codex/inbound-order-callbacks`. Пять крупных обработчиков и
-пятьдесят два вспомогательных C++ тела опубликованы в PR #54. QA исправил
+пятьдесят пять вспомогательных C++ тел опубликованы в PR #54. QA исправил
 порядок освобождения ссылки (`e21aecc44`) и сверил обе fogged ветви;
 штатная проверка совпадения остаётся открытой.
 
@@ -364,6 +387,9 @@ Setup registration и versioned restore опубликованы коммита�
 | `0x6F41EA20` | DIFFERS | target order feature publication |
 | `0x6F416D50` | DIFFERS | notification source registration |
 | `0x6F428080` | DIFFERS | registered slot ref increment |
+| `0x6F299A00` | DIFFERS | base special-order dispatcher |
+| `0x6F299C40` | DIFFERS | point special-order dispatcher |
+| `0x6F299E90` | DIFFERS | target special-order dispatcher |
 
 Row metadata pair опубликована коммитом `fc651d6ca` и уточняет
 [FND-0068](findings/simulation/FND-0068-point-target-fogged-order-family.md).
@@ -380,8 +406,9 @@ Special-order маршрут и четыре dependency bodies опублико�
 `7563ebfee`: dispatch по agile-type, signed queue gate `+0x198`,
 local UI mark и event probes. Два набора checked slots опубликованы
 коммитами `75de6ec9b` и `697031640`; пять feature publication bodies —
-`0d3e3519d`. Три class-specific dispatchers `0x6F299A00/9C40/9E90`,
-SEH и штатный verify остаются открытыми.
+`0d3e3519d`. Три class-specific dispatchers `0x6F299A00/9C40/9E90`
+опубликованы коммитом `01bc89bcc`; SEH, listener `0x6F285E10`
+и штатный verify остаются открытыми.
 
 ## В работе, без опубликованного C++ тела
 
@@ -390,29 +417,19 @@ SEH и штатный verify остаются открытыми.
 
 | Адрес | Владелец | Связный участок |
 |---|---|---|
-| `0x6F026A40` | PR #52 | shared-vision slot bit gate |
-| `0x6F0334C0` | PR #52 | shared-vision slot bit update |
-| `0x6F3A3700` | PR #52 | shared-vision relation adapter |
-| `0x6F06AE00` | PR #52 | neutral target admission |
-| `0x6F06AE70` | PR #52 | allied target admission |
-| `0x6F06ACD0` | PR #52 | shared-vision attach |
-| `0x6F061190` | PR #52 | shared-vision remove |
-| `0x6F0613C0` | PR #52 | death removal bridge |
-| `0x6F061400` | PR #52 | shared-vision observer events |
-| `0x6F546010` | PR #53 | setup player-data copy |
-| `0x6F54BB00` | PR #53 | setup snapshot copy |
-| `0x6F54C760` | PR #53 | active setup snapshot gate |
-| `0x6F545A00` | PR #53 | sender payload copy |
-| `0x6F545AE0` | PR #53 | session aux payload writer |
-| `0x6F5BD190` | PR #53 | setup two-word reader |
-| `0x6F4ACF60` | PR #53 | setup slot shuffle |
+| `0x6F4791F0` | PR #52 | relation observer attach |
+| `0x6F479260` | PR #52 | relation observer detach |
+| `0x6F479160` | PR #52 | relation active-bit reset; прежний redirect |
+| `0x6F4A7960` | PR #52 | relation helper |
+| `0x6F4A81B0` | PR #52 | relation helper |
+| `0x6F4A8160` | PR #52 | relation helper |
 | `0x6F5C37A0` | PR #53 | setup ingress handler |
-| `0x6F299A00` | PR #54 | base special-order dispatcher |
-| `0x6F299C40` | PR #54 | point special-order dispatcher |
-| `0x6F299E90` | PR #54 | target special-order dispatcher |
+| `0x6F00E220` | PR #53 | mode-5 map gate в setup ingress |
 
 Смежный `0x6F4205F0` уже claimed другим агентом (`cunit-agent7`)
 в S11 store; этот PR не заявляет адрес за нашей командой.
+`0x6F3A36D0` уже опубликован в PR #54 и остаётся общей зависимостью
+для relation block PR #52; повторно писать его не нужно.
 
 Эти PR — параллельная работа по движку. Статусы не сообщают, что код уже
 пригоден для игры, прошёл полный матч или устраняет утечку скрытого состояния.
