@@ -140,6 +140,11 @@ snapshot `+0x2A`. Смена результата между sleep и resume н�
 прослеживает sender-key входного turn через таблицу выбранной сетевой
 записи и action gate до resume/ready builder. Неизвестный key отвергается
 до trigger handler, но связь key с сетевым peer не доказана.
+[FND-0053](findings/jass/FND-0053-trigger-ready-membership-boundary.md)
+разделяет route-level sender gate и trigger-local проверки: resume
+сверяет token, ready снимает бит из ожидаемой маски без проверки его
+прежнего участия, а общий обход имеет gate вложенных executions.
+Глобальная авторизация и повторный эффект этим не доказаны.
 
 В S10 `GetLocalPlayer` есть лишь в
 [регистрации](../../src/Jass/jassregisterallnatives.cpp). [FND-0043](findings/jass/FND-0043-local-player-handle-selection.md)
