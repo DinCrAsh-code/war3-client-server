@@ -62,6 +62,7 @@
 | [FND-0071: fogged order переносит снимок полей цели](findings/simulation/FND-0071-fogged-target-descriptor-provenance.md) | simulation; order, target, fogged, descriptor, identity, disclosure | boundary | static | source-reviewed | bounded |
 | [FND-0072: режимы приказа выбирают point, target и fogged](findings/simulation/FND-0072-multimode-order-variant-gates.md) | simulation; order, point, target, fogged, selection, visibility, result | boundary | static | source-reviewed | bounded |
 | [FND-0073: варианты приказа записывают поля цепью writer](findings/simulation/FND-0073-order-payload-writer-chain.md) | simulation; order, target, fogged, serialization, disclosure | contract | static | source-reviewed | bounded |
+| [FND-0074: command store проверяет слот и ёмкость](findings/simulation/FND-0074-order-command-store-admission.md) | simulation; order, command-store, sender, queue, admission | boundary | static | source-reviewed | bounded |
 
 Основной evidence относится только к выводу карточки. Например, связанный
 компонентный запуск не доказывает обычный запуск всей игры, а проверка
