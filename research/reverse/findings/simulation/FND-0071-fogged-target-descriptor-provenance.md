@@ -45,6 +45,11 @@
 [`0x6F2CDFF0`](https://github.com/FilippTheBestDev/claudecraft/blob/10950d496aa7357a6180c1956def50c2a3e8c1a9/agent_worktrees/funcs/0x6F2CDFF0.json)
 копирует эти шесть полей через `0x6F255180` в локальный descriptor и
 передаёт их в конструктор order `0x6F294F50` для выбранных юнитов.
+Тот вызывает
+[`0x6F2861E0`](https://github.com/FilippTheBestDev/claudecraft/blob/10950d496aa7357a6180c1956def50c2a3e8c1a9/agent_worktrees/funcs/0x6F2861E0.json):
+первые четыре поля descriptor сохраняются в order `+0x68..+0x74`, а
+два `CFloat` — в наблюдаемые координаты `+0x78/+0x80`. Значит поля
+доживают до объекта приказа, а не используются только при разборе пакета.
 Показанный callback отдельно разрешает **общую** пару object reference
 `+0x20/+0x24` через `0x6F03FA30` и проверяет её tag. Он не заменяет
 шесть полей descriptor данными найденного объекта перед конструктором.
