@@ -167,6 +167,11 @@ fog writer; последствия подписчиков и RemoveUnit оста
 активированная detector ability снимает свой вклад в два канала
 detection targets с порогом счётчика `1 → 0`. Это может изменить
 `QueryDetection`, но не доказывает отзыв fog grid.
+[FND-0065](findings/visibility/FND-0065-death-neutral-relation-mask-revocation.md)
+показывает другой death subscriber: CAbilityNeutral снимает вклад
+связанного target в `owner+0x13C` и пересчитывает `+0x148/+0x14C`.
+Будущий полный fog rebuild читает `+0x14C`; немедленный grid revoke
+или сетевой ответ death handler не доказаны.
 
 Граница работы: восстановить причинный маршрут «изменение отношений/детекта →
 маски мира и юнита → ответ `SubmitUnit`/JASS → локальные потребители», затем
