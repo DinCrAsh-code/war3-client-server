@@ -3,13 +3,13 @@
 | Поле | Значение |
 |---|---|
 | Subsystem | network |
-| Tags | sender-key, player-byte, session, savegame, lookup, admission, peer-boundary |
+| Tags | sender-key, player-byte, session, savegame, setup-ingress, lookup, admission, peer-boundary |
 | Kind | boundary |
 | Evidence | static |
 | Verification | source-reviewed |
 | State | bounded |
 | Impact | security, correctness, compatibility |
-| Scope | S11, заявленная Game.dll 1.26a/build 6401 x86; setup gates `0x6F5C0830`/`0x6F5C0EE0`, world helpers `0x6F3A8300`/`0x6F40F6E0`, seed helpers `0x6F24F1E0`/`0x6F2852D0`, запись `0x6F5496A0` → `0x6F5491D0`, чтение `0x6F54E7C0` → `0x6F54E7E0`, удаление `0x6F54FDF0` → `0x6F54E800`. Установлено локальное связывание key с player byte; источник доверия к key и привязка к authenticated peer не установлены. Fingerprint DLL неизвестен. |
+| Scope | S11, заявленная Game.dll 1.26a/build 6401 x86; setup ingress `0x6F5C37A0`, gates `0x6F5C0830`/`0x6F5C0EE0`, world helpers `0x6F3A8300`/`0x6F40F6E0`, seed helpers `0x6F24F1E0`/`0x6F2852D0`, запись `0x6F5496A0` → `0x6F5491D0`, чтение `0x6F54E7C0` → `0x6F54E7E0`, удаление `0x6F54FDF0` → `0x6F54E800`. Установлено локальное связывание key с player byte; источник доверия к key и привязка к authenticated peer не установлены. Fingerprint DLL неизвестен. |
 | Sources | [S11](../../SOURCES.md#s11-адресный-реестр-и-matching-pipeline-коллеги), pinned commit `10950d496aa7357a6180c1956def50c2a3e8c1a9`; [FND-0078](FND-0078-local-event-turn-parser.md); [FND-0062](../simulation/FND-0062-inbound-selection-basic-order-application.md) |
 
 ## Жизненный цикл соответствия
@@ -38,6 +38,36 @@
 эта находка не описывает создание entry и его ключа.
 
 ## Условия перед регистрацией
+
+Непосредственный вызывающий вход
+[`0x6F5C37A0`](https://github.com/FilippTheBestDev/claudecraft/blob/10950d496aa7357a6180c1956def50c2a3e8c1a9/agent_worktrees/funcs/0x6F5C37A0.json)
+сначала пробует декодировать сохранённый slot record. При неуспехе
+режим `5` допускает пересборку прямо, а другой режим требует
+`IsGameModeOne` и пригодный активный setup snapshot. Пересборка
+получает primary/total counts из `0x6F5C0780`, заполняет 9-байтные
+слоты и для sender keys `1..16` ищет session byte через
+`0x6F54F3F0`. У найденного key запись берёт индекс игрока из
+собранного списка и поле player `+0x278`; payload sender может изменить
+битовое поле слота и вращаемый seed. Затем shuffle назначает slot order,
+а `0x6F5C0830` проверяет собранный результат до установки соответствий.
+Это локальная подготовка записи; исходный код не показывает проверку
+sender key против authenticated connection. Цикл key идёт до `16`,
+тогда как сборщик заполняет 12 индексов: доказательства, что keys
+`13..16` никогда не проходят lookup, нет.
+
+После gate режим `5` дополнительно проверяет подпись map через
+`0x6F00E220`; затем внешний parser `0x6F01D9A0` наполняет setup,
+player и force tables. Даже если parser вернул ноль, вход идёт через
+pairwise relation loop с отключёнными force options. Условный флаг
+`0x200000` включает перенос имён, флаг `0x8000` выбирает фиксированный
+seed `0x77617233` вместо slot seed; оба seed поступают в local history.
+Ни один из этих шагов не подтверждает сетевой источник setup record.
+Новый C++ body caller опубликован в [PR #53, commit `47af08720`](https://github.com/FilippTheBestDev/claudecraft/pull/53)
+как `DIFFERS`; per-address verify, общий link и live replay не выполнены.
+`0x6F01D9A0` остаётся TODO-зависимостью; прямой callee parser может
+записать до inclusive offset `+0x387C` в output, поэтому маленький
+локальный буфер caller был бы некорректен. Полная безопасность входных
+длин и array bounds этим статическим обзором не доказана.
 
 `0x6F5C0830` собирает текущие слоты через `0x6F5C0780` и до цикла
 регистрации сравнивает два счётчика с полями входного setup-объекта:
