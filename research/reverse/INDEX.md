@@ -27,6 +27,7 @@
 | [FND-0045: таймер trigger передаёт событие владельцу](findings/jass/FND-0045-trigger-timer-observer-bridge.md) | jass; trigger, timer, observer, sleep, continuation | contract | static | source-reviewed | bounded |
 | [FND-0046: продолжение повторно читает JASS TLS и local-player режим](findings/jass/FND-0046-local-player-context-after-trigger-sleep.md) | jass; local-context, player, tls, sleep, continuation | boundary | static | source-reviewed | bounded |
 | [FND-0047: resume dispatch читает TLS текущего event pump](findings/jass/FND-0047-resume-dispatch-tls-boundary.md) | jass; continuation, network-command, event-pump, tls | boundary | static | source-reviewed | bounded |
+| [FND-0048: event worker привязывает TLS array контекста](findings/jass/FND-0048-event-context-tls-rebinding.md) | jass; continuation, event-context, event-pump, tls | boundary | static | source-reviewed | bounded |
 
 Основной evidence относится только к выводу карточки. Например, связанный
 компонентный запуск не доказывает обычный запуск всей игры, а проверка
@@ -38,7 +39,7 @@
 |---|---|---|
 | Startup | FND-0001, FND-0004 | Обычный запуск, обязательные владельцы и полный teardown |
 | Simulation | FND-0002–0004 | Все игровые действия, pathfinding/коллизии, полный матч и порядок RNG |
-| JASS | FND-0005, FND-0009, FND-0040–0047; локальный слот, TLS/VM yield, trigger instance, timer bridge, sync-mask и inbound event pump | Проверить thread affinity, timer fire, право sender и локальное значение после ожидания на двух игроках |
+| JASS | FND-0005, FND-0009, FND-0040–0048; локальный слот, TLS/VM yield, trigger instance, timer bridge, sync-mask, pump и context-bound TLS | Проверить transport/context identity, timer fire, право sender и локальное значение после ожидания на двух игроках |
 | Visibility | FND-0006–0008; чтение точки/юнита/детекта и fog writer | Завершить маршрут SubmitUnit и writers; оракул, общий обзор, права на поля/события |
 | Presentation | S01/S03, FND-0008/0009; локальные входы и UI-зависимость тумана | Поле за полем проверить потребителей мира; клиентский runtime ещё не выбран |
 | Resources | Компонентный маршрут архивов/собственной карты в S01/S09 | Произвольные карты и обязательный серверу ресурсный состав |

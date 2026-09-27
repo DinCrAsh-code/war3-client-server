@@ -126,7 +126,12 @@ resume разрешает ключ через TLS slot 5, а native вновь �
 [FND-0047](findings/jass/FND-0047-resume-dispatch-tls-boundary.md)
 прослеживает inbound event pump до parser/observer/trigger handler:
 в этом синхронном стеке resume берёт TLS slots 13 и 5 текущего потока.
-Кто запускает pump и совпадает ли поток с исходным sleep, ещё не показано.
+Сам этот локальный маршрут не устанавливает scheduler и связь с потоком sleep.
+[FND-0048](findings/jass/FND-0048-event-context-tls-rebinding.md)
+сужает этот пробел: scheduler worker перед вызовом handlers привязывает
+TLS array выбранного EvtContext, а startup handler регистрирует pump
+в том же контексте по TLS slot 0. Реальный транспорт и содержимое slots
+между событиями всё ещё требуют проверки.
 
 В S10 `GetLocalPlayer` есть лишь в
 [регистрации](../../src/Jass/jassregisterallnatives.cpp). [FND-0043](findings/jass/FND-0043-local-player-handle-selection.md)
