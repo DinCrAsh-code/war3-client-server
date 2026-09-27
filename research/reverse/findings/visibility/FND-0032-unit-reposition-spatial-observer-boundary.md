@@ -41,9 +41,10 @@
 `CPathTrace` по слоту `+0x54` с адресом нового `trace+0x78` **только при
 ненулевом флаге notify**. `MoveTo` выставляет этот флаг как
 `(MoveTo.arg_1C == 0)`; `Reposition` передаёт туда свой `arg_1C`.
-Конкретный target слота `+0x54` из прочитанного call tree и доступных
-классов S11 не установлен. Поэтому возможный мост от движения к fog
-остаётся открытым именно здесь.
+Target слота `+0x54` зависит от конкретного класса trace:
+[FND-0033](FND-0033-spatial-observer-concrete-targets.md) разрешает
+варианты CPoPos/CPoPosBh/CPoPosCl, но класс handle данного CUnit не
+установлен. Поэтому возможный мост от движения к fog остаётся открытым.
 
 Отдельная ветвь `RemoveFootprint` удаляет объект `unit+0x34` через
 `0x6F47C100` → `CGridRegistration::TeardownRegistration`
@@ -52,9 +53,11 @@
 presence и затем вызывает `0x6F49E850`. Последняя функция возвращается
 сразу при `owner+0x38 != -1`; иначе, если младшие 24 бита
 `owner+0x3C` равны нулю, вызывает **другой** виртуальный callback
-`owner.vtable+0x10` с аргументом `0`. Его concrete target также не
-установлен. Снятие path registration и освобождение presence slot нельзя
-отождествлять с очисткой `fogTable+0x30`.
+`owner.vtable+0x10` с аргументом `0`. Для CPmRegion target и освобождение
+второй presence-записи разрешены в
+[FND-0033](FND-0033-spatial-observer-concrete-targets.md). Снятие path
+registration и освобождение presence slot нельзя отождествлять с
+очисткой `fogTable+0x30`.
 
 ## Основание и контроли
 
@@ -72,7 +75,10 @@ presence и затем вызывает `0x6F49E850`. Последняя фун�
 перерегистрации клеток. `RemoveFootprint` пропускает teardown при
 `unit+0x34 == 0`; в самом teardown бит `0x10000000` отключает обход
 прежних клеток. Вызов `0x6F49E850` не означает безусловного callback:
-его собственные `+0x38/+0x3C` gate могут завершить путь раньше.
+этот teardown заранее выставляет `registration+0x38 = -1`, поэтому
+первый gate не блокирует callback; ненулевые младшие 24 бита
+`registration+0x3C` блокируют. За пределами этого caller оба gate
+остаются значимыми.
 
 ## Ограничения и отвергнутые гипотезы
 
@@ -85,8 +91,9 @@ path/collision registration, но **не доказывает**, что `Reposit
 из этой цепи таких вызовов нет; это отрицательный поиск ограниченной
 глубины, а не доказательство отсутствия cleanup в движке.
 
-Открыты concrete targets `CPathTrace.vtable+0x54` и
-`pending-owner.vtable+0x10`, связь с удалением самого CUnit, возможные
+Открыты concrete runtime-класс trace у данного CUnit и получатель
+уведомления CPoPosCl `+0x20` из [FND-0033](FND-0033-spatial-observer-concrete-targets.md),
+связь с удалением самого CUnit, возможные
 внешние события после движения, момент таймерного rebuild и значение
 `dword_6FAB6A34 & 3`, которое определяет очистку `fogTable+0x30`
 в [FND-0024](FND-0024-alliance-fog-rebuild.md). Поле `+0x30` у
