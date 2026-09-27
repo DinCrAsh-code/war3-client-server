@@ -154,6 +154,12 @@ EvtContext без дополнительных границ не изолиру�
 находит обнуление global GameUI на пути сброса world object, включая вход
 из TLS13 и прямой вызов на world. Смена EvtContext сама этот указатель
 не сбрасывает; одновременное существование двух миров не установлено.
+[FND-0058](findings/jass/FND-0058-resumed-trigger-unit-state-write.md)
+прослеживает условный `ResumeTriggerExec` через сохранённый VM cursor,
+native dispatch и `SetUnitState(state=2)` до записи tracked mana
+range мира. Token и handle проверки ограничивают вход, но не являются
+сами по себе счётчиком общего эффекта на игрока; факт такого bytecode
+в карте и число исполнений не проверены.
 
 В S10 `GetLocalPlayer` есть лишь в
 [регистрации](../../src/Jass/jassregisterallnatives.cpp). [FND-0043](findings/jass/FND-0043-local-player-handle-selection.md)
