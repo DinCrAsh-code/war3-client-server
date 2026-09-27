@@ -294,6 +294,11 @@ parser gates ещё не показывают права sender или изме�
 отфильтрованный выбор, создавая order object на допущенный CUnit. Вход
 в order state показан; сетевое происхождение sender byte и игровой эффект
 конкретного приказа ещё надо проверить.
+[FND-0064](findings/simulation/FND-0064-basic-order-queue-and-task-gates.md)
+ведёт generic order через `SubmitOrder` к разным gates `unit+0x198`
+и `+0x1B4`, head/tail handles, текущей task и условному starter.
+Комментарии S10 расходятся в названии `+0x198`; оно не равно длине
+очереди `+0x1B4`. Регистрация task ещё не доказывает игровой эффект.
 
 [Input pump](../../src/Input/inputeventpump.cpp) и
 [диспетчер действий](../../src/Net/netcommand_dispatch.cpp) дают C++-входы
