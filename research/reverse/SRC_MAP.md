@@ -140,6 +140,10 @@ range-list и сообщения `0xD01E6`. В просмотренных пря
 показывает локальный consumer: combat MISS text проходит через
 виртуальный `PublishPosition(0,4)`, затем GameUI gate и text-tag sink.
 Он не устанавливает сетевую границу раскрытия полей юнита.
+[FND-0039](findings/visibility/FND-0039-unit-d01d4-selection-publication-gate.md)
+показывает другой локальный исход: message `0xD01D4` при
+отрицательном `PublishPosition(1,4)` может снять unit из selection;
+этот вызов отвечает до fog grid после relation/detection gate.
 
 Граница работы: восстановить причинный маршрут «изменение отношений/детекта →
 маски мира и юнита → ответ `SubmitUnit`/JASS → локальные потребители», затем
