@@ -165,6 +165,11 @@ range мира. Token и handle проверки ограничивают вхо
 `GameCreate`/`GameJoin`/`PlayerJoin` в таблицу выбранной сетевой записи,
 которую позднее ищет turn action. Та же очередь получает replay records;
 прямая связь key с authenticated peer до queued event остаётся открытой.
+[FND-0063](findings/network/FND-0063-local-turn-sender-key.md)
+показывает обратный локальный путь: в режиме `LOOP`/`NONE` pump берёт
+slot активной записи, разрешает participant key и кладёт его в queued
+turn `0x1F`. Прочие session tags проходят отдельный send branch;
+его serializer и peer admission здесь не восстановлены.
 
 В S10 `GetLocalPlayer` есть лишь в
 [регистрации](../../src/Jass/jassregisterallnatives.cpp). [FND-0043](findings/jass/FND-0043-local-player-handle-selection.md)
