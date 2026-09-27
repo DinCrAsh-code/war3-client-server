@@ -56,7 +56,18 @@ tag и нулевое `entry+0x20` перед callback. Предваритель
 должен вернуть неноль для sender byte, а `0x6F2844D0` — ноль для
 order ID и параметров команды. Первый helper читает owner `unit+0x58`,
 world relations `0x6F3A37F0`/`0x6F3A36D0` и flag `unit+0x5C & 0x2000000`;
-он не является одной проверкой «sender == owner». Второй helper имеет
+он не является одной проверкой «sender == owner». Чтение исходного ASM
+подтверждено независимым разбором C++ тела в
+[claudecraft PR #54](https://github.com/FilippTheBestDev/claudecraft/pull/54),
+коммит `cba1aba72`: helper сначала ищет два ability tag через
+`0x6F0787D0`, затем допускает совпадение sender с `unit+0x58`,
+положительный directed visible bit от owner к sender, наличие первого
+ability при сброшенном `unit+0x5C & 0x02000000` либо второго ability
+при том же сброшенном бите и положительном directed enemy bit.
+`0x6F3A37F0` и `0x6F3A36D0` читают соответствующие relation masks,
+используя младшие пять бит sender как индекс бита. Это локальная
+пригодность команды после разбора, а не проверка источника сетевого пакета.
+Второй helper имеет
 отдельные cases `0xD0005` и `0xD0004`, затем цепочку state/ability
 проверок. В частности, `0xD0004` при dying-бите `unit+0x5C & 0x100`
 возвращает неноль и исключает unit из рабочего списка.
