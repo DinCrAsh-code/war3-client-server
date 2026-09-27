@@ -21,7 +21,7 @@ PR и `agent_worktrees/funcs/0xADDR.json` в соответствующей ве
 
 ## Обзор, обнаружение и туман — [PR #52](https://github.com/FilippTheBestDev/claudecraft/pull/52)
 
-Владелец: `codex/visibility-fog-rescan`. 63 C++ тела в опубликованной
+Владелец: `codex/visibility-fog-rescan`. 66 C++ тел в опубликованной
 ветке; одна временная зависимость остаётся переходом в оригинал.
 
 | Адрес | Статус | Участок |
@@ -89,6 +89,9 @@ PR и `agent_worktrees/funcs/0xADDR.json` в соответствующей ве
 | `0x6F3A5DC0` | DIFFERS | widget-cell two-plane query; прежний собственный THUNK заменён |
 | `0x6F3A3830` | DIFFERS | unit submission gate |
 | `0x6F3A38F0` | DIFFERS | unit submission gate |
+| `0x6F28CA80` | DIFFERS | unit type-minus-level getter |
+| `0x6F29C370` | DIFFERS | type-table float default |
+| `0x6F29DBF0` | DIFFERS | selection position scalar |
 | `0x6F752570` | THUNK | зависимость |
 
 При независимой сверке `0x6F755B90` с ASM была исправлена инверсия
@@ -107,6 +110,9 @@ Widget-mask closure опубликован коммитом `88e75702a`: builder
 SubmitUnit gate pair опубликована коммитом `6273cab3c`:
 нижние пять бит player index задают маску x86 shift count; путь
 ограничен локальным publication predicate, не сетевым serializer.
+Selection-rank trio опубликована коммитом `f46d7d7be`: три новых
+тела ранжируют локальный выбор, два S11 data symbols остаются без
+восстановленных значений.
 Эти ветви остаются без штатного verify и игрового прогона.
 
 ## Формирование исходящих приказов — [PR #53](https://github.com/FilippTheBestDev/claudecraft/pull/53)
@@ -319,9 +325,10 @@ SEH frame и внешние TODO callees остаются открытыми.
 | `0x6F5C0EE0` | PR #53 | alternate setup registration path |
 | `0x6F284950` | PR #52 | selection revocation handler; прежний Filipp THUNK |
 | `0x6F424CE0` | PR #52 | selection removal |
-| `0x6F29DBF0` | PR #52 | selection position scalar |
-| `0x6F28CA80` | PR #52 | unit type-minus-level getter |
-| `0x6F29C370` | PR #52 | type-table float default |
+| `0x6F286120` | PR #54 | point-order request resolver |
+| `0x6F2863E0` | PR #54 | target-order request resolver |
+| `0x6F47B570` | PR #54 | movement request flag predicate |
+| `0x6F47B7C0` | PR #54 | movement destination predicate |
 
 Смежный `0x6F4205F0` уже claimed другим агентом (`cunit-agent7`)
 в S11 store; этот PR не заявляет адрес за нашей командой.
