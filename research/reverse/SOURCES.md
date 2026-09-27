@@ -92,6 +92,11 @@ commit `10950d496aa7357a6180c1956def50c2a3e8c1a9`, проверен чтение
 [`backfill_agent_worktrees.py`](https://github.com/FilippTheBestDev/claudecraft/blob/10950d496aa7357a6180c1956def50c2a3e8c1a9/pipeline/tools/backfill_agent_worktrees.py).
 В этой ревизии видны 76 572 записи, а заявленные ~82 тысячи — внешняя
 оценка: полноту выгрузки относительно всей DLL мы не подтвердили.
+Реестр данных содержит 648 JSON-записей, но не все константы, на которые
+ссылается disassembly функций: два слова `word_6FA73A94`, нужные для
+[FND-0030](findings/visibility/FND-0030-local-sprite-refresh-gate.md),
+в этой ревизии не найдены. Поэтому `raw_asm` всех адресных функций не
+означает полный dump данных образа.
 
 Статусы всех `agent_worktrees/funcs/*.json` этой ревизии пересчитаны:
 `git ls-tree -rz` дал blob ID файлов `.json`, `git cat-file --batch`
