@@ -58,7 +58,7 @@
 | [FND-0064: basic order проходит разные gates очереди и задачи](findings/simulation/FND-0064-basic-order-queue-and-task-gates.md) | simulation; order, queue, task, unit, lifecycle, stop | contract | static | source-reviewed | bounded |
 | [FND-0068: point, target и fogged order расходятся по payload](findings/simulation/FND-0068-point-target-fogged-order-family.md) | simulation; order, point, target, fogged, selection, identity, disclosure | boundary | static | source-reviewed | bounded |
 | [FND-0069: исходящие builders ставят выбор перед приказом](findings/simulation/FND-0069-outbound-point-target-fogged-order-builders.md) | simulation; order, point, target, fogged, flags, selection, turn-store | contract | static | source-reviewed | bounded |
-| [FND-0070: target mode выбирает fogged отдельно от selection visibility](findings/simulation/FND-0070-point-target-route-selected-unit-visibility.md) | simulation; order, point, target, fogged, selection, visibility, disclosure | boundary | static | source-reviewed | bounded |
+| [FND-0070: локальный бит цели выбирает fogged отдельно от selection](findings/simulation/FND-0070-point-target-route-selected-unit-visibility.md) | simulation; order, point, target, fogged, selection, visibility, disclosure | boundary | static | source-reviewed | bounded |
 
 Основной evidence относится только к выводу карточки. Например, связанный
 компонентный запуск не доказывает обычный запуск всей игры, а проверка
