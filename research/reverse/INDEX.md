@@ -70,6 +70,7 @@
 | [FND-0079: sender key связывается с байтом игрока](findings/network/FND-0079-sender-key-local-binding.md) | network; sender-key, player-byte, session, lookup, admission, peer-boundary | boundary | static | source-reviewed | bounded |
 | [FND-0080: replay payload идёт кусками `0x81`/`0x82` с `0x83` на конце](findings/network/FND-0080-replay-payload-chunk-route.md) | network; replay, chunk, compression, serialization, decode, compatibility | contract | static | source-reviewed | bounded |
 | [FND-0081: turn store отделяет inline payload при передаче буфера](findings/network/FND-0081-turn-store-buffer-ownership.md) | network; turn-store, replay, buffer, ownership, allocation, compatibility | contract | static | source-reviewed | bounded |
+| [FND-0082: target scanners не ограничивают candidate rows](findings/simulation/FND-0082-target-candidate-row-capacity.md) | simulation; order, target, selection, candidate, capacity, memory-safety | boundary | static | source-reviewed | bounded |
 
 Основной evidence относится только к выводу карточки. Например, связанный
 компонентный запуск не доказывает обычный запуск всей игры, а проверка
