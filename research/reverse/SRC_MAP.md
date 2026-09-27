@@ -131,6 +131,11 @@ CPoPos/Bh имеют пустой `+0x54`, CPoPosCl уведомляет свя�
 range-list и сообщения `0xD01E6`. В просмотренных прямых телах нет
 перехода к `Deactivate` или отзыву fog; тело JASS `RemoveUnit`
 тоже не восстановлено.
+[FND-0037](findings/visibility/FND-0037-relation-teardown-unit-deactivation-boundary.md)
+показывает условный вход: relation teardown через TimeSync callback
+вызывает slot `+0x34` у связанного delegate; для CUnit это
+`Deactivate`. Связь именно со смертью/RemoveUnit и дальнейшая
+очистка fog plane остаются открытыми.
 
 Граница работы: восстановить причинный маршрут «изменение отношений/детекта →
 маски мира и юнита → ответ `SubmitUnit`/JASS → локальные потребители», затем
