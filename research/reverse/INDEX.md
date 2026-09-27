@@ -33,6 +33,7 @@
 | [FND-0021: режимы map fog writer меняют обе плоскости](findings/visibility/FND-0021-map-fog-writer-modes.md) | visibility; jass, fog, grid, map-compatibility | contract | static | source-reviewed | bounded |
 | [FND-0022: 12 слотов агрегируют ответ клетки в маски объекта](findings/visibility/FND-0022-rebuild-player-masks.md) | visibility; fog, grid, player-mask, item, presentation | boundary | static | source-reviewed | bounded |
 | [FND-0023: прямой писатель маски обходит счётчик](findings/visibility/FND-0023-direct-detection-override.md) | visibility; unit, detection, player-mask, override, revocation | boundary | static | source-reviewed | bounded |
+| [FND-0024: смена отношений условно пересобирает fog](findings/visibility/FND-0024-alliance-fog-rebuild.md) | visibility; alliance, fog, grid, unit, rebuild | boundary | static | source-reviewed | bounded |
 
 Основной evidence относится только к выводу карточки. Например, связанный
 компонентный запуск не доказывает обычный запуск всей игры, а проверка
@@ -45,7 +46,7 @@
 | Startup | FND-0001, FND-0004 | Обычный запуск, обязательные владельцы и полный teardown |
 | Simulation | FND-0002–0004 | Все игровые действия, pathfinding/коллизии, полный матч и порядок RNG |
 | JASS | FND-0005, FND-0009; C++-обвязка и исходные redirects в S10 | Локальные контексты, ожидания, события и синхронизация без изменения карты |
-| Visibility | FND-0006–0008, FND-0010–0023; точка/юнит/детект, writer карты/юнита, локальные маски, таблица ответа и расхождение C++ с IDA | Найти путь отзыва обзора, исправить alliance; затем двухигроковый оракул |
+| Visibility | FND-0006–0008, FND-0010–0024; точка/юнит/детект, writer карты/юнита, локальные маски, таблица ответа и расхождение C++ с IDA | Проверить условия очистки сетки при отзыве, исправить alliance; затем двухигроковый оракул |
 | Presentation | S01/S03, FND-0008/0009; локальные входы и UI-зависимость тумана | Поле за полем проверить потребителей мира; клиентский runtime ещё не выбран |
 | Resources | Компонентный маршрут архивов/собственной карты в S01/S09 | Произвольные карты и обязательный серверу ресурсный состав |
 | Network | FND-0002/0003; action/turn dispatch в S10, см. SRC_MAP | Связать полный ввод игрока с миром; новый wire-протокол ещё проектируется |
