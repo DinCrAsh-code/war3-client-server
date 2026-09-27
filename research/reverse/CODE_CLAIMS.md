@@ -21,8 +21,8 @@ PR и `agent_worktrees/funcs/0xADDR.json` в соответствующей ве
 
 ## Обзор, обнаружение и туман — [PR #52](https://github.com/FilippTheBestDev/claudecraft/pull/52)
 
-Владелец: `codex/visibility-fog-rescan`. 46 новых C++ тел в опубликованной
-ветке; три временные зависимости остаются переходами в оригинал.
+Владелец: `codex/visibility-fog-rescan`. 56 новых C++ тел в опубликованной
+ветке; две временные зависимости остаются переходами в оригинал.
 
 | Адрес | Статус | Участок |
 |---|---|---|
@@ -72,7 +72,16 @@ PR и `agent_worktrees/funcs/0xADDR.json` в соответствующей ве
 | `0x6F3DF190` | DIFFERS | mask C8 для получателя |
 | `0x6F284650` | DIFFERS | recipient relevance gate |
 | `0x6F284D30` | DIFFERS | direct relation mask recompute |
-| `0x6F28DB90` | THUNK | зависимость |
+| `0x6F284830` | DIFFERS | detection presentation refresh |
+| `0x6F2AC3A0` | DIFFERS | detection change event |
+| `0x6F4D3530` | DIFFERS | presentation helper |
+| `0x6F278F10` | DIFFERS | presentation helper |
+| `0x6F4D3540` | DIFFERS | presentation helper |
+| `0x6F27A200` | DIFFERS | presentation helper |
+| `0x6F2AB3B0` | DIFFERS | notification observer callback |
+| `0x6F2967F0` | DIFFERS | shared-vision contribution add |
+| `0x6F284CD0` | DIFFERS | fog rescan recipient gate |
+| `0x6F28DB90` | DIFFERS | fog rescan notification worker; прежний собственный THUNK заменён |
 | `0x6F3A5DC0` | THUNK | зависимость |
 | `0x6F752570` | THUNK | зависимость |
 
@@ -80,19 +89,11 @@ PR и `agent_worktrees/funcs/0xADDR.json` в соответствующей ве
 ветки плотных R/S-тегов. Компиляция пройдена, штатная проверка совпадения
 и игровой запуск остаются открытыми.
 
-Следующий связный notification/presentation блок занят этим кодером;
-эти семь TODO адресов проверены без прежних C++ тел и пока остаются
-незавершёнными:
-
-| Адрес | Статус | Участок |
-|---|---|---|
-| `0x6F284830` | TODO | detection presentation refresh |
-| `0x6F2AC3A0` | TODO | detection change event |
-| `0x6F4D3530` | TODO | presentation helper |
-| `0x6F278F10` | TODO | presentation helper |
-| `0x6F4D3540` | TODO | presentation helper |
-| `0x6F27A200` | TODO | presentation helper |
-| `0x6F2AB3B0` | TODO | notification observer callback |
+Notification/presentation блок опубликован коммитом `b2785e886`, включая
+три data symbols без угаданных значений. Shared-vision/rescan блок
+опубликован коммитом `1fefaadfe`: два прежде свободных TODO адреса
+получили C++-тела, собственный `0x6F28DB90` сменил THUNK на DIFFERS.
+Обе ветви остаются без штатного verify и игрового прогона.
 
 ## Формирование исходящих приказов — [PR #53](https://github.com/FilippTheBestDev/claudecraft/pull/53)
 
@@ -186,7 +187,7 @@ Selection/control-group serializer и writer опубликованы комми
 ## Приём входящих приказов — [PR #54](https://github.com/FilippTheBestDev/claudecraft/pull/54)
 
 Владелец: `codex/inbound-order-callbacks`. Пять крупных обработчиков и
-восемь вспомогательных C++ тел опубликованы в PR #54. QA исправил
+двенадцать вспомогательных C++ тел опубликованы в PR #54. QA исправил
 порядок освобождения ссылки (`e21aecc44`) и сверил обе fogged ветви;
 штатная проверка совпадения остаётся открытой.
 
@@ -208,6 +209,10 @@ Selection/control-group serializer и writer опубликованы комми
 | `0x6F2CB710` | DIFFERS | extended fogged candidate scan |
 | `0x6F2798D0` | DIFFERS | fogged ability-chain admission |
 | `0x6F279470` | DIFFERS | queued-order count |
+| `0x6F47B780` | DIFFERS | reject-path request cleanup entry |
+| `0x6F47B5B0` | DIFFERS | unregister resolved request |
+| `0x6F491650` | DIFFERS | find resolved object in 12-slot holder |
+| `0x6F491FB0` | DIFFERS | clear resolved object from holder |
 
 Эти PR — параллельная работа по движку. Статусы не сообщают, что код уже
 пригоден для игры, прошёл полный матч или устраняет утечку скрытого состояния.
