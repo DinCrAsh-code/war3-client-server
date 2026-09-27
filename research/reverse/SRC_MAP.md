@@ -123,6 +123,10 @@ sync-mask/ready-команду от обычного сна и `SyncSelections` 
 resume разрешает ключ через TLS slot 5, а native вновь выбирает игрока
 по singleton и TLS slot 13. Судьба локальной идентичности через сон
 зависит от ещё не проверенного контекста dispatch.
+[FND-0047](findings/jass/FND-0047-resume-dispatch-tls-boundary.md)
+прослеживает inbound event pump до parser/observer/trigger handler:
+в этом синхронном стеке resume берёт TLS slots 13 и 5 текущего потока.
+Кто запускает pump и совпадает ли поток с исходным sleep, ещё не показано.
 
 В S10 `GetLocalPlayer` есть лишь в
 [регистрации](../../src/Jass/jassregisterallnatives.cpp). [FND-0043](findings/jass/FND-0043-local-player-handle-selection.md)
