@@ -3,13 +3,13 @@
 | Поле | Значение |
 |---|---|
 | Subsystem | network |
-| Tags | sender-key, player-byte, session, lookup, admission, peer-boundary |
+| Tags | sender-key, player-byte, session, savegame, lookup, admission, peer-boundary |
 | Kind | boundary |
 | Evidence | static |
 | Verification | source-reviewed |
 | State | bounded |
 | Impact | security, correctness, compatibility |
-| Scope | S11, заявленная Game.dll 1.26a/build 6401 x86; setup gates `0x6F5C0830`/`0x6F5C0EE0`, запись `0x6F5496A0` → `0x6F5491D0`, чтение `0x6F54E7C0` → `0x6F54E7E0`, удаление `0x6F54FDF0` → `0x6F54E800`. Установлено локальное связывание key с player byte; источник доверия к key и привязка к authenticated peer не установлены. Fingerprint DLL неизвестен. |
+| Scope | S11, заявленная Game.dll 1.26a/build 6401 x86; setup gates `0x6F5C0830`/`0x6F5C0EE0`, world helpers `0x6F3A8300`/`0x6F40F6E0`, seed helpers `0x6F24F1E0`/`0x6F2852D0`, запись `0x6F5496A0` → `0x6F5491D0`, чтение `0x6F54E7C0` → `0x6F54E7E0`, удаление `0x6F54FDF0` → `0x6F54E800`. Установлено локальное связывание key с player byte; источник доверия к key и привязка к authenticated peer не установлены. Fingerprint DLL неизвестен. |
 | Sources | [S11](../../SOURCES.md#s11-адресный-реестр-и-matching-pipeline-коллеги), pinned commit `10950d496aa7357a6180c1956def50c2a3e8c1a9`; [FND-0078](FND-0078-local-event-turn-parser.md); [FND-0062](../simulation/FND-0062-inbound-selection-basic-order-application.md) |
 
 ## Жизненный цикл соответствия
@@ -67,6 +67,29 @@
 Отрицательный статический контроль: при нулевой маске второй проход
 не выполняется; классификация состояния `5` не становится сетевым
 доказательством права управлять юнитом.
+
+У `0x6F5C0EE0` восстановление соответствий из сохранения зависит от
+**беззнакового** сравнения версии с `0x11DC`. Для более старой версии
+функция отмечает kind `5` у активных player records, заново собирает
+список через `0x6F5C0780`, а после обработки записей копирует 12
+индексов в `world+0x2BC/+0x2C0`. Для версии не ниже порога она
+читает уже сохранённый `world+0x2C0` и проходит count декодированного
+массива. В обеих ветвях `record[3] == 0` и `record[0] != 0` допускают
+повторный lookup sender byte, присвоение имени, перенос key→player byte
+через `0x6F5496A0` и условное обновление локального slot `world+0x28`.
+После ветвей seed из setup field `+0x0C` идёт в локальную запись и
+45 записей истории через `0x6F24F1E0 → 0x6F2852D0`; это не проверка
+сетевой подлинности. Результат декодирования слотов вызывающий код не
+проверяет перед использованием массива, а длина скопированного aux
+payload не ограничивается внутри `0x6F545A80`. Это статические границы
+показанного пути; достижимость некорректного сохранения не проверялась.
+
+Для всех шести новых тел этих setup/world/seed helpers опубликован
+[C++ PR #53 (`0f9694c767`, `fa568a67d`)](https://github.com/FilippTheBestDev/claudecraft/pull/53).
+Локальная native VC8-компиляция и ограниченная сверка с raw S11 выполнены;
+каждое тело остаётся `DIFFERS`, штатная `verify.py` для них не запускалась.
+`0x6F654710` остаётся внешней TODO-зависимостью. По этим данным нельзя
+утверждать побайтовое совпадение или безопасность обработки malformed save.
 
 При разборе turn record из [FND-0078](FND-0078-local-event-turn-parser.md)
 первый byte подзаписи идёт через
